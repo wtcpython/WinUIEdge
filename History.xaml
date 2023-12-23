@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Edge.History"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Edge"    
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Button ToolTipService.ToolTip="历史记录 (Ctrl+H)">
+
+        <Button.KeyboardAccelerators>
+            <KeyboardAccelerator Key="H" Modifiers="Control"/>
+        </Button.KeyboardAccelerators>
+
+        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe81c;"/>
+
+        <Button.Flyout>
+            <Flyout>
+
+                <ListView Name="listView" SelectionChanged="ListView_SelectionChanged" DoubleTapped="ListView_DoubleTapped">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="local:HistoryType">
+
+                            <Grid Margin="0,10,0,10" ToolTipService.ToolTip="{x:Bind Uri}">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="{x:Bind Title}" MaxWidth="320" TextTrimming="CharacterEllipsis" FontWeight="Bold"/>
+                                    <TextBlock Text="{x:Bind Uri}" MaxWidth="320" TextTrimming="CharacterEllipsis"/>
+                                </StackPanel>
+
+                                <Button Click="RemoveHistory" Grid.Column="1" Margin="20,0,0,0" IsEnabled="False">
+                                    <SymbolIcon Symbol="Clear"/>
+                                </Button>
+                            </Grid>
+
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+            </Flyout>
+        </Button.Flyout>
+    </Button>
+
+</Page>

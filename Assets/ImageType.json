@@ -1,0 +1,12 @@
+{
+  ".png": "Portable Network Graphics",
+  ".jpg": "Joint Photographic Experts Group",
+  ".jpeg": "Joint Photographic Experts Group",
+  ".bmp": "Bitmap",
+  ".gif": "Graphics Interchange Format",
+  ".ico": "Icon",
+  ".svg": "Scalable Vector Graphics",
+  ".tiff": "Tagged Image File Format",
+  ".jxl": "JPEG XL",
+  ".jxr": "JPEG XR"
+}

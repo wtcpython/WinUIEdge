@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Edge.Download"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Edge"    
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Button ToolTipService.ToolTip="下载 (Ctrl+J)">
+
+        <Button.KeyboardAccelerators>
+            <KeyboardAccelerator Key="J" Modifiers="Control"/>
+        </Button.KeyboardAccelerators>
+
+        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe896;"/>
+
+        <Button.Flyout>
+            <Flyout>
+
+                <ListView Name="listView" SelectionChanged="ListView_SelectionChanged">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="local:DownloadType">
+
+                            <Grid Margin="0,10,0,10" ToolTipService.ToolTip="{Binding Title}">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" MaxWidth="320">
+                                    <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" FontWeight="Bold"/>
+
+                                    <ProgressBar Value="{Binding ReceivedBytes, UpdateSourceTrigger=PropertyChanged}"
+                                                 Maximum="{Binding TotalBytes}"/>
+
+                                    <TextBlock Text="{Binding Information, UpdateSourceTrigger=PropertyChanged}" TextTrimming="CharacterEllipsis"/>
+
+                                </StackPanel>
+                                <Button Click="RemoveHistory" Grid.Column="1" Margin="20,0,0,0" IsEnabled="False">
+                                    <SymbolIcon Symbol="Clear"/>
+                                </Button>
+                            </Grid>
+
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+            </Flyout>
+        </Button.Flyout>
+    </Button>
+
+
+</Page>

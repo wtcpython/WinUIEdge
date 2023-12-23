@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Edge.ShowMoreFlyoutMenu"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Edge"    
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Button ToolTipService.ToolTip="设置及其他 (Alt+F)">
+        <Button.KeyboardAccelerators>
+            <KeyboardAccelerator Key="F" Modifiers="Menu"/>
+        </Button.KeyboardAccelerators>
+        <SymbolIcon Symbol="More"/>
+        <Button.Flyout>
+            <MenuFlyout>
+                <MenuFlyoutItem Text="新建标签页" Click="TryCreateNewTab">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="T" Modifiers="Control"/>
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+
+                <MenuFlyoutItem Text="新建窗口" Click="TryCreateNewWindow">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="N" Modifiers="Control"/>
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+
+                <MenuFlyoutItem Text="新建 InPrivate 窗口" Click="TryCreateInPrivateWindow">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="N" Modifiers="Control,Shift"/>
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+
+                <MenuFlyoutItem Text="设置" Click="TryOpenSettingPage" Icon="Setting"/>
+            </MenuFlyout>
+        </Button.Flyout>
+    </Button>
+
+</Page>

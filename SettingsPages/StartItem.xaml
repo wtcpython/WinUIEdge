@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Edge.StartItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Edge"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    mc:Ignorable="d">
+    <StackPanel>
+
+        <controls:SettingsCard
+            Header="Edge 启动时"
+            Description="选择 Edge 启动的时候要执行的操作"
+            Margin="0,5,0,5">
+            <ComboBox
+                Name="startBox"
+                SelectionChanged="StartBahaviorChanged"/>
+        </controls:SettingsCard>
+
+        <controls:SettingsCard
+            Name="uriCard"
+            Header="输入指定Uri"
+            Description='如果选择 "打开指定的页面"，需要手动输入Uri'
+            Margin="0,5,0,5">
+            <StackPanel Orientation="Horizontal">
+                <TextBox Name="uriText" Width="200"/>
+                <Button Content="确定" Click="SetStartUri"/>
+            </StackPanel>
+        </controls:SettingsCard>
+
+        <controls:SettingsCard
+            Header='在工具栏上显示"首页"按钮'
+            Margin="0,5,0,5">
+            <ToggleSwitch Name="setHomeButton" Toggled="HomeButtonVisualChanged"/>
+        </controls:SettingsCard>
+
+        <controls:SettingsCard
+            Header="选择搜索引擎"
+            Margin="0,5,0,5">
+            <ComboBox
+                Name="searchEngineBox"
+                SelectionChanged="SearchEngineChanged"/>
+        </controls:SettingsCard>
+    </StackPanel>
+
+</Page>
