@@ -1,7 +1,9 @@
+using Microsoft.Graphics.Canvas.Text;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 
@@ -17,9 +19,14 @@ namespace Edge
 
         public int DefaultFontSize = 14;
 
+        public List<int> FontSizeList = Enumerable.Range(6, 36).ToList();
+
+        public List<string> FontFamilyList = CanvasTextFormat.GetSystemFontFamilies().ToList();
+
         public TextFilePage(string filepath, string fileType)
         {
             this.InitializeComponent();
+            FontFamilyList.Sort();
 
             // 加载文件信息
             file = filepath;
@@ -36,6 +43,10 @@ namespace Edge
             fileNameBlock.Text = file;
             EOFType.Text = GetEOF();
             textType.Text = fileType;
+            FontSizeBox.ItemsSource = FontSizeList;
+            FontSizeBox.SelectedIndex = FontSizeList.IndexOf(14);
+            FontFamilyBox.ItemsSource = FontFamilyList;
+            FontFamilyBox.SelectedIndex = FontFamilyList.IndexOf(DefaultFontFamily);
 
             // 设置编辑器文本
             editor.Text = content;
