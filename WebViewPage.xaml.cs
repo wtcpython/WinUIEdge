@@ -158,7 +158,7 @@ namespace Edge
             Uri uri = new(args.Uri);
             if (!ProtocolList.Contains(uri.Scheme))
             {
-                Utils.ShowContentDialog("网站警告", $"网址：{uri} 使用了不安全的 {uri.Scheme} 协议。", "确定", this.Content.XamlRoot);
+                Utils.ShowContentDialog("网站警告", $"网址：{uri} 使用了不安全的 {uri.Scheme} 协议。", "确定", App.Window.Content.XamlRoot);
                 args.Cancel = true;
             }
             else
