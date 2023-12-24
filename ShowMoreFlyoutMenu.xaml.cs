@@ -34,7 +34,7 @@ namespace Edge
         {
             MainWindow mainWindow = App.Window as MainWindow;
 
-            mainWindow.AddNewTab(new SettingsPage());
+            mainWindow.AddNewTab(new SettingsPage(), header: "Settings");
         }
     }
 }

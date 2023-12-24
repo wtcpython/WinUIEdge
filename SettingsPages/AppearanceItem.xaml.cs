@@ -9,7 +9,6 @@ namespace Edge
             this.InitializeComponent();
             themeBox.ItemsSource = JsonDataList.ApplicationThemeList;
             themeBox.SelectedIndex = JsonDataList.ApplicationThemeList.IndexOf(Utils.data.Theme);
-            if (themeBox.SelectedIndex == -1 ) { themeBox.SelectedIndex = 0; };
         }
 
         private void ThemeChanged(object sender, SelectionChangedEventArgs e)

@@ -5,13 +5,18 @@ using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
+using Windows.ApplicationModel;
 
 namespace Edge
 {
     public static class Utils
     {
         public static List<string> byteList = ["B", "KB", "MB", "GB", "TB"];
-        private static string file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/Settings.json");
+
+        public static Dictionary<string, string> LanguageTypeDict = JsonSerializer.Deserialize<Dictionary<string, string>>(LoadFile("/Assets/LanguageType.json"))!;
+        public static Dictionary<string, string> ImageTypeDict = JsonSerializer.Deserialize<Dictionary<string, string>>(LoadFile("/Assets/ImageType.json"))!;
+
         public static Dictionary<string, string> UserAgentDictionary = new()
         {
             { "Microsoft Edge", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0" },
@@ -23,7 +28,15 @@ namespace Edge
             { "Safari Mac", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Safari/605.1.15" }
         };
 
-        public static JsonData data = new();
+        public static JsonData data = JsonSerializer.Deserialize<JsonData>(LoadFile("/Assets/DefaultSettings.json"))!;
+
+        public static string LoadFile(string filePath)
+        {
+            string fullPath = Package.Current.InstalledPath + filePath;
+            using FileStream stream = new(fullPath, FileMode.Open, FileAccess.Read);
+            using StreamReader reader = new(stream);
+            return reader.ReadToEnd();
+        }
 
         public static void CreateNewWindow(object content)
         {
@@ -78,14 +91,6 @@ namespace Edge
                 return new DesktopAcrylicBackdrop();
             }
             return null;
-        }
-
-        public static async void ReadSetting()
-        {
-            if (File.Exists(file))
-            {
-                string json = await File.ReadAllTextAsync(file);
-            }
         }
     }
 }

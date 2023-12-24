@@ -1,4 +1,6 @@
 using Microsoft.UI.Xaml.Controls;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Edge
 {
@@ -9,12 +11,11 @@ namespace Edge
             this.InitializeComponent();
             startBox.ItemsSource = JsonDataList.StartPageBehaviorList;
             startBox.SelectedIndex = JsonDataList.StartPageBehaviorList.IndexOf(Utils.data.StartPageBehavior);
-            if (startBox.SelectedIndex == -1 ) { startBox.SelectedIndex = 0; };
+
             uriCard.IsEnabled = startBox.SelectedIndex != 0;
             setHomeButton.IsOn = Utils.data.ShowHomeButton;
-            searchEngineBox.ItemsSource = JsonDataList.SearchEngineNameList;
-            searchEngineBox.SelectedIndex = JsonDataList.StartPageBehaviorList.IndexOf(Utils.data.SearchEngine);
-            if (searchEngineBox.SelectedIndex == -1) { searchEngineBox.SelectedIndex = 0; };
+            searchEngineBox.ItemsSource = JsonDataList.SearchEngineDictionary;
+            searchEngineBox.SelectedIndex = JsonDataList.SearchEngineDictionary.Keys.ToList().IndexOf(Utils.data.SearchEngine);
         }
 
         private void StartBahaviorChanged(object sender, SelectionChangedEventArgs e)
@@ -41,7 +42,7 @@ namespace Edge
 
         private void SearchEngineChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            Utils.data.SearchEngine = (searchEngineBox.SelectedItem as KeyValuePair<string, string>?).Value.Key;
         }
     }
 }

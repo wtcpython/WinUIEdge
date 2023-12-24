@@ -179,12 +179,12 @@ namespace Edge
                         {
                             string ext = Path.GetExtension(uriAddressBox.Text);
                             string value;
-                            if (KeyWord.LanguageTypeDict.TryGetValue(ext, out value))
+                            if (Utils.LanguageTypeDict.TryGetValue(ext, out value))
                             {
                                 (App.Window as MainWindow).AddNewTab(new TextFilePage(uriAddressBox.Text, value));
                                 return;
                             }
-                            else if (KeyWord.ImageTypeDict.TryGetValue(ext, out value))
+                            else if (Utils.ImageTypeDict.TryGetValue(ext, out value))
                             {
                                 (App.Window as MainWindow).AddNewTab(new ImageViewer(uriAddressBox.Text, value));
                                 return;
@@ -202,7 +202,7 @@ namespace Edge
                         return;
                     }
                 }
-                EdgeWebViewEngine.CoreWebView2.Navigate("https://bing.com/?q=" + uriAddressBox.Text);
+                EdgeWebViewEngine.CoreWebView2.Navigate(JsonDataList.SearchEngineDictionary[Utils.data.SearchEngine] + uriAddressBox.Text);
             }
         }
 

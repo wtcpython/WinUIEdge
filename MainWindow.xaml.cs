@@ -25,21 +25,21 @@ namespace Edge
             this.SystemBackdrop = new MicaBackdrop();
         }
 
-        private TabViewItem CreateNewTab(object content)
+        private TabViewItem CreateNewTab(object content, string header)
         {
             TabViewItem tabViewItem = new()
             {
                 IconSource = new SymbolIconSource() { Symbol = Symbol.Document },
-                Header = "New Tab",
+                Header = header,
                 Content = new Frame() { Content = content },
                 ContextFlyout = TabFlyout
             };
             return tabViewItem;
         }
 
-        public void AddNewTab(object content, int index = -1)
+        public void AddNewTab(object content, int index = -1, string header = "New Tab")
         {
-            TabViewItem newTab = CreateNewTab(content);
+            TabViewItem newTab = CreateNewTab(content, header);
             if (index >= 0)
             {
                 tabView.TabItems.Insert(index, newTab);
