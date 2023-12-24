@@ -12,6 +12,16 @@
     <EnableMsixTooling>true</EnableMsixTooling>
 	  <UseRidGraph>true</UseRidGraph>
 	  <DefaultLanguage>zh-CN</DefaultLanguage>
+	  <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+	  <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+	  <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+	  <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+	  <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+	  <GenerateTestArtifacts>True</GenerateTestArtifacts>
+	  <AppxBundle>Always</AppxBundle>
+	  <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+	  <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+	  <PackageCertificateThumbprint>AB3A77AC66EBEF74B79E30655AE69887D9B08A90</PackageCertificateThumbprint>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,8 +38,9 @@
     <PackageReference Include="CommunityToolkit.Common" Version="8.2.2" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.230907" />
+    <PackageReference Include="Markdig" Version="0.34.0" />
     <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.1.1" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.231202003-experimental1" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
     <Manifest Include="$(ApplicationManifest)" />
