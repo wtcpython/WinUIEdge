@@ -15,6 +15,7 @@ namespace Edge
         public static List<string> byteList = ["B", "KB", "MB", "GB", "TB"];
 
         public static Dictionary<string, string> LanguageTypeDict = JsonSerializer.Deserialize<Dictionary<string, string>>(LoadFile("/Assets/LanguageType.json"))!;
+        public static Dictionary<string, string> WebFileTypeDict = JsonSerializer.Deserialize<Dictionary<string, string>>(LoadFile("/Assets/WebFileType.json"))!;
         public static Dictionary<string, string> ImageTypeDict = JsonSerializer.Deserialize<Dictionary<string, string>>(LoadFile("/Assets/ImageType.json"))!;
 
         public static Dictionary<string, string> UserAgentDictionary = new()

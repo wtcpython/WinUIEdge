@@ -1,6 +1,8 @@
 using Microsoft.Graphics.Canvas.Text;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,7 +25,7 @@ namespace Edge
 
         public List<string> FontFamilyList = CanvasTextFormat.GetSystemFontFamilies().ToList();
 
-        public TextFilePage(string filepath, string fileType)
+        public TextFilePage(string filepath, string fileType, bool IsHtml = false)
         {
             this.InitializeComponent();
             FontFamilyList.Sort();
@@ -57,6 +59,12 @@ namespace Edge
 
             encodeBox.SelectedIndex = encodeList.FindIndex(x => x.Name == DefaultEncoding);
 
+            if (IsHtml)
+            {
+                splitter.Visibility = Visibility.Visible;
+                htmlView.Visibility = Visibility.Visible;
+                htmlView.Source = new Uri(file);
+            }
         }
 
         public string GetFileText(string encoding)
@@ -99,6 +107,13 @@ namespace Edge
         {
             string content = GetFileText(encodeList[(sender as ComboBox).SelectedIndex].Name);
             editor.Text = content;
+        }
+
+        private void HtmlView_CoreWebView2Initialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
+        {
+            sender.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
+            sender.CoreWebView2.Settings.AreDevToolsEnabled = false;
+            sender.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = false;
         }
     }
 }

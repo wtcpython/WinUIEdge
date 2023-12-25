@@ -6,6 +6,7 @@
     xmlns:local="using:Edge"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     mc:Ignorable="d">
     <Grid>
 
@@ -35,9 +36,35 @@
 
         <local:ShowMoreFlyoutMenu Grid.Column="3" HorizontalAlignment="Right"/>
 
-        <ScrollView Grid.Row="1" Grid.ColumnSpan="5" Margin="10,0,0,0" >
-            <TextBlock Name="editor" TextWrapping="Wrap" IsTextSelectionEnabled="True"/>
-        </ScrollView>
+        <Grid Grid.Row="1" Grid.ColumnSpan="5" >
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <ScrollView Name="scrollView" Grid.Column="0" Margin="10,0,0,0" >
+                <TextBlock Name="editor" TextWrapping="Wrap" IsTextSelectionEnabled="True"/>
+            </ScrollView>
+
+            <WebView2 Name="htmlView" Grid.Column="1"
+                      CoreWebView2Initialized="HtmlView_CoreWebView2Initialized"
+                      Visibility="Collapsed"/>
+
+            <controls:GridSplitter
+                Name="splitter"
+                Grid.Column="1"
+                Width="16"
+                HorizontalAlignment="Left"
+                ResizeBehavior="BasedOnAlignment"
+                ResizeDirection="Auto"
+                Visibility="Collapsed">
+                <controls:GridSplitter.RenderTransform>
+                    <TranslateTransform X="-7" />
+                </controls:GridSplitter.RenderTransform>
+            </controls:GridSplitter>
+
+        </Grid>
 
         <TextBlock Name="textInfo" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="20,0,10,0"/>
 

@@ -184,11 +184,19 @@ namespace Edge
                                 (App.Window as MainWindow).AddNewTab(new TextFilePage(uriAddressBox.Text, value));
                                 return;
                             }
+
+                            else if (Utils.WebFileTypeDict.TryGetValue(ext, out value))
+                            {
+                                (App.Window as MainWindow).AddNewTab(new TextFilePage(uriAddressBox.Text, value, true));
+                                return;
+                            }
+
                             else if (Utils.ImageTypeDict.TryGetValue(ext, out value))
                             {
                                 (App.Window as MainWindow).AddNewTab(new ImageViewer(uriAddressBox.Text, value));
                                 return;
                             }
+
                             else
                             {
                                 EdgeWebViewEngine.CoreWebView2.Navigate(uriAddressBox.Text);
