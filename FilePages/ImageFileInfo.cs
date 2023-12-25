@@ -41,15 +41,13 @@ namespace Edge
 
         public string ImageName { get; } = name;
 
-        public string ImageFileType { get; } = type;
+        public string ImageType { get; } = type;
 
         public string ImageDimensions => $"{ImageProperties.Width} x {ImageProperties.Height}";
 
         public uint ImagePixelWidth => ImageProperties.Width;
 
         public uint ImagePixelHeight => ImageProperties.Height;
-
-        public string ImageTitle => string.IsNullOrEmpty(ImageProperties.Title) ? ImageName : ImageProperties.Title;
 
         public uint ImageRating = properties.Rating;
     }
