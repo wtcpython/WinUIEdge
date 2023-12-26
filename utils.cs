@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 
 namespace Edge
@@ -67,6 +68,20 @@ namespace Edge
                 XamlRoot = xamlRoot
             };
             await dialog.ShowAsync();
+        }
+
+        public static async Task<bool> ShowMultiChoiceDialog(string title, string content, string closeButtonText, string primaryButtonText, XamlRoot xamlRoot)
+        {
+            ContentDialog dialog = new()
+            {
+                Title = title,
+                Content = content,
+                CloseButtonText = closeButtonText,
+                PrimaryButtonText = primaryButtonText,
+                XamlRoot = xamlRoot
+            };
+            ContentDialogResult result = await dialog.ShowAsync();
+            return result == ContentDialogResult.Primary;
         }
 
         public static async void OpenWebsite(Uri uri)

@@ -9,57 +9,86 @@
     mc:Ignorable="d">
     <Grid>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <Image 
-            x:Name="ItemImage"
-            Stretch="None"
-            Grid.Column="0"/>
+        <Grid Margin="0,5,0,5">
 
-        <Border Grid.Column="1" BorderThickness="1,1,0,0" BorderBrush="LightGray" CornerRadius="10,0,0,10" Padding="15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
-            <StackPanel>
+            <TextBlock Name="imageNameBlock" Grid.Column="0" Margin="20,0,10,0" VerticalAlignment="Center"/>
 
-                <TextBlock Text="信息" Style="{ThemeResource SubheaderTextBlockStyle}"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="1">
+                <Button Click="ImageCropRequest">
+                    <SymbolIcon Symbol="Edit"/>
+                </Button>
 
-                <Grid Margin="0,10,0,0">
+                <Button Click="ImageRotateRequest">
+                    <SymbolIcon Symbol="Rotate"/>
+                </Button>
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
+                <Button Click="ImageDeleteRequest">
+                    <SymbolIcon Symbol="Delete"/>
+                </Button>
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                <Button>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE946;"/>
+                    <Button.Flyout>
+                        <Flyout>
+                            <Grid>
 
-                    <TextBlock Text="文件名称：" Grid.Column="0" VerticalAlignment="Center" Margin="0,20,0,0"/>
-                    <TextBox Name="imageName" Grid.Column="1" Margin="0,20,0,0"/>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
 
-                    <TextBlock Text="文件类型：" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="0,20,0,0"/>
-                    <TextBlock Name="imageType" Grid.Row="1" Grid.Column="1" Margin="0,20,0,0" TextAlignment="Center"/>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="像素大小：" Grid.Row="2" Grid.Column="0" Margin="0,20,0,0"/>
-                    <TextBlock Name="imagePixel" Grid.Row="2" Grid.Column="1" Margin="0,20,0,0"/>
+                                <TextBlock Text="文件名称：" Grid.Column="0" VerticalAlignment="Center"/>
+                                <TextBox Name="imageName" Grid.Column="1" KeyDown="FileNameChanged"/>
 
-                    <TextBlock Text="文件大小：" Grid.Row="3" Grid.Column="0" Margin="0,20,0,0"/>
-                    <TextBlock Name="imageSize" Grid.Row="3" Grid.Column="1" Margin="0,20,0,0"/>
+                                <TextBlock Text="文件类型：" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="0,20,0,0"/>
+                                <TextBlock Name="imageType" Grid.Row="1" Grid.Column="1" Margin="0,20,0,0"/>
 
-                    <TextBlock Text="图像评分：" Grid.Row="4" Grid.Column="0" Margin="0,20,0,0"/>
-                    <RatingControl Name="imageRating" Grid.Row="4" Grid.Column="1" Margin="0,20,0,0"
+                                <TextBlock Text="像素大小：" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="0,20,0,0"/>
+                                <TextBlock Name="imagePixel" Grid.Row="2" Grid.Column="1" Margin="0,20,0,0"/>
+
+                                <TextBlock Text="文件大小：" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="0,20,0,0"/>
+                                <TextBlock Name="imageSize" Grid.Row="3" Grid.Column="1" Margin="0,20,0,0"/>
+
+                                <TextBlock Text="图像评分：" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="0,20,0,0"/>
+                                <RatingControl Name="imageRating" Grid.Row="4" Grid.Column="1" Margin="0,20,0,0"
                                    IsReadOnly="True"/>
 
-                </Grid>
+                            </Grid>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
 
             </StackPanel>
-        </Border>
+
+            <local:ShowMoreFlyoutMenu Grid.Column="2" />
+
+        </Grid>
+
+        <Image
+            x:Name="ItemImage"
+            Grid.Row="1"
+            RenderTransformOrigin="0.5,0.5"
+            Stretch="None"/>
 
     </Grid>
+
 </Page>
