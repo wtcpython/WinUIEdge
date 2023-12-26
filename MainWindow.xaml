@@ -43,7 +43,8 @@
             AddTabButtonClick="TabView_AddTabButtonClick"
             TabCloseRequested="TabView_TabCloseRequested"
             ContextRequested="TabView_ContextRequested"
-            VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+            SelectionChanged="TabView_SelectionChanged">
             <TabView.TabStripFooter>
                 <Grid Background="Transparent" Name="AppTitleBar" Padding="0,0,200,0"/>
             </TabView.TabStripFooter>

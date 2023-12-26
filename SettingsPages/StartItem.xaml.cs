@@ -30,14 +30,7 @@ namespace Edge
 
         private void HomeButtonVisualChanged(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
-            foreach (TabViewItem tabViewItem in ((App.Window as MainWindow).GetItems()))
-            {
-                if ((tabViewItem.Content as Frame).Content is WebViewPage page)
-                {
-                    Utils.data.ShowHomeButton = setHomeButton.IsOn;
-                    page.SetHomeButton();
-                }
-            }
+            Utils.data.ShowHomeButton = setHomeButton.IsOn;
         }
 
         private void SearchEngineChanged(object sender, SelectionChangedEventArgs e)

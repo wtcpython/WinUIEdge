@@ -15,33 +15,21 @@ namespace Edge
 
         public static List<string> ProtocolList = ["https", "edge", "file"];
 
-        public string GetUri => uriAddressBox.Text;
+        public string WebUri
+        {
+            get => uriAddressBox.Text;
+            set => EdgeWebViewEngine.Source = new Uri(value);
+        }
 
         public WebViewPage()
         {
             this.InitializeComponent();
-            InitWebView("");
-        }
-
-        public WebViewPage(string uri)
-        {
-            InitializeComponent();
-            InitWebView(uri);
-        }
-
-        private void InitWebView(string uri)
-        {
-            SetHomeButton();
             SetWebNaviButtonStatus();
             EdgeWebViewEngine.UpdateLayout();
 
-            if (!string.IsNullOrWhiteSpace(uri))
+            if (WebUri == string.Empty)
             {
-                EdgeWebViewEngine.Source = new Uri(uri);
-            }
-            else
-            {
-                EdgeWebViewEngine.Source = new Uri("https://bing.com");
+                WebUri = "https://bing.com";
             }
 
             UABox.ItemsSource = Utils.UserAgentDictionary.Keys;
@@ -119,7 +107,7 @@ namespace Edge
             args.Handled = true;
 
             MainWindow mainWindow = App.Window as MainWindow;
-            mainWindow.AddNewTab(new WebViewPage(args.Uri));
+            mainWindow.AddNewTab(new WebViewPage() { WebUri = args.Uri });
         }
 
         private void CoreWebView2_DownloadStarting(CoreWebView2 sender, CoreWebView2DownloadStartingEventArgs args)
@@ -143,14 +131,8 @@ namespace Edge
             History.SetHistory(sender.DocumentTitle, uriAddressBox.Text);
 
             MainWindow mainWindow = App.Window as MainWindow;
-            for (int i = 0; i < mainWindow.GetItems().Count; i++)
-            {
-                if (((mainWindow.GetItems()[i] as TabViewItem).Content as Frame).Content as Page == this)
-                {
-                    (mainWindow.GetItems()[i] as TabViewItem).Header = EdgeWebViewEngine.CoreWebView2.DocumentTitle;
-                    break;
-                }
-            }
+
+            (mainWindow.TabItems.Find(x => (x as TabViewItem).Content as Page == this) as TabViewItem).Header = EdgeWebViewEngine.CoreWebView2.DocumentTitle;
         }
 
         private void CoreWebView2_NavigationStarting(CoreWebView2 sender, CoreWebView2NavigationStartingEventArgs args)
@@ -193,7 +175,7 @@ namespace Edge
 
                             else if (Utils.ImageTypeDict.TryGetValue(ext, out value))
                             {
-                                (App.Window as MainWindow).AddNewTab(new ImageViewer(uriAddressBox.Text, value));
+                                (App.Window as MainWindow).AddNewTab(new ImageViewer(uriAddressBox.Text));
                                 return;
                             }
 

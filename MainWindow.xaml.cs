@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media;
 using System.Collections.Generic;
+using System.Linq;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -20,7 +21,10 @@ namespace Edge
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(AppTitleBar);
 
-            AddNewTab(new WebViewPage());
+            AddNewTab(new WebViewPage()
+            {
+                WebUri = "https://bing.com"
+            });
 
             this.SystemBackdrop = new MicaBackdrop();
         }
@@ -31,7 +35,7 @@ namespace Edge
             {
                 IconSource = new SymbolIconSource() { Symbol = Symbol.Document },
                 Header = header,
-                Content = new Frame() { Content = content },
+                Content = content,
                 ContextFlyout = TabFlyout
             };
             return tabViewItem;
@@ -50,15 +54,9 @@ namespace Edge
             }
         }
 
-        public IList<object> GetItems()
-        {
-            return tabView.TabItems;
-        }
+        public List<object> TabItems => tabView.TabItems.ToList();
 
-        private WebViewPage GetSelectPage()
-        {
-            return ((tabView.SelectedItem as TabViewItem).Content as Frame).Content as WebViewPage;
-        }
+        private WebViewPage SelectedItem => (tabView.SelectedItem as TabViewItem).Content as WebViewPage;
 
         private void TabView_AddTabButtonClick(TabView sender, object args)
         {
@@ -88,17 +86,17 @@ namespace Edge
 
         private void RefreshTab(object sender, RoutedEventArgs e)
         {
-            GetSelectPage().Refresh();
+            SelectedItem.Refresh();
         }
 
         private void CopyTab(object sender, RoutedEventArgs e)
         {
-            AddNewTab(new WebViewPage(GetSelectPage().GetUri), tabView.SelectedIndex + 1);
+            AddNewTab(new WebViewPage() { WebUri = SelectedItem.WebUri }, tabView.SelectedIndex + 1);
         }
 
         private void MoveTabToNewWindow(object sender, RoutedEventArgs e)
         {
-            Utils.CreateNewWindow(new WebViewPage(GetSelectPage().GetUri));
+            Utils.CreateNewWindow(new WebViewPage() { WebUri = SelectedItem.WebUri });
             tabView.TabItems.Remove(tabView.SelectedItem);
         }
 
@@ -132,6 +130,14 @@ namespace Edge
                 tabView.TabItems.RemoveAt(tabView.SelectedIndex + 1);
             }
             tabView.UpdateLayout();
+        }
+
+        private void TabView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if ((tabView.SelectedItem as TabViewItem).Content is WebViewPage page)
+            {
+                page.SetHomeButton();
+            }
         }
     }
 }
