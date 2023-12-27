@@ -32,6 +32,47 @@
                     </MenuFlyoutItem.KeyboardAccelerators>
                 </MenuFlyoutItem>
 
+                <MenuFlyoutSeparator />
+
+                <MenuFlyoutItem>
+                    <MenuFlyoutItem.Template>
+                        <ControlTemplate>
+                            <Grid>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="缩放" Grid.Column="0" VerticalAlignment="Center" Margin="44,0,0,0"/>
+
+                                <!--SubtractBold-->
+                                <Button Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,5,0" Background="Transparent">
+                                    <FontIcon Glyph="&#xF8AB;"/>
+                                </Button>
+
+                                <TextBlock Name="ZoomBlock" Text="100%" Grid.Column="2" VerticalAlignment="Center" Margin="0,0,5,0"/>
+
+                                <!--AddBold-->
+                                <Button Grid.Column="3" Margin="0,0,5,0" Background="Transparent">
+                                    <FontIcon Glyph="&#xF8AA;"/>
+                                </Button>
+                                
+                                <!--FullScreen-->
+                                <Button Grid.Column="4">
+                                    <FontIcon Glyph="&#xE740;"/>
+                                </Button>
+
+                            </Grid>
+                        </ControlTemplate>
+                    </MenuFlyoutItem.Template>
+                </MenuFlyoutItem>
+
+                <MenuFlyoutSeparator />
+
                 <MenuFlyoutItem Text="设置" Click="TryOpenSettingPage" Icon="Setting"/>
             </MenuFlyout>
         </Button.Flyout>
