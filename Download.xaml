@@ -19,7 +19,7 @@
         <Button.Flyout>
             <Flyout>
 
-                <ListView Name="listView" SelectionChanged="ListView_SelectionChanged">
+                <!--<ListView Name="listView" SelectionChanged="ListView_SelectionChanged">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="local:DownloadType">
 
@@ -44,6 +44,42 @@
                                 </Button>
                             </Grid>
 
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>-->
+
+                <ListView x:Name="listView" SelectionMode="Single">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="local:DownloadType">
+                            <UserControl PointerEntered="ListView_PointerEntered" PointerExited="ListView_PointerExited">
+                                <Grid>
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup>
+                                            <VisualState x:Name="HideCancelButton"/>
+                                            <VisualState x:Name="ShowCancelButton">
+                                                <VisualState.Setters>
+                                                    <Setter Target="CancelButton.Visibility" Value="Visible" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                    <SwipeControl>
+                                        <Grid>
+                                            <StackPanel Grid.Column="0" MaxWidth="320">
+                                                <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" FontWeight="Bold" Margin="0,10,0,5"/>
+
+                                                <ProgressBar Value="{Binding ReceivedBytes, UpdateSourceTrigger=PropertyChanged}"
+                                                             Maximum="{Binding TotalBytes}"/>
+
+                                                <TextBlock Text="{Binding Information, UpdateSourceTrigger=PropertyChanged}" TextTrimming="CharacterEllipsis" Margin="0,5,0,10"/>
+
+                                            </StackPanel>
+
+                                            <AppBarButton x:Name="CancelButton" HorizontalAlignment="Right" Visibility="Collapsed" Command="{x:Bind Command}" CommandParameter="{x:Bind Time}"/>
+                                        </Grid>
+                                    </SwipeControl>
+                                </Grid>
+                            </UserControl>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>

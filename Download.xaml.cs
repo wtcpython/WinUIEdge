@@ -1,8 +1,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Input;
+using System;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace Edge
 {
@@ -27,6 +29,10 @@ namespace Edge
             get => information;
             set => SetProperty(ref information, value);
         }
+
+        public string Time { get; set; }
+
+        public ICommand Command { get; set; }
     }
 
     public sealed partial class Download : Page
@@ -35,11 +41,14 @@ namespace Edge
         //因此若使用 List<T> 作为 ItemSource，则当 ListView 新增、删除 Item 时，ListView UI 会不能即时更新
         public static ObservableCollection<DownloadType> DownloadList = [];
 
+        public static StandardUICommand Command = new(StandardUICommandKind.Delete);
+
         public Download()
         {
             this.InitializeComponent();
             listView.ItemsSource = DownloadList;
-            listView.SelectedIndex = 0;
+            
+            Command.ExecuteRequested += CommandExecuteRequested;
         }
 
         public static void SetDownloadItem(string title, long totalBytes)
@@ -49,49 +58,35 @@ namespace Edge
                 Title = title,
                 TotalBytes = totalBytes,
                 ReceivedBytes = 0,
-                Information = ""
-            });
+                Information = "",
+                Time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                Command = Command
+            }); ;
         }
 
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void CommandExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
-            foreach (object selectedItem in e.AddedItems)
-                SetButtonEnabled(selectedItem, true);
-            foreach (object selectedItem in e.RemovedItems)
-                SetButtonEnabled(selectedItem, false);
-        }
-
-        private void SetButtonEnabled(object item, bool display)
-        {
-            ListViewItem container = listView.ContainerFromItem(item) as ListViewItem;
-            if (container != null)
+            if (args.Parameter != null)
             {
-                Button button = FindVisualChild<Button>(container);
-                if (button != null)
-                    button.IsEnabled = display;
-            }
-        }
-
-        private static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
-        {
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
-            {
-                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
-                if (child != null && child is T t)
-                    return t;
-                else
+                foreach (DownloadType download in DownloadList)
                 {
-                    T childOfChild = FindVisualChild<T>(child);
-                    if (childOfChild != null)
-                        return childOfChild;
+                    if (download.Time == (args.Parameter as string))
+                    {
+                        DownloadList.Remove(download);
+                        return;
+                    }
                 }
             }
-            return null;
         }
 
-        private void RemoveHistory(object sender, RoutedEventArgs e)
+        private void ListView_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            (listView.ItemsSource as ObservableCollection<HistoryType>).RemoveAt(listView.SelectedIndex);
+            VisualStateManager.GoToState(sender as Control, "ShowCancelButton", true);
+        }
+
+        private void ListView_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            VisualStateManager.GoToState(sender as Control, "HideCancelButton", true);
         }
     }
 }
