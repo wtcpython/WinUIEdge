@@ -43,7 +43,7 @@ namespace Edge
 
         private void OpenRepoWebsite(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
-            Utils.OpenWebsite(new Uri("https://github.com/wtcpython"));
+            Utils.OpenWebsite(new Uri("https://github.com/wtcpython/WinUIEdge"));
         }
     }
 }
