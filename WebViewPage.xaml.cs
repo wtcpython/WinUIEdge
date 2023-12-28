@@ -132,7 +132,19 @@ namespace Edge
 
             MainWindow mainWindow = App.Window as MainWindow;
 
-            (mainWindow.TabItems.Find(x => (x as TabViewItem).Content as Page == this) as TabViewItem).Header = EdgeWebViewEngine.CoreWebView2.DocumentTitle;
+            var tabItem = mainWindow.TabItems.Find(x => (x as TabViewItem).Content as Page == this) as TabViewItem;
+            if (tabItem != null)
+            {
+                tabItem.Header = sender.DocumentTitle;
+                var iconUri = sender.FaviconUri;
+                if (iconUri != string.Empty)
+                {
+                    tabItem.IconSource = new BitmapIconSource()
+                    {
+                        UriSource = new Uri(sender.FaviconUri)
+                    };
+                }
+            }
         }
 
         private void CoreWebView2_NavigationStarting(CoreWebView2 sender, CoreWebView2NavigationStartingEventArgs args)
@@ -173,7 +185,7 @@ namespace Edge
                                 return;
                             }
 
-                            else if (Utils.ImageTypeDict.TryGetValue(ext, out value))
+                            else if (Utils.ImageTypeDict.TryGetValue(ext, out _))
                             {
                                 (App.Window as MainWindow).AddNewTab(new ImageViewer(uriAddressBox.Text));
                                 return;
