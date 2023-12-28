@@ -134,10 +134,14 @@ namespace Edge
 
         private void TabView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if ((tabView.SelectedItem as TabViewItem).Content is WebViewPage page)
+            if (tabView.SelectedItem != null)
             {
-                page.SetHomeButton();
+                if ((tabView.SelectedItem as TabViewItem).Content is WebViewPage page)
+                {
+                    page.SetHomeButton();
+                }
             }
+
         }
     }
 }
