@@ -18,36 +18,6 @@
 
         <Button.Flyout>
             <Flyout>
-
-                <!--<ListView Name="listView" SelectionChanged="ListView_SelectionChanged">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="local:DownloadType">
-
-                            <Grid Margin="0,10,0,10" ToolTipService.ToolTip="{Binding Title}">
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-
-                                <StackPanel Grid.Column="0" MaxWidth="320">
-                                    <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" FontWeight="Bold"/>
-
-                                    <ProgressBar Value="{Binding ReceivedBytes, UpdateSourceTrigger=PropertyChanged}"
-                                                 Maximum="{Binding TotalBytes}"/>
-
-                                    <TextBlock Text="{Binding Information, UpdateSourceTrigger=PropertyChanged}" TextTrimming="CharacterEllipsis"/>
-
-                                </StackPanel>
-                                <Button Click="RemoveHistory" Grid.Column="1" Margin="20,0,0,0" IsEnabled="False">
-                                    <SymbolIcon Symbol="Clear"/>
-                                </Button>
-                            </Grid>
-
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>-->
-
                 <ListView x:Name="listView" SelectionMode="Single">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="local:DownloadType">
@@ -64,7 +34,7 @@
                                         </VisualStateGroup>
                                     </VisualStateManager.VisualStateGroups>
                                     <SwipeControl>
-                                        <Grid>
+                                        <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
                                             <StackPanel Grid.Column="0" MaxWidth="320">
                                                 <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" FontWeight="Bold" Margin="0,10,0,5"/>
 
@@ -75,8 +45,12 @@
 
                                             </StackPanel>
 
-                                            <AppBarButton x:Name="CancelButton" HorizontalAlignment="Right" Visibility="Collapsed" Command="{x:Bind Command}" CommandParameter="{x:Bind Time}"/>
-                                        </Grid>
+                                            <AppBarButton x:Name="CancelButton" VerticalAlignment="Center" Visibility="Collapsed" CommandParameter="{x:Bind Time}" Width="48" Height="48">
+                                                <AppBarButton.Command>
+                                                    <StandardUICommand Kind="Delete" ExecuteRequested="CommandExecuteRequested" Label=""/>
+                                                </AppBarButton.Command>
+                                            </AppBarButton>
+                                        </StackPanel>
                                     </SwipeControl>
                                 </Grid>
                             </UserControl>

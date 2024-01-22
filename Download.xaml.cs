@@ -4,7 +4,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 
 namespace Edge
 {
@@ -31,8 +30,6 @@ namespace Edge
         }
 
         public string Time { get; set; }
-
-        public ICommand Command { get; set; }
     }
 
     public sealed partial class Download : Page
@@ -41,14 +38,10 @@ namespace Edge
         //因此若使用 List<T> 作为 ItemSource，则当 ListView 新增、删除 Item 时，ListView UI 会不能即时更新
         public static ObservableCollection<DownloadType> DownloadList = [];
 
-        public static StandardUICommand Command = new(StandardUICommandKind.Delete);
-
         public Download()
         {
             this.InitializeComponent();
             listView.ItemsSource = DownloadList;
-            
-            Command.ExecuteRequested += CommandExecuteRequested;
         }
 
         public static void SetDownloadItem(string title, long totalBytes)
@@ -60,7 +53,6 @@ namespace Edge
                 ReceivedBytes = 0,
                 Information = "",
                 Time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                Command = Command
             }); ;
         }
 

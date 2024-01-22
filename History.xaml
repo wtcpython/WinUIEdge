@@ -34,14 +34,18 @@
                                         </VisualStateGroup>
                                     </VisualStateManager.VisualStateGroups>
                                     <SwipeControl>
-                                        <Grid>
-                                            <StackPanel Margin="0,10,0,10">
-                                                <TextBlock Text="{x:Bind Title}" Width="320" TextTrimming="CharacterEllipsis" FontWeight="Bold"/>
-                                                <TextBlock Text="{x:Bind Uri}" Width="320" TextTrimming="CharacterEllipsis"/>
+                                        <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                                            <StackPanel>
+                                                <TextBlock Text="{x:Bind Title}" Width="340" TextTrimming="CharacterEllipsis" FontWeight="Bold" FontSize="14" Margin="0,0,0,5"/>
+                                                <TextBlock Text="{x:Bind Uri}" Width="340" TextTrimming="CharacterEllipsis" FontSize="14" Margin="0,0,0,5"/>
                                             </StackPanel>
 
-                                            <AppBarButton x:Name="CancelButton" HorizontalAlignment="Right" Visibility="Collapsed" Command="{x:Bind Command}" CommandParameter="{x:Bind Time}"/>
-                                        </Grid>
+                                            <AppBarButton x:Name="CancelButton" VerticalAlignment="Center" Visibility="Collapsed" CommandParameter="{x:Bind Time}" Width="48" Height="48">
+                                                <AppBarButton.Command>
+                                                    <StandardUICommand Kind="Delete" ExecuteRequested="CommandExecuteRequested" Label=""/>
+                                                </AppBarButton.Command>
+                                            </AppBarButton>
+                                        </StackPanel>
                                     </SwipeControl>
                                 </Grid>
                             </UserControl>
