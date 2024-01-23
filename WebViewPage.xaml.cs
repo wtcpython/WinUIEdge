@@ -17,7 +17,7 @@ namespace Edge
 
         public string WebUri
         {
-            get => uriAddressBox.Text;
+            get => SearchBox.Text;
             set => EdgeWebViewEngine.Source = new Uri(value);
         }
 
@@ -26,6 +26,8 @@ namespace Edge
             this.InitializeComponent();
             SetWebNaviButtonStatus();
             EdgeWebViewEngine.UpdateLayout();
+            TempSearchEngineBox.ItemsSource = JsonDataList.SearchEngineDictionary.Keys;
+            TempSearchEngineBox.SelectedItem = Utils.data.SearchEngine;
 
             if (WebUri == string.Empty)
             {
@@ -128,7 +130,7 @@ namespace Edge
         {
             SetWebNaviButtonStatus();
             App.Window.Title = sender.DocumentTitle;
-            History.SetHistory(sender.DocumentTitle, uriAddressBox.Text);
+            History.SetHistory(sender.DocumentTitle, SearchBox.Text);
 
             MainWindow mainWindow = App.Window as MainWindow;
 
@@ -157,60 +159,65 @@ namespace Edge
             }
             else
             {
-                uriAddressBox.Text = uri.ToString();
+                SearchBox.Text = uri.ToString();
             }
         }
 
-        private void Key_Down(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private void SearchKeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
+            string text = SearchBox.Text;
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
-                if (Uri.TryCreate(uriAddressBox.Text, UriKind.Absolute, out Uri uriResult))
+                if (Uri.TryCreate(text, UriKind.Absolute, out Uri uriResult))
                 {
                     if (uriResult.Scheme == "file")
                     {
                         if (File.Exists(uriResult.OriginalString))
                         {
-                            string ext = Path.GetExtension(uriAddressBox.Text);
+                            string ext = Path.GetExtension(text);
                             string value;
                             if (Utils.LanguageTypeDict.TryGetValue(ext, out value))
                             {
-                                (App.Window as MainWindow).AddNewTab(new TextFilePage(uriAddressBox.Text, value));
+                                (App.Window as MainWindow).AddNewTab(new TextFilePage(text, value));
                                 return;
                             }
 
                             else if (Utils.WebFileTypeDict.TryGetValue(ext, out value))
                             {
-                                (App.Window as MainWindow).AddNewTab(new TextFilePage(uriAddressBox.Text, value, true));
+                                (App.Window as MainWindow).AddNewTab(new TextFilePage(text, value, true));
                                 return;
                             }
 
                             else if (Utils.ImageTypeDict.TryGetValue(ext, out _))
                             {
-                                (App.Window as MainWindow).AddNewTab(new ImageViewer(uriAddressBox.Text));
+                                (App.Window as MainWindow).AddNewTab(new ImageViewer(text));
                                 return;
                             }
 
                             else
                             {
-                                EdgeWebViewEngine.CoreWebView2.Navigate(uriAddressBox.Text);
+                                EdgeWebViewEngine.CoreWebView2.Navigate(text);
                                 return;
                             }
                         }
                     }
                     else if (ProtocolList.Contains(uriResult.Scheme))
                     {
-                        EdgeWebViewEngine.CoreWebView2.Navigate(uriAddressBox.Text);
+                        EdgeWebViewEngine.CoreWebView2.Navigate(text);
                         return;
                     }
                 }
-                EdgeWebViewEngine.CoreWebView2.Navigate(JsonDataList.SearchEngineDictionary[Utils.data.SearchEngine] + uriAddressBox.Text);
+                EdgeWebViewEngine.CoreWebView2.Navigate(JsonDataList.SearchEngineDictionary[(string)TempSearchEngineBox.SelectedItem] + text);
             }
-        }
 
-        private void OpenDownloadFolderRequest(object sender, RoutedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("explorer", GetMoreSpecialFolder.GetSpecialFolder(GetMoreSpecialFolder.SpecialFolder.Downloads));
+            else if (e.Key == Windows.System.VirtualKey.Right)
+            {
+                if (text.EndsWith(' ') && JsonDataList.SearchEngineDictionary.ContainsKey(text.TrimEnd()))
+                {
+                    TempSearchEngineBox.SelectedItem = text.TrimEnd();
+                    SearchBox.Text = "";
+                }
+            }
         }
 
         public bool CheckInput(string input)

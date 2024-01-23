@@ -15,9 +15,10 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="0" ColumnSpacing="5">
 
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
@@ -61,14 +62,16 @@
                 <SymbolIcon Symbol="Home"/>
             </Button>
 
-            <TextBox Name="uriAddressBox" KeyDown="Key_Down"
-                 Grid.Column="4"/>
+            <ComboBox Name="TempSearchEngineBox" Grid.Column="4"/>
 
-            <local:History Grid.Column="5"/>
+            <TextBox Name="SearchBox" KeyDown="SearchKeyDown"
+                 Grid.Column="5"/>
 
-            <local:Download Grid.Column="6"/>
+            <local:History Grid.Column="6"/>
 
-            <local:ShowMoreFlyoutMenu Grid.Column="7"/>
+            <local:Download Grid.Column="7"/>
+
+            <local:ShowMoreFlyoutMenu Grid.Column="8"/>
 
         </Grid>
 

@@ -21,8 +21,8 @@ namespace Edge
         {
             { "Bing", "https://bing.com/?q=" },
             { "Google", "https://www.google.com/search?q=" },
-            { "°Ù¶È", "https://www.baidu.com/s?ie={inputEncoding}&wd=" },
-            { "ËÑ¹·", "https://www.sogou.com/web?ie={inputEncoding}&query=" },
+            { "Baidu", "https://www.baidu.com/s?ie={inputEncoding}&wd=" },
+            { "Sougou", "https://www.sogou.com/web?ie={inputEncoding}&query=" },
             { "360", "https://www.so.com/s?ie={inputEncoding}&q=" },
             { "Github", "https://github.com/search?q=" },
             { "Gitee", "https://gitee.com/search?utf8=%E2%9C%93&q=" },
