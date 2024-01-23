@@ -73,6 +73,18 @@
 
                 <MenuFlyoutSeparator />
 
+                <MenuFlyoutItem Text="历史记录" Click="ShowHistoryFlyout">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="H" Modifiers="Control"/>
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+
+                <MenuFlyoutItem Text="下载" Click="ShowDownloadFlyout">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="J" Modifiers="Control"/>
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+
                 <MenuFlyoutItem Text="设置" Click="TryOpenSettingPage" Icon="Setting"/>
             </MenuFlyout>
         </Button.Flyout>

@@ -35,5 +35,15 @@ namespace Edge
 
             mainWindow.AddNewTab(new SettingsPage(), header: "Settings");
         }
+
+        private void ShowHistoryFlyout(object sender, RoutedEventArgs e)
+        {
+            History.ShowFlyout();
+        }
+
+        private void ShowDownloadFlyout(object sender, RoutedEventArgs e)
+        {
+            Download.ShowFlyout();
+        }
     }
 }
