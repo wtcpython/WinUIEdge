@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 
 namespace Edge
@@ -23,10 +24,13 @@ namespace Edge
         //因此若使用 List<T> 作为 ItemSource，则当 ListView 新增、删除 Item 时，ListView UI 会不能即时更新
         public static ObservableCollection<HistoryType> HistoryList = [];
 
+        public static Button button;
+
         public History()
         {
             this.InitializeComponent();
             listView.ItemsSource = HistoryList;
+            button = HistoryButton;
         }
 
         public static void SetHistory(string title, string uri)
@@ -62,6 +66,23 @@ namespace Edge
         private void ListView_PointerExited(object sender, PointerRoutedEventArgs e)
         {
             VisualStateManager.GoToState(sender as Control, "HideCancelButton", true);
+        }
+
+        private void DeleteHistoryRequest(object sender, RoutedEventArgs e)
+        {
+            HistoryList.Clear();
+        }
+
+        private void SearchHistory(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter || SearchHistoryBox.Text == string.Empty)
+            {
+                listView.ItemsSource = HistoryList.Where(x => x.Title.Contains(SearchHistoryBox.Text));
+            }
+        }
+        public static void ShowFlyout()
+        {
+            button.Flyout.ShowAt(button);
         }
     }
 }

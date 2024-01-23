@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Button ToolTipService.ToolTip="历史记录 (Ctrl+H)">
+    <Button Name="HistoryButton" ToolTipService.ToolTip="历史记录 (Ctrl+H)">
 
         <Button.KeyboardAccelerators>
             <KeyboardAccelerator Key="H" Modifiers="Control"/>
@@ -18,41 +18,65 @@
 
         <Button.Flyout>
             <Flyout>
-                <ListView x:Name="listView" SelectionMode="Single">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="local:HistoryType">
-                            <UserControl PointerEntered="ListView_PointerEntered" PointerExited="ListView_PointerExited">
-                                <Grid>
-                                    <VisualStateManager.VisualStateGroups>
-                                        <VisualStateGroup>
-                                            <VisualState x:Name="HideCancelButton"/>
-                                            <VisualState x:Name="ShowCancelButton">
-                                                <VisualState.Setters>
-                                                    <Setter Target="CancelButton.Visibility" Value="Visible" />
-                                                </VisualState.Setters>
-                                            </VisualState>
-                                        </VisualStateGroup>
-                                    </VisualStateManager.VisualStateGroups>
-                                    <SwipeControl>
-                                        <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
-                                            <StackPanel>
-                                                <TextBlock Text="{x:Bind Title}" Width="340" TextTrimming="CharacterEllipsis" FontWeight="Bold" FontSize="14" Margin="0,0,0,5"/>
-                                                <TextBlock Text="{x:Bind Uri}" Width="340" TextTrimming="CharacterEllipsis" FontSize="14" Margin="0,0,0,5"/>
+                <StackPanel>
+
+                    <Grid Width="420">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="历史记录" FontWeight="Bold" FontSize="16" Grid.Column="0" Margin="10,0,5,0" VerticalAlignment="Center"/>
+                        <TextBox Name="SearchHistoryBox" PlaceholderText="搜索 历史记录" Grid.Column="1" KeyDown="SearchHistory"/>
+                        <Button Grid.Column="2" Margin="5,0,5,0" Click="DeleteHistoryRequest">
+                            <SymbolIcon Symbol="Delete"/>
+                        </Button>
+
+                        <Button Grid.Column="3">
+                            <SymbolIcon Symbol="Setting"/>
+                        </Button>
+
+                    </Grid>
+
+                    <ListView x:Name="listView" SelectionMode="Single">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="local:HistoryType">
+                                <UserControl PointerEntered="ListView_PointerEntered" PointerExited="ListView_PointerExited">
+                                    <Grid>
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup>
+                                                <VisualState x:Name="HideCancelButton"/>
+                                                <VisualState x:Name="ShowCancelButton">
+                                                    <VisualState.Setters>
+                                                        <Setter Target="CancelButton.Visibility" Value="Visible" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+                                        <SwipeControl>
+                                            <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                                                <StackPanel>
+                                                    <TextBlock Text="{x:Bind Title}" Width="340" TextTrimming="CharacterEllipsis" FontWeight="Bold" FontSize="14" Margin="0,0,0,5"/>
+                                                    <TextBlock Text="{x:Bind Uri}" Width="340" TextTrimming="CharacterEllipsis" FontSize="14" Margin="0,0,0,5"/>
+                                                </StackPanel>
+
+                                                <AppBarButton x:Name="CancelButton" VerticalAlignment="Center" Visibility="Collapsed" CommandParameter="{x:Bind Time}" Width="48" Height="48">
+                                                    <AppBarButton.Command>
+                                                        <StandardUICommand Kind="Delete" ExecuteRequested="CommandExecuteRequested" Label=""/>
+                                                    </AppBarButton.Command>
+                                                </AppBarButton>
                                             </StackPanel>
-
-                                            <AppBarButton x:Name="CancelButton" VerticalAlignment="Center" Visibility="Collapsed" CommandParameter="{x:Bind Time}" Width="48" Height="48">
-                                                <AppBarButton.Command>
-                                                    <StandardUICommand Kind="Delete" ExecuteRequested="CommandExecuteRequested" Label=""/>
-                                                </AppBarButton.Command>
-                                            </AppBarButton>
-                                        </StackPanel>
-                                    </SwipeControl>
-                                </Grid>
-                            </UserControl>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-
+                                        </SwipeControl>
+                                    </Grid>
+                                </UserControl>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    
+                </StackPanel>
             </Flyout>
         </Button.Flyout>
     </Button>

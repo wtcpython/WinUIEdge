@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Button ToolTipService.ToolTip="下载 (Ctrl+J)">
+    <Button Name="DownloadButton" ToolTipService.ToolTip="下载 (Ctrl+J)">
 
         <Button.KeyboardAccelerators>
             <KeyboardAccelerator Key="J" Modifiers="Control"/>
@@ -18,46 +18,70 @@
 
         <Button.Flyout>
             <Flyout>
-                <ListView x:Name="listView" SelectionMode="Single">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="local:DownloadType">
-                            <UserControl PointerEntered="ListView_PointerEntered" PointerExited="ListView_PointerExited">
-                                <Grid>
-                                    <VisualStateManager.VisualStateGroups>
-                                        <VisualStateGroup>
-                                            <VisualState x:Name="HideCancelButton"/>
-                                            <VisualState x:Name="ShowCancelButton">
-                                                <VisualState.Setters>
-                                                    <Setter Target="CancelButton.Visibility" Value="Visible" />
-                                                </VisualState.Setters>
-                                            </VisualState>
-                                        </VisualStateGroup>
-                                    </VisualStateManager.VisualStateGroups>
-                                    <SwipeControl>
-                                        <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
-                                            <StackPanel Grid.Column="0" MaxWidth="320">
-                                                <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" FontWeight="Bold" Margin="0,10,0,5"/>
+                <StackPanel>
 
-                                                <ProgressBar Value="{Binding ReceivedBytes, UpdateSourceTrigger=PropertyChanged}"
+                    <Grid Width="420">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="下载" FontWeight="Bold" FontSize="16" Grid.Column="0" Margin="10,0,5,0" VerticalAlignment="Center"/>
+                        <TextBox Name="SearchDownloadBox" PlaceholderText="搜索下载项" Grid.Column="1" KeyDown="SearchDownload"/>
+                        <Button Grid.Column="2" Margin="5,0,5,0" Click="OpenDownloadFolderRequest">
+                            <SymbolIcon Symbol="Folder"/>
+                        </Button>
+
+                        <Button Grid.Column="3">
+                            <SymbolIcon Symbol="Setting"/>
+                        </Button>
+
+                    </Grid>
+
+                    <ListView x:Name="listView" SelectionMode="Single">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="local:DownloadType">
+                                <UserControl PointerEntered="ListView_PointerEntered" PointerExited="ListView_PointerExited">
+                                    <Grid>
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup>
+                                                <VisualState x:Name="HideCancelButton"/>
+                                                <VisualState x:Name="ShowCancelButton">
+                                                    <VisualState.Setters>
+                                                        <Setter Target="CancelButton.Visibility" Value="Visible" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+                                        <SwipeControl>
+                                            <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                                                <StackPanel Grid.Column="0" MaxWidth="320">
+                                                    <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" FontWeight="Bold" Margin="0,10,0,5"/>
+
+                                                    <ProgressBar Value="{Binding ReceivedBytes, UpdateSourceTrigger=PropertyChanged}"
                                                              Maximum="{Binding TotalBytes}"/>
 
-                                                <TextBlock Text="{Binding Information, UpdateSourceTrigger=PropertyChanged}" TextTrimming="CharacterEllipsis" Margin="0,5,0,10"/>
+                                                    <TextBlock Text="{Binding Information, UpdateSourceTrigger=PropertyChanged}" TextTrimming="CharacterEllipsis" Margin="0,5,0,10"/>
 
+                                                </StackPanel>
+
+                                                <AppBarButton x:Name="CancelButton" VerticalAlignment="Center" Visibility="Collapsed" CommandParameter="{x:Bind Time}" Width="48" Height="48">
+                                                    <AppBarButton.Command>
+                                                        <StandardUICommand Kind="Delete" ExecuteRequested="CommandExecuteRequested" Label=""/>
+                                                    </AppBarButton.Command>
+                                                </AppBarButton>
                                             </StackPanel>
-
-                                            <AppBarButton x:Name="CancelButton" VerticalAlignment="Center" Visibility="Collapsed" CommandParameter="{x:Bind Time}" Width="48" Height="48">
-                                                <AppBarButton.Command>
-                                                    <StandardUICommand Kind="Delete" ExecuteRequested="CommandExecuteRequested" Label=""/>
-                                                </AppBarButton.Command>
-                                            </AppBarButton>
-                                        </StackPanel>
-                                    </SwipeControl>
-                                </Grid>
-                            </UserControl>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-
+                                        </SwipeControl>
+                                    </Grid>
+                                </UserControl>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    
+                </StackPanel>
             </Flyout>
         </Button.Flyout>
     </Button>

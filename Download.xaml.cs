@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Edge
 {
@@ -38,10 +39,13 @@ namespace Edge
         //因此若使用 List<T> 作为 ItemSource，则当 ListView 新增、删除 Item 时，ListView UI 会不能即时更新
         public static ObservableCollection<DownloadType> DownloadList = [];
 
+        public static Button button;
+
         public Download()
         {
             this.InitializeComponent();
             listView.ItemsSource = DownloadList;
+            button = DownloadButton;
         }
 
         public static void SetDownloadItem(string title, long totalBytes)
@@ -79,6 +83,24 @@ namespace Edge
         private void ListView_PointerExited(object sender, PointerRoutedEventArgs e)
         {
             VisualStateManager.GoToState(sender as Control, "HideCancelButton", true);
+        }
+
+        private void OpenDownloadFolderRequest(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("explorer", GetMoreSpecialFolder.GetSpecialFolder(GetMoreSpecialFolder.SpecialFolder.Downloads));
+        }
+
+        private void SearchDownload(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter || SearchDownloadBox.Text == string.Empty)
+            {
+                listView.ItemsSource = DownloadList.Where(x => x.Title.Contains(SearchDownloadBox.Text));
+            }
+        }
+
+        public static void ShowFlyout()
+        {
+            button.Flyout.ShowAt(button);
         }
     }
 }
