@@ -15,7 +15,7 @@ namespace Edge
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             string tag = (string)(args.SelectedItem as NavigationViewItem).Tag;
-            ContentFrame.Navigate(Type.GetType(tag));
+            ContentFrame.Navigate(Type.GetType("Edge." + tag));
             navigation.Header = ((NavigationViewItem)navigation.SelectedItem)?.Content?.ToString();
         }
     }

@@ -1,7 +1,11 @@
 {
-    "Theme": "Mica",
+    "Appearance": "System",
+    "WindowEffect": "Mica",
     "StartPageBehavior": "打开新标签页",
     "SpecificUri": "",
     "ShowHomeButton": false,
-    "SearchEngine": "Bing"
+    "SearchEngine": "Bing",
+    "AskDownloadBehavior": false,
+    "ShowFlyoutWhenStartDownloading": true,
+    "DefaultDownloadFolder": ""
 }

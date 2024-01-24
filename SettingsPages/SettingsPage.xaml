@@ -15,9 +15,11 @@
         IsBackButtonVisible="Collapsed"
         SelectionChanged="NavigationView_SelectionChanged">
         <NavigationView.MenuItems>
-            <NavigationViewItem Content="外观" Icon="Setting" Tag="Edge.AppearanceItem"/>
-            <NavigationViewItem Content="新标签页和搜索" Icon="Setting" Tag="Edge.StartItem"/>
-            <NavigationViewItem Content="关于 Edge" Icon="Setting" Tag="Edge.AboutItem"/>
+            <NavigationViewItem Content="外观" Icon="Setting" Tag="AppearanceItem"/>
+            <NavigationViewItem Content="新标签页和搜索" Icon="Setting" Tag="StartItem"/>
+            <NavigationViewItem Content="下载" Icon="Download" Tag="DownloadItem"/>
+            <NavigationViewItem Content="打印机" Icon="Print" Tag="PrinterItem"/>
+            <NavigationViewItem Content="关于 Edge" Icon="Setting" Tag="AboutItem"/>
         </NavigationView.MenuItems>
 
         <Frame x:Name="ContentFrame" Padding="20,10"/>
