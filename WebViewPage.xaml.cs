@@ -84,11 +84,17 @@ namespace Edge
             sender.CoreWebView2.DownloadStarting += CoreWebView2_DownloadStarting;
             sender.CoreWebView2.NewWindowRequested += CoreWebView2_NewWindowRequested;
             sender.CoreWebView2.StatusBarTextChanged += CoreWebView2_StatusBarTextChanged;
+            sender.CoreWebView2.PermissionRequested += CoreWebView2_PermissionRequested;
 
             // 加载设置项
             sender.CoreWebView2.Settings.IsStatusBarEnabled = false;
 
             chromiumVersion = sender.CoreWebView2.Environment.BrowserVersionString;
+        }
+
+        private void CoreWebView2_PermissionRequested(CoreWebView2 sender, CoreWebView2PermissionRequestedEventArgs args)
+        {
+            
         }
 
         private void CoreWebView2_StatusBarTextChanged(CoreWebView2 sender, object args)
@@ -117,6 +123,7 @@ namespace Edge
             args.Handled = true;
             args.DownloadOperation.BytesReceivedChanged += DownloadOperation_BytesReceivedChanged;
             Download.SetDownloadItem(args.ResultFilePath, args.DownloadOperation.TotalBytesToReceive);
+            if (Utils.data.ShowFlyoutWhenStartDownloading) Download.ShowFlyout();
         }
 
         private void DownloadOperation_BytesReceivedChanged(CoreWebView2DownloadOperation sender, object args)
@@ -264,6 +271,11 @@ namespace Edge
         private void OpenDevToolRequest(object sender, RoutedEventArgs e)
         {
             EdgeWebViewEngine.CoreWebView2.OpenDevToolsWindow();
+        }
+
+        public void ShowPrintUI()
+        {
+            EdgeWebViewEngine.CoreWebView2.ShowPrintUI(CoreWebView2PrintDialogKind.Browser);
         }
     }
 }

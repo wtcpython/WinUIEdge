@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Edge.DownloadItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Edge"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    mc:Ignorable="d">
+    <StackPanel>
+
+        <controls:SettingsCard
+            Name="DownloadFolderCard"
+            Header="位置"
+            Margin="0,5,0,5">
+            <Button Name="setFolderButton" Content="更改" Click="ChangeDownloadFolder"/>
+        </controls:SettingsCard>
+
+        <controls:SettingsCard
+            Header="每次下载都询问我该做些什么"
+            Description="始终询问我是要保存文件还是打开它而不保存"
+            Margin="0,5,0,5">
+            <ToggleSwitch Name="setDownloadBehavior" Toggled="DownloadBehaviorChanged"/>
+        </controls:SettingsCard>
+
+        <controls:SettingsCard
+            Header="下载开始时显示下载菜单"
+            Description="关闭此设置会使人更难知道文件何时开始下载"
+            Margin="0,5,0,5">
+            <ToggleSwitch Name="setDownloadFlyout" Toggled="ShowFlyoutChanged"/>
+        </controls:SettingsCard>
+
+    </StackPanel>
+
+</Page>
