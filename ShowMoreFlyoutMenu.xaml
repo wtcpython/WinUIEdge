@@ -77,15 +77,55 @@
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator Key="H" Modifiers="Control"/>
                     </MenuFlyoutItem.KeyboardAccelerators>
+
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe81c;"/>
+                    </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
 
                 <MenuFlyoutItem Text="下载" Click="ShowDownloadFlyout">
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator Key="J" Modifiers="Control"/>
                     </MenuFlyoutItem.KeyboardAccelerators>
+
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe896;"/>
+                    </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
 
-                <MenuFlyoutItem Text="设置" Click="TryOpenSettingPage" Icon="Setting"/>
+                <MenuFlyoutSeparator />
+
+                <MenuFlyoutItem Text="打印" Click="ShowPrintUI">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="P" Modifiers="Control"/>
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                    
+                    <MenuFlyoutItem.Icon>
+                        <SymbolIcon Symbol="Print"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+
+                <MenuFlyoutItem Text="截图">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="S" Modifiers="Control,Shift"/>
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+
+                <MenuFlyoutItem Text="在页面上查找">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="F" Modifiers="Control"/>
+                    </MenuFlyoutItem.KeyboardAccelerators>
+
+                    <MenuFlyoutItem.Icon>
+                        <SymbolIcon Symbol="Find"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+
+                <MenuFlyoutItem Text="设置" Click="TryOpenSettingPage">
+                    <MenuFlyoutItem.Icon>
+                        <SymbolIcon Symbol="Setting"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
             </MenuFlyout>
         </Button.Flyout>
     </Button>

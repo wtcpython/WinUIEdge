@@ -56,7 +56,7 @@ namespace Edge
 
         public List<object> TabItems => tabView.TabItems.ToList();
 
-        private WebViewPage SelectedItem => (tabView.SelectedItem as TabViewItem).Content as WebViewPage;
+        public WebViewPage SelectedItem => (tabView.SelectedItem as TabViewItem).Content as WebViewPage;
 
         private void TabView_AddTabButtonClick(TabView sender, object args)
         {

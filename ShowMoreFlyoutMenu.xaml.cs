@@ -45,5 +45,10 @@ namespace Edge
         {
             Download.ShowFlyout();
         }
+
+        private void ShowPrintUI(object sender, RoutedEventArgs e)
+        {
+            (App.Window as MainWindow).SelectedItem.ShowPrintUI();
+        }
     }
 }
