@@ -91,18 +91,18 @@ namespace Edge
 
         public static SystemBackdrop SetBackDrop()
         {
-            if (data.Theme == JsonDataList.ApplicationThemeList[0])
+            if (data.WindowEffect == JsonDataList.WindowEffectList[0])
             {
                 return new MicaBackdrop();
             }
-            else if (data.Theme == JsonDataList.ApplicationThemeList[1])
+            else if (data.WindowEffect == JsonDataList.WindowEffectList[1])
             {
                 return new MicaBackdrop()
                 {
                     Kind = MicaKind.BaseAlt
                 };
             }
-            else if (data.Theme == JsonDataList.ApplicationThemeList[2])
+            else if (data.WindowEffect == JsonDataList.WindowEffectList[2])
             {
                 return new DesktopAcrylicBackdrop();
             }
