@@ -11,12 +11,23 @@
     <StackPanel>
 
         <controls:SettingsCard
-            Name="themeCard"
-            Header="主题"
+            Name="appearanceCard"
+            Header="整体外观"
+            Description="适用于新的选项卡、页面、对话框和其他菜单。"
             Margin="0,5,0,5">
             <ComboBox
-                Name="themeBox"
-                SelectionChanged="ThemeChanged"/>
+                Name="appearanceBox"
+                SelectionChanged="AppearanceChanged"/>
+        </controls:SettingsCard>
+
+        <controls:SettingsCard
+            Name="effectCard"
+            Header="窗口特效"
+            Description="设置窗口特效的形式"
+            Margin="0,5,0,5">
+            <ComboBox
+                Name="effectBox"
+                SelectionChanged="EffectChanged"/>
         </controls:SettingsCard>
     </StackPanel>
 
