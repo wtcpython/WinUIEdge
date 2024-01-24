@@ -18,6 +18,14 @@
 
 ![Open DevTools](img/devtools.png)
 
+### 搜索栏临时切换搜索引擎
+
+在搜索栏的左侧，提供可以切换搜索引擎的选项，切换后的此次搜索将采用指定的搜索引擎，默认搜索引擎不受影响
+
+![Change Search Engine](img/change-search-engine-1.png)
+
+![Change Search Engine](img/change-search-engine-2.png)
+
 ### 现代化的 UI 设计风格
 
 软件整体采用 `WinAppSDK` 设计，采用自定义标题栏，外观采用 `Mica` 材质，在设置界面可以自定义外观，包括 `Acrylic`， `Mica Alt`等。
