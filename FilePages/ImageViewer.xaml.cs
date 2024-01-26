@@ -41,7 +41,7 @@ namespace Edge
             imageName.Text = fileName = file.DisplayName;
             imageType.Text = file.DisplayType;
             imagePixel.Text = $"{properties.Width} x {properties.Height}";
-            imageSize.Text = Utils.ConvertBytesToString(ImageFileSize);
+            imageSize.Text = Utils.FormatFileSize(ImageFileSize);
 
             imageRating.Value = properties.Rating;
         }
