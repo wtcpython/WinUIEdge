@@ -1,3 +1,4 @@
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
@@ -8,6 +9,11 @@ namespace Edge
         public AppearanceItem()
         {
             this.InitializeComponent();
+            this.Loaded += AppearanceItemLoaded;
+        }
+
+        private void AppearanceItemLoaded(object sender, RoutedEventArgs e)
+        {
             appearanceBox.ItemsSource = JsonDataList.AppearanceList;
             appearanceBox.SelectedIndex = JsonDataList.AppearanceList.IndexOf(Utils.data.Appearance);
             effectBox.ItemsSource = JsonDataList.WindowEffectList;
@@ -16,29 +22,14 @@ namespace Edge
 
         private void AppearanceChanged(object sender, SelectionChangedEventArgs e)
         {
-            var appearance = Utils.data.Appearance = appearanceBox.SelectedItem.ToString();
-            if (appearance == JsonDataList.AppearanceList[0])
+            string appearance = Utils.data.Appearance = appearanceBox.SelectedItem.ToString();
+
+            if (App.Window.Content is FrameworkElement rootElement)
             {
-                if (App.Window.Content is FrameworkElement rootElement)
-                {
-                    rootElement.RequestedTheme = ElementTheme.Default;
-                }
+                rootElement.RequestedTheme = Utils.ConvertTheme(appearance);
+                App.Window.AppWindow.TitleBar.ButtonForegroundColor = 
+                    rootElement.ActualTheme == ElementTheme.Dark ? Colors.White : Colors.Black;
             }
-            else if (appearance == JsonDataList.AppearanceList[1])
-            {
-                if (App.Window.Content is FrameworkElement rootElement)
-                {
-                    rootElement.RequestedTheme = ElementTheme.Light;
-                }
-            }
-            else if (appearance == JsonDataList.AppearanceList[2])
-            {
-                if (App.Window.Content is FrameworkElement rootElement)
-                {
-                    rootElement.RequestedTheme = ElementTheme.Dark;
-                }
-            }
-            
         }
 
         private void EffectChanged(object sender, SelectionChangedEventArgs e)
