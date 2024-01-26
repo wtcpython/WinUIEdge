@@ -47,10 +47,12 @@ namespace Edge
             if (index >= 0)
             {
                 tabView.TabItems.Insert(index, newTab);
+                tabView.SelectedIndex = index;
             }
             else
             {
                 tabView.TabItems.Add(newTab);
+                tabView.SelectedIndex = tabView.TabItems.Count - 1;
             }
         }
 
