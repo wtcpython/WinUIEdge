@@ -126,6 +126,10 @@
                         <SymbolIcon Symbol="Setting"/>
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
+
+                <MenuFlyoutSeparator />
+
+                <MenuFlyoutItem Text="关闭此软件" Click="CloseApp"/>
             </MenuFlyout>
         </Button.Flyout>
     </Button>

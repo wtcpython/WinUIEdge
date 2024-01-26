@@ -33,7 +33,7 @@ namespace Edge
         {
             MainWindow mainWindow = App.Window as MainWindow;
 
-            mainWindow.AddNewTab(new SettingsPage(), header: "Settings");
+            mainWindow.AddNewTab(new SettingsPage(), header: "…Ë÷√");
         }
 
         private void ShowHistoryFlyout(object sender, RoutedEventArgs e)
@@ -49,6 +49,11 @@ namespace Edge
         private void ShowPrintUI(object sender, RoutedEventArgs e)
         {
             (App.Window as MainWindow).SelectedItem.ShowPrintUI();
+        }
+
+        private void CloseApp(object sender, RoutedEventArgs e)
+        {
+            App.Window.Close();
         }
     }
 }
