@@ -120,15 +120,15 @@ namespace Edge
 
         private void CoreWebView2_DownloadStarting(CoreWebView2 sender, CoreWebView2DownloadStartingEventArgs args)
         {
-            args.Handled = true;
             args.DownloadOperation.BytesReceivedChanged += DownloadOperation_BytesReceivedChanged;
             Download.SetDownloadItem(args.ResultFilePath, args.DownloadOperation.TotalBytesToReceive);
             if (Utils.data.ShowFlyoutWhenStartDownloading) Download.ShowFlyout();
+            args.Handled = true;
         }
 
         private void DownloadOperation_BytesReceivedChanged(CoreWebView2DownloadOperation sender, object args)
         {
-            string infomation = $"Progress: {Utils.ConvertBytesToString(sender.BytesReceived)} / {Utils.ConvertBytesToString(sender.TotalBytesToReceive)}, Time: {sender.EstimatedEndTime}";
+            string infomation = $"Time: {DateTime.Now - DateTime.Parse(sender.EstimatedEndTime)}";
             Download.DownloadList.Single(x => x.Title.Equals(sender.ResultFilePath)).Information = infomation;
             Download.DownloadList.Single(x => x.Title.Equals(sender.ResultFilePath)).ReceivedBytes = sender.BytesReceived;
         }
