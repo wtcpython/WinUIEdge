@@ -5,6 +5,8 @@
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
+  xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
   IgnorableNamespaces="uap rescap">
 
   <Identity
@@ -42,6 +44,24 @@
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
+
+		<Extensions>
+
+			<!--Specify which CLSID to activate when app notification clicked-->
+			<desktop:Extension Category="windows.toastNotificationActivation">
+				<desktop:ToastNotificationActivation ToastActivatorCLSID="8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a" />
+			</desktop:Extension>
+
+			<!--Register COM CLSID LocalServer32 registry key-->
+			<com:Extension Category="windows.comServer">
+				<com:ComServer>
+					<com:ExeServer Executable="Edge.exe" Arguments="----AppNotificationActivated:" DisplayName="App notification activator">
+						<com:Class Id="8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a" DisplayName="App notification activator"/>
+					</com:ExeServer>
+				</com:ComServer>
+			</com:Extension>
+
+		</Extensions>
     </Application>
   </Applications>
 

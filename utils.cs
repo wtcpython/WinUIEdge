@@ -13,8 +13,6 @@ namespace Edge
 {
     public static class Utils
     {
-        public static List<string> byteList = ["B", "KB", "MB", "GB", "TB"];
-
         public static Dictionary<string, string> LanguageTypeDict = JsonSerializer.Deserialize<Dictionary<string, string>>(LoadFile("/Assets/LanguageType.json"))!;
         public static Dictionary<string, string> WebFileTypeDict = JsonSerializer.Deserialize<Dictionary<string, string>>(LoadFile("/Assets/WebFileType.json"))!;
         public static Dictionary<string, string> ImageTypeDict = JsonSerializer.Deserialize<Dictionary<string, string>>(LoadFile("/Assets/ImageType.json"))!;
@@ -51,12 +49,22 @@ namespace Edge
             window.Activate();
         }
 
-        public static string ConvertBytesToString(long bytes)
+        public static string FormatFileSize(long size)
         {
-            int index = (int)Math.Log(bytes, 1024);
-            double res = Math.Round(bytes / Math.Pow(1024, index), 2);
-            return $"{res} {byteList[index]}";
+            if (size < 1024) return size.ToString() + "B";
+            else if (size < 1024 * 1024) return (size / 1024).ToString("0.0") + "KiB";
+            else if (size < 1024 * 1024 * 1024) return (size / (1024 * 1024)).ToString("0.0") + "MiB";
+            else return (size / (1024 * 1024 * 1024)).ToString("0.0") + "GiB";
         }
+
+        public static ElementTheme ConvertTheme(string theme)
+        {
+            if (theme == JsonDataList.AppearanceList[0]) return ElementTheme.Default;
+            else if (theme == JsonDataList.AppearanceList[1]) return ElementTheme.Light;
+            else return ElementTheme.Dark;
+        }
+
+
 
         public static async void ShowContentDialog(string title, string content, string closeButtonText, XamlRoot xamlRoot)
         {
@@ -65,7 +73,8 @@ namespace Edge
                 Title = title,
                 Content = content,
                 CloseButtonText = closeButtonText,
-                XamlRoot = xamlRoot
+                XamlRoot = xamlRoot,
+                RequestedTheme = ConvertTheme(data.Appearance)
             };
             await dialog.ShowAsync();
         }
@@ -78,15 +87,16 @@ namespace Edge
                 Content = content,
                 CloseButtonText = closeButtonText,
                 PrimaryButtonText = primaryButtonText,
-                XamlRoot = xamlRoot
+                XamlRoot = xamlRoot,
+                RequestedTheme = ConvertTheme(data.Appearance)
             };
             ContentDialogResult result = await dialog.ShowAsync();
             return result == ContentDialogResult.Primary;
         }
 
-        public static async void OpenWebsite(Uri uri)
+        public static async Task OpenWebsiteUri(string uri)
         {
-            await Windows.System.Launcher.LaunchUriAsync(uri);
+            await Windows.System.Launcher.LaunchUriAsync(new Uri(uri));
         }
 
         public static SystemBackdrop SetBackDrop()

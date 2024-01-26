@@ -42,6 +42,7 @@
     <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.1.1" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231219000" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
+    <PackageReference Include="Octokit" Version="9.1.1" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
