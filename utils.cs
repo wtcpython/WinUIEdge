@@ -64,22 +64,20 @@ namespace Edge
             else return ElementTheme.Dark;
         }
 
-
-
-        public static async void ShowContentDialog(string title, string content, string closeButtonText, XamlRoot xamlRoot)
+        public static async void ShowContentDialog(string title, string content, string closeButtonText)
         {
             ContentDialog dialog = new()
             {
                 Title = title,
                 Content = content,
                 CloseButtonText = closeButtonText,
-                XamlRoot = xamlRoot,
+                XamlRoot = App.Window.Content.XamlRoot,
                 RequestedTheme = ConvertTheme(data.Appearance)
             };
             await dialog.ShowAsync();
         }
 
-        public static async Task<bool> ShowMultiChoiceDialog(string title, string content, string closeButtonText, string primaryButtonText, XamlRoot xamlRoot)
+        public static async Task<bool> ShowMultiChoiceDialog(string title, string content, string closeButtonText, string primaryButtonText)
         {
             ContentDialog dialog = new()
             {
@@ -87,7 +85,7 @@ namespace Edge
                 Content = content,
                 CloseButtonText = closeButtonText,
                 PrimaryButtonText = primaryButtonText,
-                XamlRoot = xamlRoot,
+                XamlRoot = App.Window.Content.XamlRoot,
                 RequestedTheme = ConvertTheme(data.Appearance)
             };
             ContentDialogResult result = await dialog.ShowAsync();

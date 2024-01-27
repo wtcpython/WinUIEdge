@@ -25,8 +25,7 @@ namespace Edge
         private void TryCreateInPrivateWindow(object sender, RoutedEventArgs e)
         {
             Utils.ShowContentDialog(
-                "InPrivate 模式不受支持", "Microsoft Edge 未提供 InPrivate API。", "确定",
-                this.Content.XamlRoot);
+                "InPrivate 模式不受支持", "Microsoft Edge 未提供 InPrivate API。", "确定");
         }
 
         private void TryOpenSettingPage(object sender, RoutedEventArgs e)

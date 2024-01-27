@@ -16,17 +16,23 @@ jobs:
     strategy:
       matrix:
         configuration: [Release]
-        platform: [x64, x86]
+        platform: [x64]
 
     runs-on: windows-latest  # For a list of available runner types, refer to
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
     env:
-      Solution_Name: your-solution-name                         # Replace with your solution name, i.e. App1.sln.
+      Solution_Name: Edge.sln                         # Replace with your solution name, i.e. App1.sln.
 
     steps:
+
+    # Get current time
+    - name: Get current time
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"``
+
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
@@ -38,7 +44,7 @@ jobs:
 
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v1.0.2
+      uses: microsoft/setup-msbuild@v1.3.2
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
@@ -69,7 +75,7 @@ jobs:
 
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload MSIX package
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4.3.0
       with:
-        name: MSIX Package
-        path: ${{ env.Edge }}\\Packages
+        name: Edge-nightly-build-${{ steps.date.outputs.date }}
+        path: ${{ github.workspace }}\\Packages
