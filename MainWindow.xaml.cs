@@ -15,6 +15,7 @@ namespace Edge
     /// </summary>
     public sealed partial class MainWindow : Window
     {
+        public static bool isMute = false;
         public MainWindow()
         {
             this.InitializeComponent();
@@ -144,6 +145,24 @@ namespace Edge
                 }
             }
 
+        }
+
+        private void MuteTab(object sender, RoutedEventArgs e)
+        {
+            if (!isMute)
+            {
+                isMute = true;
+                SelectedItem.Mute("true");
+                MuteButton.Icon = new SymbolIcon() { Symbol = Symbol.Volume };
+                MuteButton.Text = "取消标签页静音";
+            }
+            else
+            {
+                isMute = false;
+                SelectedItem.Mute("false");
+                MuteButton.Icon = new SymbolIcon() { Symbol = Symbol.Mute };
+                MuteButton.Text = "使标签页静音";
+            }
         }
     }
 }

@@ -13,6 +13,8 @@
             <MenuFlyout x:Name="TabFlyout">
                 <MenuFlyoutItem Icon="OpenFile" Text="在右侧新建标签页" Click="CreateNewTabOnRight"/>
 
+                <MenuFlyoutSeparator />
+
                 <MenuFlyoutItem Icon="Refresh" Text="刷新" Click="RefreshTab">
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator Key="R" Modifiers="Control"/>
@@ -26,6 +28,14 @@
                 </MenuFlyoutItem>
 
                 <MenuFlyoutItem Icon="NewWindow" Text="将标签页移动到新窗口" Click="MoveTabToNewWindow"/>
+
+                <MenuFlyoutItem Name="MuteButton" Icon="Mute" Text="使标签页静音" Click="MuteTab">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="M" Modifiers="Control"/>
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+
+                <MenuFlyoutSeparator />
 
                 <MenuFlyoutItem Icon="Cancel" Text="关闭标签页" Click="CloseTab">
                     <MenuFlyoutItem.KeyboardAccelerators>

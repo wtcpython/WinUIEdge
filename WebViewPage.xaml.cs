@@ -277,5 +277,15 @@ namespace Edge
         {
             EdgeWebViewEngine.CoreWebView2.ShowPrintUI(CoreWebView2PrintDialogKind.Browser);
         }
+
+        public async void Mute(string jsbool)
+        {
+            string mutefunctionString = $@"
+                var videos = document.querySelectorAll('video'),
+                audios = document.querySelectorAll('audio');
+                [].forEach.call(videos, function(video) {{ video.muted = {jsbool}; }});
+                [].forEach.call(audios, function(audio) {{ audio.muted = {jsbool}; }}); ";
+            await EdgeWebViewEngine.ExecuteScriptAsync(mutefunctionString);
+        }
     }
 }
