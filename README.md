@@ -6,9 +6,11 @@
 
 ## 特色功能
 
-### 手动切换浏览器 User-Agent
+### 快速切换浏览器 User-Agent
 
-除了浏览器默认的 User-Agent，还提供包括 Chrome 在内的七种 User-Agent 选择，切换后网页将自动刷新
+提供了快速切换的按钮，目前可以提供 11 种 UA 选择，当前网页将在切换后自动刷新
+
+其中 Mobile 指的是 iPhone 平台
 
 ![User-Agent](img/user-agent.png)
 
@@ -30,7 +32,7 @@
 
 软件整体采用 `WinAppSDK` 设计，采用自定义标题栏，外观采用 `Mica` 材质，在设置界面可以自定义外观，包括 `Acrylic`， `Mica Alt`等。
 
-下载、历史记录的弹出窗口使用重绘的窗口代替浏览器自带的窗口，但由于目前其功能不稳定且不完善，将会提供切换的开关
+下载、历史记录的弹出窗口使用重绘的窗口，并不会采用浏览器自带的弹出窗口
 
 ### 本地文件浏览
 
@@ -47,7 +49,7 @@
 
 ## 如何从源代码构建
 
-1. [Visual Studio 2022](https://visualstudio.microsoft.com/zh-hans/vs/)
+1. [Visual Studio 2022 Community](https://visualstudio.microsoft.com/zh-hans/vs/)
 2. 确保安装 `.NET 桌面开发`， `通用 Windows 平台开发` 等组件
-3. [.NET Core 8.0](https://dotnet.microsoft.com/zh-cn/download/dotnet/8.0)
-4. 一些相关的 `NuGet` 包
+3. [.NET 8.0](https://dotnet.microsoft.com/zh-cn/download/dotnet/8.0)
+4. `NuGet` 包
