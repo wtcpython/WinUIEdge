@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Dispatching;
+﻿using Edge.Utilities;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
 using Microsoft.Windows.AppNotifications;
@@ -48,7 +49,7 @@ namespace Edge
                 switch (args.Arguments["UpdateAppRequest"])
                 {
                     case "sendMessage":
-                        await Utils.OpenWebsiteUri("https://github.com/wtcpython/WinUIEdge/releases/latest");
+                        await Other.OpenWebsiteUri("https://github.com/wtcpython/WinUIEdge/releases/latest");
                         break;
                 }
             });

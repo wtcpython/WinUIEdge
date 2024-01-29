@@ -1,5 +1,7 @@
+using Edge.Utilities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System.Linq;
 
 namespace Edge
 {
@@ -19,12 +21,12 @@ namespace Edge
 
         private void TryCreateNewWindow(object sender, RoutedEventArgs e)
         {
-            Utils.CreateNewWindow(new WebViewPage());
+            Other.CreateNewWindow(new WebViewPage());
         }
 
         private void TryCreateInPrivateWindow(object sender, RoutedEventArgs e)
         {
-            Utils.ShowContentDialog(
+            Dialog.ShowMsgDialog(
                 "InPrivate 模式不受支持", "Microsoft Edge 未提供 InPrivate API。", "确定");
         }
 
@@ -32,7 +34,9 @@ namespace Edge
         {
             MainWindow mainWindow = App.Window as MainWindow;
 
-            mainWindow.AddNewTab(new SettingsPage(), header: "设置");
+            var s = mainWindow.TabItems.Where(x => ((TabViewItem)x).Content is SettingsPage);
+            if (s.Any()) mainWindow.SetSelectedItem(s.First());
+            else mainWindow.AddNewTab(new SettingsPage(), header: "设置");
         }
 
         private void ShowHistoryFlyout(object sender, RoutedEventArgs e)

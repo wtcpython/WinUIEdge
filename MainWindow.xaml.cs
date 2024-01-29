@@ -1,3 +1,4 @@
+using Edge.Utilities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -99,7 +100,7 @@ namespace Edge
 
         private void MoveTabToNewWindow(object sender, RoutedEventArgs e)
         {
-            Utils.CreateNewWindow(new WebViewPage() { WebUri = SelectedItem.WebUri });
+            Other.CreateNewWindow(new WebViewPage() { WebUri = SelectedItem.WebUri });
             tabView.TabItems.Remove(tabView.SelectedItem);
         }
 
@@ -144,7 +145,6 @@ namespace Edge
                     page.SetHomeButton();
                 }
             }
-
         }
 
         private void MuteTab(object sender, RoutedEventArgs e)
@@ -163,6 +163,11 @@ namespace Edge
                 MuteButton.Icon = new SymbolIcon() { Symbol = Symbol.Mute };
                 MuteButton.Text = " π±Í«©“≥æ≤“Ù";
             }
+        }
+
+        public void SetSelectedItem(object item)
+        {
+            tabView.SelectedItem = item;
         }
     }
 }

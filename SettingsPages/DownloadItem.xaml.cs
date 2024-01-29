@@ -1,3 +1,4 @@
+using Edge.Data;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using Windows.Storage.Pickers;
@@ -10,27 +11,27 @@ namespace Edge
         {
             this.InitializeComponent();
 
-            if (Utils.data.DefaultDownloadFolder == string.Empty)
+            if (Info.data.DefaultDownloadFolder == string.Empty)
             {
                 DownloadFolderCard.Description = GetMoreSpecialFolder.GetSpecialFolder(GetMoreSpecialFolder.SpecialFolder.Downloads);
             }
             else
             {
-                DownloadFolderCard.Description = Utils.data.DefaultDownloadFolder;
+                DownloadFolderCard.Description = Info.data.DefaultDownloadFolder;
             }
 
-            setDownloadBehavior.IsOn = Utils.data.AskDownloadBehavior;
-            setDownloadFlyout.IsOn = Utils.data.ShowFlyoutWhenStartDownloading;
+            setDownloadBehavior.IsOn = Info.data.AskDownloadBehavior;
+            setDownloadFlyout.IsOn = Info.data.ShowFlyoutWhenStartDownloading;
         }
 
         private void DownloadBehaviorChanged(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
-            Utils.data.AskDownloadBehavior = setDownloadBehavior.IsOn;
+            Info.data.AskDownloadBehavior = setDownloadBehavior.IsOn;
         }
 
         private void ShowFlyoutChanged(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
-            Utils.data.ShowFlyoutWhenStartDownloading = setDownloadFlyout.IsOn;
+            Info.data.ShowFlyoutWhenStartDownloading = setDownloadFlyout.IsOn;
         }
 
         private async void ChangeDownloadFolder(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -48,7 +49,7 @@ namespace Edge
 
             if (folder != null)
             {
-                DownloadFolderCard.Description = Utils.data.DefaultDownloadFolder = folder.Name;
+                DownloadFolderCard.Description = Info.data.DefaultDownloadFolder = folder.Name;
             }
         }
     }

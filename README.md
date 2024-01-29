@@ -12,21 +12,21 @@
 
 其中 Mobile 指的是 iPhone 平台
 
-![User-Agent](img/user-agent.png)
+![User-Agent](Assets/ReadmeSource/user-agent.png)
 
 ### 快捷打开Dev Tools 工具
 
 在软件的右下角提供了快捷打开 DevTools 窗口的按钮
 
-![Open DevTools](img/devtools.png)
+![Open DevTools](Assets/ReadmeSource/devtools.png)
 
 ### 搜索栏临时切换搜索引擎
 
 在搜索栏的左侧，提供可以切换搜索引擎的选项，切换后的此次搜索将采用指定的搜索引擎，默认搜索引擎不受影响
 
-![Change Search Engine](img/change-search-engine-1.png)
+![Change Search Engine](Assets/ReadmeSource/change-search-engine-1.png)
 
-![Change Search Engine](img/change-search-engine-2.png)
+![Change Search Engine](Assets/ReadmeSource/change-search-engine-2.png)
 
 ### 现代化的 UI 设计风格
 
@@ -40,7 +40,7 @@
 
 同时还能显示 `文件行尾序列` ， `文件类型` 等。
 
-![Text File Preview](img/text-file-preview.png)
+![Text File Preview](Assets/ReadmeSource/text-file-preview.png)
 
 ## 安装该软件的最低条件
 

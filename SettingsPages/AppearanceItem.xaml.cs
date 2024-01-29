@@ -1,3 +1,5 @@
+using Edge.Data;
+using Edge.Utilities;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -14,19 +16,19 @@ namespace Edge
 
         private void AppearanceItemLoaded(object sender, RoutedEventArgs e)
         {
-            appearanceBox.ItemsSource = JsonDataList.AppearanceList;
-            appearanceBox.SelectedIndex = JsonDataList.AppearanceList.IndexOf(Utils.data.Appearance);
-            effectBox.ItemsSource = JsonDataList.WindowEffectList;
-            effectBox.SelectedIndex = JsonDataList.WindowEffectList.IndexOf(Utils.data.WindowEffect);
+            appearanceBox.ItemsSource = Info.AppearanceList;
+            appearanceBox.SelectedIndex = Info.AppearanceList.IndexOf(Info.data.Appearance);
+            effectBox.ItemsSource = Info.WindowEffectList;
+            effectBox.SelectedIndex = Info.WindowEffectList.IndexOf(Info.data.WindowEffect);
         }
 
         private void AppearanceChanged(object sender, SelectionChangedEventArgs e)
         {
-            string appearance = Utils.data.Appearance = appearanceBox.SelectedItem.ToString();
+            string appearance = Info.data.Appearance = appearanceBox.SelectedItem.ToString();
 
             if (App.Window.Content is FrameworkElement rootElement)
             {
-                rootElement.RequestedTheme = Utils.ConvertTheme(appearance);
+                rootElement.RequestedTheme = Theme.Convert(appearance);
                 App.Window.AppWindow.TitleBar.ButtonForegroundColor = 
                     rootElement.ActualTheme == ElementTheme.Dark ? Colors.White : Colors.Black;
             }
@@ -34,8 +36,8 @@ namespace Edge
 
         private void EffectChanged(object sender, SelectionChangedEventArgs e)
         {
-            Utils.data.WindowEffect = effectBox.SelectedItem.ToString();
-            (App.Window as MainWindow).SystemBackdrop = Utils.SetBackDrop();
+            Info.data.WindowEffect = effectBox.SelectedItem.ToString();
+            (App.Window as MainWindow).SystemBackdrop = Theme.SetBackDrop();
         }
     }
 }

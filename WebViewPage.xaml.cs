@@ -1,4 +1,6 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Edge.Data;
+using Edge.Utilities;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using System;
@@ -26,15 +28,15 @@ namespace Edge
             this.InitializeComponent();
             SetWebNaviButtonStatus();
             EdgeWebViewEngine.UpdateLayout();
-            TempSearchEngineBox.ItemsSource = JsonDataList.SearchEngineDictionary.Keys;
-            TempSearchEngineBox.SelectedItem = Utils.data.SearchEngine;
+            TempSearchEngineBox.ItemsSource = Info.SearchEngineDict.Keys;
+            TempSearchEngineBox.SelectedItem = Info.data.SearchEngine;
 
             if (WebUri == string.Empty)
             {
                 WebUri = "https://bing.com";
             }
 
-            UABox.ItemsSource = Utils.UserAgentDictionary.Keys;
+            UABox.ItemsSource = Info.UserAgentDict.Keys;
         }
 
         private void SetWebNaviButtonStatus()
@@ -73,7 +75,7 @@ namespace Edge
 
         public void SetHomeButton()
         {
-            showHomePageButton.Visibility = Utils.data.ShowHomeButton ? Visibility.Visible : Visibility.Collapsed;
+            showHomePageButton.Visibility = Info.data.ShowHomeButton ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void EdgeWebViewEngine_CoreWebView2Initialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
@@ -122,7 +124,7 @@ namespace Edge
         {
             args.DownloadOperation.BytesReceivedChanged += DownloadOperation_BytesReceivedChanged;
             Download.SetDownloadItem(args.ResultFilePath, args.DownloadOperation.TotalBytesToReceive);
-            if (Utils.data.ShowFlyoutWhenStartDownloading) Download.ShowFlyout();
+            if (Info.data.ShowFlyoutWhenStartDownloading) Download.ShowFlyout();
             args.Handled = true;
         }
 
@@ -161,7 +163,7 @@ namespace Edge
             Uri uri = new(args.Uri);
             if (!ProtocolList.Contains(uri.Scheme))
             {
-                Utils.ShowContentDialog("网站警告", $"网址：{uri} 使用了不安全的 {uri.Scheme} 协议。", "确定");
+                Dialog.ShowMsgDialog("网站警告", $"网址：{uri} 使用了不安全的 {uri.Scheme} 协议。", "确定");
                 args.Cancel = true;
             }
             else
@@ -183,21 +185,21 @@ namespace Edge
                         {
                             string ext = Path.GetExtension(text);
                             string value;
-                            if (Utils.LanguageTypeDict.TryGetValue(ext, out value))
+                            if (Info.LanguageDict.TryGetValue(ext, out value))
                             {
-                                (App.Window as MainWindow).AddNewTab(new TextFilePage(text, value));
+                                (App.Window as MainWindow).AddNewTab(new TextFilePage(text, value), header: Path.GetFileName(text));
                                 return;
                             }
 
-                            else if (Utils.WebFileTypeDict.TryGetValue(ext, out value))
+                            else if (Info.WebFileDict.TryGetValue(ext, out value))
                             {
-                                (App.Window as MainWindow).AddNewTab(new TextFilePage(text, value, true));
+                                (App.Window as MainWindow).AddNewTab(new TextFilePage(text, value, true), header: Path.GetFileName(text));
                                 return;
                             }
 
-                            else if (Utils.ImageTypeDict.TryGetValue(ext, out _))
+                            else if (Info.ImageDict.TryGetValue(ext, out _))
                             {
-                                (App.Window as MainWindow).AddNewTab(new ImageViewer(text));
+                                (App.Window as MainWindow).AddNewTab(new ImageViewer(text), header: Path.GetFileName(text));
                                 return;
                             }
 
@@ -214,12 +216,12 @@ namespace Edge
                         return;
                     }
                 }
-                EdgeWebViewEngine.CoreWebView2.Navigate(JsonDataList.SearchEngineDictionary[(string)TempSearchEngineBox.SelectedItem] + text);
+                EdgeWebViewEngine.CoreWebView2.Navigate(Info.SearchEngineDict[(string)TempSearchEngineBox.SelectedItem] + text);
             }
 
             else if (e.Key == Windows.System.VirtualKey.Right)
             {
-                if (text.EndsWith(' ') && JsonDataList.SearchEngineDictionary.ContainsKey(text.TrimEnd()))
+                if (text.EndsWith(' ') && Info.SearchEngineDict.ContainsKey(text.TrimEnd()))
                 {
                     TempSearchEngineBox.SelectedItem = text.TrimEnd();
                     SearchBox.Text = "";
@@ -229,7 +231,6 @@ namespace Edge
 
         public bool CheckInput(string input)
         {
-            //App.Window.Title = input;
             if (Uri.TryCreate(input, UriKind.Absolute, out Uri uriResult))
             {
                 if (uriResult.Scheme == "file")
@@ -263,7 +264,7 @@ namespace Edge
         {
             if (EdgeWebViewEngine.CoreWebView2 != null)
             {
-                EdgeWebViewEngine.CoreWebView2.Settings.UserAgent = Utils.UserAgentDictionary[(string)(sender as ComboBox).SelectedItem];
+                EdgeWebViewEngine.CoreWebView2.Settings.UserAgent = Info.UserAgentDict[(string)(sender as ComboBox).SelectedItem];
                 Refresh();
             }
         }
