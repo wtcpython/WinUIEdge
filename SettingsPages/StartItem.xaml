@@ -44,7 +44,7 @@
                 SelectionChanged="SearchEngineChanged">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Key}"/>
+                        <TextBlock Text="{Binding}"/>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>

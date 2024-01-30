@@ -24,9 +24,7 @@
 
 在搜索栏的左侧，提供可以切换搜索引擎的选项，切换后的此次搜索将采用指定的搜索引擎，默认搜索引擎不受影响
 
-![Change Search Engine](Assets/ReadmeSource/change-search-engine-1.png)
-
-![Change Search Engine](Assets/ReadmeSource/change-search-engine-2.png)
+![Change Search Engine](Assets/ReadmeSource/change-search-engine.png)
 
 ### 现代化的 UI 设计风格
 

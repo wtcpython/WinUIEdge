@@ -1,7 +1,5 @@
 using Edge.Data;
-using Edge.Utilities;
 using Microsoft.UI.Xaml.Controls;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Edge
@@ -16,8 +14,8 @@ namespace Edge
 
             uriCard.IsEnabled = startBox.SelectedIndex != 0;
             setHomeButton.IsOn = Info.data.ShowHomeButton;
-            searchEngineBox.ItemsSource = Info.SearchEngineDict;
-            searchEngineBox.SelectedIndex = Info.SearchEngineDict.Keys.ToList().IndexOf(Info.data.SearchEngine);
+            searchEngineBox.ItemsSource = Info.SearchEngineList.Select(x => x["Name"]);
+            searchEngineBox.SelectedItem = Info.SearchEngineList.Select(x => x["Name"]).First(name => name == Info.data.SearchEngine);
         }
 
         private void StartBahaviorChanged(object sender, SelectionChangedEventArgs e)
@@ -37,7 +35,7 @@ namespace Edge
 
         private void SearchEngineChanged(object sender, SelectionChangedEventArgs e)
         {
-            Info.data.SearchEngine = (searchEngineBox.SelectedItem as KeyValuePair<string, string>?).Value.Key;
+            Info.data.SearchEngine = Info.SearchEngineList.Where(x => x["Name"] == (string)searchEngineBox.SelectedItem).First()["Name"];
         }
     }
 }

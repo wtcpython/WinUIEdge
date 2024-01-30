@@ -61,7 +61,7 @@
                 <SymbolIcon Symbol="Home"/>
             </Button>
 
-            <ComboBox Name="TempSearchEngineBox" Grid.Column="4"/>
+            <ComboBox Name="SearchEngineBox" Grid.Column="4"/>
 
             <TextBox Name="SearchBox" KeyDown="SearchKeyDown"
                  Grid.Column="5"/>

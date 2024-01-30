@@ -23,7 +23,7 @@ namespace Edge.Data
         public static Dictionary<string, string> WebFileDict = LoadStringJsonData("/Data/WebFileType.json");
         public static Dictionary<string, string> ImageDict = LoadStringJsonData("/Data/ImageType.json");
         public static Dictionary<string, string> UserAgentDict = LoadStringJsonData("/Data/UserAgent.json");
-        public static Dictionary<string, string> SearchEngineDict = LoadStringJsonData("/Data/SearchEngine.json");
+        public static List<Dictionary<string, string>> SearchEngineList = LoadSearchEngineData("/Data/SearchEngine.json");
 
         public static List<string> AppearanceList = ["System", "Light", "Dark"];
         public static List<string> WindowEffectList = ["Mica", "Mica Alt", "Acrylic", "None"];
@@ -37,6 +37,11 @@ namespace Edge.Data
         private static JsonData LoadSettingsData(string filePath)
         {
             return Files.LoadJsonFile<JsonData>(filePath);
+        }
+
+        private static List<Dictionary<string, string>> LoadSearchEngineData(string filePath)
+        {
+            return Files.LoadJsonFile<List<Dictionary<string, string>>>(filePath);
         }
     }
 }

@@ -1,10 +1,42 @@
-{
-  "Bing": "https://bing.com/?q=",
-  "Google": "https://www.google.com/search?q=",
-  "Baidu": "https://www.baidu.com/s?ie={inputEncoding}&wd=",
-  "Sougou": "https://www.sogou.com/web?ie={inputEncoding}&query=",
-  "360": "https://www.so.com/s?ie={inputEncoding}&q=",
-  "Github": "https://github.com/search?q=",
-  "Gitee": "https://gitee.com/search?utf8=%E2%9C%93&q=",
-  "Bilibili": "https://search.bilibili.com/all?keyword="
-}
+[
+  {
+    "Name": "Bing",
+    "Icon": "https://www.bing.com/favicon.ico",
+    "Uri": "https://bing.com/?q="
+  },
+  {
+    "Name": "Google",
+    "Icon": "Assets/SearchEngineIcon/Google.ico",
+    "Uri": "https://www.google.com/search?q="
+  },
+  {
+    "Name": "Baidu",
+    "Icon": "https://www.baidu.com/favicon.ico",
+    "Uri": "https://www.baidu.com/s?ie={inputEncoding}&wd="
+  },
+  {
+    "Name": "Sougou",
+    "Icon": "https://www.sogou.com/favicon.ico",
+    "Uri": "https://www.sogou.com/web?ie={inputEncoding}&query="
+  },
+  {
+    "Name": "360",
+    "Icon": "https://www.so.com/favicon.ico",
+    "Uri": "https://www.so.com/s?ie={inputEncoding}&q="
+  },
+  {
+    "Name": "Github",
+    "Icon": "Assets/SearchEngineIcon/Github.ico",
+    "Uri": "https://github.com/search?q="
+  },
+  {
+    "Name": "Gitee",
+    "Icon": "https://www.gitee.com/favicon.ico",
+    "Uri": "https://gitee.com/search?utf8=%E2%9C%93&q="
+  },
+  {
+    "Name": "Bilibili",
+    "Icon": "https://www.bilibili.com/favicon.ico",
+    "Uri": "https://search.bilibili.com/all?keyword="
+  }
+]
