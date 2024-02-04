@@ -8,12 +8,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     mc:Ignorable="d">
-    <StackPanel>
+    <StackPanel Spacing="10">
 
         <controls:SettingsCard
             Name="edgeVersionCard"
-            Header="Edge 内核"
-            Margin="0,5,0,5">
+            Header="Edge 内核">
             <Button Name="CopyChromiumVersionButton"
                     Click="TryCopyChromiumVersion"
                     Content="复制"/>
@@ -21,8 +20,7 @@
 
         <controls:SettingsCard
             Name="appVersionCard"
-            Header="应用程序版本"
-            Margin="0,5,0,5">
+            Header="应用程序版本">
             <Button Name="CopyAppVersionButton"
                     Click="TryCopyAppVersion"
                     Content="复制"/>
@@ -31,7 +29,6 @@
         <controls:SettingsCard
             Name="downloadEdgeCard"
             Header="下载 Microsoft Edge"
-            Margin="0,5,0,5"
             Click="OpenMSEdgeWebsite"
             IsClickEnabled="True">
             <controls:SettingsCard.ActionIcon>
@@ -42,7 +39,6 @@
         <controls:SettingsCard
             Name="githubRepoCard"
             Header="GitHub Repo"
-            Margin="0,5,0,5"
             Click="OpenRepoWebsite"
             IsClickEnabled="True">
             <controls:SettingsCard.ActionIcon>

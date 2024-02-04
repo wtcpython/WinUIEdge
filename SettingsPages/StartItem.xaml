@@ -8,12 +8,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     mc:Ignorable="d">
-    <StackPanel>
+    <StackPanel Spacing="10">
 
         <controls:SettingsCard
             Header="Edge 启动时"
-            Description="选择 Edge 启动的时候要执行的操作"
-            Margin="0,5,0,5">
+            Description="选择 Edge 启动的时候要执行的操作">
             <ComboBox
                 Name="startBox"
                 SelectionChanged="StartBahaviorChanged"/>
@@ -22,8 +21,7 @@
         <controls:SettingsCard
             Name="uriCard"
             Header="输入指定Uri"
-            Description='如果选择 "打开指定的页面"，需要手动输入Uri'
-            Margin="0,5,0,5">
+            Description='如果选择 "打开指定的页面"，需要手动输入Uri'>
             <StackPanel Orientation="Horizontal">
                 <TextBox Name="uriText" Width="200"/>
                 <Button Content="确定" Click="SetStartUri"/>
@@ -31,14 +29,12 @@
         </controls:SettingsCard>
 
         <controls:SettingsCard
-            Header='在工具栏上显示"首页"按钮'
-            Margin="0,5,0,5">
+            Header='在工具栏上显示"首页"按钮'>
             <ToggleSwitch Name="setHomeButton" Toggled="HomeButtonVisualChanged"/>
         </controls:SettingsCard>
 
         <controls:SettingsCard
-            Header="选择搜索引擎"
-            Margin="0,5,0,5">
+            Header="选择搜索引擎">
             <ComboBox
                 Name="searchEngineBox"
                 SelectionChanged="SearchEngineChanged">

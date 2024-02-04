@@ -8,11 +8,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     mc:Ignorable="d">
-    <StackPanel>
+    <StackPanel Spacing="10">
 
         <controls:SettingsCard
             Header="管理打印机"
-            Margin="0,5,0,5"
             Click="OpenSettingsPrinter"
             IsClickEnabled="True">
             <controls:SettingsCard.ActionIcon>

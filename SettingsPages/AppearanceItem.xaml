@@ -8,13 +8,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     mc:Ignorable="d">
-    <StackPanel>
+    <StackPanel Spacing="10">
 
         <controls:SettingsCard
             Name="appearanceCard"
             Header="整体外观"
-            Description="适用于新的选项卡、页面、对话框和其他菜单。"
-            Margin="0,5,0,5">
+            Description="适用于新的选项卡、页面、对话框和其他菜单。">
             <ComboBox
                 Name="appearanceBox"
                 SelectionChanged="AppearanceChanged"/>
@@ -23,8 +22,7 @@
         <controls:SettingsCard
             Name="effectCard"
             Header="窗口特效"
-            Description="设置窗口特效的形式"
-            Margin="0,5,0,5">
+            Description="设置窗口特效的形式">
             <ComboBox
                 Name="effectBox"
                 SelectionChanged="EffectChanged"/>
