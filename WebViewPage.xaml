@@ -61,7 +61,17 @@
                 <SymbolIcon Symbol="Home"/>
             </Button>
 
-            <ComboBox Name="SearchEngineBox" Grid.Column="4"/>
+            <ComboBox Name="SearchEngineBox" Grid.Column="4">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Image Width="16" Height="16">
+                            <Image.Source>
+                                <BitmapImage UriSource="{Binding Icon}"/>
+                            </Image.Source>
+                        </Image>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
 
             <TextBox Name="SearchBox" KeyDown="SearchKeyDown"
                  Grid.Column="5"/>

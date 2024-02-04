@@ -16,6 +16,13 @@ namespace Edge.Data
         public string DefaultDownloadFolder { get; set; }
     }
 
+    public class WebsiteInfo
+    {
+        public string Name { get; set; }
+        public string Icon { get; set; }
+        public string Uri { get; set; }
+    }
+
     public static class Info
     {
         public static JsonData data = LoadSettingsData("/Data/DefaultSettings.json");
@@ -23,7 +30,8 @@ namespace Edge.Data
         public static Dictionary<string, string> WebFileDict = LoadStringJsonData("/Data/WebFileType.json");
         public static Dictionary<string, string> ImageDict = LoadStringJsonData("/Data/ImageType.json");
         public static Dictionary<string, string> UserAgentDict = LoadStringJsonData("/Data/UserAgent.json");
-        public static List<Dictionary<string, string>> SearchEngineList = LoadSearchEngineData("/Data/SearchEngine.json");
+        public static List<WebsiteInfo> SearchEngineList = LoadWebsiteInfoData("/Data/SearchEngine.json");
+        public static List<WebsiteInfo> SuggestWebsiteList = LoadWebsiteInfoData("/Data/SuggestWebsite.json");
 
         public static List<string> AppearanceList = ["System", "Light", "Dark"];
         public static List<string> WindowEffectList = ["Mica", "Mica Alt", "Acrylic", "None"];
@@ -39,9 +47,9 @@ namespace Edge.Data
             return Files.LoadJsonFile<JsonData>(filePath);
         }
 
-        private static List<Dictionary<string, string>> LoadSearchEngineData(string filePath)
+        private static List<WebsiteInfo> LoadWebsiteInfoData(string filePath)
         {
-            return Files.LoadJsonFile<List<Dictionary<string, string>>>(filePath);
+            return Files.LoadJsonFile<List<WebsiteInfo>>(filePath);
         }
     }
 }

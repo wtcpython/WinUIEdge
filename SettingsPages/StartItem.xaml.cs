@@ -14,8 +14,8 @@ namespace Edge
 
             uriCard.IsEnabled = startBox.SelectedIndex != 0;
             setHomeButton.IsOn = Info.data.ShowHomeButton;
-            searchEngineBox.ItemsSource = Info.SearchEngineList.Select(x => x["Name"]);
-            searchEngineBox.SelectedItem = Info.SearchEngineList.Select(x => x["Name"]).First(name => name == Info.data.SearchEngine);
+            searchEngineBox.ItemsSource = Info.SearchEngineList.Select(x => x.Name);
+            searchEngineBox.SelectedItem = Info.SearchEngineList.Select(x => x.Name).First(name => name == Info.data.SearchEngine);
         }
 
         private void StartBahaviorChanged(object sender, SelectionChangedEventArgs e)
@@ -35,7 +35,7 @@ namespace Edge
 
         private void SearchEngineChanged(object sender, SelectionChangedEventArgs e)
         {
-            Info.data.SearchEngine = Info.SearchEngineList.Where(x => x["Name"] == (string)searchEngineBox.SelectedItem).First()["Name"];
+            Info.data.SearchEngine = Info.SearchEngineList.Where(x => x.Name == (string)searchEngineBox.SelectedItem).First().Name;
         }
     }
 }

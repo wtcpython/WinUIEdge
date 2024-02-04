@@ -2,7 +2,6 @@
 using Edge.Utilities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
 using System;
 using System.Collections.Generic;
@@ -29,17 +28,9 @@ namespace Edge
             this.InitializeComponent();
             SetWebNaviButtonStatus();
             EdgeWebViewEngine.UpdateLayout();
-            SearchEngineBox.ItemsSource = Info.SearchEngineList.Select(x => new Image()
-            {
-                Source = new BitmapImage()
-                {
-                    UriSource = new Uri(this.BaseUri, x["Icon"])
-                },
-                Height = 16,
-                Width = 16
-            });
+            SearchEngineBox.ItemsSource = Info.SearchEngineList;
 
-            SearchEngineBox.SelectedIndex = Info.SearchEngineList.Select(x => x["Name"]).ToList().IndexOf(Info.data.SearchEngine);
+            SearchEngineBox.SelectedIndex = Info.SearchEngineList.Select(x => x.Name).ToList().IndexOf(Info.data.SearchEngine);
 
             if (WebUri == string.Empty)
             {
@@ -226,14 +217,14 @@ namespace Edge
                         return;
                     }
                 }
-                EdgeWebViewEngine.CoreWebView2.Navigate(Info.SearchEngineList[SearchEngineBox.SelectedIndex]["Uri"] + text);
+                EdgeWebViewEngine.CoreWebView2.Navigate(Info.SearchEngineList[SearchEngineBox.SelectedIndex].Uri + text);
             }
 
             else if (e.Key == Windows.System.VirtualKey.Right)
             {
-                if (text.EndsWith(' ') && Info.SearchEngineList.Select(x => x["Name"]).Contains(text.TrimEnd()))
+                if (text.EndsWith(' ') && Info.SearchEngineList.Select(x => x.Name).Contains(text.TrimEnd()))
                 {
-                    SearchEngineBox.SelectedIndex = Info.SearchEngineList.Select(x => x["Name"]).ToList().IndexOf(text.TrimEnd());
+                    SearchEngineBox.SelectedIndex = Info.SearchEngineList.Select(x => x.Name).ToList().IndexOf(text.TrimEnd());
                     SearchBox.Text = "";
                 }
             }
@@ -267,7 +258,7 @@ namespace Edge
 
         private void ShowHomePage(object sender, RoutedEventArgs e)
         {
-
+            (App.Window as MainWindow).AddNewTab(new HomePage(), header: "Home");
         }
 
         private void UserAgentChanged(object sender, SelectionChangedEventArgs e)
