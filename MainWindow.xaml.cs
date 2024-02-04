@@ -23,10 +23,7 @@ namespace Edge
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(AppTitleBar);
 
-            AddNewTab(new WebViewPage()
-            {
-                WebUri = "https://bing.com"
-            });
+            AddNewTab(new HomePage(), header: "Home");
 
             this.SystemBackdrop = new MicaBackdrop();
         }
@@ -100,7 +97,7 @@ namespace Edge
 
         private void MoveTabToNewWindow(object sender, RoutedEventArgs e)
         {
-            Other.CreateNewWindow(new WebViewPage() { WebUri = SelectedItem.WebUri });
+            App.CreateNewWindow(new WebViewPage() { WebUri = SelectedItem.WebUri });
             tabView.TabItems.Remove(tabView.SelectedItem);
         }
 
