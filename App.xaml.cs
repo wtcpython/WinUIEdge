@@ -1,6 +1,6 @@
-﻿using Edge.Utilities;
-using Microsoft.UI.Dispatching;
+﻿using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Microsoft.Windows.AppNotifications;
 using System;
@@ -14,6 +14,17 @@ namespace Edge
         public App()
         {
             this.InitializeComponent();
+        }
+
+        public static void CreateNewWindow(object content)
+        {
+            Window window = new();
+            Frame frame = new()
+            {
+                Content = content
+            };
+            window.Content = frame;
+            window.Activate();
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args)
@@ -49,7 +60,7 @@ namespace Edge
                 switch (args.Arguments["UpdateAppRequest"])
                 {
                     case "sendMessage":
-                        await Other.OpenWebsiteUri("https://github.com/wtcpython/WinUIEdge/releases/latest");
+                        await Windows.System.Launcher.LaunchUriAsync(new Uri("https://github.com/wtcpython/WinUIEdge/releases/latest"));
                         break;
                 }
             });

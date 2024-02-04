@@ -5,7 +5,7 @@ using Microsoft.Windows.AppNotifications;
 using System.Collections.Generic;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
-using Edge.Utilities;
+using System;
 
 namespace Edge
 {
@@ -72,12 +72,12 @@ namespace Edge
 
         private async void OpenMSEdgeWebsite(object sender, RoutedEventArgs e)
         {
-            await Other.OpenWebsiteUri("https://microsoft.com/zh-cn/edge");
+            await Windows.System.Launcher.LaunchUriAsync(new Uri("https://microsoft.com/zh-cn/edge"));
         }
 
         private async void OpenRepoWebsite(object sender, RoutedEventArgs e)
         {
-            await Other.OpenWebsiteUri("https://github.com/wtcpython/WinUIEdge");
+            await Windows.System.Launcher.LaunchUriAsync(new Uri("https://github.com/wtcpython/WinUIEdge"));
         }
     }
 }

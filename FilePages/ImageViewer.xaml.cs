@@ -1,3 +1,4 @@
+using CommunityToolkit.Common;
 using Edge.Utilities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -42,7 +43,7 @@ namespace Edge
             imageName.Text = fileName = file.DisplayName;
             imageType.Text = file.DisplayType;
             imagePixel.Text = $"{properties.Width} x {properties.Height}";
-            imageSize.Text = Other.FormatFileSize(ImageFileSize);
+            imageSize.Text = Converters.ToFileSizeString(ImageFileSize);
 
             imageRating.Value = properties.Rating;
         }

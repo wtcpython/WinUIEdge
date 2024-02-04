@@ -21,7 +21,7 @@ namespace Edge
 
         private void TryCreateNewWindow(object sender, RoutedEventArgs e)
         {
-            Other.CreateNewWindow(new WebViewPage());
+            App.CreateNewWindow(new WebViewPage());
         }
 
         private void TryCreateInPrivateWindow(object sender, RoutedEventArgs e)
