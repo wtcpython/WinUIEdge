@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace Edge
 {
-    public sealed partial class ShowMoreFlyoutMenu : Page
+    public sealed partial class BrowserMenuItems : Page
     {
-        public ShowMoreFlyoutMenu()
+        public BrowserMenuItems()
         {
             this.InitializeComponent();
         }
@@ -35,7 +35,7 @@ namespace Edge
             MainWindow mainWindow = App.Window as MainWindow;
 
             var s = mainWindow.TabItems.Where(x => ((TabViewItem)x).Content is SettingsPage);
-            if (s.Any()) mainWindow.SetSelectedItem(s.First());
+            if (s.Any()) mainWindow.SelectedItem = s.First();
             else mainWindow.AddNewTab(new SettingsPage(), header: "…Ë÷√");
         }
 
@@ -51,7 +51,8 @@ namespace Edge
 
         private void ShowPrintUI(object sender, RoutedEventArgs e)
         {
-            (App.Window as MainWindow).SelectedItem.ShowPrintUI();
+            if ((App.Window as MainWindow).SelectedItem is WebViewPage page)
+                page.ShowPrintUI();
         }
 
         private void CloseApp(object sender, RoutedEventArgs e)
