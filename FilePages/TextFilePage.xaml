@@ -34,7 +34,7 @@
             <ComboBox Name="FontFamilyBox" SelectionChanged="FontFamilyChanged" Margin="10,5,20,5"/>
         </StackPanel>
 
-        <local:ShowMoreFlyoutMenu Grid.Column="3" HorizontalAlignment="Right"/>
+        <local:BrowserMenuItems Grid.Column="3" HorizontalAlignment="Right"/>
 
         <Grid Grid.Row="1" Grid.ColumnSpan="5" >
 

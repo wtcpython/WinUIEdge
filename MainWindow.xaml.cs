@@ -1,4 +1,3 @@
-using Edge.Utilities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -57,8 +56,6 @@ namespace Edge
 
         public List<object> TabItems => tabView.TabItems.ToList();
 
-        public WebViewPage SelectedItem => (tabView.SelectedItem as TabViewItem).Content as WebViewPage;
-
         private void TabView_AddTabButtonClick(TabView sender, object args)
         {
             AddNewTab(new WebViewPage());
@@ -87,18 +84,23 @@ namespace Edge
 
         private void RefreshTab(object sender, RoutedEventArgs e)
         {
-            SelectedItem.Refresh();
+            if (SelectedItem is WebViewPage page)
+                page.Refresh();
         }
 
         private void CopyTab(object sender, RoutedEventArgs e)
         {
-            AddNewTab(new WebViewPage() { WebUri = SelectedItem.WebUri }, tabView.SelectedIndex + 1);
+            if (SelectedItem is WebViewPage page)
+                AddNewTab(new WebViewPage() { WebUri = page.WebUri }, tabView.SelectedIndex + 1);
         }
 
         private void MoveTabToNewWindow(object sender, RoutedEventArgs e)
         {
-            App.CreateNewWindow(new WebViewPage() { WebUri = SelectedItem.WebUri });
-            tabView.TabItems.Remove(tabView.SelectedItem);
+            if (SelectedItem is WebViewPage page)
+            {
+                App.CreateNewWindow(new WebViewPage() { WebUri = page.WebUri });
+                tabView.TabItems.Remove(tabView.SelectedItem);
+            }
         }
 
         private void CloseTab(object sender, RoutedEventArgs e)
@@ -146,25 +148,30 @@ namespace Edge
 
         private void MuteTab(object sender, RoutedEventArgs e)
         {
-            if (!isMute)
+            if (SelectedItem is WebViewPage page)
             {
-                isMute = true;
-                SelectedItem.Mute("true");
-                MuteButton.Icon = new SymbolIcon() { Symbol = Symbol.Volume };
-                MuteButton.Text = "È¡Ïû±êÇ©Ò³¾²Òô";
-            }
-            else
-            {
-                isMute = false;
-                SelectedItem.Mute("false");
-                MuteButton.Icon = new SymbolIcon() { Symbol = Symbol.Mute };
-                MuteButton.Text = "Ê¹±êÇ©Ò³¾²Òô";
+                if (!isMute)
+                {
+                    isMute = true;
+                    page.Mute("true");
+                    MuteButton.Icon = new SymbolIcon() { Symbol = Symbol.Volume };
+                    MuteButton.Text = "È¡Ïû±êÇ©Ò³¾²Òô";
+                }
+                else
+                {
+                    isMute = false;
+                    page.Mute("false");
+                    MuteButton.Icon = new SymbolIcon() { Symbol = Symbol.Mute };
+                    MuteButton.Text = "Ê¹±êÇ©Ò³¾²Òô";
+                }
             }
         }
 
-        public void SetSelectedItem(object item)
+        public object SelectedItem
         {
-            tabView.SelectedItem = item;
+            get => (tabView.SelectedItem as TabViewItem).Content;
+            set => tabView.SelectedItem = value;
         }
+        
     }
 }

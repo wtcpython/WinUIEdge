@@ -79,7 +79,7 @@
 
             </StackPanel>
 
-            <local:ShowMoreFlyoutMenu Grid.Column="2" />
+            <local:BrowserMenuItems Grid.Column="2" />
 
         </Grid>
 
