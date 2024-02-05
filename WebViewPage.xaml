@@ -61,26 +61,13 @@
                 <SymbolIcon Symbol="Home"/>
             </Button>
 
-            <ComboBox Name="SearchEngineBox" Grid.Column="4">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <Image Width="16" Height="16">
-                            <Image.Source>
-                                <BitmapImage UriSource="{Binding Icon}"/>
-                            </Image.Source>
-                        </Image>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-
-            <TextBox Name="SearchBox" KeyDown="SearchKeyDown"
-                 Grid.Column="5"/>
+            <local:SearchModule x:Name="Search" Grid.Column="5"/>
 
             <local:History Grid.Column="6"/>
 
             <local:Download Grid.Column="7"/>
 
-            <local:ShowMoreFlyoutMenu Grid.Column="8"/>
+            <local:BrowserMenuItems Grid.Column="8"/>
 
         </Grid>
 

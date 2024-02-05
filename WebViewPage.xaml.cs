@@ -15,11 +15,9 @@ namespace Edge
     {
         public static string chromiumVersion;
 
-        public static List<string> ProtocolList = ["https", "edge", "file"];
-
         public string WebUri
         {
-            get => SearchBox.Text;
+            get => Search.Text;
             set => EdgeWebViewEngine.Source = new Uri(value);
         }
 
@@ -28,9 +26,6 @@ namespace Edge
             this.InitializeComponent();
             SetWebNaviButtonStatus();
             EdgeWebViewEngine.UpdateLayout();
-            SearchEngineBox.ItemsSource = Info.SearchEngineList;
-
-            SearchEngineBox.SelectedIndex = Info.SearchEngineList.Select(x => x.Name).ToList().IndexOf(Info.data.SearchEngine);
 
             if (WebUri == string.Empty)
             {
@@ -140,7 +135,7 @@ namespace Edge
         {
             SetWebNaviButtonStatus();
             App.Window.Title = sender.DocumentTitle;
-            History.SetHistory(sender.DocumentTitle, SearchBox.Text);
+            History.SetHistory(sender.DocumentTitle, Search.Text);
 
             MainWindow mainWindow = App.Window as MainWindow;
 
@@ -162,93 +157,15 @@ namespace Edge
         private void CoreWebView2_NavigationStarting(CoreWebView2 sender, CoreWebView2NavigationStartingEventArgs args)
         {
             Uri uri = new(args.Uri);
-            if (!ProtocolList.Contains(uri.Scheme))
+            if (!Info.ProtocolList.Contains(uri.Scheme))
             {
                 Dialog.ShowMsgDialog("网站警告", $"网址：{uri} 使用了不安全的 {uri.Scheme} 协议。", "确定");
                 args.Cancel = true;
             }
             else
             {
-                SearchBox.Text = uri.ToString();
+                Search.Text = uri.ToString();
             }
-        }
-
-        private void SearchKeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
-        {
-            string text = SearchBox.Text;
-            if (e.Key == Windows.System.VirtualKey.Enter)
-            {
-                if (Uri.TryCreate(text, UriKind.Absolute, out Uri uriResult))
-                {
-                    if (uriResult.Scheme == "file")
-                    {
-                        if (File.Exists(uriResult.OriginalString))
-                        {
-                            string ext = Path.GetExtension(text);
-                            string value;
-                            if (Info.LanguageDict.TryGetValue(ext, out value))
-                            {
-                                (App.Window as MainWindow).AddNewTab(new TextFilePage(text, value), header: Path.GetFileName(text));
-                                return;
-                            }
-
-                            else if (Info.WebFileDict.TryGetValue(ext, out value))
-                            {
-                                (App.Window as MainWindow).AddNewTab(new TextFilePage(text, value, true), header: Path.GetFileName(text));
-                                return;
-                            }
-
-                            else if (Info.ImageDict.TryGetValue(ext, out _))
-                            {
-                                (App.Window as MainWindow).AddNewTab(new ImageViewer(text), header: Path.GetFileName(text));
-                                return;
-                            }
-
-                            else
-                            {
-                                EdgeWebViewEngine.CoreWebView2.Navigate(text);
-                                return;
-                            }
-                        }
-                    }
-                    else if (ProtocolList.Contains(uriResult.Scheme))
-                    {
-                        EdgeWebViewEngine.CoreWebView2.Navigate(text);
-                        return;
-                    }
-                }
-                EdgeWebViewEngine.CoreWebView2.Navigate(Info.SearchEngineList[SearchEngineBox.SelectedIndex].Uri + text);
-            }
-
-            else if (e.Key == Windows.System.VirtualKey.Right)
-            {
-                if (text.EndsWith(' ') && Info.SearchEngineList.Select(x => x.Name).Contains(text.TrimEnd()))
-                {
-                    SearchEngineBox.SelectedIndex = Info.SearchEngineList.Select(x => x.Name).ToList().IndexOf(text.TrimEnd());
-                    SearchBox.Text = "";
-                }
-            }
-        }
-
-        public bool CheckInput(string input)
-        {
-            if (Uri.TryCreate(input, UriKind.Absolute, out Uri uriResult))
-            {
-                if (uriResult.Scheme == "file")
-                {
-                    if (File.Exists(uriResult.OriginalString))
-                    {
-                        string ext = Path.GetExtension(input);
-                        
-                        return true;
-                    }
-                }
-                else if (ProtocolList.Contains(uriResult.Scheme))
-                {
-                    return true;
-                }
-            }
-            return false;
         }
 
         private void OpenTaskManager(Microsoft.UI.Xaml.Input.KeyboardAccelerator sender, Microsoft.UI.Xaml.Input.KeyboardAcceleratorInvokedEventArgs args)

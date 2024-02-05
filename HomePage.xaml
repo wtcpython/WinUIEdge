@@ -26,10 +26,12 @@
         <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
             <local:History/>
             <local:Download/>
-            <local:ShowMoreFlyoutMenu/>
+            <local:BrowserMenuItems/>
         </StackPanel>
 
-        <TextBox Name="SearchBox" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" CornerRadius="15" FontSize="18" KeyDown="SearchKeyDown"/>
+        <local:SearchModule
+            Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"
+            CornerRadius="15" FontSize="18"/>
 
         <GridView Name="View" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"
                   IsItemClickEnabled="True" ItemClick="OpenSuggestWebsite" SelectionMode="Single">
