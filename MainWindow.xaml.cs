@@ -58,7 +58,7 @@ namespace Edge
 
         private void TabView_AddTabButtonClick(TabView sender, object args)
         {
-            AddNewTab(new WebViewPage());
+            AddNewTab(new HomePage(), header: "Home");
         }
 
         private void TabView_TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
@@ -68,7 +68,7 @@ namespace Edge
 
         private void CreateNewTabOnRight(object sender, RoutedEventArgs e)
         {
-            AddNewTab(new WebViewPage(), tabView.SelectedIndex + 1);
+            AddNewTab(new HomePage(), tabView.SelectedIndex + 1, "Home");
         }
 
         private void TabView_ContextRequested(UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)
@@ -98,7 +98,10 @@ namespace Edge
         {
             if (SelectedItem is WebViewPage page)
             {
-                App.CreateNewWindow(new WebViewPage() { WebUri = page.WebUri });
+                // App.CreateNewWindow(new WebViewPage() { WebUri = page.WebUri });
+                var window = App.CreateNewWindow();
+                window.AddNewTab(new WebViewPage() { WebUri = page.WebUri });
+                window.Activate();
                 tabView.TabItems.Remove(tabView.SelectedItem);
             }
         }
