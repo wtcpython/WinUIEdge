@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using Windows.Win32;
+using Windows.Win32.Foundation;
 
 namespace Edge
 {
@@ -24,12 +25,8 @@ namespace Edge
 
         public static string GetSpecialFolder(SpecialFolder specialFolder)
         {
-            return SHGetKnownFolderPath(GuidList[(int)specialFolder], 0);
+            PInvoke.SHGetKnownFolderPath(GuidList[(int)specialFolder], Windows.Win32.UI.Shell.KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, default, out PWSTR res);
+            return res.ToString();
         }
-
-        [DllImport("shell32", CharSet = CharSet.Unicode, ExactSpelling = true, PreserveSig = false)]
-        private static extern string SHGetKnownFolderPath(
-            [MarshalAs(UnmanagedType.LPStruct)] Guid rfid, uint dwFlags, nint hToken = default);
-
     }
 }
