@@ -31,11 +31,14 @@ namespace Edge
             {
                 string appearance = Info.data.Appearance = appearanceBox.SelectedItem.ToString();
 
-                if (App.Window.Content is FrameworkElement rootElement)
+                foreach (Window window in App.mainWindows)
                 {
-                    rootElement.RequestedTheme = Theme.Convert(appearance);
-                    App.Window.AppWindow.TitleBar.ButtonForegroundColor =
-                        rootElement.ActualTheme == ElementTheme.Dark ? Colors.White : Colors.Black;
+                    if (window.Content is FrameworkElement rootElement)
+                    {
+                        rootElement.RequestedTheme = Theme.Convert(appearance);
+                        window.AppWindow.TitleBar.ButtonForegroundColor =
+                            rootElement.ActualTheme == ElementTheme.Dark ? Colors.White : Colors.Black;
+                    }
                 }
             }
         }
@@ -45,8 +48,11 @@ namespace Edge
             if (!inLoading)
             {
                 Info.data.WindowEffect = effectBox.SelectedItem.ToString();
-                (App.Window as MainWindow).SystemBackdrop = Theme.SetBackDrop();
 
+                foreach (Window window in App.mainWindows)
+                {
+                    window.SystemBackdrop = Theme.SetBackDrop();
+                }
             }
         }
     }

@@ -112,7 +112,7 @@ namespace Edge
         {
             args.Handled = true;
 
-            MainWindow mainWindow = App.Window as MainWindow;
+            MainWindow mainWindow = App.GetWindowForElement(this) as MainWindow;
             mainWindow.AddNewTab(new WebViewPage() { WebUri = args.Uri });
         }
 
@@ -134,10 +134,10 @@ namespace Edge
         private void CoreWebView2_DOMContentLoaded(CoreWebView2 sender, CoreWebView2DOMContentLoadedEventArgs args)
         {
             SetWebNaviButtonStatus();
-            App.Window.Title = sender.DocumentTitle;
-            History.SetHistory(sender.DocumentTitle, Search.Text);
+            MainWindow mainWindow = App.GetWindowForElement(this) as MainWindow;
 
-            MainWindow mainWindow = App.Window as MainWindow;
+            mainWindow.Title = sender.DocumentTitle;
+            History.SetHistory(sender.DocumentTitle, Search.Text);
 
             var tabItem = mainWindow.TabItems.Find(x => (x as TabViewItem).Content as Page == this) as TabViewItem;
             if (tabItem != null)
@@ -175,7 +175,8 @@ namespace Edge
 
         private void ShowHomePage(object sender, RoutedEventArgs e)
         {
-            (App.Window as MainWindow).AddNewTab(new HomePage(), header: "Home");
+            MainWindow mainWindow = App.GetWindowForElement(this) as MainWindow;
+            mainWindow.AddNewTab(new HomePage(), header: "Home");
         }
 
         private void UserAgentChanged(object sender, SelectionChangedEventArgs e)

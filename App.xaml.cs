@@ -1,30 +1,44 @@
 ﻿using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Microsoft.Windows.AppNotifications;
 using System;
-using System.Runtime.InteropServices;
+using System.Collections.Generic;
+using Windows.Win32;
+using Windows.Win32.Foundation;
 
 
 namespace Edge
 {
     public partial class App : Application
     {
+        public static List<MainWindow> mainWindows = [];
         public App()
         {
             this.InitializeComponent();
         }
 
-        public static void CreateNewWindow(object content)
+        public static MainWindow CreateNewWindow()
         {
-            Window window = new();
-            Frame frame = new()
+            MainWindow window = new();
+            window.Closed += (sender, e) => mainWindows.Remove(window);
+            mainWindows.Add(window);
+            return window;
+        }
+
+        public static Window GetWindowForElement(UIElement element)
+        {
+            if (element.XamlRoot != null)
             {
-                Content = content
-            };
-            window.Content = frame;
-            window.Activate();
+                foreach (Window window in mainWindows)
+                {
+                    if (element.XamlRoot == window.Content.XamlRoot)
+                    {
+                        return window;
+                    }
+                }
+            }
+            return null;
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args)
@@ -32,7 +46,7 @@ namespace Edge
             Environment.SetEnvironmentVariable("WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS", "--disable-features=msSmartScreenProtection");
             Environment.SetEnvironmentVariable("WEBVIEW2_USE_VISUAL_HOSTING_FOR_OWNED_WINDOWS", "1");
 
-            m_window = new MainWindow();
+            m_window = CreateNewWindow();
             m_window.Activate();
 
             AppNotificationManager notificationManager = AppNotificationManager.Default;
@@ -74,18 +88,11 @@ namespace Edge
         public static Window Window { get { return m_window; } }
         private static Window m_window;
 
-        [DllImport("user32.dll")]
-        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool SetForegroundWindow(IntPtr hWnd);
-
         public static void ShowWindow(Window window)
         {
-            IntPtr hwnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
-            ShowWindow(hwnd, 0x00000009);
-            SetForegroundWindow(hwnd);
+            HWND hwnd = (HWND)WinRT.Interop.WindowNative.GetWindowHandle(window);
+            PInvoke.ShowWindow(hwnd, Windows.Win32.UI.WindowsAndMessaging.SHOW_WINDOW_CMD.SW_RESTORE);
+            PInvoke.SetForegroundWindow(hwnd);
         }
     }
 }

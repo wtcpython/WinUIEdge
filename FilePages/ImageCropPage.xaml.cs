@@ -85,7 +85,7 @@ namespace Edge
                 }
             };
 
-            IntPtr hwnd = WindowNative.GetWindowHandle(App.Window);
+            IntPtr hwnd = WindowNative.GetWindowHandle(App.GetWindowForElement(this));
             InitializeWithWindow.Initialize(picker, hwnd);
 
             StorageFile imageFile = await picker.PickSaveFileAsync();

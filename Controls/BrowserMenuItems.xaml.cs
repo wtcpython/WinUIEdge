@@ -14,14 +14,15 @@ namespace Edge
 
         private void TryCreateNewTab(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = App.Window as MainWindow;
+            MainWindow mainWindow = App.GetWindowForElement(this) as MainWindow;
 
-            mainWindow.AddNewTab(new WebViewPage());
+            mainWindow.AddNewTab(new HomePage(), header: "Home");
         }
 
         private void TryCreateNewWindow(object sender, RoutedEventArgs e)
         {
-            App.CreateNewWindow(new WebViewPage());
+            var window = App.CreateNewWindow();
+            window.Activate();
         }
 
         private void TryCreateInPrivateWindow(object sender, RoutedEventArgs e)
@@ -32,7 +33,7 @@ namespace Edge
 
         private void TryOpenSettingPage(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = App.Window as MainWindow;
+            MainWindow mainWindow = App.GetWindowForElement(this) as MainWindow;
 
             var s = mainWindow.TabItems.Where(x => ((TabViewItem)x).Content is SettingsPage);
             if (s.Any()) mainWindow.SelectedItem = s.First();
@@ -51,13 +52,17 @@ namespace Edge
 
         private void ShowPrintUI(object sender, RoutedEventArgs e)
         {
-            if ((App.Window as MainWindow).SelectedItem is WebViewPage page)
+            MainWindow mainWindow = App.GetWindowForElement(this) as MainWindow;
+            if (mainWindow.SelectedItem is WebViewPage page)
                 page.ShowPrintUI();
         }
 
         private void CloseApp(object sender, RoutedEventArgs e)
         {
-            App.Window.Close();
+            foreach (Window window in App.mainWindows)
+            {
+                window.Close();
+            }
         }
     }
 }

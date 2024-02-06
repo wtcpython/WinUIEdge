@@ -31,21 +31,23 @@ namespace Edge
                         {
                             string ext = Path.GetExtension(text);
                             string value;
+
+                            MainWindow mainWindow = App.GetWindowForElement(this) as MainWindow;
                             if (Info.LanguageDict.TryGetValue(ext, out value))
                             {
-                                (App.Window as MainWindow).AddNewTab(new TextFilePage(text, value), header: Path.GetFileName(text));
+                                mainWindow.AddNewTab(new TextFilePage(text, value), header: Path.GetFileName(text));
                                 return;
                             }
 
                             else if (Info.WebFileDict.TryGetValue(ext, out value))
                             {
-                                (App.Window as MainWindow).AddNewTab(new TextFilePage(text, value, true), header: Path.GetFileName(text));
+                                mainWindow.AddNewTab(new TextFilePage(text, value, true), header: Path.GetFileName(text));
                                 return;
                             }
 
                             else if (Info.ImageDict.TryGetValue(ext, out _))
                             {
-                                (App.Window as MainWindow).AddNewTab(new ImageViewer(text), header: Path.GetFileName(text));
+                                mainWindow.AddNewTab(new ImageViewer(text), header: Path.GetFileName(text));
                                 return;
                             }
 
@@ -68,7 +70,7 @@ namespace Edge
 
         private void Navigate(string uri)
         {
-            MainWindow mainWindow = App.Window as MainWindow;
+            MainWindow mainWindow = App.GetWindowForElement(this) as MainWindow;
             var selectedItem = mainWindow.SelectedItem;
             if (selectedItem is WebViewPage webviewPage)
             {

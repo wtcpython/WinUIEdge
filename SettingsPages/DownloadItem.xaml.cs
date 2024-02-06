@@ -38,7 +38,7 @@ namespace Edge
         {
             FolderPicker picker = new();
 
-            IntPtr hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.Window);
+            IntPtr hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.GetWindowForElement(this));
 
             WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
 
