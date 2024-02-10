@@ -7,9 +7,18 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <Grid>
+    <TabView
+        Name="tabView"
+        AddTabButtonClick="TabView_AddTabButtonClick"
+        TabCloseRequested="CloseTab"
+        ContextRequested="TabView_ContextRequested"
+        VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+        SelectionChanged="TabView_SelectionChanged">
+        <TabView.TabStripFooter>
+            <Grid Background="Transparent" Name="AppTitleBar" Padding="0,0,200,0"/>
+        </TabView.TabStripFooter>
 
-        <Grid.Resources>
+        <TabView.Resources>
             <MenuFlyout x:Name="TabFlyout">
                 <MenuFlyoutItem Icon="OpenFile" Text="在右侧新建标签页" Click="CreateNewTabOnRight"/>
 
@@ -46,19 +55,6 @@
                 <MenuFlyoutItem Icon="Cancel" Text="关闭其他标签页" Click="CloseOtherTab"/>
                 <MenuFlyoutItem Icon="Cancel" Text="关闭右侧标签页" Click="CloseRightTab"/>
             </MenuFlyout>
-        </Grid.Resources>
-        
-        <TabView
-            Name="tabView"
-            AddTabButtonClick="TabView_AddTabButtonClick"
-            TabCloseRequested="TabView_TabCloseRequested"
-            ContextRequested="TabView_ContextRequested"
-            VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-            SelectionChanged="TabView_SelectionChanged">
-            <TabView.TabStripFooter>
-                <Grid Background="Transparent" Name="AppTitleBar" Padding="0,0,200,0"/>
-            </TabView.TabStripFooter>
-        </TabView>
-
-    </Grid>
+        </TabView.Resources>
+    </TabView>
 </Window>

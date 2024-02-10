@@ -1,7 +1,7 @@
+using Edge.Utilities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Media;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,26 +22,20 @@ namespace Edge
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(AppTitleBar);
 
-            AddNewTab(new HomePage(), header: "Home");
+            AddNewTab(new HomePage());
 
-            this.SystemBackdrop = new MicaBackdrop();
+            this.SystemBackdrop = Theme.SetBackDrop();
         }
 
-        private TabViewItem CreateNewTab(object content, string header)
+        public void AddNewTab(object content, string header = "ึ๗าณ", int index = -1)
         {
-            TabViewItem tabViewItem = new()
+            TabViewItem newTab = new()
             {
-                IconSource = new SymbolIconSource() { Symbol = Symbol.Document },
+                IconSource = new SymbolIconSource() { Symbol = Symbol.Home },
                 Header = header,
                 Content = content,
                 ContextFlyout = TabFlyout
             };
-            return tabViewItem;
-        }
-
-        public void AddNewTab(object content, int index = -1, string header = "New Tab")
-        {
-            TabViewItem newTab = CreateNewTab(content, header);
             if (index >= 0)
             {
                 tabView.TabItems.Insert(index, newTab);
@@ -58,17 +52,12 @@ namespace Edge
 
         private void TabView_AddTabButtonClick(TabView sender, object args)
         {
-            AddNewTab(new HomePage(), header: "Home");
-        }
-
-        private void TabView_TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
-        {
-            tabView.TabItems.Remove(args.Tab);
+            AddNewTab(new HomePage());
         }
 
         private void CreateNewTabOnRight(object sender, RoutedEventArgs e)
         {
-            AddNewTab(new HomePage(), tabView.SelectedIndex + 1, "Home");
+            AddNewTab(new HomePage(), index: tabView.SelectedIndex + 1);
         }
 
         private void TabView_ContextRequested(UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)
@@ -91,14 +80,13 @@ namespace Edge
         private void CopyTab(object sender, RoutedEventArgs e)
         {
             if (SelectedItem is WebViewPage page)
-                AddNewTab(new WebViewPage() { WebUri = page.WebUri }, tabView.SelectedIndex + 1);
+                AddNewTab(new WebViewPage() { WebUri = page.WebUri }, index: tabView.SelectedIndex + 1);
         }
 
         private void MoveTabToNewWindow(object sender, RoutedEventArgs e)
         {
             if (SelectedItem is WebViewPage page)
             {
-                // App.CreateNewWindow(new WebViewPage() { WebUri = page.WebUri });
                 var window = App.CreateNewWindow();
                 window.AddNewTab(new WebViewPage() { WebUri = page.WebUri });
                 window.Activate();
@@ -106,27 +94,19 @@ namespace Edge
             }
         }
 
-        private void CloseTab(object sender, RoutedEventArgs e)
+        private void CloseTab(object sender, object e)
         {
-            tabView.TabItems.Remove(tabView.SelectedItem);
-            if (tabView.TabItems.Count == 0)
-            {
-                Close();
-            }
+            if (e is TabViewTabCloseRequestedEventArgs args) tabView.TabItems.Remove(args.Tab);
+            // else e is RoutedEventArgs
+            else tabView.TabItems.Remove(tabView.SelectedItem);
+            if (!tabView.TabItems.Any()) Close();
         }
 
         private void CloseOtherTab(object sender, RoutedEventArgs e)
         {
-            while (tabView.SelectedIndex > 0)
-            {
-                tabView.TabItems.RemoveAt(0);
-            }
-
-            while (tabView.TabItems.Count > tabView.SelectedIndex + 1)
-            {
-                tabView.TabItems.RemoveAt(tabView.SelectedIndex + 1);
-            }
-            tabView.UpdateLayout();
+            var selectedItem = tabView.SelectedItem;
+            tabView.TabItems.Clear();
+            tabView.TabItems.Add(selectedItem);
         }
 
         private void CloseRightTab(object sender, RoutedEventArgs e)

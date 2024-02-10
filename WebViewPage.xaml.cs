@@ -176,7 +176,7 @@ namespace Edge
         private void ShowHomePage(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = App.GetWindowForElement(this) as MainWindow;
-            mainWindow.AddNewTab(new HomePage(), header: "Home");
+            mainWindow.AddNewTab(new HomePage());
         }
 
         private void UserAgentChanged(object sender, SelectionChangedEventArgs e)

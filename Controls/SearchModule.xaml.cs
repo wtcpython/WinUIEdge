@@ -35,36 +35,31 @@ namespace Edge
                             MainWindow mainWindow = App.GetWindowForElement(this) as MainWindow;
                             if (Info.LanguageDict.TryGetValue(ext, out value))
                             {
-                                mainWindow.AddNewTab(new TextFilePage(text, value), header: Path.GetFileName(text));
-                                return;
+                                mainWindow.AddNewTab(new TextFilePage(text, value), Path.GetFileName(text));
                             }
 
                             else if (Info.WebFileDict.TryGetValue(ext, out value))
                             {
-                                mainWindow.AddNewTab(new TextFilePage(text, value, true), header: Path.GetFileName(text));
-                                return;
+                                mainWindow.AddNewTab(new TextFilePage(text, value, true), Path.GetFileName(text));
                             }
 
                             else if (Info.ImageDict.TryGetValue(ext, out _))
                             {
-                                mainWindow.AddNewTab(new ImageViewer(text), header: Path.GetFileName(text));
-                                return;
+                                mainWindow.AddNewTab(new ImageViewer(text), Path.GetFileName(text));
                             }
 
                             else
                             {
                                 this.Navigate(text);
-                                return;
                             }
                         }
                     }
                     else if (Info.ProtocolList.Contains(uriResult.Scheme))
                     {
                         this.Navigate(text);
-                        return;
                     }
                 }
-                this.Navigate(Info.SearchEngineList[SearchEngineBox.SelectedIndex].Uri + text);
+                else Navigate(Info.SearchEngineList[SearchEngineBox.SelectedIndex].Uri + text);
             }
         }
 
