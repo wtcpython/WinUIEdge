@@ -105,7 +105,7 @@
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
 
-                <MenuFlyoutItem Text="截图">
+                <MenuFlyoutItem Text="截图" Click="ScreenClip">
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator Key="S" Modifiers="Control,Shift"/>
                     </MenuFlyoutItem.KeyboardAccelerators>

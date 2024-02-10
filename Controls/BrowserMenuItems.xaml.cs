@@ -1,6 +1,7 @@
 using Edge.Utilities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System;
 using System.Linq;
 
 namespace Edge
@@ -16,7 +17,7 @@ namespace Edge
         {
             MainWindow mainWindow = App.GetWindowForElement(this) as MainWindow;
 
-            mainWindow.AddNewTab(new HomePage(), header: "Home");
+            mainWindow.AddNewTab(new HomePage());
         }
 
         private void TryCreateNewWindow(object sender, RoutedEventArgs e)
@@ -37,7 +38,7 @@ namespace Edge
 
             var s = mainWindow.TabItems.Where(x => ((TabViewItem)x).Content is SettingsPage);
             if (s.Any()) mainWindow.SelectedItem = s.First();
-            else mainWindow.AddNewTab(new SettingsPage(), header: "…Ë÷√");
+            else mainWindow.AddNewTab(new SettingsPage(), "…Ë÷√");
         }
 
         private void ShowHistoryFlyout(object sender, RoutedEventArgs e)
@@ -63,6 +64,11 @@ namespace Edge
             {
                 window.Close();
             }
+        }
+
+        private async void ScreenClip(object sender, RoutedEventArgs e)
+        {
+            await Windows.System.Launcher.LaunchUriAsync(new Uri("ms-screenclip:"));
         }
     }
 }
