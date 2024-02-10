@@ -2,10 +2,10 @@
 using Edge.Utilities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 
@@ -139,16 +139,21 @@ namespace Edge
             mainWindow.Title = sender.DocumentTitle;
             History.SetHistory(sender.DocumentTitle, Search.Text);
 
-            var tabItem = mainWindow.TabItems.Find(x => (x as TabViewItem).Content as Page == this) as TabViewItem;
+            List<object> tabs = [.. (mainWindow.Content as TabView).TabItems];
+
+            var tabItem = tabs.Find(x => (x as TabViewItem).Content as Page == this) as TabViewItem;
             if (tabItem != null)
             {
                 tabItem.Header = sender.DocumentTitle;
-                var iconUri = sender.FaviconUri;
+                string iconUri = sender.FaviconUri;
                 if (iconUri != string.Empty)
                 {
-                    tabItem.IconSource = new BitmapIconSource()
+                    tabItem.IconSource = new ImageIconSource()
                     {
-                        UriSource = new Uri(sender.FaviconUri)
+                        ImageSource = new BitmapImage()
+                        {
+                            UriSource = new Uri(iconUri)
+                        }
                     };
                 }
             }
