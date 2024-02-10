@@ -48,8 +48,6 @@ namespace Edge
             }
         }
 
-        public List<object> TabItems => tabView.TabItems.ToList();
-
         private void TabView_AddTabButtonClick(TabView sender, object args)
         {
             AddNewTab(new HomePage());

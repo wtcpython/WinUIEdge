@@ -36,8 +36,10 @@ namespace Edge
         {
             MainWindow mainWindow = App.GetWindowForElement(this) as MainWindow;
 
-            var s = mainWindow.TabItems.Where(x => ((TabViewItem)x).Content is SettingsPage);
-            if (s.Any()) mainWindow.SelectedItem = s.First();
+            TabView tabView = mainWindow.Content as TabView;
+
+            var s = tabView.TabItems.Where(x => ((TabViewItem)x).Content is SettingsPage);
+            if (s.Any()) tabView.SelectedItem = s.First();
             else mainWindow.AddNewTab(new SettingsPage(), "…Ë÷√");
         }
 
