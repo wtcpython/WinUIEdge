@@ -13,7 +13,6 @@ namespace Edge
     {
         private static PackageVersion ver = Package.Current.Id.Version;
         public string appVersion = $"{ver.Major}.{ver.Minor}.{ver.Build}.{ver.Revision}";
-        private bool checkUpdate = false;
 
         public AboutItem()
         {
@@ -25,29 +24,28 @@ namespace Edge
 
         private async void CheckAppVersion(object sender, RoutedEventArgs e)
         {
-            if (!checkUpdate)
+            try
             {
-                try
+                if (App.LatestVersion == null)
                 {
                     Octokit.GitHubClient client = new(new Octokit.ProductHeaderValue("Edge"));
                     IReadOnlyList<Octokit.RepositoryTag> tags = await client.Repository.GetAllTags("wtcpython", "WinUIEdge");
-                    string version = tags[0].Name[1..];
-                    if (version.CompareTo(appVersion) > 0)
-                    {
-                        var builder = new AppNotificationBuilder()
-                            .AddText($"发现新版本：{version}，是否要更新？\n当前版本：{appVersion}")
-                            .AddArgument("UpdateAppRequest", "sendMessage")
-                            .AddButton(new AppNotificationButton("确定")
-                                .AddArgument("UpdateAppRequest", "sendMessage"))
-                            .AddButton(new AppNotificationButton("取消"));
-
-                        var notificationManager = AppNotificationManager.Default;
-                        notificationManager.Show(builder.BuildNotification());
-                    }
-                    checkUpdate = true;
+                    App.LatestVersion = tags[0].Name[1..];
                 }
-                catch (Octokit.RateLimitExceededException) { }
+                if (App.LatestVersion.CompareTo(appVersion) > 0)
+                {
+                    var builder = new AppNotificationBuilder()
+                        .AddText($"发现新版本：{App.LatestVersion}，是否要更新？\n当前版本：{appVersion}")
+                        .AddArgument("UpdateAppRequest", "ReleaseWebsitePage")
+                        .AddButton(new AppNotificationButton("确定")
+                            .AddArgument("UpdateAppRequest", "DownloadApp"))
+                        .AddButton(new AppNotificationButton("取消"));
+
+                    var notificationManager = AppNotificationManager.Default;
+                    notificationManager.Show(builder.BuildNotification());
+                }
             }
+            catch (Octokit.RateLimitExceededException) { }
         }
 
         private void CopyText(string text)

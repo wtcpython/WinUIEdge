@@ -13,6 +13,7 @@ namespace Edge
     public partial class App : Application
     {
         public static List<MainWindow> mainWindows = [];
+        public static string LatestVersion = null; 
         public App()
         {
             this.InitializeComponent();
@@ -73,8 +74,11 @@ namespace Edge
             {
                 switch (args.Arguments["UpdateAppRequest"])
                 {
-                    case "sendMessage":
-                        await Windows.System.Launcher.LaunchUriAsync(new Uri("https://github.com/wtcpython/WinUIEdge/releases/latest"));
+                    case "ReleaseWebsitePage":
+                        await Windows.System.Launcher.LaunchUriAsync(new Uri("https://github.com/wtcpython/WinUIEdge/releases/latest/"));
+                        break;
+                    case "DownloadApp":
+                        await Windows.System.Launcher.LaunchUriAsync(new Uri($"https://github.com/wtcpython/WinUIEdge/releases/latest/download/Edge_{LatestVersion}_x64.7z"));
                         break;
                 }
             });
