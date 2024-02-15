@@ -1,5 +1,4 @@
 using Microsoft.Graphics.Canvas.Text;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using System;
@@ -15,7 +14,7 @@ namespace Edge
     {
         public string file;
 
-        public List<EncodingInfo> encodeList;
+        public EncodingInfo[] encodeList;
 
         public string DefaultFontFamily = "Consolas";
 
@@ -25,10 +24,22 @@ namespace Edge
 
         public List<string> FontFamilyList = CanvasTextFormat.GetSystemFontFamilies().ToList();
 
-        public TextFilePage(string filepath, string fileType, bool IsHtml = false)
+
+        public TextFilePage(string filepath, string fileType)
         {
             this.InitializeComponent();
             FontFamilyList.Sort();
+
+            string ext = Path.GetExtension(filepath);
+            engine.SetData(ext);
+            //if (ext == ".json")
+            //{
+            //    engine.Content = new JsonFileEngine();
+            //}
+            //else
+            //{
+            //    engine.Content = new TextFileEngine();
+            //}
 
             // 加载文件信息
             file = filepath;
@@ -38,7 +49,7 @@ namespace Edge
 
             // 加载编码列表
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            encodeList = [.. Encoding.GetEncodings()];
+            encodeList = Encoding.GetEncodings();
             encodeBox.ItemsSource = encodeList;
 
             // 初始化UI 数据
@@ -51,20 +62,13 @@ namespace Edge
             FontFamilyBox.SelectedIndex = FontFamilyList.IndexOf(DefaultFontFamily);
 
             // 设置编辑器文本
-            editor.Text = content;
+            engine.SetText(content);
             textInfo.Text = $"共 {content.Length} 个字符";
 
-            editor.FontFamily = new FontFamily(DefaultFontFamily);
-            editor.FontSize = DefaultFontSize;
+            engine.SetFontFamily(new FontFamily(DefaultFontFamily));
+            engine.SetFontSize(DefaultFontSize);
 
-            encodeBox.SelectedIndex = encodeList.FindIndex(x => x.Name == DefaultEncoding);
-
-            if (IsHtml)
-            {
-                splitter.Visibility = Visibility.Visible;
-                htmlView.Visibility = Visibility.Visible;
-                htmlView.Source = new Uri(file);
-            }
+            encodeBox.SelectedIndex = Array.FindIndex(encodeList, x => x.Name == DefaultEncoding);
         }
 
         public string GetFileText(string encoding)
@@ -75,12 +79,12 @@ namespace Edge
 
         private void FontFamilyChanged(object sender, SelectionChangedEventArgs e)
         {
-            editor.FontFamily = new FontFamily((string)(sender as ComboBox).SelectedItem);
+            engine.SetFontFamily(new FontFamily((string)(sender as ComboBox).SelectedItem));
         }
 
         private void FontSizeChanged(object sender, SelectionChangedEventArgs e)
         {
-            editor.FontSize = (int)(sender as ComboBox).SelectedItem;
+            engine.SetFontSize((int)(sender as ComboBox).SelectedItem);
         }
 
         public string GetEOF()
@@ -106,14 +110,7 @@ namespace Edge
         private void EncodeTypeChanged(object sender, SelectionChangedEventArgs e)
         {
             string content = GetFileText(encodeList[(sender as ComboBox).SelectedIndex].Name);
-            editor.Text = content;
-        }
-
-        private void HtmlView_CoreWebView2Initialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
-        {
-            sender.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
-            sender.CoreWebView2.Settings.AreDevToolsEnabled = false;
-            sender.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = false;
+            engine.SetText(content);
         }
     }
 }
