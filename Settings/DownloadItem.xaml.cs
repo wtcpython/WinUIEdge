@@ -1,6 +1,7 @@
 using Edge.Data;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using Windows.Storage;
 using Windows.Storage.Pickers;
 
 namespace Edge
@@ -13,7 +14,7 @@ namespace Edge
 
             if (Info.data.DefaultDownloadFolder == string.Empty)
             {
-                DownloadFolderCard.Description = GetMoreSpecialFolder.GetSpecialFolder(GetMoreSpecialFolder.SpecialFolder.Downloads);
+                DownloadFolderCard.Description = UserDataPaths.GetDefault().Downloads;
             }
             else
             {

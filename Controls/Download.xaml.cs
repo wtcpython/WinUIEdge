@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Input;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Windows.Storage;
 
 namespace Edge
 {
@@ -87,7 +88,7 @@ namespace Edge
 
         private void OpenDownloadFolderRequest(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start("explorer", GetMoreSpecialFolder.GetSpecialFolder(GetMoreSpecialFolder.SpecialFolder.Downloads));
+            System.Diagnostics.Process.Start("explorer", UserDataPaths.GetDefault().Downloads);
         }
 
         private void SearchDownload(object sender, KeyRoutedEventArgs e)
