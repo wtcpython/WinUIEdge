@@ -2,6 +2,9 @@ using Edge.Data;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Edge.Utilities
 {
@@ -9,9 +12,9 @@ namespace Edge.Utilities
     {
         public static ElementTheme Convert(string theme)
         {
-            if (theme == Info.AppearanceList[0]) return ElementTheme.Default;
-            else if (theme == Info.AppearanceList[1]) return ElementTheme.Light;
-            else return ElementTheme.Dark;
+            var themeList = Enum.GetNames(typeof(ElementTheme)).ToList();
+            List<ElementTheme> array = Enum.GetValues(typeof(ElementTheme)).OfType<ElementTheme>().ToList();
+            return array[themeList.IndexOf(theme)];
         }
 
         public static SystemBackdrop SetBackDrop()

@@ -3,6 +3,8 @@ using Edge.Utilities;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System;
+using System.Linq;
 
 namespace Edge
 {
@@ -18,8 +20,9 @@ namespace Edge
         private void AppearanceItemLoaded(object sender, RoutedEventArgs e)
         {
             inLoading = true;
-            appearanceBox.ItemsSource = Info.AppearanceList;
-            appearanceBox.SelectedIndex = Info.AppearanceList.IndexOf(Info.data.Appearance);
+            var themeList = Enum.GetNames(typeof(ElementTheme)).ToList();
+            appearanceBox.ItemsSource = themeList;
+            appearanceBox.SelectedIndex = themeList.IndexOf(Info.data.Appearance);
             effectBox.ItemsSource = Info.WindowEffectList;
             effectBox.SelectedIndex = Info.WindowEffectList.IndexOf(Info.data.WindowEffect);
             inLoading = false;
