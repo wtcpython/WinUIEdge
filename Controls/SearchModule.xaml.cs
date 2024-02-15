@@ -30,20 +30,14 @@ namespace Edge
                         if (File.Exists(uriResult.OriginalString))
                         {
                             string ext = Path.GetExtension(text);
-                            string value;
 
                             MainWindow mainWindow = App.GetWindowForElement(this) as MainWindow;
-                            if (Info.LanguageDict.TryGetValue(ext, out value))
+                            if (Info.LanguageDict.ContainsKey(ext))
                             {
-                                mainWindow.AddNewTab(new TextFilePage(text, value), Path.GetFileName(text));
+                                mainWindow.AddNewTab(new TextFilePage(text), Path.GetFileName(text));
                             }
 
-                            else if (Info.WebFileDict.TryGetValue(ext, out value))
-                            {
-                                mainWindow.AddNewTab(new TextFilePage(text, value, true), Path.GetFileName(text));
-                            }
-
-                            else if (Info.ImageDict.TryGetValue(ext, out _))
+                            else if (Info.ImageDict.ContainsKey(ext))
                             {
                                 mainWindow.AddNewTab(new ImageViewer(text), Path.GetFileName(text));
                             }

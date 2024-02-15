@@ -27,15 +27,13 @@ namespace Edge.Data
     {
         public static JsonData data = LoadSettingsData("/Data/DefaultSettings.json");
         public static Dictionary<string, string> LanguageDict = LoadStringJsonData("/Data/LanguageType.json");
-        public static Dictionary<string, string> WebFileDict = LoadStringJsonData("/Data/WebFileType.json");
         public static Dictionary<string, string> ImageDict = LoadStringJsonData("/Data/ImageType.json");
         public static Dictionary<string, string> UserAgentDict = LoadStringJsonData("/Data/UserAgent.json");
         public static List<WebsiteInfo> SearchEngineList = LoadWebsiteInfoData("/Data/SearchEngine.json");
         public static List<WebsiteInfo> SuggestWebsiteList = LoadWebsiteInfoData("/Data/SuggestWebsite.json");
 
-        public static List<string> AppearanceList = ["System", "Light", "Dark"];
         public static List<string> WindowEffectList = ["Mica", "Mica Alt", "Acrylic", "None"];
-        public static List<string> StartPageBehaviorList = ["´ò¿ªÖ÷Ò³", "´ò¿ªÖ¸¶¨µÄÒ³Ãæ"];
+        public static List<string> StartPageBehaviorList = ["ï¿½ï¿½ï¿½ï¿½Ò³", "ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½"];
         public static List<string> ProtocolList = ["https", "edge", "file"];
 
         private static Dictionary<string, string> LoadStringJsonData(string filePath)

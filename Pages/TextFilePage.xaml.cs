@@ -1,3 +1,4 @@
+using Edge.Data;
 using Microsoft.Graphics.Canvas.Text;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -25,21 +26,13 @@ namespace Edge
         public List<string> FontFamilyList = CanvasTextFormat.GetSystemFontFamilies().ToList();
 
 
-        public TextFilePage(string filepath, string fileType)
+        public TextFilePage(string filepath)
         {
             this.InitializeComponent();
             FontFamilyList.Sort();
 
             string ext = Path.GetExtension(filepath);
             engine.SetData(ext);
-            //if (ext == ".json")
-            //{
-            //    engine.Content = new JsonFileEngine();
-            //}
-            //else
-            //{
-            //    engine.Content = new TextFileEngine();
-            //}
 
             // 加载文件信息
             file = filepath;
@@ -55,7 +48,7 @@ namespace Edge
             // 初始化UI 数据
             fileNameBlock.Text = file;
             EOFType.Text = GetEOF();
-            textType.Text = fileType;
+            textType.Text = Info.LanguageDict[ext];
             FontSizeBox.ItemsSource = FontSizeList;
             FontSizeBox.SelectedIndex = FontSizeList.IndexOf(14);
             FontFamilyBox.ItemsSource = FontFamilyList;

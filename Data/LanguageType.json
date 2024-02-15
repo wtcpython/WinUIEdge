@@ -19,6 +19,7 @@
   ".hxx": "C++",
   ".java": "Java",
   ".js": "JavaScript",
+  ".json": "Json",
   ".kotlin": "Kotlin",
   ".lua": "Lua",
   ".m": "Objective-C",
