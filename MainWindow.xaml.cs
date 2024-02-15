@@ -2,7 +2,6 @@ using Edge.Utilities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
-using System.Collections.Generic;
 using System.Linq;
 
 // To learn more about WinUI, the WinUI project structure,

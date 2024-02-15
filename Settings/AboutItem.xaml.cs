@@ -1,18 +1,18 @@
+using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.Windows.AppNotifications.Builder;
 using Microsoft.Windows.AppNotifications;
+using Microsoft.Windows.AppNotifications.Builder;
+using System;
 using System.Collections.Generic;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
-using System;
 
 namespace Edge
 {
     public sealed partial class AboutItem : Page
     {
-        private static PackageVersion ver = Package.Current.Id.Version;
-        public string appVersion = $"{ver.Major}.{ver.Minor}.{ver.Build}.{ver.Revision}";
+        public string appVersion = Package.Current.Id.Version.ToFormattedString();
 
         public AboutItem()
         {
