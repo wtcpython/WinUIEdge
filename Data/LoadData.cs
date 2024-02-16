@@ -33,8 +33,7 @@ namespace Edge.Data
         public static List<WebsiteInfo> SuggestWebsiteList = LoadWebsiteInfoData("/Data/SuggestWebsite.json");
 
         public static List<string> WindowEffectList = ["Mica", "Mica Alt", "Acrylic", "None"];
-        public static List<string> StartPageBehaviorList = ["����ҳ", "��ָ����ҳ��"];
-        public static List<string> ProtocolList = ["https", "edge", "file"];
+        public static List<string> StartPageBehaviorList = ["打开主页", "打开指定的页面"];
 
         private static Dictionary<string, string> LoadStringJsonData(string filePath)
         {

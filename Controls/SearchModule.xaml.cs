@@ -48,7 +48,7 @@ namespace Edge
                             }
                         }
                     }
-                    else if (Info.ProtocolList.Contains(uriResult.Scheme))
+                    else if (uriResult.Scheme != "http")
                     {
                         this.Navigate(text);
                     }

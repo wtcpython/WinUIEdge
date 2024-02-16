@@ -162,7 +162,7 @@ namespace Edge
         private void CoreWebView2_NavigationStarting(CoreWebView2 sender, CoreWebView2NavigationStartingEventArgs args)
         {
             Uri uri = new(args.Uri);
-            if (!Info.ProtocolList.Contains(uri.Scheme))
+            if (uri.Scheme == "http")
             {
                 Dialog.ShowMsgDialog("网站警告", $"网址：{uri} 使用了不安全的 {uri.Scheme} 协议。", "确定");
                 args.Cancel = true;
