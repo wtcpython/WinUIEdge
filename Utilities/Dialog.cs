@@ -1,4 +1,5 @@
 using Edge.Data;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace Edge.Utilities
                 Content = content,
                 CloseButtonText = closeButtonText,
                 XamlRoot = App.Window.Content.XamlRoot,
-                RequestedTheme = Theme.Convert(Info.data.Appearance)
+                RequestedTheme = Enum.Parse<ElementTheme>(Info.data.Appearance)
             };
             await dialog.ShowAsync();
         }
@@ -29,7 +30,7 @@ namespace Edge.Utilities
                 CloseButtonText = closeButtonText,
                 PrimaryButtonText = primaryButtonText,
                 XamlRoot = App.Window.Content.XamlRoot,
-                RequestedTheme = Theme.Convert(Info.data.Appearance)
+                RequestedTheme = Enum.Parse<ElementTheme>(Info.data.Appearance)
             };
             ContentDialogResult result = await dialog.ShowAsync();
             return result == ContentDialogResult.Primary;

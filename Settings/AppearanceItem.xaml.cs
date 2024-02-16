@@ -38,7 +38,7 @@ namespace Edge
                 {
                     if (window.Content is FrameworkElement rootElement)
                     {
-                        rootElement.RequestedTheme = Theme.Convert(appearance);
+                        rootElement.RequestedTheme = Enum.Parse<ElementTheme>(appearance);
                         window.AppWindow.TitleBar.ButtonForegroundColor =
                             rootElement.ActualTheme == ElementTheme.Dark ? Colors.White : Colors.Black;
                     }
