@@ -14,7 +14,6 @@ namespace Edge
     /// </summary>
     public sealed partial class MainWindow : Window
     {
-        public static bool isMute = false;
         public MainWindow()
         {
             this.InitializeComponent();
@@ -130,17 +129,15 @@ namespace Edge
         {
             if (SelectedItem is WebViewPage page)
             {
-                if (!isMute)
+                if (!page.IsMuted)
                 {
-                    isMute = true;
-                    page.Mute("true");
+                    page.IsMuted = true;
                     MuteButton.Icon = new SymbolIcon() { Symbol = Symbol.Volume };
                     MuteButton.Text = "取消标签页静音";
                 }
                 else
                 {
-                    isMute = false;
-                    page.Mute("false");
+                    page.IsMuted = false;
                     MuteButton.Icon = new SymbolIcon() { Symbol = Symbol.Mute };
                     MuteButton.Text = "使标签页静音";
                 }

@@ -13,8 +13,6 @@ namespace Edge
 {
     public sealed partial class WebViewPage : Page
     {
-        public static string chromiumVersion;
-
         public string WebUri
         {
             get => Search.Text;
@@ -86,8 +84,6 @@ namespace Edge
 
             // 加载设置项
             sender.CoreWebView2.Settings.IsStatusBarEnabled = false;
-
-            chromiumVersion = sender.CoreWebView2.Environment.BrowserVersionString;
         }
 
         private void CoreWebView2_PermissionRequested(CoreWebView2 sender, CoreWebView2PermissionRequestedEventArgs args)
@@ -203,14 +199,10 @@ namespace Edge
             EdgeWebViewEngine.CoreWebView2.ShowPrintUI(CoreWebView2PrintDialogKind.Browser);
         }
 
-        public async void Mute(string jsbool)
+        public bool IsMuted
         {
-            string mutefunctionString = $@"
-                var videos = document.querySelectorAll('video'),
-                audios = document.querySelectorAll('audio');
-                [].forEach.call(videos, function(video) {{ video.muted = {jsbool}; }});
-                [].forEach.call(audios, function(audio) {{ audio.muted = {jsbool}; }}); ";
-            await EdgeWebViewEngine.ExecuteScriptAsync(mutefunctionString);
+            get => EdgeWebViewEngine.CoreWebView2.IsMuted;
+            set => EdgeWebViewEngine.CoreWebView2.IsMuted = value;
         }
     }
 }
