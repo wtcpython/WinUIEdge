@@ -12,14 +12,7 @@ namespace Edge
         {
             this.InitializeComponent();
 
-            if (Info.data.DefaultDownloadFolder == string.Empty)
-            {
-                DownloadFolderCard.Description = UserDataPaths.GetDefault().Downloads;
-            }
-            else
-            {
-                DownloadFolderCard.Description = Info.data.DefaultDownloadFolder;
-            }
+            DownloadFolderCard.Description = SettingsPage.webView2.CoreWebView2.Profile.DefaultDownloadFolderPath;
 
             setDownloadBehavior.IsOn = Info.data.AskDownloadBehavior;
             setDownloadFlyout.IsOn = Info.data.ShowFlyoutWhenStartDownloading;
@@ -50,7 +43,7 @@ namespace Edge
 
             if (folder != null)
             {
-                DownloadFolderCard.Description = Info.data.DefaultDownloadFolder = folder.Name;
+                DownloadFolderCard.Description = SettingsPage.webView2.CoreWebView2.Profile.DefaultDownloadFolderPath = folder.Name;
             }
         }
     }

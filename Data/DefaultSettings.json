@@ -6,6 +6,5 @@
   "ShowHomeButton": false,
   "SearchEngine": "Bing",
   "AskDownloadBehavior": false,
-  "ShowFlyoutWhenStartDownloading": true,
-  "DefaultDownloadFolder": ""
+  "ShowFlyoutWhenStartDownloading": true
 }

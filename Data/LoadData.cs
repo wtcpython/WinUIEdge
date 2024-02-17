@@ -13,7 +13,6 @@ namespace Edge.Data
         public string SearchEngine { get; set; }
         public bool AskDownloadBehavior { get; set; }
         public bool ShowFlyoutWhenStartDownloading { get; set; }
-        public string DefaultDownloadFolder { get; set; }
     }
 
     public class WebsiteInfo

@@ -3,8 +3,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppNotifications;
 using Microsoft.Windows.AppNotifications.Builder;
-using System;
-using System.Collections.Generic;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 
@@ -17,7 +15,7 @@ namespace Edge
         public AboutItem()
         {
             this.InitializeComponent();
-            edgeVersionCard.Description = $"°æ±¾£º{WebViewPage.chromiumVersion}";
+            edgeVersionCard.Description = $"°æ±¾£º{SettingsPage.webView2.CoreWebView2.Environment.BrowserVersionString}";
             appVersionCard.Description = $"°æ±¾£º{appVersion}";
             this.Loaded += CheckAppVersion;
         }
@@ -29,8 +27,7 @@ namespace Edge
                 if (App.LatestVersion == null)
                 {
                     Octokit.GitHubClient client = new(new Octokit.ProductHeaderValue("Edge"));
-                    IReadOnlyList<Octokit.RepositoryTag> tags = await client.Repository.GetAllTags("wtcpython", "WinUIEdge");
-                    App.LatestVersion = tags[0].Name[1..];
+                    App.LatestVersion = (await client.Repository.GetAllTags("wtcpython", "WinUIEdge"))[0].Name[1..];
                 }
                 if (App.LatestVersion.CompareTo(appVersion) > 0)
                 {
@@ -60,7 +57,7 @@ namespace Edge
 
         private void TryCopyChromiumVersion(object sender, RoutedEventArgs e)
         {
-            CopyText(WebViewPage.chromiumVersion);
+            CopyText(SettingsPage.webView2.CoreWebView2.Environment.BrowserVersionString);
         }
 
         private void TryCopyAppVersion(object sender, RoutedEventArgs e)
@@ -68,14 +65,16 @@ namespace Edge
             CopyText(appVersion);
         }
 
-        private async void OpenMSEdgeWebsite(object sender, RoutedEventArgs e)
+        private void OpenMSEdgeWebsite(object sender, RoutedEventArgs e)
         {
-            await Windows.System.Launcher.LaunchUriAsync(new Uri("https://microsoft.com/zh-cn/edge"));
+            MainWindow mainWindow = App.GetWindowForElement(this) as MainWindow;
+            mainWindow.AddNewTab(new WebViewPage() { WebUri = "https://microsoft.com/zh-cn/edge" });
         }
 
-        private async void OpenRepoWebsite(object sender, RoutedEventArgs e)
+        private void OpenRepoWebsite(object sender, RoutedEventArgs e)
         {
-            await Windows.System.Launcher.LaunchUriAsync(new Uri("https://github.com/wtcpython/WinUIEdge"));
+            MainWindow mainWindow = App.GetWindowForElement(this) as MainWindow;
+            mainWindow.AddNewTab(new WebViewPage() { WebUri = "https://github.com/wtcpython/WinUIEdge" });
         }
     }
 }
