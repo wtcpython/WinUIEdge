@@ -67,13 +67,13 @@ namespace Edge
 
         private void OpenMSEdgeWebsite(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = App.GetWindowForElement(this) as MainWindow;
+            MainWindow mainWindow = App.GetWindowForElement(this);
             mainWindow.AddNewTab(new WebViewPage() { WebUri = "https://microsoft.com/zh-cn/edge" });
         }
 
         private void OpenRepoWebsite(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = App.GetWindowForElement(this) as MainWindow;
+            MainWindow mainWindow = App.GetWindowForElement(this);
             mainWindow.AddNewTab(new WebViewPage() { WebUri = "https://github.com/wtcpython/WinUIEdge" });
         }
     }

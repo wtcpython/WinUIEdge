@@ -31,7 +31,7 @@ namespace Edge
                         {
                             string ext = Path.GetExtension(text);
 
-                            MainWindow mainWindow = App.GetWindowForElement(this) as MainWindow;
+                            MainWindow mainWindow = App.GetWindowForElement(this);
                             if (Info.LanguageDict.ContainsKey(ext))
                             {
                                 mainWindow.AddNewTab(new TextFilePage(text), Path.GetFileName(text));
@@ -59,7 +59,7 @@ namespace Edge
 
         private void Navigate(string uri)
         {
-            MainWindow mainWindow = App.GetWindowForElement(this) as MainWindow;
+            MainWindow mainWindow = App.GetWindowForElement(this);
             var selectedItem = mainWindow.SelectedItem;
             if (selectedItem is WebViewPage webviewPage)
             {

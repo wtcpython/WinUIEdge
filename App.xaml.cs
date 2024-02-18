@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using Windows.Win32;
 using Windows.Win32.Foundation;
+using WinRT.Interop;
 
 
 namespace Edge
@@ -27,11 +28,11 @@ namespace Edge
             return window;
         }
 
-        public static Window GetWindowForElement(UIElement element)
+        public static MainWindow GetWindowForElement(UIElement element)
         {
             if (element.XamlRoot != null)
             {
-                foreach (Window window in mainWindows)
+                foreach (MainWindow window in mainWindows)
                 {
                     if (element.XamlRoot == window.Content.XamlRoot)
                     {
@@ -40,6 +41,13 @@ namespace Edge
                 }
             }
             return null;
+        }
+
+        public static IntPtr GetWindowHandle(UIElement element)
+        {
+            Window window = GetWindowForElement(element);
+            if (window != null) return WindowNative.GetWindowHandle(window);
+            else return IntPtr.Zero;
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args)
@@ -94,7 +102,7 @@ namespace Edge
 
         public static void ShowWindow(Window window)
         {
-            HWND hwnd = (HWND)WinRT.Interop.WindowNative.GetWindowHandle(window);
+            HWND hwnd = (HWND)WindowNative.GetWindowHandle(window);
             PInvoke.ShowWindow(hwnd, Windows.Win32.UI.WindowsAndMessaging.SHOW_WINDOW_CMD.SW_RESTORE);
             PInvoke.SetForegroundWindow(hwnd);
         }

@@ -1,7 +1,6 @@
 using Edge.Data;
 using Microsoft.UI.Xaml.Controls;
 using System;
-using Windows.Storage;
 using Windows.Storage.Pickers;
 
 namespace Edge
@@ -32,7 +31,7 @@ namespace Edge
         {
             FolderPicker picker = new();
 
-            IntPtr hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.GetWindowForElement(this));
+            IntPtr hwnd = App.GetWindowHandle(this);
 
             WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
 

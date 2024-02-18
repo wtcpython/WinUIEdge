@@ -94,7 +94,7 @@ namespace Edge
 
         private void ImageCropRequest(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = App.GetWindowForElement(this) as MainWindow;
+            MainWindow mainWindow = App.GetWindowForElement(this);
             mainWindow.AddNewTab(new ImageCropPage(filePath));
         }
     }

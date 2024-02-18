@@ -15,7 +15,7 @@ namespace Edge
 
         private void TryCreateNewTab(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = App.GetWindowForElement(this) as MainWindow;
+            MainWindow mainWindow = App.GetWindowForElement(this);
 
             mainWindow.AddNewTab(new HomePage());
         }
@@ -34,7 +34,7 @@ namespace Edge
 
         private void TryOpenSettingPage(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = App.GetWindowForElement(this) as MainWindow;
+            MainWindow mainWindow = App.GetWindowForElement(this);
 
             TabView tabView = mainWindow.Content as TabView;
 
@@ -55,7 +55,7 @@ namespace Edge
 
         private void ShowPrintUI(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = App.GetWindowForElement(this) as MainWindow;
+            MainWindow mainWindow = App.GetWindowForElement(this);
             if (mainWindow.SelectedItem is WebViewPage page)
                 page.ShowPrintUI();
         }

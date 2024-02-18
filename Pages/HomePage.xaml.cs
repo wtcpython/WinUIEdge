@@ -14,7 +14,7 @@ namespace Edge
 
         private void OpenSuggestWebsite(object sender, ItemClickEventArgs e)
         {
-            MainWindow mainWindow = App.GetWindowForElement(this) as MainWindow;
+            MainWindow mainWindow = App.GetWindowForElement(this);
             mainWindow.AddNewTab(new WebViewPage()
             {
                 WebUri = (e.ClickedItem as WebsiteInfo).Uri
