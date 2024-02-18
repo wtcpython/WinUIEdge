@@ -7,6 +7,7 @@ using Microsoft.Web.WebView2.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.Storage;
 
 
 namespace Edge
@@ -80,15 +81,9 @@ namespace Edge
             sender.CoreWebView2.DownloadStarting += CoreWebView2_DownloadStarting;
             sender.CoreWebView2.NewWindowRequested += CoreWebView2_NewWindowRequested;
             sender.CoreWebView2.StatusBarTextChanged += CoreWebView2_StatusBarTextChanged;
-            sender.CoreWebView2.PermissionRequested += CoreWebView2_PermissionRequested;
 
             // 加载设置项
             sender.CoreWebView2.Settings.IsStatusBarEnabled = false;
-        }
-
-        private void CoreWebView2_PermissionRequested(CoreWebView2 sender, CoreWebView2PermissionRequestedEventArgs args)
-        {
-            
         }
 
         private void CoreWebView2_StatusBarTextChanged(CoreWebView2 sender, object args)
@@ -108,16 +103,24 @@ namespace Edge
         {
             args.Handled = true;
 
-            MainWindow mainWindow = App.GetWindowForElement(this) as MainWindow;
+            MainWindow mainWindow = App.GetWindowForElement(this);
             mainWindow.AddNewTab(new WebViewPage() { WebUri = args.Uri });
         }
 
-        private void CoreWebView2_DownloadStarting(CoreWebView2 sender, CoreWebView2DownloadStartingEventArgs args)
+        private async void CoreWebView2_DownloadStarting(CoreWebView2 sender, CoreWebView2DownloadStartingEventArgs args)
         {
+            args.Handled = true;
+            if (Info.data.AskDownloadBehavior)
+            {
+                IntPtr hwnd = App.GetWindowHandle(this);
+
+                StorageFile file = await Dialog.SaveFile(args.ResultFilePath, hwnd);
+
+                args.ResultFilePath = file.Path;
+            }
             args.DownloadOperation.BytesReceivedChanged += DownloadOperation_BytesReceivedChanged;
             Download.SetDownloadItem(args.ResultFilePath, args.DownloadOperation.TotalBytesToReceive);
             if (Info.data.ShowFlyoutWhenStartDownloading) Download.ShowFlyout();
-            args.Handled = true;
         }
 
         private void DownloadOperation_BytesReceivedChanged(CoreWebView2DownloadOperation sender, object args)
@@ -130,7 +133,7 @@ namespace Edge
         private void CoreWebView2_DOMContentLoaded(CoreWebView2 sender, CoreWebView2DOMContentLoadedEventArgs args)
         {
             SetWebNaviButtonStatus();
-            MainWindow mainWindow = App.GetWindowForElement(this) as MainWindow;
+            MainWindow mainWindow = App.GetWindowForElement(this);
 
             mainWindow.Title = sender.DocumentTitle;
             History.SetHistory(sender.DocumentTitle, Search.Text);
@@ -176,7 +179,7 @@ namespace Edge
 
         private void ShowHomePage(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = App.GetWindowForElement(this) as MainWindow;
+            MainWindow mainWindow = App.GetWindowForElement(this);
             mainWindow.AddNewTab(new HomePage());
         }
 
@@ -199,10 +202,6 @@ namespace Edge
             EdgeWebViewEngine.CoreWebView2.ShowPrintUI(CoreWebView2PrintDialogKind.Browser);
         }
 
-        public bool IsMuted
-        {
-            get => EdgeWebViewEngine.CoreWebView2.IsMuted;
-            set => EdgeWebViewEngine.CoreWebView2.IsMuted = value;
-        }
+        public CoreWebView2 CoreWebView2 => EdgeWebViewEngine.CoreWebView2;
     }
 }

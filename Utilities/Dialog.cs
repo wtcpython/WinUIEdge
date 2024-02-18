@@ -2,7 +2,11 @@ using Edge.Data;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.IO;
 using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.Storage.Pickers;
+using WinRT.Interop;
 
 namespace Edge.Utilities
 {
@@ -34,6 +38,20 @@ namespace Edge.Utilities
             };
             ContentDialogResult result = await dialog.ShowAsync();
             return result == ContentDialogResult.Primary;
+        }
+
+        public static async Task<StorageFile> SaveFile(string suggestFile, IntPtr hwnd)
+        {
+            FileSavePicker picker = new()
+            {
+                SuggestedStartLocation = PickerLocationId.Downloads,
+                SuggestedFileName = Path.GetFileName(suggestFile),
+                FileTypeChoices = { { Path.GetExtension(suggestFile), [Path.GetExtension(suggestFile)] } }
+            };
+
+            InitializeWithWindow.Initialize(picker, hwnd);
+
+            return await picker.PickSaveFileAsync();
         }
     }
 }
