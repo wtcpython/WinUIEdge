@@ -129,15 +129,15 @@ namespace Edge
         {
             if (SelectedItem is WebViewPage page)
             {
-                if (!page.IsMuted)
+                if (!page.CoreWebView2.IsMuted)
                 {
-                    page.IsMuted = true;
+                    page.CoreWebView2.IsMuted = true;
                     MuteButton.Icon = new SymbolIcon() { Symbol = Symbol.Volume };
                     MuteButton.Text = "取消标签页静音";
                 }
                 else
                 {
-                    page.IsMuted = false;
+                    page.CoreWebView2.IsMuted = false;
                     MuteButton.Icon = new SymbolIcon() { Symbol = Symbol.Mute };
                     MuteButton.Text = "使标签页静音";
                 }
