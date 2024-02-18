@@ -17,7 +17,7 @@
         <ComboBox Name="SearchEngineBox" VerticalAlignment="Center">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
-                    <Image Width="16" Height="16">
+                    <Image Width="16" Height="16" ToolTipService.ToolTip="{Binding Name}">
                         <Image.Source>
                             <BitmapImage UriSource="{Binding Icon}"/>
                         </Image.Source>
