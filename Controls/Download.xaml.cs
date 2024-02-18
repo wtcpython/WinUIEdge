@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.Web.WebView2.Core;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -89,6 +90,16 @@ namespace Edge
         private void OpenDownloadFolderRequest(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start("explorer", UserDataPaths.GetDefault().Downloads);
+        }
+
+        private async void DeleteDownloadRequest(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = App.GetWindowForElement(this);
+            if (mainWindow.SelectedItem is WebViewPage page)
+            {
+                await page.CoreWebView2.Profile.ClearBrowsingDataAsync(CoreWebView2BrowsingDataKinds.DownloadHistory);
+            }
+            DownloadList.Clear();
         }
 
         private void SearchDownload(object sender, KeyRoutedEventArgs e)
