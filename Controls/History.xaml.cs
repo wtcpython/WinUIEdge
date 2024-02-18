@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.Web.WebView2.Core;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -68,8 +69,13 @@ namespace Edge
             VisualStateManager.GoToState(sender as Control, "HideCancelButton", true);
         }
 
-        private void DeleteHistoryRequest(object sender, RoutedEventArgs e)
+        private async void DeleteHistoryRequest(object sender, RoutedEventArgs e)
         {
+            MainWindow mainWindow = App.GetWindowForElement(this);
+            if (mainWindow.SelectedItem is WebViewPage page)
+            {
+                await page.CoreWebView2.Profile.ClearBrowsingDataAsync(CoreWebView2BrowsingDataKinds.BrowsingHistory);
+            }
             HistoryList.Clear();
         }
 

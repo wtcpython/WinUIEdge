@@ -20,7 +20,7 @@
             <Flyout>
                 <StackPanel>
 
-                    <Grid Width="420">
+                    <Grid Width="420" ColumnSpacing="10">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -29,9 +29,9 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="历史记录" FontWeight="Bold" FontSize="16" Grid.Column="0" Margin="10,0,5,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="历史记录" FontWeight="Bold" FontSize="16" Grid.Column="0" VerticalAlignment="Center"/>
                         <TextBox Name="SearchHistoryBox" PlaceholderText="搜索 历史记录" Grid.Column="1" KeyDown="SearchHistory"/>
-                        <Button Grid.Column="2" Margin="5,0,5,0" Click="DeleteHistoryRequest">
+                        <Button Grid.Column="2" Click="DeleteHistoryRequest">
                             <SymbolIcon Symbol="Delete"/>
                         </Button>
 
