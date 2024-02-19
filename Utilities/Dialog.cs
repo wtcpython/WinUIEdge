@@ -12,20 +12,7 @@ namespace Edge.Utilities
 {
     public static class Dialog
     {
-        public static async void ShowMsgDialog(string title, string content, string closeButtonText)
-        {
-            ContentDialog dialog = new()
-            {
-                Title = title,
-                Content = content,
-                CloseButtonText = closeButtonText,
-                XamlRoot = App.Window.Content.XamlRoot,
-                RequestedTheme = Enum.Parse<ElementTheme>(Info.data.Appearance)
-            };
-            await dialog.ShowAsync();
-        }
-
-        public static async Task<bool> ShowMsgDialog(string title, string content, string closeButtonText, string primaryButtonText)
+        public static async Task<bool> ShowMsgDialog(XamlRoot xamlRoot, string title, string content, string closeButtonText, string primaryButtonText = null)
         {
             ContentDialog dialog = new()
             {
@@ -33,10 +20,10 @@ namespace Edge.Utilities
                 Content = content,
                 CloseButtonText = closeButtonText,
                 PrimaryButtonText = primaryButtonText,
-                XamlRoot = App.Window.Content.XamlRoot,
+                XamlRoot = xamlRoot,
                 RequestedTheme = Enum.Parse<ElementTheme>(Info.data.Appearance)
             };
-            ContentDialogResult result = await dialog.ShowAsync();
+            var result = await dialog.ShowAsync();
             return result == ContentDialogResult.Primary;
         }
 

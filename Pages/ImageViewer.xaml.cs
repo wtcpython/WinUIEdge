@@ -56,7 +56,9 @@ namespace Edge
                 {
                     FileInfo fileInfo = new(filePath);
                     string fileExt = fileInfo.Extension;
-                    bool changed = await Dialog.ShowMsgDialog("文件名称变更确认", $"是否要将名称从 {fileName + fileExt} 更改为 {imageName.Text + fileExt} ?", "取消", "确定");
+                    bool changed = await Dialog.ShowMsgDialog(
+                        App.GetWindowForElement(this).Content.XamlRoot,
+                        "文件名称变更确认", $"是否要将名称从 {fileName + fileExt} 更改为 {imageName.Text + fileExt} ?", "取消", "确定");
                     if (changed)
                     {
                         fileInfo.MoveTo(fileInfo.Directory + "\\" + imageName.Text + fileExt);
@@ -71,7 +73,9 @@ namespace Edge
 
         private async void ImageDeleteRequest(object sender, RoutedEventArgs e)
         {
-            bool deleted = await Dialog.ShowMsgDialog("文件删除确认", $"是否要删除文件 {filePath} ?", "取消", "确定");
+            bool deleted = await Dialog.ShowMsgDialog(
+                App.GetWindowForElement(this).Content.XamlRoot,
+                "文件删除确认", $"是否要删除文件 {filePath} ?", "取消", "确定");
             if (deleted)
             {
                 FileInfo fileInfo = new(filePath);
