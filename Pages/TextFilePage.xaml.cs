@@ -34,18 +34,18 @@ namespace Edge
             string ext = Path.GetExtension(filepath);
             engine.SetData(ext);
 
-            // ¼ÓÔØÎÄ¼şĞÅÏ¢
+            // åŠ è½½æ–‡ä»¶ä¿¡æ¯
             file = filepath;
 
             string DefaultEncoding = "utf-8";
             string content = GetFileText(DefaultEncoding);
 
-            // ¼ÓÔØ±àÂëÁĞ±í
+            // åŠ è½½ç¼–ç åˆ—è¡¨
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             encodeList = Encoding.GetEncodings();
             encodeBox.ItemsSource = encodeList;
 
-            // ³õÊ¼»¯UI Êı¾İ
+            // åˆå§‹åŒ–UI æ•°æ®
             fileNameBlock.Text = file;
             EOFType.Text = GetEOF();
             textType.Text = Info.LanguageDict[ext];
@@ -54,9 +54,9 @@ namespace Edge
             FontFamilyBox.ItemsSource = FontFamilyList;
             FontFamilyBox.SelectedIndex = FontFamilyList.IndexOf(DefaultFontFamily);
 
-            // ÉèÖÃ±à¼­Æ÷ÎÄ±¾
+            // è®¾ç½®ç¼–è¾‘å™¨æ–‡æœ¬
             engine.SetText(content);
-            textInfo.Text = $"¹² {content.Length} ¸ö×Ö·û";
+            textInfo.Text = $"å…± {content.Length} ä¸ªå­—ç¬¦";
 
             engine.SetFontFamily(new FontFamily(DefaultFontFamily));
             engine.SetFontSize(DefaultFontSize);
