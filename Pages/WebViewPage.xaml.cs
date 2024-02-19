@@ -1,4 +1,4 @@
-﻿using Edge.Data;
+using Edge.Data;
 using Edge.Utilities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -136,7 +136,7 @@ namespace Edge
             MainWindow mainWindow = App.GetWindowForElement(this);
 
             mainWindow.Title = sender.DocumentTitle;
-            History.SetHistory(sender.DocumentTitle, Search.Text);
+            History.Add(sender);
 
             List<object> tabs = [.. (mainWindow.Content as TabView).TabItems];
 
@@ -158,13 +158,14 @@ namespace Edge
             }
         }
 
-        private void CoreWebView2_NavigationStarting(CoreWebView2 sender, CoreWebView2NavigationStartingEventArgs args)
+        private async void CoreWebView2_NavigationStarting(CoreWebView2 sender, CoreWebView2NavigationStartingEventArgs args)
         {
             Uri uri = new(args.Uri);
             if (uri.Scheme == "http")
             {
-                Dialog.ShowMsgDialog("网站警告", $"网址：{uri} 使用了不安全的 {uri.Scheme} 协议。", "确定");
                 args.Cancel = true;
+                await Dialog.ShowMsgDialog(
+                    App.GetWindowForElement(this).Content.XamlRoot, "网站警告", $"网址：{uri} 使用了不安全的 {uri.Scheme} 协议。", "确定");
             }
             else
             {

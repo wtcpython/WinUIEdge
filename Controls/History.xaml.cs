@@ -1,4 +1,3 @@
-using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -10,49 +9,35 @@ using System.Linq;
 
 namespace Edge
 {
-    public class HistoryType: ObservableObject
-    {
-        public string Title { get; set; }
-
-        public string Uri { get; set; }
-
-        public string Time { get; set; }
-    }
-
     public sealed partial class History : Page
     {
         //由于 List<T> 没有实现 INotifyPropertyChanged 接口，
         //因此若使用 List<T> 作为 ItemSource，则当 ListView 新增、删除 Item 时，ListView UI 会不能即时更新
-        public static ObservableCollection<HistoryType> HistoryList = [];
+        public static ObservableCollection<CoreWebView2> Histories = [];
 
         public static Button button;
 
         public History()
         {
             this.InitializeComponent();
-            listView.ItemsSource = HistoryList;
+            listView.ItemsSource = Histories;
             button = HistoryButton;
         }
 
-        public static void SetHistory(string title, string uri)
+        public static void Add(CoreWebView2 item)
         {
-            HistoryList.Add(new HistoryType()
-            {
-                Title = title,
-                Uri = uri,
-                Time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-            }); ;
+            if (!Histories.Where(x => x.Source == item.Source).Any()) { Histories.Add(item); }
         }
 
         private void CommandExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         {
             if (args.Parameter != null)
             {
-                foreach (HistoryType history in HistoryList)
+                foreach (CoreWebView2 history in Histories)
                 {
-                    if (history.Time == (args.Parameter as string))
+                    if (history.Source == (args.Parameter as string))
                     {
-                        HistoryList.Remove(history);
+                        Histories.Remove(history);
                         return;
                     }
                 }
@@ -76,14 +61,14 @@ namespace Edge
             {
                 await page.CoreWebView2.Profile.ClearBrowsingDataAsync(CoreWebView2BrowsingDataKinds.BrowsingHistory);
             }
-            HistoryList.Clear();
+            Histories.Clear();
         }
 
         private void SearchHistory(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter || SearchHistoryBox.Text == string.Empty)
             {
-                listView.ItemsSource = HistoryList.Where(x => x.Title.Contains(SearchHistoryBox.Text));
+                listView.ItemsSource = Histories.Where(x => x.DocumentTitle.Contains(SearchHistoryBox.Text));
             }
         }
         public static void ShowFlyout()
