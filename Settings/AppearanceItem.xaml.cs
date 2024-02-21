@@ -22,9 +22,9 @@ namespace Edge
             inLoading = true;
             var themeList = Enum.GetNames(typeof(ElementTheme)).ToList();
             appearanceBox.ItemsSource = themeList;
-            appearanceBox.SelectedIndex = themeList.IndexOf(Info.data.Appearance);
+            appearanceBox.SelectedIndex = themeList.IndexOf(App.settings["Appearance"].ToString());
             effectBox.ItemsSource = Info.WindowEffectList;
-            effectBox.SelectedIndex = Info.WindowEffectList.IndexOf(Info.data.WindowEffect);
+            effectBox.SelectedIndex = Info.WindowEffectList.IndexOf(App.settings["WindowEffect"].ToString());
             inLoading = false;
         }
 
@@ -32,7 +32,8 @@ namespace Edge
         {
             if (!inLoading)
             {
-                string appearance = Info.data.Appearance = appearanceBox.SelectedItem.ToString();
+                string appearance = appearanceBox.SelectedItem.ToString();
+                App.settings["Appearance"] = appearance;
 
                 foreach (Window window in App.mainWindows)
                 {
@@ -51,7 +52,7 @@ namespace Edge
         {
             if (!inLoading)
             {
-                Info.data.WindowEffect = effectBox.SelectedItem.ToString();
+                App.settings["WindowEffect"] = effectBox.SelectedItem.ToString();
 
                 foreach (Window window in App.mainWindows)
                 {

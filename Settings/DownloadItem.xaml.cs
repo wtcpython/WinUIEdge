@@ -1,4 +1,3 @@
-using Edge.Data;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using Windows.Storage.Pickers;
@@ -13,18 +12,18 @@ namespace Edge
 
             DownloadFolderCard.Description = SettingsPage.webView2.CoreWebView2.Profile.DefaultDownloadFolderPath;
 
-            setDownloadBehavior.IsOn = Info.data.AskDownloadBehavior;
-            setDownloadFlyout.IsOn = Info.data.ShowFlyoutWhenStartDownloading;
+            setDownloadBehavior.IsOn = App.settings["AskDownloadBehavior"].ToObject<bool>();
+            setDownloadFlyout.IsOn = App.settings["ShowFlyoutWhenStartDownloading"].ToObject<bool>();
         }
 
         private void DownloadBehaviorChanged(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
-            Info.data.AskDownloadBehavior = setDownloadBehavior.IsOn;
+            App.settings["AskDownloadBehavior"] = setDownloadBehavior.IsOn;
         }
 
         private void ShowFlyoutChanged(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
-            Info.data.ShowFlyoutWhenStartDownloading = setDownloadFlyout.IsOn;
+            App.settings["ShowFlyoutWhenStartDownloading"] = setDownloadFlyout.IsOn;
         }
 
         private async void ChangeDownloadFolder(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)

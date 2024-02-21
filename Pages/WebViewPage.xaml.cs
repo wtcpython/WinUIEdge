@@ -70,7 +70,7 @@ namespace Edge
 
         public void SetHomeButton()
         {
-            showHomePageButton.Visibility = Info.data.ShowHomeButton ? Visibility.Visible : Visibility.Collapsed;
+            showHomePageButton.Visibility = App.settings["ShowHomeButton"].ToObject<bool>() ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void EdgeWebViewEngine_CoreWebView2Initialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
@@ -110,7 +110,7 @@ namespace Edge
         private async void CoreWebView2_DownloadStarting(CoreWebView2 sender, CoreWebView2DownloadStartingEventArgs args)
         {
             args.Handled = true;
-            if (Info.data.AskDownloadBehavior)
+            if (App.settings["AskDownloadBehavior"].ToObject<bool>())
             {
                 IntPtr hwnd = App.GetWindowHandle(this);
 
@@ -120,7 +120,7 @@ namespace Edge
             }
             args.DownloadOperation.BytesReceivedChanged += DownloadOperation_BytesReceivedChanged;
             Download.SetDownloadItem(args.ResultFilePath, args.DownloadOperation.TotalBytesToReceive);
-            if (Info.data.ShowFlyoutWhenStartDownloading) Download.ShowFlyout();
+            if (App.settings["ShowFlyoutWhenStartDownloading"].ToObject<bool>()) Download.ShowFlyout();
         }
 
         private void DownloadOperation_BytesReceivedChanged(CoreWebView2DownloadOperation sender, object args)

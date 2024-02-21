@@ -10,12 +10,12 @@ namespace Edge
         {
             this.InitializeComponent();
             startBox.ItemsSource = Info.StartPageBehaviorList;
-            startBox.SelectedIndex = Info.StartPageBehaviorList.IndexOf(Info.data.StartPageBehavior);
+            startBox.SelectedIndex = Info.StartPageBehaviorList.IndexOf(App.settings["StartPageBehavior"].ToString());
 
             uriCard.IsEnabled = startBox.SelectedIndex != 0;
-            setHomeButton.IsOn = Info.data.ShowHomeButton;
+            setHomeButton.IsOn = App.settings["ShowHomeButton"].ToObject<bool>();
             searchEngineBox.ItemsSource = Info.SearchEngineList.Select(x => x.Name);
-            searchEngineBox.SelectedItem = Info.SearchEngineList.Select(x => x.Name).First(name => name == Info.data.SearchEngine);
+            searchEngineBox.SelectedItem = Info.SearchEngineList.Select(x => x.Name).First(name => name == App.settings["SearchEngine"].ToString());
         }
 
         private void StartBahaviorChanged(object sender, SelectionChangedEventArgs e)
@@ -25,17 +25,17 @@ namespace Edge
 
         private void SetStartUri(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
-            Info.data.SpecificUri = uriText.Text;
+            App.settings["SpecificUri"] = uriText.Text;
         }
 
         private void HomeButtonVisualChanged(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
-            Info.data.ShowHomeButton = setHomeButton.IsOn;
+            App.settings["ShowHomeButton"] = setHomeButton.IsOn;
         }
 
         private void SearchEngineChanged(object sender, SelectionChangedEventArgs e)
         {
-            Info.data.SearchEngine = Info.SearchEngineList.Where(x => x.Name == (string)searchEngineBox.SelectedItem).First().Name;
+            App.settings["SearchEngine"] = Info.SearchEngineList.Where(x => x.Name == (string)searchEngineBox.SelectedItem).First().Name;
         }
     }
 }

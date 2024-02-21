@@ -1,20 +1,11 @@
-using Edge.Utilities;
 using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
+using Windows.ApplicationModel;
+using Windows.Storage;
 
 namespace Edge.Data
 {
-    public class JsonData
-    {
-        public string Appearance { get; set; }
-        public string WindowEffect { get; set; }
-        public string StartPageBehavior { get; set; }
-        public string SpecificUri { get; set; }
-        public bool ShowHomeButton { get; set; }
-        public string SearchEngine { get; set; }
-        public bool AskDownloadBehavior { get; set; }
-        public bool ShowFlyoutWhenStartDownloading { get; set; }
-    }
-
     public class WebsiteInfo
     {
         public string Name { get; set; }
@@ -24,7 +15,6 @@ namespace Edge.Data
 
     public static class Info
     {
-        public static JsonData data = LoadSettingsData("/Data/DefaultSettings.json");
         public static Dictionary<string, string> LanguageDict = LoadStringJsonData("/Data/LanguageType.json");
         public static Dictionary<string, string> ImageDict = LoadStringJsonData("/Data/ImageType.json");
         public static Dictionary<string, string> UserAgentDict = LoadStringJsonData("/Data/UserAgent.json");
@@ -36,17 +26,38 @@ namespace Edge.Data
 
         private static Dictionary<string, string> LoadStringJsonData(string filePath)
         {
-            return Files.LoadJsonFile<Dictionary<string, string>>(filePath);
-        }
-
-        private static JsonData LoadSettingsData(string filePath)
-        {
-            return Files.LoadJsonFile<JsonData>(filePath);
+            return LoadJsonFile<Dictionary<string, string>>(filePath);
         }
 
         private static List<WebsiteInfo> LoadWebsiteInfoData(string filePath)
         {
-            return Files.LoadJsonFile<List<WebsiteInfo>>(filePath);
+            return LoadJsonFile<List<WebsiteInfo>>(filePath);
+        }
+
+        public static string ReadFile(string fullPath)
+        {
+            using FileStream stream = new(fullPath, FileMode.Open, FileAccess.Read);
+            using StreamReader reader = new(stream);
+            return reader.ReadToEnd();
+        }
+
+        public static T LoadJsonFile<T>(string filePath)
+        {
+            string content = ReadFile(Package.Current.InstalledPath + filePath);
+            T data = JsonSerializer.Deserialize<T>(content)!;
+            return data;
+        }
+
+        public static string CheckUserSettingData()
+        {
+            string localFolder = ApplicationData.Current.LocalFolder.Path;
+            string settingsFile = localFolder + "/settings.json";
+            FileInfo settingsInfo = new(Package.Current.InstalledPath + "/Data/DefaultSettings.json");
+            if (!File.Exists(settingsFile))
+            {
+                settingsInfo.CopyTo(settingsFile);
+            }
+            return settingsFile;
         }
     }
 }

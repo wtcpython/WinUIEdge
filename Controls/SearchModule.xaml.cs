@@ -3,7 +3,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.IO;
-using System.Linq;
 
 namespace Edge
 {
@@ -15,7 +14,7 @@ namespace Edge
 
             SearchEngineBox.ItemsSource = Info.SearchEngineList;
 
-            SearchEngineBox.SelectedIndex = Info.SearchEngineList.Select(x => x.Name).ToList().IndexOf(Info.data.SearchEngine);
+            SearchEngineBox.SelectedIndex = Info.SearchEngineList.FindIndex(x => x.Name == App.settings["SearchEngine"].ToString());
         }
 
         private void SearchKeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)

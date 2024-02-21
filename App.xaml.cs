@@ -1,7 +1,9 @@
+using Edge.Data;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
 using Microsoft.Windows.AppNotifications;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using Windows.Win32;
@@ -14,7 +16,8 @@ namespace Edge
     public partial class App : Application
     {
         public static List<MainWindow> mainWindows = [];
-        public static string LatestVersion = null; 
+        public static string LatestVersion = null;
+        public static JToken settings;
         public App()
         {
             this.InitializeComponent();
@@ -54,6 +57,9 @@ namespace Edge
         {
             Environment.SetEnvironmentVariable("WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS", "--disable-features=msSmartScreenProtection");
             Environment.SetEnvironmentVariable("WEBVIEW2_USE_VISUAL_HOSTING_FOR_OWNED_WINDOWS", "1");
+
+            string path = Info.CheckUserSettingData();
+            settings = JToken.Parse(Info.ReadFile(path));
 
             m_window = CreateNewWindow();
             m_window.Activate();

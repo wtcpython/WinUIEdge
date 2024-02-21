@@ -20,18 +20,19 @@ namespace Edge.Utilities
     {
         public static SystemBackdrop SetBackDrop()
         {
-            if (Info.data.WindowEffect == Info.WindowEffectList[0])
+            string effect = App.settings["WindowEffect"].ToString();
+            if (effect == Info.WindowEffectList[0])
             {
                 return new MicaBackdrop();
             }
-            else if (Info.data.WindowEffect == Info.WindowEffectList[1])
+            else if (effect == Info.WindowEffectList[1])
             {
                 return new MicaBackdrop()
                 {
                     Kind = MicaKind.BaseAlt
                 };
             }
-            else if (Info.data.WindowEffect == Info.WindowEffectList[2])
+            else if (effect == Info.WindowEffectList[2])
             {
                 return new DesktopAcrylicBackdrop();
             }
