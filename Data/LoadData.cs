@@ -34,16 +34,9 @@ namespace Edge.Data
             return LoadJsonFile<List<WebsiteInfo>>(filePath);
         }
 
-        public static string ReadFile(string fullPath)
-        {
-            using FileStream stream = new(fullPath, FileMode.Open, FileAccess.Read);
-            using StreamReader reader = new(stream);
-            return reader.ReadToEnd();
-        }
-
         public static T LoadJsonFile<T>(string filePath)
         {
-            string content = ReadFile(Package.Current.InstalledPath + filePath);
+            string content = File.ReadAllText(Package.Current.InstalledPath + filePath);
             T data = JsonSerializer.Deserialize<T>(content)!;
             return data;
         }

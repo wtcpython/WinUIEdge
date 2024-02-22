@@ -6,6 +6,7 @@ using Microsoft.Windows.AppNotifications;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using WinRT.Interop;
@@ -59,7 +60,7 @@ namespace Edge
             Environment.SetEnvironmentVariable("WEBVIEW2_USE_VISUAL_HOSTING_FOR_OWNED_WINDOWS", "1");
 
             string path = Info.CheckUserSettingData();
-            settings = JToken.Parse(Info.ReadFile(path));
+            settings = JToken.Parse(File.ReadAllText(path));
 
             m_window = CreateNewWindow();
             m_window.Activate();
