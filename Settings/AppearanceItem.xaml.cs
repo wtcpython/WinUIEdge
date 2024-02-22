@@ -20,9 +20,9 @@ namespace Edge
         private void AppearanceItemLoaded(object sender, RoutedEventArgs e)
         {
             inLoading = true;
-            var themeList = Enum.GetNames(typeof(ElementTheme)).ToList();
+            var themeList = Enum.GetNames(typeof(ElementTheme));
             appearanceBox.ItemsSource = themeList;
-            appearanceBox.SelectedIndex = themeList.IndexOf(App.settings["Appearance"].ToString());
+            appearanceBox.SelectedIndex = Array.IndexOf(themeList, App.settings["Appearance"].ToString());
             effectBox.ItemsSource = Info.WindowEffectList;
             effectBox.SelectedIndex = Info.WindowEffectList.IndexOf(App.settings["WindowEffect"].ToString());
             inLoading = false;

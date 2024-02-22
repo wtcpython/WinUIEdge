@@ -23,13 +23,13 @@ namespace Edge
 
         public List<int> FontSizeList = Enumerable.Range(6, 36).ToList();
 
-        public List<string> FontFamilyList = CanvasTextFormat.GetSystemFontFamilies().ToList();
+        public string[] FontFamilyList = CanvasTextFormat.GetSystemFontFamilies();
 
 
         public TextFilePage(string filepath)
         {
             this.InitializeComponent();
-            FontFamilyList.Sort();
+            Array.Sort(FontFamilyList);
 
             string ext = Path.GetExtension(filepath);
             engine.SetData(ext);
@@ -37,8 +37,7 @@ namespace Edge
             // 加载文件信息
             file = filepath;
 
-            string DefaultEncoding = "utf-8";
-            string content = GetFileText(DefaultEncoding);
+            string content = File.ReadAllText(filepath, Encoding.UTF8);
 
             // 加载编码列表
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
@@ -52,7 +51,7 @@ namespace Edge
             FontSizeBox.ItemsSource = FontSizeList;
             FontSizeBox.SelectedIndex = FontSizeList.IndexOf(14);
             FontFamilyBox.ItemsSource = FontFamilyList;
-            FontFamilyBox.SelectedIndex = FontFamilyList.IndexOf(DefaultFontFamily);
+            FontFamilyBox.SelectedIndex = Array.IndexOf(FontFamilyList, DefaultFontFamily);
 
             // 设置编辑器文本
             engine.SetText(content);
@@ -61,13 +60,7 @@ namespace Edge
             engine.SetFontFamily(new FontFamily(DefaultFontFamily));
             engine.SetFontSize(DefaultFontSize);
 
-            encodeBox.SelectedIndex = Array.FindIndex(encodeList, x => x.Name == DefaultEncoding);
-        }
-
-        public string GetFileText(string encoding)
-        {
-            using StreamReader reader = new(file, Encoding.GetEncoding(encoding));
-            return reader.ReadToEnd();
+            encodeBox.SelectedIndex = Array.FindIndex(encodeList, x => x.Name == Encoding.UTF8.BodyName);
         }
 
         private void FontFamilyChanged(object sender, SelectionChangedEventArgs e)
@@ -102,7 +95,7 @@ namespace Edge
 
         private void EncodeTypeChanged(object sender, SelectionChangedEventArgs e)
         {
-            string content = GetFileText(encodeList[(sender as ComboBox).SelectedIndex].Name);
+            string content = File.ReadAllText(file, encodeList[(sender as ComboBox).SelectedIndex].GetEncoding());
             engine.SetText(content);
         }
     }
