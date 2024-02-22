@@ -17,7 +17,7 @@ namespace Edge
             }
             else
             {
-                this.Content = new TextBlock();
+                this.Content = new TextBlock() { IsTextSelectionEnabled = true };
             }
         }
 
