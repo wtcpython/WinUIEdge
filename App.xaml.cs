@@ -85,15 +85,15 @@ namespace Edge
         {
             var dispatcherQueue = m_window?.DispatcherQueue ?? DispatcherQueue.GetForCurrentThread();
 
-            dispatcherQueue.TryEnqueue(async delegate
+            dispatcherQueue.TryEnqueue(delegate
             {
                 switch (args.Arguments["UpdateAppRequest"])
                 {
                     case "ReleaseWebsitePage":
-                        await Windows.System.Launcher.LaunchUriAsync(new Uri("https://github.com/wtcpython/WinUIEdge/releases/latest/"));
+                        mainWindows[0].AddNewTab(new WebViewPage() { WebUri = "https://github.com/wtcpython/WinUIEdge/releases/latest/" });
                         break;
                     case "DownloadApp":
-                        await Windows.System.Launcher.LaunchUriAsync(new Uri($"https://github.com/wtcpython/WinUIEdge/releases/latest/download/Edge_{LatestVersion}_x64.7z"));
+                        mainWindows[0].AddNewTab(new WebViewPage() { WebUri = $"https://github.com/wtcpython/WinUIEdge/releases/latest/download/Edge_{LatestVersion}_x64.7z" });
                         break;
                 }
             });
@@ -104,7 +104,6 @@ namespace Edge
             HandleNotification(args);
         }
 
-        public static Window Window { get { return m_window; } }
         private static Window m_window;
 
         public static void ShowWindow(Window window)
