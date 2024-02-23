@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <Grid>
+    <Grid ColumnSpacing="20" Margin="10,0,0,0">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -17,29 +17,38 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
 
-        <TextBlock Name="fileNameBlock" Grid.Column="0" Margin="20,0,10,0" VerticalAlignment="Center"/>
+        <TextBlock Name="fileNameBlock" Grid.Column="0" VerticalAlignment="Center"/>
 
-        <StackPanel Orientation="Horizontal" Grid.Column="1">
-            <TextBlock Text="字体大小" VerticalAlignment="Center"/>
-            <ComboBox Name="FontSizeBox" SelectionChanged="FontSizeChanged" Margin="10,5,20,5"/>
-
-            <TextBlock Text="字体类型" VerticalAlignment="Center"/>
-            <ComboBox Name="FontFamilyBox" SelectionChanged="FontFamilyChanged" Margin="10,5,20,5"/>
+        <StackPanel Orientation="Horizontal" Grid.Column="1" Spacing="10">
+            <ComboBox Name="FontFamilyBox" SelectionChanged="FontFamilyChanged"/>
+            <ComboBox Name="FontSizeBox" SelectionChanged="FontSizeChanged"/>
         </StackPanel>
 
         <local:BrowserMenuItems Grid.Column="3" HorizontalAlignment="Right"/>
 
-        <local:Engine x:Name="engine" Grid.Row="1" Grid.ColumnSpan="5" Margin="10,0,0,0"/>
+        <local:Engine x:Name="engine" Grid.Row="1" Grid.ColumnSpan="5">
+            <local:Engine.KeyboardAccelerators>
+                <KeyboardAccelerator Key="F" Modifiers="Control" Invoked="SearchText"/>
+            </local:Engine.KeyboardAccelerators>
+            <FlyoutBase.AttachedFlyout>
+                <Flyout>
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <TextBox KeyDown="SearchKeyDown" Width="360"/>
+                        <TextBlock Name="ResultNumber" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Flyout>
+            </FlyoutBase.AttachedFlyout>
+        </local:Engine>
 
-        <TextBlock Name="textInfo" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="20,0,10,0"/>
+        <TextBlock Name="textInfo" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
 
-        <ComboBox Name="encodeBox" SelectionChanged="EncodeTypeChanged" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Margin="0,5,20,5" HorizontalAlignment="Right">
+        <ComboBox Name="encodeBox" SelectionChanged="EncodeTypeChanged" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -49,10 +58,8 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="3">
-            <TextBlock Name="EOFType" VerticalAlignment="Center"/>
-            <TextBlock Name="textType" VerticalAlignment="Center" Margin="30,0,20,0"/>
-        </StackPanel>
+        <TextBlock Name="EOFType" VerticalAlignment="Center" Grid.Row="2" Grid.Column="2"/>
+        <TextBlock Name="textType" VerticalAlignment="Center" Grid.Row="2" Grid.Column="3"/>
 
     </Grid>
 </Page>

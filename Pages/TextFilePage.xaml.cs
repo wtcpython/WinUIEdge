@@ -1,6 +1,7 @@
 using Edge.Data;
 using Microsoft.Graphics.Canvas.Text;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace Edge
 
         public int DefaultFontSize = 14;
 
-        public List<int> FontSizeList = Enumerable.Range(6, 36).ToList();
+        public List<int> FontSizeList = Enumerable.Range(8, 58).Where(x => x % 2 == 0).ToList();
 
         public string[] FontFamilyList = CanvasTextFormat.GetSystemFontFamilies();
 
@@ -97,6 +98,19 @@ namespace Edge
         {
             string content = File.ReadAllText(file, encodeList[(sender as ComboBox).SelectedIndex].GetEncoding());
             engine.SetText(content);
+        }
+
+        private void SearchText(Microsoft.UI.Xaml.Input.KeyboardAccelerator sender, Microsoft.UI.Xaml.Input.KeyboardAcceleratorInvokedEventArgs args)
+        {
+            FlyoutBase.ShowAttachedFlyout(engine);
+        }
+
+        private void SearchKeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                ResultNumber.Text = engine.GetSearchTextNumber((sender as TextBox).Text).ToString();
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Edge
 {
@@ -47,6 +48,17 @@ namespace Edge
             {
                 block.FontSize = size;
             }
+        }
+
+        public int GetSearchTextNumber(string searchText)
+        {
+            string text = string.Empty;
+            if (Content is TextBlock block)
+            {
+                text = block.Text;
+            }
+            MatchCollection matches = Regex.Matches(text, searchText);
+            return matches.Count;
         }
 
         public void LoadTree(TreeView obj, string content)
