@@ -34,16 +34,16 @@
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator Key="Left" Modifiers="Menu"/>
                 </Button.KeyboardAccelerators>
-                <SymbolIcon Symbol="Back"/>
+                <FontIcon Glyph="&#xe72b;"/>
             </Button>
 
             <Button Name="uriGoForwardButton" Click="UriGoForwardRequest"
-                    ToolTipService.ToolTip="返回 (Alt+向右键)" Background="Transparent"
+                    ToolTipService.ToolTip="继续 (Alt+向右键)" Background="Transparent"
                     Grid.Column="1">
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator Key="Right" Modifiers="Menu"/>
                 </Button.KeyboardAccelerators>
-                <SymbolIcon Symbol="Forward"/>
+                <FontIcon Glyph="&#xe72a;"/>
             </Button>
 
             <Button Name="uriRefreshButton" Click="UriRefreshRequest"
@@ -52,13 +52,13 @@
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator Key="R" Modifiers="Control"/>
                 </Button.KeyboardAccelerators>
-                <SymbolIcon Symbol="Refresh"/>
+                <FontIcon Glyph="&#xe72c;"/>
             </Button>
 
             <Button Name="showHomePageButton" Click="ShowHomePage"
                     ToolTipService.ToolTip="主页" Background="Transparent"
                     Grid.Column="3">
-                <SymbolIcon Symbol="Home"/>
+                <FontIcon Glyph="&#xe80f;"/>
             </Button>
 
             <local:SearchModule x:Name="Search" Grid.Column="5"/>

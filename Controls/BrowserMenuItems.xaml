@@ -11,7 +11,7 @@
         <Button.KeyboardAccelerators>
             <KeyboardAccelerator Key="F" Modifiers="Menu"/>
         </Button.KeyboardAccelerators>
-        <SymbolIcon Symbol="More"/>
+        <FontIcon Glyph="&#xe712;" />
         <Button.Flyout>
             <MenuFlyout>
                 <MenuFlyoutItem Text="新建标签页" Click="TryCreateNewTab">
@@ -79,7 +79,7 @@
                     </MenuFlyoutItem.KeyboardAccelerators>
 
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe81c;"/>
+                        <FontIcon Glyph="&#xe81c;"/>
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
 
@@ -89,7 +89,7 @@
                     </MenuFlyoutItem.KeyboardAccelerators>
 
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe896;"/>
+                        <FontIcon Glyph="&#xe896;"/>
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
 
@@ -101,7 +101,7 @@
                     </MenuFlyoutItem.KeyboardAccelerators>
                     
                     <MenuFlyoutItem.Icon>
-                        <SymbolIcon Symbol="Print"/>
+                        <FontIcon Glyph="&#xe749;"/>
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
 
@@ -117,13 +117,13 @@
                     </MenuFlyoutItem.KeyboardAccelerators>
 
                     <MenuFlyoutItem.Icon>
-                        <SymbolIcon Symbol="Find"/>
+                        <FontIcon Glyph="&#xe71e;"/>
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
 
                 <MenuFlyoutItem Text="设置" Click="TryOpenSettingPage">
                     <MenuFlyoutItem.Icon>
-                        <SymbolIcon Symbol="Setting"/>
+                        <FontIcon Glyph="&#xe713;"/>
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
 

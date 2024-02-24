@@ -25,11 +25,11 @@ namespace Edge
             this.SystemBackdrop = Theme.SetBackDrop();
         }
 
-        public void AddNewTab(object content, string header = "÷˜“≥", int index = -1)
+        public void AddNewTab(object content, string header = "‰∏ªÈ°µ", int index = -1)
         {
             TabViewItem newTab = new()
             {
-                IconSource = new SymbolIconSource() { Symbol = Symbol.Home },
+                IconSource = new FontIconSource() { Glyph = "\ue80f" },
                 Header = header,
                 Content = content,
                 ContextFlyout = TabFlyout
@@ -132,14 +132,14 @@ namespace Edge
                 if (!page.CoreWebView2.IsMuted)
                 {
                     page.CoreWebView2.IsMuted = true;
-                    MuteButton.Icon = new SymbolIcon() { Symbol = Symbol.Volume };
-                    MuteButton.Text = "»°œ˚±Í«©“≥æ≤“Ù";
+                    MuteButton.Icon = new FontIcon() { Glyph = "\ue995" };
+                    MuteButton.Text = "ÂèñÊ∂àÊ†áÁ≠æÈ°µÈùôÈü≥";
                 }
                 else
                 {
                     page.CoreWebView2.IsMuted = false;
-                    MuteButton.Icon = new SymbolIcon() { Symbol = Symbol.Mute };
-                    MuteButton.Text = " π±Í«©“≥æ≤“Ù";
+                    MuteButton.Icon = new FontIcon() { Glyph = "\ue74f" };
+                    MuteButton.Text = "‰ΩøÊ†áÁ≠æÈ°µÈùôÈü≥";
                 }
             }
         }

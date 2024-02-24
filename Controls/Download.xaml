@@ -14,7 +14,7 @@
             <KeyboardAccelerator Key="J" Modifiers="Control"/>
         </Button.KeyboardAccelerators>
 
-        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe896;"/>
+        <FontIcon Glyph="&#xe896;"/>
 
         <Button.Flyout>
             <Flyout>
@@ -33,15 +33,15 @@
                         <TextBlock Text="下载" FontWeight="Bold" FontSize="16" Grid.Column="0" VerticalAlignment="Center"/>
                         <TextBox Name="SearchDownloadBox" PlaceholderText="搜索下载项" Grid.Column="1" KeyDown="SearchDownload"/>
                         <Button Grid.Column="2" Click="OpenDownloadFolderRequest">
-                            <SymbolIcon Symbol="Folder"/>
+                            <FontIcon Glyph="&#xe8b7;"/>
                         </Button>
 
                         <Button Grid.Column="3" Click="DeleteDownloadRequest">
-                            <SymbolIcon Symbol="Delete"/>
+                            <FontIcon Glyph="&#xe74d;"/>
                         </Button>
 
                         <Button Grid.Column="4">
-                            <SymbolIcon Symbol="Setting"/>
+                            <FontIcon Glyph="&#xe713;"/>
                         </Button>
 
                     </Grid>

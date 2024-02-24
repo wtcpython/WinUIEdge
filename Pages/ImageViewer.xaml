@@ -26,15 +26,15 @@
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="1">
                 <Button Click="ImageCropRequest">
-                    <SymbolIcon Symbol="Edit"/>
+                    <FontIcon Glyph="&#xe70f;"/>
                 </Button>
 
                 <Button Click="ImageRotateRequest">
-                    <SymbolIcon Symbol="Rotate"/>
+                    <FontIcon Glyph="&#xe7ad;"/>
                 </Button>
 
                 <Button Click="ImageDeleteRequest">
-                    <SymbolIcon Symbol="Delete"/>
+                    <FontIcon Glyph="&#xe74d;"/>
                 </Button>
 
                 <Button>
