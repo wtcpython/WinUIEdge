@@ -31,7 +31,7 @@
             <NavigationViewItem Content="关于 Edge" Icon="Setting" Tag="AboutItem"/>
         </NavigationView.MenuItems>
 
-        <Frame x:Name="ContentFrame" Padding="20,10"/>
+        <Frame x:Name="ContentFrame" Padding="20,10,0,0"/>
     </NavigationView>
 
 </Page>
