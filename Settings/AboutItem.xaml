@@ -11,23 +11,22 @@
     <StackPanel Spacing="10">
 
         <controls:SettingsCard
-            Name="edgeVersionCard"
-            Header="Edge 内核">
+            Header="Edge 内核"
+            Description="{x:Bind browserVersion}">
             <Button Name="CopyChromiumVersionButton"
                     Click="TryCopyChromiumVersion"
                     Content="复制"/>
         </controls:SettingsCard>
 
         <controls:SettingsCard
-            Name="appVersionCard"
-            Header="应用程序版本">
+            Header="应用程序版本"
+            Description="{x:Bind appVersion}">
             <Button Name="CopyAppVersionButton"
                     Click="TryCopyAppVersion"
                     Content="复制"/>
         </controls:SettingsCard>
 
         <controls:SettingsCard
-            Name="downloadEdgeCard"
             Header="下载 Microsoft Edge"
             Click="OpenMSEdgeWebsite"
             IsClickEnabled="True">
@@ -37,7 +36,6 @@
         </controls:SettingsCard>
 
         <controls:SettingsCard
-            Name="githubRepoCard"
             Header="GitHub Repo"
             Click="OpenRepoWebsite"
             IsClickEnabled="True">

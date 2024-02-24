@@ -11,7 +11,6 @@
     <StackPanel Spacing="10">
 
         <controls:SettingsCard
-            Name="appearanceCard"
             Header="整体外观"
             Description="适用于新的选项卡、页面、对话框和其他菜单。">
             <ComboBox
@@ -20,7 +19,6 @@
         </controls:SettingsCard>
 
         <controls:SettingsCard
-            Name="effectCard"
             Header="窗口特效"
             Description="设置窗口特效的形式">
             <ComboBox

@@ -11,12 +11,11 @@ namespace Edge
     public sealed partial class AboutItem : Page
     {
         public string appVersion = Package.Current.Id.Version.ToFormattedString();
+        public string browserVersion = SettingsPage.webView2.CoreWebView2.Environment.BrowserVersionString;
 
         public AboutItem()
         {
             this.InitializeComponent();
-            edgeVersionCard.Description = $"°æ±¾£º{SettingsPage.webView2.CoreWebView2.Environment.BrowserVersionString}";
-            appVersionCard.Description = $"°æ±¾£º{appVersion}";
             this.Loaded += CheckAppVersion;
         }
 
@@ -57,7 +56,7 @@ namespace Edge
 
         private void TryCopyChromiumVersion(object sender, RoutedEventArgs e)
         {
-            CopyText(SettingsPage.webView2.CoreWebView2.Environment.BrowserVersionString);
+            CopyText(browserVersion);
         }
 
         private void TryCopyAppVersion(object sender, RoutedEventArgs e)
