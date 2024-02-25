@@ -62,22 +62,24 @@
                                             </VisualStateGroup>
                                         </VisualStateManager.VisualStateGroups>
                                         <SwipeControl>
-                                            <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
-                                                <StackPanel Grid.Column="0" MaxWidth="340">
-                                                    <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" FontWeight="Bold" Margin="0,10,0,5"/>
+                                            <StackPanel Orientation="Horizontal" Spacing="5">
+
+                                                <StackPanel Grid.Column="0" Width="320" Spacing="5">
+                                                    <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis"/>
 
                                                     <ProgressBar Value="{Binding ReceivedBytes, UpdateSourceTrigger=PropertyChanged}"
                                                              Maximum="{Binding TotalBytes}"/>
 
-                                                    <TextBlock Text="{Binding Information, UpdateSourceTrigger=PropertyChanged}" TextTrimming="CharacterEllipsis" Margin="0,5,0,10"/>
+                                                    <TextBlock Text="{Binding Information, UpdateSourceTrigger=PropertyChanged}" TextTrimming="CharacterEllipsis"/>
 
                                                 </StackPanel>
 
-                                                <AppBarButton x:Name="CancelButton" VerticalAlignment="Center" Visibility="Collapsed" CommandParameter="{x:Bind Time}" Width="48" Height="48">
-                                                    <AppBarButton.Command>
-                                                        <StandardUICommand Kind="Delete" ExecuteRequested="CommandExecuteRequested" Label=""/>
-                                                    </AppBarButton.Command>
-                                                </AppBarButton>
+                                                <Button x:Name="CancelButton" Visibility="Collapsed" CommandParameter="{Binding Time}">
+                                                    <Button.Command>
+                                                        <StandardUICommand Kind="Delete" ExecuteRequested="CommandExecuteRequested"/>
+                                                    </Button.Command>
+                                                </Button>
+                                                
                                             </StackPanel>
                                         </SwipeControl>
                                     </Grid>

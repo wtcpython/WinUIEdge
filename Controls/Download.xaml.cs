@@ -1,3 +1,4 @@
+using CommunityToolkit.Common;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -5,6 +6,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.Web.WebView2.Core;
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using Windows.Storage;
 
@@ -33,12 +35,12 @@ namespace Edge
         }
 
         public string Time { get; set; }
+
+        public DateTime DateTime { get; set; }
     }
 
     public sealed partial class Download : Page
     {
-        //由于 List<T> 没有实现 INotifyPropertyChanged 接口，
-        //因此若使用 List<T> 作为 ItemSource，则当 ListView 新增、删除 Item 时，ListView UI 会不能即时更新
         public static ObservableCollection<DownloadType> DownloadList = [];
 
         public static Button button;
@@ -50,7 +52,7 @@ namespace Edge
             button = DownloadButton;
         }
 
-        public static void SetDownloadItem(string title, long totalBytes)
+        public static void Add(string title, long totalBytes)
         {
             DownloadList.Add(new DownloadType()
             {
@@ -59,7 +61,20 @@ namespace Edge
                 ReceivedBytes = 0,
                 Information = "",
                 Time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                DateTime = DateTime.Now
             }); ;
+        }
+
+        public static void SetDownloadInfo(CoreWebView2DownloadOperation operation)
+        {
+            DownloadType item = DownloadList.Single(x => x.Title == Path.GetFileName(operation.ResultFilePath));
+            long preReceivedBytes = item.ReceivedBytes;
+            DateTime preDateTime = item.DateTime;
+            string speed = Converters.ToFileSizeString((long)((operation.BytesReceived - preReceivedBytes) / (DateTime.Now - preDateTime).TotalSeconds)) + "/ s";
+            string information = $"Speed: {speed} Time: {DateTime.Parse(operation.EstimatedEndTime) - DateTime.Now:hh\\:mm\\:ss}";
+            item.ReceivedBytes = operation.BytesReceived;
+            item.DateTime = DateTime.Now;
+            item.Information = information;
         }
 
         private void CommandExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)

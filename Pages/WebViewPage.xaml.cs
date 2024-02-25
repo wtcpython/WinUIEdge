@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using Windows.Storage;
 
 
@@ -118,16 +118,9 @@ namespace Edge
 
                 args.ResultFilePath = file.Path;
             }
-            args.DownloadOperation.BytesReceivedChanged += DownloadOperation_BytesReceivedChanged;
-            Download.SetDownloadItem(args.ResultFilePath, args.DownloadOperation.TotalBytesToReceive);
+            args.DownloadOperation.BytesReceivedChanged += (sender, args) => Download.SetDownloadInfo(sender);
+            Download.Add(Path.GetFileName(args.ResultFilePath), args.DownloadOperation.TotalBytesToReceive);
             if (App.settings["ShowFlyoutWhenStartDownloading"].ToObject<bool>()) Download.ShowFlyout();
-        }
-
-        private void DownloadOperation_BytesReceivedChanged(CoreWebView2DownloadOperation sender, object args)
-        {
-            string infomation = $"Time: {DateTime.Now - DateTime.Parse(sender.EstimatedEndTime)}";
-            Download.DownloadList.Single(x => x.Title.Equals(sender.ResultFilePath)).Information = infomation;
-            Download.DownloadList.Single(x => x.Title.Equals(sender.ResultFilePath)).ReceivedBytes = sender.BytesReceived;
         }
 
         private void CoreWebView2_DOMContentLoaded(CoreWebView2 sender, CoreWebView2DOMContentLoadedEventArgs args)
