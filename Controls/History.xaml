@@ -57,17 +57,29 @@
                                             </VisualStateGroup>
                                         </VisualStateManager.VisualStateGroups>
                                         <SwipeControl>
-                                            <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
-                                                <StackPanel>
-                                                    <TextBlock Text="{Binding DocumentTitle}" Width="340" TextTrimming="CharacterEllipsis" FontWeight="Bold" FontSize="14" Margin="0,0,0,5"/>
-                                                    <TextBlock Text="{Binding Source}" Width="340" TextTrimming="CharacterEllipsis" FontSize="14" Margin="0,0,0,5"/>
-                                                </StackPanel>
+                                            <StackPanel Orientation="Horizontal" Spacing="5">
+                                                
+                                                <ToolTipService.ToolTip>
+                                                    <ToolTip>
+                                                        <StackPanel>
+                                                            <TextBlock Text="{Binding DocumentTitle}"/>
+                                                            <TextBlock Text="{Binding Source}"/>
+                                                        </StackPanel>
+                                                    </ToolTip>
+                                                </ToolTipService.ToolTip>
 
-                                                <AppBarButton x:Name="CancelButton" VerticalAlignment="Center" Visibility="Collapsed" CommandParameter="{Binding Source}" Width="48" Height="48">
-                                                    <AppBarButton.Command>
-                                                        <StandardUICommand Kind="Delete" ExecuteRequested="CommandExecuteRequested" Label=""/>
-                                                    </AppBarButton.Command>
-                                                </AppBarButton>
+                                                <ImageIcon Source="{Binding FaviconUri}" Width="30" Height="30"/>
+
+                                                <TextBlock
+                                                    Text="{Binding DocumentTitle}" Width="280" TextTrimming="CharacterEllipsis"
+                                                    VerticalAlignment="Center"/>
+
+                                                <Button x:Name="CancelButton" Visibility="Collapsed" CommandParameter="{Binding Source}">
+                                                    <Button.Command>
+                                                        <StandardUICommand Kind="Delete" ExecuteRequested="CommandExecuteRequested"/>
+                                                    </Button.Command>
+                                                </Button>
+                                                
                                             </StackPanel>
                                         </SwipeControl>
                                     </Grid>

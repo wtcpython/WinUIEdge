@@ -11,8 +11,6 @@ namespace Edge
 {
     public sealed partial class History : Page
     {
-        //由于 List<T> 没有实现 INotifyPropertyChanged 接口，
-        //因此若使用 List<T> 作为 ItemSource，则当 ListView 新增、删除 Item 时，ListView UI 会不能即时更新
         public static ObservableCollection<CoreWebView2> Histories = [];
 
         public static Button button;
