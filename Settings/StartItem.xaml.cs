@@ -9,23 +9,20 @@ namespace Edge
         public StartItem()
         {
             this.InitializeComponent();
-            startBox.ItemsSource = Info.StartPageBehaviorList;
-            startBox.SelectedIndex = Info.StartPageBehaviorList.IndexOf(App.settings["StartPageBehavior"].ToString());
+            radios.SelectedIndex = App.settings["StartBehavior"].ToObject<int>();
 
-            uriCard.IsEnabled = startBox.SelectedIndex != 0;
+            uriButton.IsEnabled = radios.SelectedIndex == 2;
+
             setHomeButton.IsOn = App.settings["ShowHomeButton"].ToObject<bool>();
             searchEngineBox.ItemsSource = Info.SearchEngineList.Select(x => x.Name);
             searchEngineBox.SelectedItem = Info.SearchEngineList.Select(x => x.Name).First(name => name == App.settings["SearchEngine"].ToString());
-        }
 
-        private void StartBahaviorChanged(object sender, SelectionChangedEventArgs e)
-        {
-            uriCard.IsEnabled = startBox.SelectedIndex != 0;
+            showSuggestUri.IsOn = App.settings["ShowSuggestUri"].ToObject<bool>();
         }
 
         private void SetStartUri(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
-            App.settings["SpecificUri"] = uriText.Text;
+            App.settings["SpecificUri"] = uriBox.Text;
         }
 
         private void HomeButtonVisualChanged(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -36,6 +33,16 @@ namespace Edge
         private void SearchEngineChanged(object sender, SelectionChangedEventArgs e)
         {
             App.settings["SearchEngine"] = Info.SearchEngineList.Where(x => x.Name == (string)searchEngineBox.SelectedItem).First().Name;
+        }
+
+        private void BehaviorChanged(object sender, SelectionChangedEventArgs e)
+        {
+            uriButton.IsEnabled = radios.SelectedIndex == 2;
+        }
+
+        private void SuggestUriVisualChanged(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        {
+            App.settings["ShowSuggestUri"] = showSuggestUri.IsOn;
         }
     }
 }

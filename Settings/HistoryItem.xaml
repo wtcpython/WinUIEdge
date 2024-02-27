@@ -12,7 +12,7 @@
         
         <StackPanel Spacing="10" Margin="15">
 
-            <TextBlock Text="选择每次关闭浏览器时要清除的内容" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="5,10,0,0"/>
+            <TextBlock Text="选择每次关闭浏览器时要清除的内容" Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" Margin="5,10,0,0"/>
 
             <ListView Name="view"/>
 

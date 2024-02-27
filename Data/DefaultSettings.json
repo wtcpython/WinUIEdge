@@ -1,9 +1,10 @@
 {
   "Appearance": "Default",
   "WindowEffect": "Mica",
-  "StartPageBehavior": "打开主页",
+  "StartBehavior": 0,
   "SpecificUri": "",
   "ShowHomeButton": false,
+  "ShowSuggestUri": true,
   "SearchEngine": "Bing",
   "AskDownloadBehavior": false,
   "ShowFlyoutWhenStartDownloading": true

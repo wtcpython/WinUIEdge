@@ -25,7 +25,11 @@
                     <FontIcon Glyph="&#xE790;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-            <NavigationViewItem Content="新标签页和搜索" Icon="Setting" Tag="StartItem"/>
+            <NavigationViewItem Content="开始、主页和新建标签页" Tag="StartItem">
+                <NavigationViewItem.Icon>
+                    <FontIcon Glyph="&#xEc6c;" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
             <NavigationViewItem Content="下载" Icon="Download" Tag="DownloadItem"/>
             <NavigationViewItem Content="打印机" Icon="Print" Tag="PrinterItem"/>
             <NavigationViewItem Content="关于 Edge" Icon="Setting" Tag="AboutItem"/>

@@ -8,25 +8,28 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     mc:Ignorable="d">
-    <StackPanel Spacing="10" Margin="15">
+    <StackPanel Spacing="10" Margin="20">
 
-        <controls:SettingsCard
-            Header="Edge 启动时"
-            Description="选择 Edge 启动的时候要执行的操作">
-            <ComboBox
-                Name="startBox"
-                SelectionChanged="StartBahaviorChanged"/>
-        </controls:SettingsCard>
+        <TextBlock Text="浏览器启动时" Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}"/>
 
-        <controls:SettingsCard
-            Name="uriCard"
-            Header="输入指定Uri"
-            Description='如果选择 "打开指定的页面"，需要手动输入Uri'>
-            <StackPanel Orientation="Horizontal">
-                <TextBox Name="uriText" Width="200"/>
-                <Button Content="确定" Click="SetStartUri"/>
-            </StackPanel>
-        </controls:SettingsCard>
+        <RadioButtons Name="radios" SelectionChanged="BehaviorChanged">
+            <RadioButton Content="打开新标签页"/>
+            <RadioButton Content="打开上一个会话中的标签页"/>
+            <RadioButton Content="打开以下页面"/>
+        </RadioButtons>
+
+        <Grid ColumnSpacing="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="输入网址 Uri" VerticalAlignment="Center" Grid.Column="0"/>
+            <TextBox Name="uriBox" Grid.Column="1"/>
+            <Button Name="uriButton" Content="确定" Click="SetStartUri" Grid.Column="2"/>
+
+        </Grid>
 
         <controls:SettingsCard
             Header='在工具栏上显示"首页"按钮'>
@@ -37,14 +40,16 @@
             Header="选择搜索引擎">
             <ComboBox
                 Name="searchEngineBox"
-                SelectionChanged="SearchEngineChanged">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding}"/>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
+                SelectionChanged="SearchEngineChanged"/>
         </controls:SettingsCard>
+
+        <TextBlock Text="新标签页" Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" Margin="0,20,0,0"/>
+
+        <controls:SettingsCard
+            Header="在新标签页显示推荐的网站">
+            <ToggleSwitch Name="showSuggestUri" Toggled="SuggestUriVisualChanged"/>
+        </controls:SettingsCard>
+
     </StackPanel>
 
 </Page>

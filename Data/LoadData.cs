@@ -1,5 +1,7 @@
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using Windows.ApplicationModel;
 using Windows.Storage;
@@ -22,7 +24,6 @@ namespace Edge.Data
         public static List<WebsiteInfo> SuggestWebsiteList = LoadWebsiteInfoData("/Data/SuggestWebsite.json");
 
         public static List<string> WindowEffectList = ["Mica", "Mica Alt", "Acrylic", "None"];
-        public static List<string> StartPageBehaviorList = ["打开主页", "打开指定的页面"];
 
         private static Dictionary<string, string> LoadStringJsonData(string filePath)
         {
@@ -49,6 +50,15 @@ namespace Edge.Data
             if (!File.Exists(settingsFile))
             {
                 settingsInfo.CopyTo(settingsFile);
+            }
+            else
+            {
+                var keys1 = JToken.Parse(File.ReadAllText(settingsFile)).Select(x => ((JProperty)x).Name);
+                var keys2 = JToken.Parse(File.ReadAllText(settingsInfo.FullName)).Select(x => ((JProperty)x).Name);
+                if(keys1 != keys2)
+                {
+                    settingsInfo.CopyTo(settingsFile, true);
+                }
             }
             return settingsFile;
         }
