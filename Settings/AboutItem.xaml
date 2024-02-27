@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     mc:Ignorable="d">
-    <StackPanel Spacing="10">
+    <StackPanel Spacing="10" Margin="15">
 
         <controls:SettingsCard
             Header="Edge 内核"
