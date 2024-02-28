@@ -27,7 +27,11 @@ namespace Edge
         public static MainWindow CreateNewWindow()
         {
             MainWindow window = new();
-            window.Closed += (sender, e) => mainWindows.Remove(window);
+            window.Closed += (sender, e) =>
+            {
+                mainWindows.Remove(window);
+                File.WriteAllText(Info.CheckUserSettingData(), settings.ToString());
+            };
             mainWindows.Add(window);
             return window;
         }

@@ -55,7 +55,7 @@ namespace Edge.Data
             {
                 var keys1 = JToken.Parse(File.ReadAllText(settingsFile)).Select(x => ((JProperty)x).Name);
                 var keys2 = JToken.Parse(File.ReadAllText(settingsInfo.FullName)).Select(x => ((JProperty)x).Name);
-                if(keys1 != keys2)
+                if (!keys1.SequenceEqual(keys2))
                 {
                     settingsInfo.CopyTo(settingsFile, true);
                 }
