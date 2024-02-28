@@ -8,48 +8,65 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     mc:Ignorable="d">
-    <StackPanel Spacing="10" Margin="20">
+    <ScrollView>
 
-        <TextBlock Text="浏览器启动时" Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}"/>
+        <StackPanel Spacing="10" Margin="20">
 
-        <RadioButtons Name="radios" SelectionChanged="BehaviorChanged">
-            <RadioButton Content="打开新标签页"/>
-            <RadioButton Content="打开上一个会话中的标签页"/>
-            <RadioButton Content="打开以下页面"/>
-        </RadioButtons>
+            <TextBlock Text="浏览器启动时" Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}"/>
 
-        <Grid ColumnSpacing="10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+            <RadioButtons Name="radios" SelectionChanged="BehaviorChanged">
+                <RadioButton Content="打开新标签页"/>
+                <RadioButton Content="打开上一个会话中的标签页"/>
+                <RadioButton Content="打开以下页面"/>
+            </RadioButtons>
 
-            <TextBlock Text="输入网址 Uri" VerticalAlignment="Center" Grid.Column="0"/>
-            <TextBox Name="uriBox" Grid.Column="1"/>
-            <Button Name="uriButton" Content="确定" Click="SetStartUri" Grid.Column="2"/>
+            <Grid ColumnSpacing="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-        </Grid>
+                <TextBlock Text="输入网址 Uri" VerticalAlignment="Center" Grid.Column="0"/>
+                <TextBox Name="uriBox" Grid.Column="1"/>
+                <Button Name="uriButton" Content="确定" Click="SetStartUri" Grid.Column="2"/>
 
-        <controls:SettingsCard
+            </Grid>
+
+            <controls:SettingsCard
             Header='在工具栏上显示"首页"按钮'>
-            <ToggleSwitch Name="setHomeButton" Toggled="HomeButtonVisualChanged"/>
-        </controls:SettingsCard>
+                <ToggleSwitch Name="setHomeButton" Toggled="HomeButtonVisualChanged"/>
+            </controls:SettingsCard>
 
-        <controls:SettingsCard
+            <controls:SettingsCard
             Header="选择搜索引擎">
-            <ComboBox
+                <ComboBox
                 Name="searchEngineBox"
                 SelectionChanged="SearchEngineChanged"/>
-        </controls:SettingsCard>
+            </controls:SettingsCard>
 
-        <TextBlock Text="新标签页" Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" Margin="0,20,0,0"/>
+            <TextBlock Text="新标签页" Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" Margin="0,20,0,0"/>
 
-        <controls:SettingsCard
+            <controls:SettingsCard
             Header="在新标签页显示推荐的网站">
-            <ToggleSwitch Name="showSuggestUri" Toggled="SuggestUriVisualChanged"/>
-        </controls:SettingsCard>
+                <ToggleSwitch Name="showSuggestUri" Toggled="SuggestUriVisualChanged"/>
+            </controls:SettingsCard>
 
-    </StackPanel>
+            <controls:SettingsExpander
+            Header="在新标签页显示背景图">
+                <ToggleSwitch Name="showBackground" Toggled="ShowBackgroundChanged"/>
 
+                <controls:SettingsExpander.Items>
+                    <controls:SettingsCard
+                    Name="backgroundCard"
+                    Header="选择背景图片的路径">
+                        <Button Content="更改" Click="SetBackgroundImage"/>
+                    </controls:SettingsCard>
+                </controls:SettingsExpander.Items>
+
+            </controls:SettingsExpander>
+
+        </StackPanel>
+        
+    </ScrollView>
 </Page>

@@ -7,5 +7,7 @@
   "ShowSuggestUri": true,
   "SearchEngine": "Bing",
   "AskDownloadBehavior": false,
-  "ShowFlyoutWhenStartDownloading": true
+  "ShowFlyoutWhenStartDownloading": true,
+  "ShowBackground": false,
+  "BackgroundImage": ""
 }

@@ -1,6 +1,9 @@
 using Edge.Data;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
+using System;
 
 namespace Edge
 {
@@ -17,6 +20,18 @@ namespace Edge
             else
             {
                 View.Visibility = Visibility.Collapsed;
+            }
+
+            if (App.settings["ShowBackground"].ToObject<bool>())
+            {
+                homeGrid.Background = new ImageBrush()
+                {
+                    ImageSource = new BitmapImage()
+                    {
+                        UriSource = new Uri(App.settings["BackgroundImage"].ToString())
+                    },
+                    Stretch = Stretch.UniformToFill
+                };
             }
         }
 

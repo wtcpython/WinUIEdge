@@ -1,6 +1,10 @@
 using Edge.Data;
 using Microsoft.UI.Xaml.Controls;
+using System;
 using System.Linq;
+using Windows.Storage;
+using Windows.Storage.Pickers;
+using WinRT.Interop;
 
 namespace Edge
 {
@@ -18,6 +22,8 @@ namespace Edge
             searchEngineBox.SelectedItem = Info.SearchEngineList.Select(x => x.Name).First(name => name == App.settings["SearchEngine"].ToString());
 
             showSuggestUri.IsOn = App.settings["ShowSuggestUri"].ToObject<bool>();
+
+            showBackground.IsOn = backgroundCard.IsEnabled = App.settings["ShowBackground"].ToObject<bool>();
         }
 
         private void SetStartUri(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -43,6 +49,30 @@ namespace Edge
         private void SuggestUriVisualChanged(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             App.settings["ShowSuggestUri"] = showSuggestUri.IsOn;
+        }
+
+        private void ShowBackgroundChanged(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        {
+            App.settings["ShowBackground"] = backgroundCard.IsEnabled = showBackground.IsOn;
+        }
+
+        private async void SetBackgroundImage(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        {
+            FileOpenPicker picker = new()
+            {
+                SuggestedStartLocation = PickerLocationId.PicturesLibrary,
+                FileTypeFilter =
+                {
+                    {".jpg" },
+                    {".jpeg"},
+                    {".png" }
+                }
+            };
+
+            InitializeWithWindow.Initialize(picker, App.GetWindowHandle(this));
+
+            StorageFile storageFile = await picker.PickSingleFileAsync();
+            App.settings["BackgroundImage"] = storageFile.Path;
         }
     }
 }
