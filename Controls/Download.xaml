@@ -48,7 +48,7 @@
 
                     <ListView x:Name="listView" SelectionMode="Single">
                         <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="local:DownloadType">
+                            <DataTemplate x:DataType="local:DownloadObject">
                                 <UserControl PointerEntered="ListView_PointerEntered" PointerExited="ListView_PointerExited">
                                     <Grid>
                                         <VisualStateManager.VisualStateGroups>
