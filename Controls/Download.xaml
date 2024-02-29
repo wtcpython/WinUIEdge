@@ -67,19 +67,19 @@
                                                 <StackPanel Grid.Column="0" Width="320" Spacing="5">
                                                     <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis"/>
 
-                                                    <ProgressBar Value="{Binding ReceivedBytes, UpdateSourceTrigger=PropertyChanged}"
+                                                    <ProgressBar Value="{Binding BytesReceived}"
                                                              Maximum="{Binding TotalBytes}"/>
 
                                                     <TextBlock Text="{Binding Information, UpdateSourceTrigger=PropertyChanged}" TextTrimming="CharacterEllipsis"/>
 
                                                 </StackPanel>
 
-                                                <Button x:Name="CancelButton" Visibility="Collapsed" CommandParameter="{Binding Time}">
-                                                    <Button.Command>
-                                                        <StandardUICommand Kind="Delete" ExecuteRequested="CommandExecuteRequested"/>
-                                                    </Button.Command>
+                                                <Button x:Name="CancelButton" Visibility="Collapsed" CommandParameter="{Binding Time}" Click="RemoveDownloadItem">
+                                                    <Button.Content>
+                                                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe711;"/>
+                                                    </Button.Content>
                                                 </Button>
-                                                
+
                                             </StackPanel>
                                         </SwipeControl>
                                     </Grid>

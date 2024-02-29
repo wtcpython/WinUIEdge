@@ -4,9 +4,11 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Windows.Storage;
 
 
@@ -31,7 +33,7 @@ namespace Edge
                 WebUri = "https://bing.com";
             }
 
-            UABox.ItemsSource = Info.UserAgentDict.Keys;
+            UABox.ItemsSource = Info.UserAgentDict.Select(x => ((JProperty)x).Name);
         }
 
         private void SetWebNaviButtonStatus()
@@ -118,8 +120,7 @@ namespace Edge
 
                 args.ResultFilePath = file.Path;
             }
-            args.DownloadOperation.BytesReceivedChanged += (sender, args) => Download.SetDownloadInfo(sender);
-            Download.Add(Path.GetFileName(args.ResultFilePath), args.DownloadOperation.TotalBytesToReceive);
+            Download.Add(args.DownloadOperation);
             if (App.settings["ShowFlyoutWhenStartDownloading"].ToObject<bool>()) Download.ShowFlyout();
         }
 
@@ -181,7 +182,7 @@ namespace Edge
         {
             if (EdgeWebViewEngine.CoreWebView2 != null)
             {
-                EdgeWebViewEngine.CoreWebView2.Settings.UserAgent = Info.UserAgentDict[(string)(sender as ComboBox).SelectedItem];
+                EdgeWebViewEngine.CoreWebView2.Settings.UserAgent = Info.UserAgentDict[(string)(sender as ComboBox).SelectedItem].ToString();
                 Refresh();
             }
         }

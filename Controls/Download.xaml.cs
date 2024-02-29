@@ -12,20 +12,17 @@ using Windows.Storage;
 
 namespace Edge
 {
-    public class DownloadType: ObservableObject
+    public class DownloadObject : ObservableObject
     {
+        public CoreWebView2DownloadOperation Operation { get; set; }
         public string Title { get; set; }
-
-        public long TotalBytes { get; set; }
-
-        private long receivedBytes;
-
-        public long ReceivedBytes
+        private long bytesReceived;
+        public long BytesReceived
         {
-            get => receivedBytes;
-            set => SetProperty(ref receivedBytes, value);
+            get => bytesReceived;
+            set => SetProperty(ref bytesReceived, value);
         }
-
+        public long TotalBytes { get; set; }
         private string information;
 
         public string Information
@@ -35,13 +32,30 @@ namespace Edge
         }
 
         public string Time { get; set; }
-
         public DateTime DateTime { get; set; }
+        public DownloadObject(CoreWebView2DownloadOperation operation)
+        {
+            Operation = operation;
+            Title = Path.GetFileName(Operation.ResultFilePath);
+            TotalBytes = Operation.TotalBytesToReceive;
+            Time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            DateTime = DateTime.Now;
+            Operation.BytesReceivedChanged += Operation_BytesReceivedChanged;
+        }
+
+        private void Operation_BytesReceivedChanged(CoreWebView2DownloadOperation sender, object args)
+        {
+            string speed = Converters.ToFileSizeString((long)((sender.BytesReceived - BytesReceived) / (DateTime.Now - DateTime).TotalSeconds)) + "/ s";
+            string information = $"Speed: {speed} Time: {DateTime.Parse(sender.EstimatedEndTime) - DateTime.Now:hh\\:mm\\:ss}";
+            BytesReceived = sender.BytesReceived;
+            DateTime = DateTime.Now;
+            Information = information;
+        }
     }
 
     public sealed partial class Download : Page
     {
-        public static ObservableCollection<DownloadType> DownloadList = [];
+        public static ObservableCollection<DownloadObject> DownloadList = [];
 
         public static Button button;
 
@@ -52,42 +66,19 @@ namespace Edge
             button = DownloadButton;
         }
 
-        public static void Add(string title, long totalBytes)
+        public static void Add(CoreWebView2DownloadOperation operation)
         {
-            DownloadList.Add(new DownloadType()
-            {
-                Title = title,
-                TotalBytes = totalBytes,
-                ReceivedBytes = 0,
-                Information = "",
-                Time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                DateTime = DateTime.Now
-            }); ;
+            DownloadList.Add(new DownloadObject(operation));
         }
 
-        public static void SetDownloadInfo(CoreWebView2DownloadOperation operation)
+        private void RemoveDownloadItem(object sender, RoutedEventArgs e)
         {
-            DownloadType item = DownloadList.Single(x => x.Title == Path.GetFileName(operation.ResultFilePath));
-            long preReceivedBytes = item.ReceivedBytes;
-            DateTime preDateTime = item.DateTime;
-            string speed = Converters.ToFileSizeString((long)((operation.BytesReceived - preReceivedBytes) / (DateTime.Now - preDateTime).TotalSeconds)) + "/ s";
-            string information = $"Speed: {speed} Time: {DateTime.Parse(operation.EstimatedEndTime) - DateTime.Now:hh\\:mm\\:ss}";
-            item.ReceivedBytes = operation.BytesReceived;
-            item.DateTime = DateTime.Now;
-            item.Information = information;
-        }
-
-        private void CommandExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
-        {
-            if (args.Parameter != null)
+            foreach (DownloadObject download in DownloadList)
             {
-                foreach (DownloadType download in DownloadList)
+                if (download.Time == (sender as Button).CommandParameter as string)
                 {
-                    if (download.Time == (args.Parameter as string))
-                    {
-                        DownloadList.Remove(download);
-                        return;
-                    }
+                    DownloadList.Remove(download);
+                    return;
                 }
             }
         }
