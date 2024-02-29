@@ -17,29 +17,26 @@ namespace Edge.Data
 
     public static class Info
     {
-        public static Dictionary<string, string> LanguageDict = LoadStringJsonData("/Data/LanguageType.json");
-        public static Dictionary<string, string> ImageDict = LoadStringJsonData("/Data/ImageType.json");
-        public static Dictionary<string, string> UserAgentDict = LoadStringJsonData("/Data/UserAgent.json");
-        public static List<WebsiteInfo> SearchEngineList = LoadWebsiteInfoData("/Data/SearchEngine.json");
-        public static List<WebsiteInfo> SuggestWebsiteList = LoadWebsiteInfoData("/Data/SuggestWebsite.json");
+        public static JToken LanguageDict = LoadJson("/Data/LanguageType.json");
+        public static JToken ImageDict = LoadJson("/Data/ImageType.json");
+        public static JToken UserAgentDict = LoadJson("/Data/UserAgent.json");
+        public static List<WebsiteInfo> SearchEngineList = LoadJsonFile<List<WebsiteInfo>>("/Data/SearchEngine.json");
+        public static List<WebsiteInfo> SuggestWebsiteList = LoadJsonFile<List<WebsiteInfo>>("/Data/SuggestWebsite.json");
 
         public static List<string> WindowEffectList = ["Mica", "Mica Alt", "Acrylic", "None"];
-
-        private static Dictionary<string, string> LoadStringJsonData(string filePath)
-        {
-            return LoadJsonFile<Dictionary<string, string>>(filePath);
-        }
-
-        private static List<WebsiteInfo> LoadWebsiteInfoData(string filePath)
-        {
-            return LoadJsonFile<List<WebsiteInfo>>(filePath);
-        }
 
         public static T LoadJsonFile<T>(string filePath)
         {
             string content = File.ReadAllText(Package.Current.InstalledPath + filePath);
             T data = JsonSerializer.Deserialize<T>(content)!;
             return data;
+        }
+
+        public static JToken LoadJson(string filePath)
+        {
+            string content = File.ReadAllText(Package.Current.InstalledPath + filePath);
+            JToken token = JToken.Parse(content);
+            return token;
         }
 
         public static string CheckUserSettingData()

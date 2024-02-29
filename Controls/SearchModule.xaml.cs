@@ -1,8 +1,10 @@
 using Edge.Data;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace Edge
 {
@@ -31,12 +33,12 @@ namespace Edge
                             string ext = Path.GetExtension(text);
 
                             MainWindow mainWindow = App.GetWindowForElement(this);
-                            if (Info.LanguageDict.ContainsKey(ext))
+                            if (Info.LanguageDict.Select(x => ((JProperty)x).Name).Any(x => x == ext))
                             {
                                 mainWindow.AddNewTab(new TextFilePage(text), Path.GetFileName(text));
                             }
 
-                            else if (Info.ImageDict.ContainsKey(ext))
+                            else if (Info.ImageDict.Select(x => ((JProperty)x).Name).Any(x => x == ext))
                             {
                                 mainWindow.AddNewTab(new ImageViewer(text), Path.GetFileName(text));
                             }

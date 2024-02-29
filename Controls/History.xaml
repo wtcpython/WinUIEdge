@@ -74,12 +74,12 @@
                                                     Text="{Binding DocumentTitle}" Width="280" TextTrimming="CharacterEllipsis"
                                                     VerticalAlignment="Center"/>
 
-                                                <Button x:Name="CancelButton" Visibility="Collapsed" CommandParameter="{Binding Source}">
-                                                    <Button.Command>
-                                                        <StandardUICommand Kind="Delete" ExecuteRequested="CommandExecuteRequested"/>
-                                                    </Button.Command>
+                                                <Button x:Name="CancelButton" Visibility="Collapsed" CommandParameter="{Binding Source}" Click="RemoveHistoryItem">
+                                                    <Button.Content>
+                                                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe711;"/>
+                                                    </Button.Content>
                                                 </Button>
-                                                
+
                                             </StackPanel>
                                         </SwipeControl>
                                     </Grid>

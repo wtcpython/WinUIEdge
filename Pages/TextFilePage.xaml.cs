@@ -48,7 +48,7 @@ namespace Edge
             // 初始化UI 数据
             fileNameBlock.Text = file;
             EOFType.Text = GetEOF();
-            textType.Text = Info.LanguageDict[ext];
+            textType.Text = Info.LanguageDict[ext].ToString();
             FontSizeBox.ItemsSource = FontSizeList;
             FontSizeBox.SelectedIndex = FontSizeList.IndexOf(14);
             FontFamilyBox.ItemsSource = FontFamilyList;

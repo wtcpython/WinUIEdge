@@ -27,17 +27,14 @@ namespace Edge
             if (!Histories.Where(x => x.Source == item.Source).Any()) { Histories.Add(item); }
         }
 
-        private void CommandExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        private void RemoveHistoryItem(object sender, RoutedEventArgs e)
         {
-            if (args.Parameter != null)
+            foreach (CoreWebView2 history in Histories)
             {
-                foreach (CoreWebView2 history in Histories)
+                if (history.Source == (sender as Button).CommandParameter as string)
                 {
-                    if (history.Source == (args.Parameter as string))
-                    {
-                        Histories.Remove(history);
-                        return;
-                    }
+                    Histories.Remove(history);
+                    return;
                 }
             }
         }
