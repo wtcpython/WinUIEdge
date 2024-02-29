@@ -32,6 +32,11 @@
             </NavigationViewItem>
             <NavigationViewItem Content="下载" Icon="Download" Tag="DownloadItem"/>
             <NavigationViewItem Content="打印机" Icon="Print" Tag="PrinterItem"/>
+            <NavigationViewItem Content="重置设置" Tag="ResetItem">
+                <NavigationViewItem.Icon>
+                    <FontIcon Glyph="&#xE777;" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
             <NavigationViewItem Content="关于 Edge" Icon="Setting" Tag="AboutItem"/>
         </NavigationView.MenuItems>
 
