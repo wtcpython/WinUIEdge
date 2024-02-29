@@ -26,13 +26,6 @@ namespace Edge
             window.Activate();
         }
 
-        private async void TryCreateInPrivateWindow(object sender, RoutedEventArgs e)
-        {
-            await Dialog.ShowMsgDialog(
-                App.GetWindowForElement(this).Content.XamlRoot,
-                "InPrivate 模式不受支持", "Microsoft Edge 未提供 InPrivate API。", "确定");
-        }
-
         private void TryOpenSettingPage(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = App.GetWindowForElement(this);
