@@ -3,11 +3,16 @@
   "WindowEffect": "Mica",
   "StartBehavior": 0,
   "SpecificUri": "",
-  "ShowHomeButton": false,
   "ShowSuggestUri": true,
   "SearchEngine": "Bing",
   "AskDownloadBehavior": false,
   "ShowFlyoutWhenStartDownloading": true,
   "ShowBackground": false,
-  "BackgroundImage": ""
+  "BackgroundImage": "",
+  "ToolBar": {
+    "HomeButton": false,
+    "ForwardButton": true,
+    "HistoryButton": true,
+    "DownloadButton": true
+  }
 }

@@ -17,7 +17,7 @@ namespace Edge
 
             uriButton.IsEnabled = radios.SelectedIndex == 2;
 
-            setHomeButton.IsOn = App.settings["ShowHomeButton"].ToObject<bool>();
+            setHomeButton.IsOn = App.settings["ToolBar"]["HomeButton"].ToObject<bool>();
             searchEngineBox.ItemsSource = Info.SearchEngineList.Select(x => x.Name);
             searchEngineBox.SelectedItem = Info.SearchEngineList.Select(x => x.Name).First(name => name == App.settings["SearchEngine"].ToString());
 
@@ -33,7 +33,7 @@ namespace Edge
 
         private void HomeButtonVisualChanged(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
-            App.settings["ShowHomeButton"] = setHomeButton.IsOn;
+            App.settings["ToolBar"]["HomeButton"] = setHomeButton.IsOn;
         }
 
         private void SearchEngineChanged(object sender, SelectionChangedEventArgs e)

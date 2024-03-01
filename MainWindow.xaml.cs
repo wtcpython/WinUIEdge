@@ -114,17 +114,6 @@ namespace Edge
             tabView.UpdateLayout();
         }
 
-        private void TabView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (tabView.SelectedItem != null)
-            {
-                if ((tabView.SelectedItem as TabViewItem).Content is WebViewPage page)
-                {
-                    page.SetHomeButton();
-                }
-            }
-        }
-
         private void MuteTab(object sender, RoutedEventArgs e)
         {
             if (SelectedItem is WebViewPage page)

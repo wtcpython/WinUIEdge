@@ -25,6 +25,27 @@
                 Name="effectBox"
                 SelectionChanged="EffectChanged"/>
         </controls:SettingsCard>
+
+        <TextBlock Text="自定义工具栏" Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" Margin="5,10,0,0"/>
+
+        <ListView x:Name="toolBarVisualView">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="local:ToolBarVisual">
+                    <Grid>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="{x:Bind Text}" VerticalAlignment="Center"/>
+                        <ToggleSwitch
+                            Name="{x:Bind Text}" IsOn="{x:Bind Visual}" Toggled="VisualChanged"
+                            HorizontalAlignment="Right" Grid.Column="1"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </StackPanel>
 
 </Page>

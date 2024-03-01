@@ -7,7 +7,6 @@ using Microsoft.Web.WebView2.Core;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Windows.Storage;
 
@@ -34,12 +33,19 @@ namespace Edge
             }
 
             UABox.ItemsSource = Info.UserAgentDict.Select(x => ((JProperty)x).Name);
+
+            homeButton.Visibility = App.settings["ToolBar"]["HomeButton"].ToObject<bool>() ? Visibility.Visible : Visibility.Collapsed;
+            historyButton.Visibility = App.settings["ToolBar"]["HistoryButton"].ToObject<bool>() ? Visibility.Visible : Visibility.Collapsed;
+            downloadButton.Visibility = App.settings["ToolBar"]["DownloadButton"].ToObject<bool>() ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void SetWebNaviButtonStatus()
         {
             uriGoBackButton.IsEnabled = EdgeWebViewEngine.CanGoBack;
-            uriGoForwardButton.Visibility = EdgeWebViewEngine.CanGoForward ? Visibility.Visible : Visibility.Collapsed;
+            if (App.settings["ToolBar"]["ForwardButton"].ToObject<bool>())
+            {
+                uriGoForwardButton.Visibility = EdgeWebViewEngine.CanGoForward ? Visibility.Visible : Visibility.Collapsed;
+            }
         }
 
         private void UriGoBackRequest(object sender, RoutedEventArgs e)
@@ -68,11 +74,6 @@ namespace Edge
         private void UriRefreshRequest(object sender, RoutedEventArgs e)
         {
             Refresh();
-        }
-
-        public void SetHomeButton()
-        {
-            showHomePageButton.Visibility = App.settings["ShowHomeButton"].ToObject<bool>() ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void EdgeWebViewEngine_CoreWebView2Initialized(WebView2 sender, CoreWebView2InitializedEventArgs args)

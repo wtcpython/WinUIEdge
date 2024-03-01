@@ -55,7 +55,7 @@
                 <FontIcon Glyph="&#xe72c;"/>
             </Button>
 
-            <Button Name="showHomePageButton" Click="ShowHomePage"
+            <Button Name="homeButton" Click="ShowHomePage"
                     ToolTipService.ToolTip="主页" Background="Transparent"
                     Grid.Column="3">
                 <FontIcon Glyph="&#xe80f;"/>
@@ -63,9 +63,9 @@
 
             <local:SearchModule x:Name="Search" Grid.Column="5"/>
 
-            <local:History Grid.Column="6"/>
+            <local:History x:Name="historyButton" Grid.Column="6"/>
 
-            <local:Download Grid.Column="7"/>
+            <local:Download x:Name="downloadButton" Grid.Column="7"/>
 
             <local:BrowserMenuItems Grid.Column="8"/>
 

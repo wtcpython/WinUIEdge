@@ -3,21 +3,33 @@ using Edge.Utilities;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Edge
 {
+    public class ToolBarVisual
+    {
+        public string Text { get; set; }
+        public bool Visual { get; set; }
+    }
+
     public sealed partial class AppearanceItem : Page
     {
         public static bool inLoading = false;
+        public List<ToolBarVisual> ToolBarVisualList = [];
         public AppearanceItem()
         {
             this.InitializeComponent();
-            this.Loaded += AppearanceItemLoaded;
-        }
+            ToolBarVisualList = App.settings["ToolBar"].Select(x => new ToolBarVisual()
+            {
+                Text = ((JProperty)x).Name,
+                Visual = x.ToObject<bool>()
+            }).ToList();
+            toolBarVisualView.ItemsSource = ToolBarVisualList;
 
-        private void AppearanceItemLoaded(object sender, RoutedEventArgs e)
-        {
             inLoading = true;
             var themeList = Enum.GetNames(typeof(ElementTheme));
             appearanceBox.ItemsSource = themeList;
@@ -56,6 +68,17 @@ namespace Edge
                 foreach (Window window in App.mainWindows)
                 {
                     window.SystemBackdrop = Theme.SetBackDrop();
+                }
+            }
+        }
+
+        private void VisualChanged(object sender, RoutedEventArgs e)
+        {
+            foreach (var visual in ToolBarVisualList)
+            {
+                if ((sender as ToggleSwitch).Name == visual.Text)
+                {
+                    App.settings["ToolBar"][visual.Text] = (sender as ToggleSwitch).IsOn;
                 }
             }
         }
