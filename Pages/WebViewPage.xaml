@@ -84,7 +84,6 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
             <Border
@@ -95,9 +94,8 @@
                     Name="uriPreview" TextTrimming="CharacterEllipsis" FontSize="12"
                     VerticalAlignment="Center"/>
             </Border>
-
-            <ComboBox Name="UABox" Grid.Column="1" SelectionChanged="UserAgentChanged" SelectedIndex="0" HorizontalAlignment="Right" Margin="10,0,0,0"/>
-            <Button Content="Dev Tools" Grid.Column="2" Click="OpenDevToolRequest" Margin="10,0,0,0"/>
+            
+            <Button Content="Dev Tools" Grid.Column="2" Click="OpenDevToolRequest" HorizontalAlignment="Right" Margin="10,0,0,0"/>
         </Grid>
         
     </Grid>

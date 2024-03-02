@@ -1,13 +1,10 @@
-using Edge.Data;
 using Edge.Utilities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Windows.Storage;
 
 
@@ -31,8 +28,6 @@ namespace Edge
             {
                 WebUri = "https://bing.com";
             }
-
-            UABox.ItemsSource = Info.UserAgentDict.Select(x => ((JProperty)x).Name);
 
             homeButton.Visibility = App.settings["ToolBar"]["HomeButton"].ToObject<bool>() ? Visibility.Visible : Visibility.Collapsed;
             historyButton.Visibility = App.settings["ToolBar"]["HistoryButton"].ToObject<bool>() ? Visibility.Visible : Visibility.Collapsed;
@@ -177,15 +172,6 @@ namespace Edge
         {
             MainWindow mainWindow = App.GetWindowForElement(this);
             mainWindow.AddNewTab(new HomePage());
-        }
-
-        private void UserAgentChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (EdgeWebViewEngine.CoreWebView2 != null)
-            {
-                EdgeWebViewEngine.CoreWebView2.Settings.UserAgent = Info.UserAgentDict[(string)(sender as ComboBox).SelectedItem].ToString();
-                Refresh();
-            }
         }
 
         private void OpenDevToolRequest(object sender, RoutedEventArgs e)

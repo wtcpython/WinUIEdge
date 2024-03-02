@@ -19,7 +19,6 @@ namespace Edge.Data
     {
         public static JToken LanguageDict = LoadJson("/Data/LanguageType.json");
         public static JToken ImageDict = LoadJson("/Data/ImageType.json");
-        public static JToken UserAgentDict = LoadJson("/Data/UserAgent.json");
         public static List<WebsiteInfo> SearchEngineList = LoadJsonFile<List<WebsiteInfo>>("/Data/SearchEngine.json");
         public static List<WebsiteInfo> SuggestWebsiteList = LoadJsonFile<List<WebsiteInfo>>("/Data/SuggestWebsite.json");
 
