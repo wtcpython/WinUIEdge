@@ -6,19 +6,17 @@
 
 ## 特色功能
 
-### 快速切换浏览器 User-Agent
+### 本地控件制作的新版 “主页”
 
-提供了快速切换的按钮，目前可以提供 11 种 UA 选择，当前网页将在切换后自动刷新
+![Home Page](Assets/ReadmeSource/home-page.png)
 
-其中 Mobile 指的是 iPhone 平台
+提供了搜索框以及下方的推荐网站，相较于国内浏览器的网站导航，整体 **干净清爽** 。
 
-![User-Agent](Assets/ReadmeSource/user-agent.png)
+具有 **高自定义度** ，可以在设置中选择主页的壁纸，以及选择是否隐藏推荐的网站。
 
 ### 快捷打开Dev Tools 工具
 
-在软件的右下角提供了快捷打开 DevTools 窗口的按钮
-
-![Open DevTools](Assets/ReadmeSource/devtools.png)
+在网页的右下角提供了快捷打开 DevTools 窗口的按钮
 
 ### 搜索栏临时切换搜索引擎
 
@@ -26,19 +24,27 @@
 
 ![Change Search Engine](Assets/ReadmeSource/change-search-engine.png)
 
-### 现代化的 UI 设计风格
+### 深浅色自由切换
 
-软件整体采用 `WinAppSDK` 设计，采用自定义标题栏，外观采用 `Mica` 材质，在设置界面可以自定义外观，包括 `Acrylic`， `Mica Alt`等。
+软件支持深浅色的自由切换，也可以跟随系统主题，同时支持 `Mica`, `Acrylic` 等多种系统主题
+
+![App Theme](Assets/ReadmeSource/app-theme.png)
 
 下载、历史记录的弹出窗口使用重绘的窗口，并不会采用浏览器自带的弹出窗口
 
-### 本地文件浏览
+### 使用原生组件渲染本地文本
 
-在显示本地文件时，传统浏览器的呈现方式不是很好，在本软件中，采用 `WinAppSDK` 渲染，并且提供 **字体，字号的更改** ，以及 **切换文件编码格式**。
+在显示本地文件时，传统浏览器的呈现方式不是很好，在本软件中，采用 **原生组件** 渲染，并且在文件 **预览** 上，提供 **字体，字号的更改** ，以及 **切换文件编码格式**。
 
 同时还能显示 `文件行尾序列` ， `文件类型` 等。
 
 ![Text File Preview](Assets/ReadmeSource/text-file-preview.png)
+
+### 设置界面提供自定义选项
+
+在设置界面，可以实现不少对浏览器的自定义控制。
+
+![Settings Page](Assets/ReadmeSource/settings-page.png)
 
 ## 安装该软件的最低条件
 
