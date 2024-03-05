@@ -44,46 +44,30 @@
                     <ListView x:Name="listView" SelectionMode="Single">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <UserControl PointerEntered="ListView_PointerEntered" PointerExited="ListView_PointerExited">
-                                    <Grid>
-                                        <VisualStateManager.VisualStateGroups>
-                                            <VisualStateGroup>
-                                                <VisualState x:Name="HideCancelButton"/>
-                                                <VisualState x:Name="ShowCancelButton">
-                                                    <VisualState.Setters>
-                                                        <Setter Target="CancelButton.Visibility" Value="Visible" />
-                                                    </VisualState.Setters>
-                                                </VisualState>
-                                            </VisualStateGroup>
-                                        </VisualStateManager.VisualStateGroups>
-                                        <SwipeControl>
-                                            <StackPanel Orientation="Horizontal" Spacing="5">
-                                                
-                                                <ToolTipService.ToolTip>
-                                                    <ToolTip>
-                                                        <StackPanel>
-                                                            <TextBlock Text="{Binding DocumentTitle}"/>
-                                                            <TextBlock Text="{Binding Source}"/>
-                                                        </StackPanel>
-                                                    </ToolTip>
-                                                </ToolTipService.ToolTip>
+                                <StackPanel Orientation="Horizontal" Spacing="5">
 
-                                                <ImageIcon Source="{Binding FaviconUri}" Width="30" Height="30"/>
-
-                                                <TextBlock
-                                                    Text="{Binding DocumentTitle}" Width="280" TextTrimming="CharacterEllipsis"
-                                                    VerticalAlignment="Center"/>
-
-                                                <Button x:Name="CancelButton" Visibility="Collapsed" CommandParameter="{Binding Source}" Click="RemoveHistoryItem">
-                                                    <Button.Content>
-                                                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe711;"/>
-                                                    </Button.Content>
-                                                </Button>
-
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip>
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding DocumentTitle}"/>
+                                                <TextBlock Text="{Binding Source}"/>
                                             </StackPanel>
-                                        </SwipeControl>
-                                    </Grid>
-                                </UserControl>
+                                        </ToolTip>
+                                    </ToolTipService.ToolTip>
+
+                                    <ImageIcon Source="{Binding FaviconUri}" Width="30" Height="30"/>
+
+                                    <TextBlock
+                                        Text="{Binding DocumentTitle}" Width="280" TextTrimming="CharacterEllipsis"
+                                        VerticalAlignment="Center"/>
+
+                                    <Button CommandParameter="{Binding Source}" Click="RemoveHistoryItem">
+                                        <Button.Content>
+                                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe711;"/>
+                                        </Button.Content>
+                                    </Button>
+
+                                </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>

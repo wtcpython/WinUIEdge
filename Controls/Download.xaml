@@ -49,41 +49,25 @@
                     <ListView x:Name="listView" SelectionMode="Single">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="local:DownloadObject">
-                                <UserControl PointerEntered="ListView_PointerEntered" PointerExited="ListView_PointerExited">
-                                    <Grid>
-                                        <VisualStateManager.VisualStateGroups>
-                                            <VisualStateGroup>
-                                                <VisualState x:Name="HideCancelButton"/>
-                                                <VisualState x:Name="ShowCancelButton">
-                                                    <VisualState.Setters>
-                                                        <Setter Target="CancelButton.Visibility" Value="Visible" />
-                                                    </VisualState.Setters>
-                                                </VisualState>
-                                            </VisualStateGroup>
-                                        </VisualStateManager.VisualStateGroups>
-                                        <SwipeControl>
-                                            <StackPanel Orientation="Horizontal" Spacing="5">
+                                <StackPanel Orientation="Horizontal" Spacing="5">
 
-                                                <StackPanel Grid.Column="0" Width="320" Spacing="5">
-                                                    <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis"/>
+                                    <StackPanel Grid.Column="0" Width="320" Spacing="5">
+                                        <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis"/>
 
-                                                    <ProgressBar Value="{Binding BytesReceived}"
-                                                             Maximum="{Binding TotalBytes}"/>
+                                        <ProgressBar
+                                            Value="{Binding BytesReceived}" Maximum="{Binding TotalBytes}"/>
 
-                                                    <TextBlock Text="{Binding Information, UpdateSourceTrigger=PropertyChanged}" TextTrimming="CharacterEllipsis"/>
+                                        <TextBlock Text="{Binding Information}" TextTrimming="CharacterEllipsis"/>
 
-                                                </StackPanel>
+                                    </StackPanel>
 
-                                                <Button x:Name="CancelButton" Visibility="Collapsed" CommandParameter="{Binding Time}" Click="RemoveDownloadItem">
-                                                    <Button.Content>
-                                                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe711;"/>
-                                                    </Button.Content>
-                                                </Button>
+                                    <Button CommandParameter="{Binding Time}" Click="RemoveDownloadItem">
+                                        <Button.Content>
+                                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe711;"/>
+                                        </Button.Content>
+                                    </Button>
 
-                                            </StackPanel>
-                                        </SwipeControl>
-                                    </Grid>
-                                </UserControl>
+                                </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>

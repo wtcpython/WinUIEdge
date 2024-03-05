@@ -55,20 +55,12 @@ namespace Edge
 
     public sealed partial class Download : Page
     {
-        public static ObservableCollection<DownloadObject> DownloadList = [];
-
-        public static Button button;
+        public ObservableCollection<DownloadObject> DownloadList = [];
 
         public Download()
         {
             this.InitializeComponent();
             listView.ItemsSource = DownloadList;
-            button = DownloadButton;
-        }
-
-        public static void Add(CoreWebView2DownloadOperation operation)
-        {
-            DownloadList.Add(new DownloadObject(operation));
         }
 
         private void RemoveDownloadItem(object sender, RoutedEventArgs e)
@@ -81,16 +73,6 @@ namespace Edge
                     return;
                 }
             }
-        }
-
-        private void ListView_PointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            VisualStateManager.GoToState(sender as Control, "ShowCancelButton", true);
-        }
-
-        private void ListView_PointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            VisualStateManager.GoToState(sender as Control, "HideCancelButton", true);
         }
 
         private void OpenDownloadFolderRequest(object sender, RoutedEventArgs e)
@@ -116,9 +98,9 @@ namespace Edge
             }
         }
 
-        public static void ShowFlyout()
+        public void ShowFlyout()
         {
-            button.Flyout.ShowAt(button);
+            DownloadButton.Flyout.ShowAt(DownloadButton);
         }
     }
 }

@@ -11,20 +11,12 @@ namespace Edge
 {
     public sealed partial class History : Page
     {
-        public static ObservableCollection<CoreWebView2> Histories = [];
-
-        public static Button button;
+        public ObservableCollection<CoreWebView2> Histories = [];
 
         public History()
         {
             this.InitializeComponent();
             listView.ItemsSource = Histories;
-            button = HistoryButton;
-        }
-
-        public static void Add(CoreWebView2 item)
-        {
-            if (!Histories.Where(x => x.Source == item.Source).Any()) { Histories.Add(item); }
         }
 
         private void RemoveHistoryItem(object sender, RoutedEventArgs e)
@@ -37,16 +29,6 @@ namespace Edge
                     return;
                 }
             }
-        }
-
-        private void ListView_PointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            VisualStateManager.GoToState(sender as Control, "ShowCancelButton", true);
-        }
-
-        private void ListView_PointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            VisualStateManager.GoToState(sender as Control, "HideCancelButton", true);
         }
 
         private async void DeleteHistoryRequest(object sender, RoutedEventArgs e)
@@ -66,9 +48,10 @@ namespace Edge
                 listView.ItemsSource = Histories.Where(x => x.DocumentTitle.Contains(SearchHistoryBox.Text));
             }
         }
-        public static void ShowFlyout()
+
+        public void ShowFlyout()
         {
-            button.Flyout.ShowAt(button);
+            HistoryButton.Flyout.ShowAt(HistoryButton);
         }
     }
 }

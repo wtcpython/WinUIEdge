@@ -39,12 +39,16 @@ namespace Edge
 
         private void ShowHistoryFlyout(object sender, RoutedEventArgs e)
         {
-            History.ShowFlyout();
+            MainWindow mainWindow = App.GetWindowForElement(this);
+            if (mainWindow.SelectedItem is WebViewPage page)
+                page.HistoryButton.ShowFlyout();
         }
 
         private void ShowDownloadFlyout(object sender, RoutedEventArgs e)
         {
-            Download.ShowFlyout();
+            MainWindow mainWindow = App.GetWindowForElement(this);
+            if (mainWindow.SelectedItem is WebViewPage page)
+                page.DownloadButton.ShowFlyout();
         }
 
         private void ShowPrintUI(object sender, RoutedEventArgs e)

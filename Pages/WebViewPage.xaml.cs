@@ -116,8 +116,8 @@ namespace Edge
 
                 args.ResultFilePath = file.Path;
             }
-            Download.Add(args.DownloadOperation);
-            if (App.settings["ShowFlyoutWhenStartDownloading"].ToObject<bool>()) Download.ShowFlyout();
+            downloadButton.DownloadList.Add(new DownloadObject(args.DownloadOperation));
+            if (App.settings["ShowFlyoutWhenStartDownloading"].ToObject<bool>()) downloadButton.ShowFlyout();
         }
 
         private void CoreWebView2_DOMContentLoaded(CoreWebView2 sender, CoreWebView2DOMContentLoadedEventArgs args)
@@ -126,7 +126,7 @@ namespace Edge
             MainWindow mainWindow = App.GetWindowForElement(this);
 
             mainWindow.Title = sender.DocumentTitle;
-            History.Add(sender);
+            historyButton.Histories.Add(sender);
 
             List<object> tabs = [.. (mainWindow.Content as TabView).TabItems];
 
@@ -185,5 +185,8 @@ namespace Edge
         }
 
         public CoreWebView2 CoreWebView2 => EdgeWebViewEngine.CoreWebView2;
+
+        public History HistoryButton => historyButton;
+        public Download DownloadButton => downloadButton;
     }
 }

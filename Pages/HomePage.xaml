@@ -23,11 +23,7 @@
 
         <TextBlock Text="导 航 主 页" FontSize="16" Margin="20,0,0,0" VerticalAlignment="Center" FontWeight="Bold"/>
 
-        <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
-            <local:History/>
-            <local:Download/>
-            <local:BrowserMenuItems/>
-        </StackPanel>
+        <local:BrowserMenuItems Grid.Column="2" HorizontalAlignment="Right"/>
 
         <local:SearchModule
             Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"
