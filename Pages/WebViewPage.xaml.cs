@@ -86,15 +86,7 @@ namespace Edge
 
         private void CoreWebView2_StatusBarTextChanged(CoreWebView2 sender, object args)
         {
-            string text = sender.StatusBarText;
-            if (text != null)
-            {
-                uriPreview.Text = text;
-            }
-            else
-            {
-                uriPreview.Text = string.Empty;
-            }
+            uriPreview.Text = sender.StatusBarText;
         }
 
         private void CoreWebView2_NewWindowRequested(CoreWebView2 sender, CoreWebView2NewWindowRequestedEventArgs args)
@@ -163,11 +155,6 @@ namespace Edge
             }
         }
 
-        private void OpenTaskManager(Microsoft.UI.Xaml.Input.KeyboardAccelerator sender, Microsoft.UI.Xaml.Input.KeyboardAcceleratorInvokedEventArgs args)
-        {
-            EdgeWebViewEngine.CoreWebView2.OpenTaskManagerWindow();
-        }
-
         private void ShowHomePage(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = App.GetWindowForElement(this);
@@ -186,7 +173,10 @@ namespace Edge
 
         public CoreWebView2 CoreWebView2 => EdgeWebViewEngine.CoreWebView2;
 
-        public History HistoryButton => historyButton;
-        public Download DownloadButton => downloadButton;
+        public void ShowFlyout(string name)
+        {
+            if (name == "历史记录") historyButton.ShowFlyout();
+            else if (name == "下载") downloadButton.ShowFlyout();
+        }
     }
 }

@@ -13,7 +13,7 @@
         </Button.KeyboardAccelerators>
         <FontIcon Glyph="&#xe712;" />
         <Button.Flyout>
-            <MenuFlyout>
+            <MenuFlyout Opening="MenuFlyout_Opening">
                 <MenuFlyoutItem Text="新建标签页" Click="TryCreateNewTab">
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator Key="T" Modifiers="Control"/>
@@ -28,7 +28,7 @@
 
                 <MenuFlyoutSeparator />
 
-                <MenuFlyoutItem Text="历史记录" Click="ShowHistoryFlyout">
+                <MenuFlyoutItem Text="历史记录" Click="ShowFlyout">
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator Key="H" Modifiers="Control"/>
                     </MenuFlyoutItem.KeyboardAccelerators>
@@ -38,7 +38,7 @@
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
 
-                <MenuFlyoutItem Text="下载" Click="ShowDownloadFlyout">
+                <MenuFlyoutItem Text="下载" Click="ShowFlyout">
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator Key="J" Modifiers="Control"/>
                     </MenuFlyoutItem.KeyboardAccelerators>

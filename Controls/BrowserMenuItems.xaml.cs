@@ -1,4 +1,3 @@
-using Edge.Utilities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -29,46 +28,43 @@ namespace Edge
         private void TryOpenSettingPage(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = App.GetWindowForElement(this);
-
             TabView tabView = mainWindow.Content as TabView;
 
-            var s = tabView.TabItems.Where(x => ((TabViewItem)x).Content is SettingsPage);
-            if (s.Any()) tabView.SelectedItem = s.First();
+            object item = tabView.TabItems.FirstOrDefault(x => ((TabViewItem)x).Content is SettingsPage);
+            if (item != null) tabView.SelectedItem = item;
             else mainWindow.AddNewTab(new SettingsPage(), "ÉèÖÃ");
         }
 
-        private void ShowHistoryFlyout(object sender, RoutedEventArgs e)
+        private void ShowFlyout(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = App.GetWindowForElement(this);
-            if (mainWindow.SelectedItem is WebViewPage page)
-                page.HistoryButton.ShowFlyout();
-        }
-
-        private void ShowDownloadFlyout(object sender, RoutedEventArgs e)
-        {
-            MainWindow mainWindow = App.GetWindowForElement(this);
-            if (mainWindow.SelectedItem is WebViewPage page)
-                page.DownloadButton.ShowFlyout();
+            WebViewPage page = App.GetWindowForElement(this).SelectedItem as WebViewPage;
+            page.ShowFlyout((sender as MenuFlyoutItem).Text);
         }
 
         private void ShowPrintUI(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = App.GetWindowForElement(this);
-            if (mainWindow.SelectedItem is WebViewPage page)
-                page.ShowPrintUI();
+            WebViewPage page = App.GetWindowForElement(this).SelectedItem as WebViewPage;
+            page.ShowPrintUI();
         }
 
         private void CloseApp(object sender, RoutedEventArgs e)
         {
-            foreach (Window window in App.mainWindows)
-            {
-                window.Close();
-            }
+            App.mainWindows.ForEach(x => x.Close());
         }
 
         private async void ScreenClip(object sender, RoutedEventArgs e)
         {
             await Windows.System.Launcher.LaunchUriAsync(new Uri("ms-screenclip:"));
+        }
+
+        private void MenuFlyout_Opening(object sender, object e)
+        {
+            var items = (sender as MenuFlyout).Items.ToList()[2..^3];
+            MainWindow mainWindow = App.GetWindowForElement(this);
+            if (mainWindow.SelectedItem is WebViewPage page)
+                items.ForEach(x => x.Visibility = Visibility.Visible);
+            else
+                items.ForEach(x => x.Visibility = Visibility.Collapsed);
         }
     }
 }

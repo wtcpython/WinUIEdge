@@ -73,31 +73,19 @@
 
         <WebView2 Name="EdgeWebViewEngine"
                   CoreWebView2Initialized="EdgeWebViewEngine_CoreWebView2Initialized"
-                  Grid.Row="1">
-            <WebView2.KeyboardAccelerators>
-                <KeyboardAccelerator Key="Escape" Modifiers="Shift" Invoked="OpenTaskManager"/>
-            </WebView2.KeyboardAccelerators>
-        </WebView2>
+                  Grid.Row="1"/>
 
-        <Grid Grid.Row="1" VerticalAlignment="Bottom">
+        <Border
+            Background="{ThemeResource LayerOnMicaBaseAltFillColorTertiaryBrush}" CornerRadius="5"
+            MaxWidth="400" Height="24" Grid.Row="1"
+            HorizontalAlignment="Left" VerticalAlignment="Bottom">
+            <TextBlock
+                Name="uriPreview" TextTrimming="CharacterEllipsis" FontSize="12"
+                VerticalAlignment="Center"/>
+        </Border>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+        <Button Content="Dev Tools" Grid.Row="1" Grid.Column="2" Click="OpenDevToolRequest" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10,0,0,0"/>
 
-            <Border
-                Background="{ThemeResource LayerOnMicaBaseAltFillColorTertiaryBrush}" CornerRadius="5"
-                MaxWidth="400" Height="24"
-                HorizontalAlignment="Left" VerticalAlignment="Bottom">
-                <TextBlock
-                    Name="uriPreview" TextTrimming="CharacterEllipsis" FontSize="12"
-                    VerticalAlignment="Center"/>
-            </Border>
-            
-            <Button Content="Dev Tools" Grid.Column="2" Click="OpenDevToolRequest" HorizontalAlignment="Right" Margin="10,0,0,0"/>
-        </Grid>
-        
     </Grid>
     
 </Page>

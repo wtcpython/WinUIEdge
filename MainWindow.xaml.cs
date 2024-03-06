@@ -1,17 +1,11 @@
 using Edge.Utilities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
 using System.Linq;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace Edge
 {
-    /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainWindow : Window
     {
         public MainWindow()
@@ -31,9 +25,9 @@ namespace Edge
             {
                 IconSource = new FontIconSource() { Glyph = "\ue80f" },
                 Header = header,
-                Content = content,
-                ContextFlyout = TabFlyout
+                Content = content
             };
+            if (content is WebViewPage) newTab.ContextFlyout = TabFlyout;
             if (index >= 0)
             {
                 tabView.TabItems.Insert(index, newTab);
@@ -54,17 +48,6 @@ namespace Edge
         private void CreateNewTabOnRight(object sender, RoutedEventArgs e)
         {
             AddNewTab(new HomePage(), index: tabView.SelectedIndex + 1);
-        }
-
-        private void TabView_ContextRequested(UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)
-        {
-            if (sender is TabViewItem item)
-            {
-                TabFlyout.ShowAt(item, new FlyoutShowOptions()
-                {
-                    ShowMode = FlyoutShowMode.Standard
-                });
-            }
         }
 
         private void RefreshTab(object sender, RoutedEventArgs e)
