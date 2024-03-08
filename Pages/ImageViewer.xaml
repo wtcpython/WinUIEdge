@@ -39,20 +39,29 @@
                         <Flyout>
                             
                             <StackPanel>
-                                <ListView x:Name="view" SelectionMode="Single">
-                                    <ListView.ItemTemplate>
+                                <ItemsControl x:Name="view">
+                                    <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding Key}" Margin="0,0,30,0"/>
+                                            <StackPanel Orientation="Horizontal" Spacing="30" Margin="10">
+                                                <TextBlock Text="{Binding Key}"/>
                                                 <TextBlock Text="{Binding Value}"/>
                                             </StackPanel>
                                         </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
 
                                 <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                     <TextBlock Text="图像评分" Margin="0,0,30,0" VerticalAlignment="Center"/>
                                     <RatingControl Name="imageRating" IsReadOnly="True"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                    <TextBlock Text="文件路径" Margin="0,0,30,0" VerticalAlignment="Center"/>
+                                    <HyperlinkButton Click="OpenFileLocation" MaxWidth="200">
+                                        <HyperlinkButton.Content>
+                                            <TextBlock Name="fileLocation" TextWrapping="WrapWholeWords"/>
+                                        </HyperlinkButton.Content>
+                                    </HyperlinkButton>
                                 </StackPanel>
                             </StackPanel>
                             
@@ -69,7 +78,7 @@
         <ScrollViewer
             MinZoomFactor="1" ZoomMode="Enabled" DoubleTapped="ScrollViewer_DoubleTapped"
             Grid.Row="1">
-            <Image x:Name="ItemImage"/>
+            <Image x:Name="ItemImage" Stretch="None"/>
         </ScrollViewer>
 
     </Grid>

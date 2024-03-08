@@ -42,42 +42,16 @@ namespace Edge
 
             ItemImage.Source = new BitmapImage(new Uri(filePath));
 
-            imageNameBlock.Text = filePath;
-            dict["文件名称"] = file.DisplayName;
+            imageNameBlock.Text = file.Name;
+            dict["文件名称"] = file.Name;
             dict["文件类型"] = file.DisplayType;
             dict["像素大小"] = $"{properties.Width} x {properties.Height}";
             dict["文件大小"] = Converters.ToFileSizeString(ImageFileSize);
-            //imageName.Text = fileName = file.DisplayName;
-            //imageType.Text = file.DisplayType;
-            //imagePixel.Text = $"{properties.Width} x {properties.Height}";
-            //imageSize.Text = Converters.ToFileSizeString(ImageFileSize);
             view.ItemsSource = dict;
+            fileLocation.Text = filePath;
 
             imageRating.Value = properties.Rating;
         }
-
-        //private async void FileNameChanged(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
-        //{
-        //    if (e.Key == Windows.System.VirtualKey.Enter)
-        //    {
-        //        if (fileName != imageName.Text)
-        //        {
-        //            FileInfo fileInfo = new(filePath);
-        //            string fileExt = fileInfo.Extension;
-        //            bool changed = await Dialog.ShowMsgDialog(
-        //                App.GetWindowForElement(this).Content.XamlRoot,
-        //                "文件名称变更确认", $"是否要将名称从 {fileName + fileExt} 更改为 {imageName.Text + fileExt} ?", "取消", "确定");
-        //            if (changed)
-        //            {
-        //                fileInfo.MoveTo(fileInfo.Directory + "\\" + imageName.Text + fileExt);
-        //            }
-        //            else
-        //            {
-        //                imageName.Text = fileName;
-        //            }
-        //        }
-        //    }
-        //}
 
         private async void ImageDeleteRequest(object sender, RoutedEventArgs e)
         {
@@ -119,6 +93,11 @@ namespace Edge
                 scrollViewer.ScrollToHorizontalOffset(doubleTapPoint.X);
                 scrollViewer.ScrollToVerticalOffset(doubleTapPoint.Y);
             }
+        }
+
+        private void OpenFileLocation(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("explorer.exe", filePath);
         }
     }
 }
