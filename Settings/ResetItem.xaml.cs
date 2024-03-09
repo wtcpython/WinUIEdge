@@ -15,8 +15,9 @@ namespace Edge
 
         private void ResetUserSettings(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
-            File.Delete(ApplicationData.Current.LocalFolder.Path + "/settings.json");
-            string path = Info.CheckUserSettingData();
+            string path = ApplicationData.Current.LocalFolder.Path + "/settings.json";
+            File.Delete(path);
+            Info.CheckUserSettingData();
             App.settings = JToken.Parse(File.ReadAllText(path));
         }
     }

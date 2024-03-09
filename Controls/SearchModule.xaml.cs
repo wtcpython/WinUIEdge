@@ -28,19 +28,20 @@ namespace Edge
                 {
                     if (uriResult.Scheme == "file")
                     {
-                        if (File.Exists(uriResult.OriginalString))
+                        FileInfo fileInfo = new(text);
+                        if (fileInfo.Exists)
                         {
-                            string ext = Path.GetExtension(text);
+                            string ext = fileInfo.Extension;
 
                             MainWindow mainWindow = App.GetWindowForElement(this);
                             if (Info.LanguageDict.Select(x => ((JProperty)x).Name).Any(x => x == ext))
                             {
-                                mainWindow.AddNewTab(new TextFilePage(text), Path.GetFileName(text));
+                                mainWindow.AddNewTab(new TextFilePage(text), fileInfo.Name);
                             }
 
                             else if (Info.ImageDict.Select(x => ((JProperty)x).Name).Any(x => x == ext))
                             {
-                                mainWindow.AddNewTab(new ImageViewer(text), Path.GetFileName(text));
+                                mainWindow.AddNewTab(new ImageViewer(text), fileInfo.Name);
                             }
 
                             else

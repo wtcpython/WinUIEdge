@@ -28,8 +28,8 @@
 
         <TextBlock Text="自定义工具栏" Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" Margin="5,10,0,0"/>
 
-        <ListView x:Name="toolBarVisualView">
-            <ListView.ItemTemplate>
+        <ItemsControl x:Name="toolBarVisualView">
+            <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="local:ToolBarVisual">
                     <Grid>
 
@@ -44,8 +44,8 @@
                             HorizontalAlignment="Right" Grid.Column="1"/>
                     </Grid>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </StackPanel>
 
 </Page>

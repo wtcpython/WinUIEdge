@@ -17,25 +17,16 @@ namespace Edge.Data
 
     public static class Info
     {
-        public static JToken LanguageDict = LoadJson("/Data/LanguageType.json");
-        public static JToken ImageDict = LoadJson("/Data/ImageType.json");
-        public static List<WebsiteInfo> SearchEngineList = LoadJsonFile<List<WebsiteInfo>>("/Data/SearchEngine.json");
-        public static List<WebsiteInfo> SuggestWebsiteList = LoadJsonFile<List<WebsiteInfo>>("/Data/SuggestWebsite.json");
+        public static JToken LanguageDict = JToken.Parse(ReadPackageFileText("/Data/LanguageType.json"));
+        public static JToken ImageDict = JToken.Parse(ReadPackageFileText("/Data/ImageType.json"));
+        public static List<WebsiteInfo> SearchEngineList = JsonSerializer.Deserialize<List<WebsiteInfo>>(ReadPackageFileText("/Data/SearchEngine.json"))!;
+        public static List<WebsiteInfo> SuggestWebsiteList = JsonSerializer.Deserialize<List<WebsiteInfo>>(ReadPackageFileText("/Data/SuggestWebsite.json"))!;
 
         public static List<string> WindowEffectList = ["Mica", "Mica Alt", "Acrylic", "None"];
 
-        public static T LoadJsonFile<T>(string filePath)
+        public static string ReadPackageFileText(string path)
         {
-            string content = File.ReadAllText(Package.Current.InstalledPath + filePath);
-            T data = JsonSerializer.Deserialize<T>(content)!;
-            return data;
-        }
-
-        public static JToken LoadJson(string filePath)
-        {
-            string content = File.ReadAllText(Package.Current.InstalledPath + filePath);
-            JToken token = JToken.Parse(content);
-            return token;
+            return File.ReadAllText(Package.Current.InstalledPath + path);
         }
 
         public static string CheckUserSettingData()

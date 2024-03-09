@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Windows.Storage;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using WinRT.Interop;
@@ -30,7 +31,7 @@ namespace Edge
             window.Closed += (sender, e) =>
             {
                 mainWindows.Remove(window);
-                File.WriteAllText(Info.CheckUserSettingData(), settings.ToString());
+                File.WriteAllText(ApplicationData.Current.LocalFolder.Path + "/settings.json", settings.ToString());
             };
             mainWindows.Add(window);
             return window;
