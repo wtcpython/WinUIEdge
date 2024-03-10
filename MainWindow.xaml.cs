@@ -1,7 +1,11 @@
 using Edge.Utilities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System;
 using System.Linq;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.UI.WindowsAndMessaging;
 
 
 namespace Edge
@@ -16,7 +20,16 @@ namespace Edge
 
             AddNewTab(new HomePage());
 
-            this.SystemBackdrop = Theme.SetBackDrop();
+            this.SetBackdrop();
+
+            IntPtr hwnd = this.GetWindowHandle();
+            HMENU hmenu = PInvoke.GetSystemMenu((HWND)hwnd, false);
+            int cnt = PInvoke.GetMenuItemCount(hmenu);
+
+            for (int i = cnt - 1; i >= 0; i--)
+            {
+                PInvoke.RemoveMenu(hmenu, (uint)i, MENU_ITEM_FLAGS.MF_DISABLED | MENU_ITEM_FLAGS.MF_BYPOSITION);
+            }
         }
 
         public void AddNewTab(object content, string header = "主页", int index = -1)

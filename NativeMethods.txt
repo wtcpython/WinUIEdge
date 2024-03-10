@@ -1,2 +1,5 @@
 ShowWindow
 SetForegroundWindow
+GetSystemMenu
+GetMenuItemCount
+RemoveMenu
