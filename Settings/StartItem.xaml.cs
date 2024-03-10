@@ -1,4 +1,5 @@
 using Edge.Data;
+using Edge.Utilities;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Linq;
@@ -69,7 +70,7 @@ namespace Edge
                 }
             };
 
-            InitializeWithWindow.Initialize(picker, App.GetWindowHandle(this));
+            InitializeWithWindow.Initialize(picker, this.GetWindowHandle()); 
 
             StorageFile storageFile = await picker.PickSingleFileAsync();
             App.settings["BackgroundImage"] = storageFile.Path;

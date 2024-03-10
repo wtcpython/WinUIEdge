@@ -102,9 +102,9 @@ namespace Edge
             args.Handled = true;
             if (App.settings["AskDownloadBehavior"].ToObject<bool>())
             {
-                IntPtr hwnd = App.GetWindowHandle(this);
+                IntPtr hwnd = this.GetWindowHandle();
 
-                StorageFile file = await Dialog.SaveFile(args.ResultFilePath, hwnd);
+                StorageFile file = await Utilities.Utilities.SaveFile(args.ResultFilePath, hwnd);
 
                 args.ResultFilePath = file.Path;
             }
@@ -146,8 +146,8 @@ namespace Edge
             if (uri.Scheme == "http")
             {
                 args.Cancel = true;
-                await Dialog.ShowMsgDialog(
-                    App.GetWindowForElement(this).Content.XamlRoot, "网站警告", $"网址：{uri} 使用了不安全的 {uri.Scheme} 协议。", "确定");
+                await App.GetWindowForElement(this).Content.XamlRoot.ShowMsgDialog(
+                    "网站警告", $"网址：{uri} 使用了不安全的 {uri.Scheme} 协议。", "确定");
             }
             else
             {

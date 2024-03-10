@@ -1,3 +1,4 @@
+using Edge.Utilities;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using Windows.Storage.Pickers;
@@ -30,7 +31,7 @@ namespace Edge
         {
             FolderPicker picker = new();
 
-            IntPtr hwnd = App.GetWindowHandle(this);
+            IntPtr hwnd = this.GetWindowHandle();
 
             WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
 

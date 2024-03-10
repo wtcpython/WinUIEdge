@@ -53,7 +53,6 @@ namespace Edge
                         rootElement.RequestedTheme = Enum.Parse<ElementTheme>(appearance);
                         window.AppWindow.TitleBar.ButtonForegroundColor =
                             rootElement.ActualTheme == ElementTheme.Dark ? Colors.White : Colors.Black;
-                        Theme.UpdateTitleBarContextMenu(rootElement.RequestedTheme);
                     }
                 }
             }
@@ -67,7 +66,7 @@ namespace Edge
 
                 foreach (Window window in App.mainWindows)
                 {
-                    window.SystemBackdrop = Theme.SetBackDrop();
+                    window.SetBackdrop();
                 }
             }
         }

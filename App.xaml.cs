@@ -1,4 +1,5 @@
 using Edge.Data;
+using Edge.Utilities;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
@@ -10,7 +11,6 @@ using System.IO;
 using Windows.Storage;
 using Windows.Win32;
 using Windows.Win32.Foundation;
-using WinRT.Interop;
 
 
 namespace Edge
@@ -50,14 +50,7 @@ namespace Edge
                 }
             }
             return null;
-        }
-
-        public static IntPtr GetWindowHandle(UIElement element)
-        {
-            Window window = GetWindowForElement(element);
-            if (window != null) return WindowNative.GetWindowHandle(window);
-            else return IntPtr.Zero;
-        }
+        } 
 
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
@@ -113,7 +106,7 @@ namespace Edge
 
         public static void ShowWindow(Window window)
         {
-            HWND hwnd = (HWND)WindowNative.GetWindowHandle(window);
+            HWND hwnd = (HWND)window.GetWindowHandle();
             PInvoke.ShowWindow(hwnd, Windows.Win32.UI.WindowsAndMessaging.SHOW_WINDOW_CMD.SW_RESTORE);
             PInvoke.SetForegroundWindow(hwnd);
         }

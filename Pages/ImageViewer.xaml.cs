@@ -55,8 +55,7 @@ namespace Edge
 
         private async void ImageDeleteRequest(object sender, RoutedEventArgs e)
         {
-            bool deleted = await Dialog.ShowMsgDialog(
-                App.GetWindowForElement(this).Content.XamlRoot,
+            bool deleted = await App.GetWindowForElement(this).Content.XamlRoot.ShowMsgDialog(
                 "文件删除确认", $"是否要删除文件 {filePath} ?", "取消", "确定");
             if (deleted)
             {
