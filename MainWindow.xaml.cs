@@ -1,6 +1,8 @@
 using Edge.Utilities;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using System;
 using System.Linq;
 using Windows.Win32;
@@ -134,6 +136,68 @@ namespace Edge
             get => (tabView.SelectedItem as TabViewItem).Content;
             set => tabView.SelectedItem = value;
         }
-        
+
+        private void ShowMenuFlyout()
+        {
+            HWND hwnd = (HWND)this.GetWindowHandle();
+            if (PInvoke.IsZoomed(hwnd))
+            {
+                MaximizeItem.IsEnabled = false;
+                RestoreItem.IsEnabled = true;
+            }
+            else
+            {
+                MaximizeItem.IsEnabled = true;
+                if (!PInvoke.IsIconic(hwnd))
+                {
+                    RestoreItem.IsEnabled = false;
+                }
+                else RestoreItem.IsEnabled = true;
+            }
+            AppMenuFlyout.ShowAt(AppTitleBarHeader, new FlyoutShowOptions()
+            {
+                Placement = FlyoutPlacementMode.BottomEdgeAlignedLeft
+            });
+        }
+
+        private void AppTitleBarHeader_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType == PointerDeviceType.Mouse)
+            {
+                PointerPoint pointer = e.GetCurrentPoint(AppTitleBarHeader);
+                if (pointer.Properties.IsRightButtonPressed)
+                {
+                    ShowMenuFlyout();
+                }
+            }
+        }
+
+        private void ShowMenuFlyoutInvoked(Microsoft.UI.Xaml.Input.KeyboardAccelerator sender, Microsoft.UI.Xaml.Input.KeyboardAcceleratorInvokedEventArgs args)
+        {
+            ShowMenuFlyout();
+        }
+
+        private void AppMinimize(object sender, RoutedEventArgs e)
+        {
+            HWND hwnd = (HWND)this.GetWindowHandle();
+            PInvoke.ShowWindow(hwnd, SHOW_WINDOW_CMD.SW_SHOWMINIMIZED);
+        }
+
+        private void AppMaximize(object sender, RoutedEventArgs e)
+        {
+            HWND hwnd = (HWND)this.GetWindowHandle();
+            PInvoke.ShowWindow(hwnd, SHOW_WINDOW_CMD.SW_SHOWMAXIMIZED);
+        }
+
+        private void AppRestore(object sender, RoutedEventArgs e)
+        {
+            HWND hwnd = (HWND)this.GetWindowHandle();
+            PInvoke.ShowWindow(hwnd, SHOW_WINDOW_CMD.SW_RESTORE);
+        }
+
+        private void AppClose(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }
