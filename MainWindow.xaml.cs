@@ -1,8 +1,8 @@
 using Edge.Utilities;
-using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
 using System;
 using System.Linq;
 using Windows.Win32;
@@ -92,7 +92,15 @@ namespace Edge
         {
             if (e is TabViewTabCloseRequestedEventArgs args) tabView.TabItems.Remove(args.Tab);
             // else e is RoutedEventArgs
-            else tabView.TabItems.Remove(tabView.SelectedItem);
+            else
+            {
+                TabViewItem item = tabView.SelectedItem as TabViewItem;
+                tabView.TabItems.Remove(item);
+                if (item.Content is WebViewPage)
+                {
+                    App.ClosedTabs.Add(item);
+                }
+            }
             if (!tabView.TabItems.Any()) Close();
         }
 
@@ -160,19 +168,12 @@ namespace Edge
             });
         }
 
-        private void AppTitleBarHeader_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void AppTitleBarHeader_ContextRequested(UIElement sender, ContextRequestedEventArgs args)
         {
-            if (e.Pointer.PointerDeviceType == PointerDeviceType.Mouse)
-            {
-                PointerPoint pointer = e.GetCurrentPoint(AppTitleBarHeader);
-                if (pointer.Properties.IsRightButtonPressed)
-                {
-                    ShowMenuFlyout();
-                }
-            }
+            ShowMenuFlyout();
         }
 
-        private void ShowMenuFlyoutInvoked(Microsoft.UI.Xaml.Input.KeyboardAccelerator sender, Microsoft.UI.Xaml.Input.KeyboardAcceleratorInvokedEventArgs args)
+        private void ShowMenuFlyoutInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
             ShowMenuFlyout();
         }
@@ -198,6 +199,15 @@ namespace Edge
         private void AppClose(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void OpenClosedTabs(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in App.ClosedTabs)
+            {
+                tabView.TabItems.Add(item);
+            }
+            App.ClosedTabs.Clear();
         }
     }
 }

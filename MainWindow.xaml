@@ -17,7 +17,7 @@
         </TabView.TabStripFooter>
 
         <TabView.TabStripHeader>
-            <Grid Background="Transparent" Width="5" Name="AppTitleBarHeader" PointerPressed="AppTitleBarHeader_PointerPressed"/>
+            <Grid Background="Transparent" Width="5" Name="AppTitleBarHeader" ContextRequested="AppTitleBarHeader_ContextRequested"/>
         </TabView.TabStripHeader>
 
         <TabView.KeyboardAccelerators>
@@ -60,6 +60,14 @@
 
                 <MenuFlyoutItem Icon="Cancel" Text="关闭其他标签页" Click="CloseOtherTab"/>
                 <MenuFlyoutItem Icon="Cancel" Text="关闭右侧标签页" Click="CloseRightTab"/>
+
+                <MenuFlyoutSeparator />
+
+                <MenuFlyoutItem Text="重新打开关闭的标签页" Click="OpenClosedTabs">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="T" Modifiers="Control,Shift"/>
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
             </MenuFlyout>
 
             <MenuFlyout x:Name="AppMenuFlyout">
@@ -79,6 +87,20 @@
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xe922;"/>
                     </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+
+                <MenuFlyoutSeparator />
+
+                <MenuFlyoutItem Text="新建标签页" Click="CreateNewTabOnRight">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="T" Modifiers="Control"/>
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+
+                <MenuFlyoutItem Text="重新打开关闭的标签页" Click="OpenClosedTabs">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="T" Modifiers="Control,Shift"/>
+                    </MenuFlyoutItem.KeyboardAccelerators>
                 </MenuFlyoutItem>
 
                 <MenuFlyoutSeparator />

@@ -2,6 +2,7 @@ using Edge.Data;
 using Edge.Utilities;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Microsoft.Windows.AppNotifications;
 using Newtonsoft.Json.Linq;
@@ -18,6 +19,7 @@ namespace Edge
     public partial class App : Application
     {
         public static List<MainWindow> mainWindows = [];
+        public static List<TabViewItem> ClosedTabs = [];
         public static string LatestVersion = null;
         public static JToken settings;
         public App()
