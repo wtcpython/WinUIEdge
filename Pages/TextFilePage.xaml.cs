@@ -1,5 +1,4 @@
 using Edge.Data;
-using Microsoft.Graphics.Canvas.Text;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media;
@@ -8,6 +7,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.Graphics.Gdi;
 
 
 namespace Edge
@@ -24,13 +26,14 @@ namespace Edge
 
         public List<int> FontSizeList = Enumerable.Range(8, 58).Where(x => x % 2 == 0).ToList();
 
-        public string[] FontFamilyList = CanvasTextFormat.GetSystemFontFamilies();
+        public List<string> FontNameList = [];
 
 
         public TextFilePage(string filepath)
         {
             this.InitializeComponent();
-            Array.Sort(FontFamilyList);
+            EnumerateFonts();
+            FontNameList.Sort();
 
             string ext = Path.GetExtension(filepath);
             engine.SetData(ext);
@@ -51,8 +54,8 @@ namespace Edge
             textType.Text = Info.LanguageDict[ext].ToString();
             FontSizeBox.ItemsSource = FontSizeList;
             FontSizeBox.SelectedIndex = FontSizeList.IndexOf(14);
-            FontFamilyBox.ItemsSource = FontFamilyList;
-            FontFamilyBox.SelectedIndex = Array.IndexOf(FontFamilyList, DefaultFontFamily);
+            FontFamilyBox.ItemsSource = FontNameList;
+            FontFamilyBox.SelectedIndex = FontNameList.IndexOf(DefaultFontFamily);
 
             // 设置编辑器文本
             engine.SetText(content);
@@ -111,6 +114,25 @@ namespace Edge
             {
                 ResultNumber.Text = engine.GetSearchTextNumber((sender as TextBox).Text).ToString();
             }
+        }
+
+        private unsafe void EnumerateFonts()
+        {
+            HWND hWND = (HWND)IntPtr.Zero;
+            HDC hdc = PInvoke.GetDC(hWND);
+            LOGFONTW logFont;
+            logFont.lfCharSet = FONT_CHARSET.DEFAULT_CHARSET;
+
+            PInvoke.EnumFontFamiliesEx(hdc, &logFont, EnumFontCallback, 0, 0);
+
+            PInvoke.ReleaseDC(hWND, hdc); // 释放设备上下文
+        }
+
+        private unsafe int EnumFontCallback(LOGFONTW* lplf, TEXTMETRICW* lpntm, uint FontType, LPARAM lParam)
+        {
+            string name = lplf->lfFaceName.ToString();
+            if (!name.StartsWith('@') && !FontNameList.Exists(x => x == name)) FontNameList.Add(name);
+            return 1;
         }
     }
 }

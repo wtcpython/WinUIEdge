@@ -5,3 +5,6 @@ GetMenuItemCount
 RemoveMenu
 IsZoomed
 IsIconic
+GetDC
+EnumFontFamiliesEx
+ReleaseDC
