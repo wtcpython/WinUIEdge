@@ -4,7 +4,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using Windows.Storage;
 
 
@@ -120,16 +120,15 @@ namespace Edge
             mainWindow.Title = sender.DocumentTitle;
             historyButton.Histories.Add(sender);
 
-            List<object> tabs = [.. (mainWindow.Content as TabView).TabItems];
-
-            var tabItem = tabs.Find(x => (x as TabViewItem).Content as Page == this) as TabViewItem;
-            if (tabItem != null)
+            TabViewItem item = (mainWindow.Content as TabView).TabItems
+                .First(x => (x as TabViewItem).Content as Page == this) as TabViewItem;
+            if (item != null)
             {
-                tabItem.Header = sender.DocumentTitle;
+                item.Header = sender.DocumentTitle;
                 string iconUri = sender.FaviconUri;
                 if (iconUri != string.Empty)
                 {
-                    tabItem.IconSource = new ImageIconSource()
+                    item.IconSource = new ImageIconSource()
                     {
                         ImageSource = new BitmapImage()
                         {
