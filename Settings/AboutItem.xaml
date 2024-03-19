@@ -11,7 +11,7 @@
     <StackPanel Spacing="10" Margin="15">
 
         <controls:SettingsCard
-            Header="Edge 内核"
+            Header="WebView2"
             Description="{x:Bind browserVersion}">
             <Button Name="CopyChromiumVersionButton"
                     Click="TryCopyChromiumVersion"
@@ -27,22 +27,23 @@
         </controls:SettingsCard>
 
         <controls:SettingsCard
-            Header="下载 Microsoft Edge"
-            Click="OpenMSEdgeWebsite"
-            IsClickEnabled="True">
-            <controls:SettingsCard.ActionIcon>
-                <FontIcon Glyph="&#xE8A7;" />
-            </controls:SettingsCard.ActionIcon>
-        </controls:SettingsCard>
-
-        <controls:SettingsCard
-            Header="GitHub Repo"
+            Header="GitHub 仓库"
             Click="OpenRepoWebsite"
             IsClickEnabled="True">
             <controls:SettingsCard.ActionIcon>
                 <FontIcon Glyph="&#xE8A7;" />
             </controls:SettingsCard.ActionIcon>
         </controls:SettingsCard>
+
+        <TextBlock>
+            <Span>
+                <Run>此浏览器基于</Run>
+                <Hyperlink NavigateUri="https://www.chromium.org/">Chromium</Hyperlink>
+                <Run>开源项目及其他</Run>
+                <Hyperlink NavigateUri="edge://credits/">开源软件</Hyperlink>
+                <Run>。</Run>
+            </Span>
+        </TextBlock>
     </StackPanel>
 
 </Page>
