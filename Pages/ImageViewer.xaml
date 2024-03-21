@@ -51,11 +51,6 @@
                                 </ItemsControl>
 
                                 <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                                    <TextBlock Text="图像评分" Margin="0,0,30,0" VerticalAlignment="Center"/>
-                                    <RatingControl Name="imageRating" IsReadOnly="True"/>
-                                </StackPanel>
-
-                                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                     <TextBlock Text="文件路径" Margin="0,0,30,0" VerticalAlignment="Center"/>
                                     <HyperlinkButton Click="OpenFileLocation" MaxWidth="200">
                                         <HyperlinkButton.Content>
@@ -76,9 +71,12 @@
         </Grid>
 
         <ScrollViewer
-            MinZoomFactor="1" ZoomMode="Enabled" DoubleTapped="ScrollViewer_DoubleTapped"
-            Grid.Row="1">
-            <Image x:Name="ItemImage" Stretch="None"/>
+            x:Name="scrollViewer" 
+            Grid.Row="1"
+            HorizontalScrollBarVisibility="Auto" 
+            VerticalScrollBarVisibility="Auto"
+            PointerWheelChanged="OnPointerWheelChanged">
+            <Image x:Name="image" Stretch="UniformToFill"/>
         </ScrollViewer>
 
     </Grid>

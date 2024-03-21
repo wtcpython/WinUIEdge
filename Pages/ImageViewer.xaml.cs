@@ -1,67 +1,58 @@
 using CommunityToolkit.Common;
 using Edge.Utilities;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using Windows.Storage;
-using Windows.Storage.FileProperties;
+using Windows.System;
 
 
 namespace Edge
 {
     public sealed partial class ImageViewer : Page
     {
-        public string filePath;
+        private double zoomFactor = 1.0;
 
-        public string fileName;
+        public FileInfo fileInfo;
 
-        public int Angle = 0;
+        public BitmapImage source;
+
+        private int Angle = 0;
 
         public Dictionary<string, string> dict = [];
 
         public ImageViewer(string filepath)
         {
             this.InitializeComponent();
-            filePath = filepath;
-            GetItemsAsync();
+            fileInfo = new(filepath);
+            source = new(new Uri(filepath));
+            image.Source = source;
+            source.ImageOpened += ImageOpened;
         }
 
-        private async void GetItemsAsync()
+        private async void ImageOpened(object sender, RoutedEventArgs e)
         {
-            // 获取文件大小
-            long ImageFileSize = new FileInfo(filePath).Length;
-
-            StorageFile file = await StorageFile.GetFileFromPathAsync(filePath);
-            
-            // Load Image
-            ImageProperties properties = await file.Properties.GetImagePropertiesAsync();
-
-            ItemImage.Source = new BitmapImage(new Uri(filePath));
-
+            StorageFile file = await StorageFile.GetFileFromPathAsync(fileInfo.FullName);
             imageNameBlock.Text = file.Name;
             dict["文件名称"] = file.Name;
             dict["文件类型"] = file.DisplayType;
-            dict["像素大小"] = $"{properties.Width} x {properties.Height}";
-            dict["文件大小"] = Converters.ToFileSizeString(ImageFileSize);
+            dict["像素大小"] = $"{source.PixelWidth} x {source.PixelHeight}";
+            dict["文件大小"] = Converters.ToFileSizeString(fileInfo.Length);
             view.ItemsSource = dict;
-            fileLocation.Text = filePath;
-
-            imageRating.Value = properties.Rating;
+            fileLocation.Text = fileInfo.FullName;
         }
 
         private async void ImageDeleteRequest(object sender, RoutedEventArgs e)
         {
             bool deleted = await App.GetWindowForElement(this).Content.XamlRoot.ShowMsgDialog(
-                "文件删除确认", $"是否要删除文件 {filePath} ?", "取消", "确定");
-            if (deleted)
-            {
-                FileInfo fileInfo = new(filePath);
-                fileInfo.Delete();
-            }
+                "文件删除确认", $"是否要删除文件 {fileInfo.FullName} ?", "取消", "确定");
+            if (deleted) fileInfo.Delete();
         }
 
         private void ImageRotateRequest(object sender, RoutedEventArgs e)
@@ -70,33 +61,32 @@ namespace Edge
 
             RotateTransform rotateTransform = new()
             {
-                CenterX = ItemImage.Width / 2,
-                CenterY = ItemImage.Height / 2,
+                CenterX = image.Width / 2,
+                CenterY = image.Height / 2,
                 Angle = Angle
             };
-            ItemImage.RenderTransform = rotateTransform;
-        }
-
-        private void ScrollViewer_DoubleTapped(object sender, Microsoft.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
-        {
-            var scrollViewer = sender as ScrollViewer;
-            var doubleTapPoint = e.GetPosition(scrollViewer);
-
-            if (scrollViewer.ZoomFactor != 1)
-            {
-                scrollViewer.ZoomToFactor(1);
-            }
-            else
-            {
-                scrollViewer.ZoomToFactor(2);
-                scrollViewer.ScrollToHorizontalOffset(doubleTapPoint.X);
-                scrollViewer.ScrollToVerticalOffset(doubleTapPoint.Y);
-            }
+            image.RenderTransform = rotateTransform;
         }
 
         private void OpenFileLocation(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start("explorer.exe", filePath);
+            System.Diagnostics.Process.Start("explorer.exe", fileInfo.FullName);
+        }
+
+        private void OnPointerWheelChanged(object sender, PointerRoutedEventArgs e)
+        {
+            PointerPoint pointerPoint = e.GetCurrentPoint(sender as ScrollViewer);
+
+            if (e.KeyModifiers == VirtualKeyModifiers.Control)
+            {
+                double delta = pointerPoint.Properties.MouseWheelDelta / 2400.0;
+                if (zoomFactor < 5.0 && zoomFactor > 0.2)
+                {
+                    zoomFactor += delta;
+                    image.RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
+                    image.RenderTransform = new CompositeTransform() { ScaleX = zoomFactor, ScaleY = zoomFactor };
+                }
+            }
         }
     }
 }
