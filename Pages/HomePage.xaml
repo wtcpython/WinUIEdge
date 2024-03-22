@@ -25,7 +25,7 @@
 
         <local:BrowserMenuItems Grid.Column="2" HorizontalAlignment="Right"/>
 
-        <local:SearchModule
+        <local:WebSearch
             Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"
             CornerRadius="15" FontSize="18"/>
 

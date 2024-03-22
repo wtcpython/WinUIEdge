@@ -61,7 +61,7 @@
                 <FontIcon Glyph="&#xe80f;"/>
             </Button>
 
-            <local:SearchModule x:Name="Search" Grid.Column="5"/>
+            <local:WebSearch x:Name="Search" Grid.Column="5"/>
 
             <local:History x:Name="historyButton" Grid.Column="6"/>
 
