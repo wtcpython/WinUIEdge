@@ -4,7 +4,9 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using Windows.Foundation;
 using Windows.Storage;
 
 
@@ -79,9 +81,75 @@ namespace Edge
             sender.CoreWebView2.DownloadStarting += CoreWebView2_DownloadStarting;
             sender.CoreWebView2.NewWindowRequested += CoreWebView2_NewWindowRequested;
             sender.CoreWebView2.StatusBarTextChanged += CoreWebView2_StatusBarTextChanged;
+            sender.CoreWebView2.ContextMenuRequested += CoreWebView2_ContextMenuRequested;
 
             // 加载设置项
             sender.CoreWebView2.Settings.IsStatusBarEnabled = false;
+        }
+
+        private void CoreWebView2_ContextMenuRequested(CoreWebView2 sender, CoreWebView2ContextMenuRequestedEventArgs args)
+        {
+            args.Handled = true;
+            var menuItems = args.MenuItems;
+
+            Deferral deferral = args.GetDeferral();
+            
+            MenuFlyout flyout = new();
+            flyout.Closed += (sender, e) => deferral.Complete();
+
+            SetMenuItems(args, menuItems, flyout.Items);
+            flyout.ShowAt(EdgeWebViewEngine, args.Location);
+        }
+
+        private void SetMenuItems(
+            CoreWebView2ContextMenuRequestedEventArgs args,
+            IList<CoreWebView2ContextMenuItem> webMenuItems,
+            IList<MenuFlyoutItemBase> menuItems)
+        {
+            foreach (var menuItem in webMenuItems)
+            {
+                switch (menuItem.Kind)
+                {
+                    case CoreWebView2ContextMenuItemKind.Separator:
+                        menuItems.Add(new MenuFlyoutSeparator());
+                        break;
+                    case CoreWebView2ContextMenuItemKind.Submenu:
+                        MenuFlyoutSubItem subItem = new()
+                        {
+                            Text = menuItem.Label,
+                            IsEnabled = menuItem.IsEnabled,
+                        };
+
+                        SetMenuItems(args, menuItem.Children, subItem.Items);
+                        menuItems.Add(subItem);
+                        break;
+                    case CoreWebView2ContextMenuItemKind.CheckBox:
+                        menuItems.Add(new ToggleMenuFlyoutItem()
+                        {
+                            Text = menuItem.Label,
+                            IsEnabled = menuItem.IsEnabled,
+                            KeyboardAcceleratorTextOverride = menuItem.ShortcutKeyDescription,
+                            IsChecked = menuItem.IsChecked
+                        });
+                        break;
+                    case CoreWebView2ContextMenuItemKind.Command:
+                        MenuFlyoutItem newItem = new()
+                        {
+                            Text = menuItem.Label,
+                            IsEnabled = menuItem.IsEnabled,
+                            KeyboardAcceleratorTextOverride = menuItem.ShortcutKeyDescription
+                        };
+
+                        newItem.Click += (sender, e) =>
+                        {
+                            args.SelectedCommandId = menuItem.CommandId;
+                        };
+                        menuItems.Add(newItem);
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         private void CoreWebView2_StatusBarTextChanged(CoreWebView2 sender, object args)
