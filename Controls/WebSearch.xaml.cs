@@ -1,7 +1,9 @@
 using Edge.Data;
 using Microsoft.UI.Xaml.Controls;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace Edge
@@ -74,7 +76,34 @@ namespace Edge
             string text = sender.Text;
             if (Uri.TryCreate(text, UriKind.Absolute, out var uri))
             {
-                Navigate(uri.OriginalString);
+                if (uri.Scheme == Uri.UriSchemeFile)
+                {
+                    FileInfo fileInfo = new(text);
+                    if (fileInfo.Exists)
+                    {
+                        string ext = fileInfo.Extension;
+
+                        MainWindow mainWindow = App.GetWindowForElement(this);
+                        if (Info.LanguageDict.Select(x => ((JProperty)x).Name).Any(x => x == ext))
+                        {
+                            mainWindow.AddNewTab(new TextFilePage(text), fileInfo.Name);
+                        }
+
+                        else if (Info.ImageDict.Select(x => ((JProperty)x).Name).Any(x => x == ext))
+                        {
+                            mainWindow.AddNewTab(new ImageViewer(text), fileInfo.Name);
+                        }
+
+                        else
+                        {
+                            Navigate(text);
+                        }
+                    }
+                }
+                else
+                {
+                    Navigate(uri.OriginalString);
+                }
             }
             else
             {
