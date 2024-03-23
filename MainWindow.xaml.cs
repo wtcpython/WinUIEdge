@@ -23,6 +23,7 @@ namespace Edge
             AddNewTab(new HomePage());
 
             this.SetBackdrop();
+            this.SetThemeColor();
 
             IntPtr hwnd = this.GetWindowHandle();
             HMENU hmenu = PInvoke.GetSystemMenu((HWND)hwnd, false);

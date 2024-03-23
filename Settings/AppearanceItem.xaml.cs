@@ -1,6 +1,5 @@
 using Edge.Data;
 using Edge.Utilities;
-using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Newtonsoft.Json.Linq;
@@ -48,12 +47,7 @@ namespace Edge
 
                 foreach (Window window in App.mainWindows)
                 {
-                    if (window.Content is FrameworkElement rootElement)
-                    {
-                        rootElement.RequestedTheme = Enum.Parse<ElementTheme>(appearance);
-                        window.AppWindow.TitleBar.ButtonForegroundColor =
-                            rootElement.ActualTheme == ElementTheme.Dark ? Colors.White : Colors.Black;
-                    }
+                    window.SetThemeColor();
                 }
             }
         }

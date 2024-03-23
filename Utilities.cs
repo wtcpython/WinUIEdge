@@ -1,13 +1,14 @@
 using Edge.Data;
+using Microsoft.UI;
 using Microsoft.UI.Composition.SystemBackdrops;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System.Threading.Tasks;
+using Microsoft.UI.Xaml.Media;
 using System;
 using System.IO;
-using Windows.Storage.Pickers;
+using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.Pickers;
 using WinRT.Interop;
 
 namespace Edge.Utilities;
@@ -33,6 +34,17 @@ public static class Utilities
             window.SystemBackdrop = new DesktopAcrylicBackdrop();
         }
         else window.SystemBackdrop = null;
+    }
+
+    public static void SetThemeColor(this Window window)
+    {
+        string appearance = App.settings["Appearance"].ToString();
+        if (window.Content is FrameworkElement rootElement)
+        {
+            rootElement.RequestedTheme = Enum.Parse<ElementTheme>(appearance);
+            window.AppWindow.TitleBar.ButtonForegroundColor =
+                rootElement.ActualTheme == ElementTheme.Dark ? Colors.White : Colors.Black;
+        }
     }
 
     public static IntPtr GetWindowHandle(this Window window)
@@ -74,5 +86,28 @@ public static class Utilities
         InitializeWithWindow.Initialize(picker, hwnd);
 
         return await picker.PickSaveFileAsync();
+    }
+
+
+    public static string ToGlyph(this string name)
+    {
+        return name switch
+        {
+            "back" => "\ue72b",
+            "forward" => "\ue72a",
+            "reload" => "\ue72c",
+            "saveAs" => "\ue792",
+            "print" => "\ue749",
+            "share" => "\ue72d",
+            "emoji" => "\ue899",
+            "undo" => "\ue7a7",
+            "redo" => "\ue7a6",
+            "cut" => "\ue8c6",
+            "copy" => "\ue8c8",
+            "paste" => "\ue77f",
+            "openLinkInNewWindow" => "\ue737",
+            "copyLinkLocation" => "\ue71b",
+            _ => string.Empty,
+        };
     }
 }

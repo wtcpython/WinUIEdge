@@ -116,7 +116,7 @@ namespace Edge
                     case CoreWebView2ContextMenuItemKind.Submenu:
                         MenuFlyoutSubItem subItem = new()
                         {
-                            Text = menuItem.Label,
+                            Text = menuItem.Label[..menuItem.Label.IndexOf('(')],
                             IsEnabled = menuItem.IsEnabled,
                         };
 
@@ -126,7 +126,7 @@ namespace Edge
                     case CoreWebView2ContextMenuItemKind.CheckBox:
                         menuItems.Add(new ToggleMenuFlyoutItem()
                         {
-                            Text = menuItem.Label,
+                            Text = menuItem.Label[..menuItem.Label.IndexOf('(')],
                             IsEnabled = menuItem.IsEnabled,
                             KeyboardAcceleratorTextOverride = menuItem.ShortcutKeyDescription,
                             IsChecked = menuItem.IsChecked
@@ -135,9 +135,10 @@ namespace Edge
                     case CoreWebView2ContextMenuItemKind.Command:
                         MenuFlyoutItem newItem = new()
                         {
-                            Text = menuItem.Label,
+                            Text = menuItem.Label[..menuItem.Label.IndexOf('(')],
                             IsEnabled = menuItem.IsEnabled,
-                            KeyboardAcceleratorTextOverride = menuItem.ShortcutKeyDescription
+                            KeyboardAcceleratorTextOverride = menuItem.ShortcutKeyDescription,
+                            Icon = new FontIcon() { Glyph = menuItem.Name.ToGlyph() }
                         };
 
                         newItem.Click += (sender, e) =>
