@@ -58,7 +58,7 @@
 
                 <controls:SettingsExpander.Items>
                     <controls:SettingsCard
-                    Name="backgroundCard"
+                    x:Name="backgroundCard"
                     Header="选择背景图片的路径">
                         <Button Content="更改" Click="SetBackgroundImage"/>
                     </controls:SettingsCard>

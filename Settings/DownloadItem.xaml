@@ -11,7 +11,7 @@
     <StackPanel Spacing="10" Margin="15">
 
         <controls:SettingsCard
-            Name="DownloadFolderCard"
+            x:Name="DownloadFolderCard"
             Header="位置">
             <Button Name="setFolderButton" Content="更改" Click="ChangeDownloadFolder"/>
         </controls:SettingsCard>
