@@ -1,10 +1,9 @@
 ShowWindow
 SetForegroundWindow
-GetSystemMenu
-GetMenuItemCount
-RemoveMenu
 IsZoomed
 IsIconic
 GetDC
 EnumFontFamiliesEx
 ReleaseDC
+SetWindowLong
+GetWindowLong

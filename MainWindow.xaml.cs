@@ -26,13 +26,9 @@ namespace Edge
             this.SetThemeColor();
 
             IntPtr hwnd = this.GetWindowHandle();
-            HMENU hmenu = PInvoke.GetSystemMenu((HWND)hwnd, false);
-            int cnt = PInvoke.GetMenuItemCount(hmenu);
-
-            for (int i = cnt - 1; i >= 0; i--)
-            {
-                PInvoke.RemoveMenu(hmenu, (uint)i, MENU_ITEM_FLAGS.MF_DISABLED | MENU_ITEM_FLAGS.MF_BYPOSITION);
-            }
+            int nStyle = PInvoke.GetWindowLong((HWND)hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE);
+            nStyle &= ~(int)0x00080000L;
+            PInvoke.SetWindowLong((HWND)hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE, nStyle);
         }
 
         public void AddNewTab(object content, string header = "主页", int index = -1)
