@@ -1,5 +1,6 @@
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -20,7 +21,7 @@ namespace Edge.Data
         public static JToken LanguageDict = JToken.Parse(ReadPackageFileText("/Data/LanguageType.json"));
         public static JToken ImageDict = JToken.Parse(ReadPackageFileText("/Data/ImageType.json"));
         public static List<WebsiteInfo> SearchEngineList = JsonSerializer.Deserialize<List<WebsiteInfo>>(ReadPackageFileText("/Data/SearchEngine.json"))!;
-        public static List<WebsiteInfo> SuggestWebsiteList = JsonSerializer.Deserialize<List<WebsiteInfo>>(ReadPackageFileText("/Data/SuggestWebsite.json"))!;
+        public static ObservableCollection<WebsiteInfo> SuggestWebsiteList = JsonSerializer.Deserialize<ObservableCollection<WebsiteInfo>>(ReadPackageFileText("/Data/SuggestWebsite.json"))!;
 
         public static List<string> WindowEffectList = ["Mica", "Mica Alt", "Acrylic", "None"];
 

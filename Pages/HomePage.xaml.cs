@@ -1,9 +1,11 @@
 using Edge.Data;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
+using System.Linq;
 
 namespace Edge
 {
@@ -42,6 +44,21 @@ namespace Edge
             {
                 WebUri = (e.ClickedItem as WebsiteInfo).Uri
             });
+        }
+
+        private void OpenWebSite(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = App.GetWindowForElement(this);
+            string Uri = (sender as MenuFlyoutItem).CommandParameter as string;
+            mainWindow.AddNewTab(new WebViewPage()
+            {
+                WebUri = Uri
+            });
+        }
+
+        private void HideItem(object sender, RoutedEventArgs e)
+        {
+            Info.SuggestWebsiteList.Remove(Info.SuggestWebsiteList.First(x => x.Name == (sender as MenuFlyoutItem).CommandParameter as string));
         }
     }
 }
