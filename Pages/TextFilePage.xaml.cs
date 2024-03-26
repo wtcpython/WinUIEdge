@@ -125,7 +125,7 @@ namespace Edge
 
             PInvoke.EnumFontFamiliesEx(hdc, &logFont, EnumFontCallback, 0, 0);
 
-            PInvoke.ReleaseDC(hWND, hdc); // 释放设备上下文
+            PInvoke.ReleaseDC(hWND, hdc);
         }
 
         private unsafe int EnumFontCallback(LOGFONTW* lplf, TEXTMETRICW* lpntm, uint FontType, LPARAM lParam)
