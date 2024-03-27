@@ -1,6 +1,5 @@
 using Edge.Data;
 using Microsoft.UI.Xaml.Controls;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -84,12 +83,12 @@ namespace Edge
                         string ext = fileInfo.Extension;
 
                         MainWindow mainWindow = App.GetWindowForElement(this);
-                        if (Info.LanguageDict.Select(x => ((JProperty)x).Name).Any(x => x == ext))
+                        if (Info.LanguageDict.ContainsKey(ext))
                         {
                             mainWindow.AddNewTab(new TextFilePage(text), fileInfo.Name);
                         }
 
-                        else if (Info.ImageDict.Select(x => ((JProperty)x).Name).Any(x => x == ext))
+                        else if (Info.ImageDict.ContainsKey(ext))
                         {
                             mainWindow.AddNewTab(new ImageViewer(text), fileInfo.Name);
                         }

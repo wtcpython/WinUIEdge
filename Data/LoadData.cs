@@ -18,8 +18,8 @@ namespace Edge.Data
 
     public static class Info
     {
-        public static JToken LanguageDict = JToken.Parse(ReadPackageFileText("/Data/LanguageType.json"));
-        public static JToken ImageDict = JToken.Parse(ReadPackageFileText("/Data/ImageType.json"));
+        public static JObject LanguageDict = JObject.Parse(ReadPackageFileText("/Data/LanguageType.json"));
+        public static JObject ImageDict = JObject.Parse(ReadPackageFileText("/Data/ImageType.json"));
         public static List<WebsiteInfo> SearchEngineList = JsonSerializer.Deserialize<List<WebsiteInfo>>(ReadPackageFileText("/Data/SearchEngine.json"))!;
         public static ObservableCollection<WebsiteInfo> SuggestWebsiteList = JsonSerializer.Deserialize<ObservableCollection<WebsiteInfo>>(ReadPackageFileText("/Data/SuggestWebsite.json"))!;
 
@@ -41,8 +41,8 @@ namespace Edge.Data
             }
             else
             {
-                var keys1 = JToken.Parse(File.ReadAllText(settingsFile)).Select(x => ((JProperty)x).Name);
-                var keys2 = JToken.Parse(File.ReadAllText(settingsInfo.FullName)).Select(x => ((JProperty)x).Name);
+                var keys1 = JObject.Parse(File.ReadAllText(settingsFile)).Properties().Select(x => x.Name);
+                var keys2 = JObject.Parse(File.ReadAllText(settingsInfo.FullName)).Properties().Select(x => x.Name);
                 if (!keys1.SequenceEqual(keys2))
                 {
                     settingsInfo.CopyTo(settingsFile, true);
