@@ -17,7 +17,10 @@
         QuerySubmitted="StartToSearch"
         CornerRadius="{x:Bind CornerRadius}"
         FontSize="{x:Bind FontSize}"
-        Text="{x:Bind Text}">
+        Text="{x:Bind Text}"
+        AllowDrop="True"
+        DragOver="AutoSuggestBox_DragOver"
+        Drop="AutoSuggestBox_Drop">
         <AutoSuggestBox.ItemTemplate>
             <DataTemplate>
                 <StackPanel>

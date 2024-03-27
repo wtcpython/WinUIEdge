@@ -11,7 +11,10 @@
         Name="tabView"
         AddTabButtonClick="TabView_AddTabButtonClick"
         TabCloseRequested="CloseTab"
-        VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+        AllowDrop="True"
+        DragOver="TabView_DragOver"
+        Drop="TabView_Drop">
         <TabView.TabStripFooter>
             <Grid Background="Transparent" Name="AppTitleBar" Padding="0,0,200,0"/>
         </TabView.TabStripFooter>

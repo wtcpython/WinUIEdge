@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Windows.ApplicationModel.DataTransfer;
 
 namespace Edge
 {
@@ -107,6 +108,24 @@ namespace Edge
             else
             {
                 Navigate(Info.SearchEngineList.First(x => x.Name == App.settings["SearchEngine"].ToString()).Uri + text);
+            }
+        }
+
+        private void AutoSuggestBox_DragOver(object sender, Microsoft.UI.Xaml.DragEventArgs e)
+        {
+            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                e.AcceptedOperation = DataPackageOperation.Copy;
+                e.DragUIOverride.Caption = "粘贴文件路径";
+            }
+        }
+
+        private async void AutoSuggestBox_Drop(object sender, Microsoft.UI.Xaml.DragEventArgs e)
+        {
+            var items = await e.DataView.GetStorageItemsAsync();
+            foreach (var item in items)
+            {
+                box.Text = item.Path;
             }
         }
     }
