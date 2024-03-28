@@ -1,5 +1,3 @@
-IsZoomed
-IsIconic
 GetDC
 EnumFontFamiliesEx
 ReleaseDC

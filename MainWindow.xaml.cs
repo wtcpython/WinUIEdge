@@ -18,13 +18,13 @@ namespace Edge
 {
     public sealed partial class MainWindow : Window
     {
-        public OverlappedPresenter overlappedPresenter;
+        public OverlappedPresenter presenter;
         public MainWindow()
         {
             this.InitializeComponent();
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(AppTitleBar);
-            overlappedPresenter = AppWindow.Presenter as OverlappedPresenter;
+            presenter = AppWindow.Presenter as OverlappedPresenter;
 
             AddNewTab(new HomePage());
 
@@ -150,8 +150,7 @@ namespace Edge
 
         private void ShowMenuFlyout()
         {
-            HWND hwnd = (HWND)this.GetWindowHandle();
-            if (PInvoke.IsZoomed(hwnd))
+            if (presenter.State == OverlappedPresenterState.Maximized)
             {
                 MaximizeItem.IsEnabled = false;
                 RestoreItem.IsEnabled = true;
@@ -159,7 +158,7 @@ namespace Edge
             else
             {
                 MaximizeItem.IsEnabled = true;
-                if (!PInvoke.IsIconic(hwnd))
+                if (presenter.State != OverlappedPresenterState.Minimized)
                 {
                     RestoreItem.IsEnabled = false;
                 }
@@ -183,17 +182,17 @@ namespace Edge
 
         private void AppMinimize(object sender, RoutedEventArgs e)
         {
-            overlappedPresenter.Minimize();
+            presenter.Minimize();
         }
 
         private void AppMaximize(object sender, RoutedEventArgs e)
         {
-            overlappedPresenter.Maximize();
+            presenter.Maximize();
         }
 
         private void AppRestore(object sender, RoutedEventArgs e)
         {
-            overlappedPresenter.Restore();
+            presenter.Restore();
         }
 
         private void AppClose(object sender, RoutedEventArgs e)
