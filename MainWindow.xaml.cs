@@ -1,5 +1,6 @@
 using Edge.Data;
 using Edge.Utilities;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -11,18 +12,19 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
-using static System.Net.Mime.MediaTypeNames;
 
 
 namespace Edge
 {
     public sealed partial class MainWindow : Window
     {
+        public OverlappedPresenter overlappedPresenter;
         public MainWindow()
         {
             this.InitializeComponent();
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(AppTitleBar);
+            overlappedPresenter = AppWindow.Presenter as OverlappedPresenter;
 
             AddNewTab(new HomePage());
 
@@ -181,20 +183,17 @@ namespace Edge
 
         private void AppMinimize(object sender, RoutedEventArgs e)
         {
-            HWND hwnd = (HWND)this.GetWindowHandle();
-            PInvoke.ShowWindow(hwnd, SHOW_WINDOW_CMD.SW_SHOWMINIMIZED);
+            overlappedPresenter.Minimize();
         }
 
         private void AppMaximize(object sender, RoutedEventArgs e)
         {
-            HWND hwnd = (HWND)this.GetWindowHandle();
-            PInvoke.ShowWindow(hwnd, SHOW_WINDOW_CMD.SW_SHOWMAXIMIZED);
+            overlappedPresenter.Maximize();
         }
 
         private void AppRestore(object sender, RoutedEventArgs e)
         {
-            HWND hwnd = (HWND)this.GetWindowHandle();
-            PInvoke.ShowWindow(hwnd, SHOW_WINDOW_CMD.SW_RESTORE);
+            overlappedPresenter.Restore();
         }
 
         private void AppClose(object sender, RoutedEventArgs e)

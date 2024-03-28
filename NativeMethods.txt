@@ -1,5 +1,3 @@
-ShowWindow
-SetForegroundWindow
 IsZoomed
 IsIconic
 GetDC

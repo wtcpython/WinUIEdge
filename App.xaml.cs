@@ -1,6 +1,6 @@
 using Edge.Data;
-using Edge.Utilities;
 using Microsoft.UI.Dispatching;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
@@ -9,8 +9,6 @@ using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.IO;
 using Windows.Storage;
-using Windows.Win32;
-using Windows.Win32.Foundation;
 
 
 namespace Edge
@@ -69,7 +67,8 @@ namespace Edge
             var activationKind = activatedArgs.Kind;
             if (activationKind != ExtendedActivationKind.AppNotification)
             {
-                ShowWindow(m_window);
+                OverlappedPresenter presenter = m_window.AppWindow.Presenter as OverlappedPresenter;
+                presenter.Restore(true);
             }
             else
             {
@@ -101,12 +100,5 @@ namespace Edge
         }
 
         private static Window m_window;
-
-        public static void ShowWindow(Window window)
-        {
-            HWND hwnd = (HWND)window.GetWindowHandle();
-            PInvoke.ShowWindow(hwnd, Windows.Win32.UI.WindowsAndMessaging.SHOW_WINDOW_CMD.SW_RESTORE);
-            PInvoke.SetForegroundWindow(hwnd);
-        }
     }
 }
