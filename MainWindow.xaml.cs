@@ -58,11 +58,6 @@ namespace Edge
             }
         }
 
-        private void TabView_AddTabButtonClick(TabView sender, object args)
-        {
-            AddNewTab(new HomePage());
-        }
-
         private void CreateNewTabOnRight(object sender, RoutedEventArgs e)
         {
             AddNewTab(new HomePage(), index: tabView.SelectedIndex + 1);
@@ -158,11 +153,7 @@ namespace Edge
             else
             {
                 MaximizeItem.IsEnabled = true;
-                if (presenter.State != OverlappedPresenterState.Minimized)
-                {
-                    RestoreItem.IsEnabled = false;
-                }
-                else RestoreItem.IsEnabled = true;
+                RestoreItem.IsEnabled = presenter.State == OverlappedPresenterState.Minimized;
             }
             AppMenuFlyout.ShowAt(AppTitleBarHeader, new FlyoutShowOptions()
             {
@@ -234,6 +225,37 @@ namespace Edge
                     AddNewTab(new ImageViewer(fileInfo.FullName), fileInfo.Name);
                 }
             }
+        }
+
+        private void PinTab(object sender, RoutedEventArgs e)
+        {
+            var menuItem = sender as MenuFlyoutItem;
+            var item = tabView.SelectedItem as TabViewItem;
+            if (item.IsClosable)
+            {
+                menuItem.Text = "取消固定标签页";
+                item.IsClosable = false;
+            }
+            else
+            {
+                menuItem.Text = "固定标签页";
+                item.IsClosable = true;
+            }
+        }
+
+        private void AddNewButtonClick(SplitButton sender, SplitButtonClickEventArgs args)
+        {
+            AddNewTab(new HomePage());
+        }
+
+        private void OpenHomePage(object sender, RoutedEventArgs e)
+        {
+            AddNewTab(new HomePage());
+        }
+
+        private void OpenBingPage(object sender, RoutedEventArgs e)
+        {
+            AddNewTab(new WebViewPage() { WebUri = "https://www.bing.com/"});
         }
     }
 }
