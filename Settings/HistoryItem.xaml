@@ -14,17 +14,22 @@
 
             <TextBlock Text="选择每次关闭浏览器时要清除的内容" Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" Margin="5,10,0,0"/>
 
-            <ListView Name="view"/>
+            <controls:SettingsExpander
+                x:Name="ClearBrowsingDataButton"
+                Header="立即清除浏览数据">
 
-            <controls:SettingsCard
-            x:Name="ClearBrowsingDataButton"
-            Header="立即清除浏览数据"
-            Click="ClearBrowsingData"
-            IsClickEnabled="True">
-                <controls:SettingsCard.ActionIcon>
-                    <FontIcon Glyph="&#xE8A7;" />
-                </controls:SettingsCard.ActionIcon>
-            </controls:SettingsCard>
+                <Button Content="清除数据" Click="ClearBrowsingData"/>
+                
+                <controls:SettingsExpander.Items>
+                    <ItemsControl x:Name="view">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="local:BrowserDataKind">
+                                <CheckBox Content="{x:Bind Name}" IsChecked="{x:Bind IsChecked, Mode=TwoWay}" Margin="20,5,0,5"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </controls:SettingsExpander.Items>
+            </controls:SettingsExpander>
         </StackPanel>
         
     </ScrollView>
