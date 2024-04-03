@@ -11,7 +11,7 @@ namespace Edge
     public sealed partial class AboutItem : Page
     {
         public string appVersion = Package.Current.Id.Version.ToFormattedString();
-        public string browserVersion = SettingsPage.webView2.CoreWebView2.Environment.BrowserVersionString;
+        public string browserVersion = App.webView2.CoreWebView2.Environment.BrowserVersionString;
 
         public AboutItem()
         {

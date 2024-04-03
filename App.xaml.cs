@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Microsoft.Windows.AppNotifications;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Windows.Storage;
@@ -19,9 +20,17 @@ namespace Edge
         public static List<TabViewItem> ClosedTabs = [];
         public static string LatestVersion = null;
         public static JToken settings;
+        public static WebView2 webView2 = new();
+
         public App()
         {
             this.InitializeComponent();
+            EnsureWebView2Async();
+        }
+
+        public async void EnsureWebView2Async()
+        {
+            await webView2.EnsureCoreWebView2Async();
         }
 
         public static MainWindow CreateNewWindow()

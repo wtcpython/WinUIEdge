@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Edge
 {
@@ -12,7 +13,7 @@ namespace Edge
         public string Name { get; set; }
         public bool IsChecked = false;
     }
-    public sealed partial class HistoryItem : Page
+    public sealed partial class PrivacyItem : Page
     {
         public List<BrowserDataKind> BrowserDataKindList =
         [
@@ -27,9 +28,13 @@ namespace Edge
             new() { Kind = CoreWebView2BrowsingDataKinds.WebSql, Name = "WebSQL 数据库" },
         ];
 
-        public HistoryItem()
+        public List<string> trackLevelList = [.. Enum.GetNames(typeof(CoreWebView2TrackingPreventionLevel))];
+
+        public PrivacyItem()
         {
             this.InitializeComponent();
+            trackBox.ItemsSource = trackLevelList;
+            trackBox.SelectedIndex = trackLevelList.IndexOf(App.webView2.CoreWebView2.Profile.PreferredTrackingPreventionLevel.ToString());
             ClearBrowsingDataButton.ItemsSource = BrowserDataKindList;
         }
 
@@ -39,10 +44,16 @@ namespace Edge
             {
                 if (item.IsChecked)
                 {
-                    await SettingsPage.webView2.CoreWebView2.Profile.ClearBrowsingDataAsync(item.Kind);
+                    await App.webView2.CoreWebView2.Profile.ClearBrowsingDataAsync(item.Kind);
                 }
             }
             ClearBrowsingDataButton.Description = "已清理选择的项目";
+        }
+
+        private void TrackLevelChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string level = (sender as ComboBox).SelectedItem as string;
+            App.webView2.CoreWebView2.Profile.PreferredTrackingPreventionLevel = Enum.Parse<CoreWebView2TrackingPreventionLevel>(level);
         }
     }
 }

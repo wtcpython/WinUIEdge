@@ -13,7 +13,7 @@
         </Button.KeyboardAccelerators>
         <FontIcon Glyph="&#xe712;" />
         <Button.Flyout>
-            <MenuFlyout Opening="MenuFlyout_Opening">
+            <MenuFlyout Opening="MenuFlyout_Opening" Placement="BottomEdgeAlignedRight">
                 <MenuFlyoutItem Text="新建标签页" Click="TryCreateNewTab">
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator Key="T" Modifiers="Control"/>
