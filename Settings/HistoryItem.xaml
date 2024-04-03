@@ -20,15 +20,11 @@
 
                 <Button Content="清除数据" Click="ClearBrowsingData"/>
                 
-                <controls:SettingsExpander.Items>
-                    <ItemsControl x:Name="view">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate x:DataType="local:BrowserDataKind">
-                                <CheckBox Content="{x:Bind Name}" IsChecked="{x:Bind IsChecked, Mode=TwoWay}" Margin="20,5,0,5"/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </controls:SettingsExpander.Items>
+                <controls:SettingsExpander.ItemTemplate>
+                    <DataTemplate x:DataType="local:BrowserDataKind">
+                        <CheckBox Content="{x:Bind Name}" IsChecked="{x:Bind IsChecked, Mode=TwoWay}" Margin="20,5,0,5"/>
+                    </DataTemplate>
+                </controls:SettingsExpander.ItemTemplate>
             </controls:SettingsExpander>
         </StackPanel>
         

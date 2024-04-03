@@ -25,14 +25,13 @@
 
                 <SplitButton 
                     x:Name="NewTabButton"
-                    Height="24"
-                    Margin="0,4"
-                    Padding="0"
                     BorderThickness="0"
+                    Margin="0,8,0,0"
                     Background="Transparent"
                     Content="&#xE710;"
                     FontFamily="{ThemeResource SymbolThemeFontFamily}"
                     FontSize="12"
+                    ToolTipService.ToolTip="新建标签页 (Ctrl+T)"
                     Click="AddNewButtonClick">
                     <SplitButton.Flyout>
                         <MenuFlyout>

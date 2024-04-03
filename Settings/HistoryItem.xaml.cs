@@ -3,7 +3,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Edge
 {
@@ -31,12 +30,12 @@ namespace Edge
         public HistoryItem()
         {
             this.InitializeComponent();
-            view.ItemsSource = BrowserDataKindList;
+            ClearBrowsingDataButton.ItemsSource = BrowserDataKindList;
         }
 
         private async void ClearBrowsingData(object sender, RoutedEventArgs e)
         {
-            foreach (var item in view.ItemsSource as List<BrowserDataKind>)
+            foreach (var item in ClearBrowsingDataButton.ItemsSource as List<BrowserDataKind>)
             {
                 if (item.IsChecked)
                 {
