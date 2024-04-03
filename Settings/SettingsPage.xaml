@@ -30,14 +30,26 @@
                     <FontIcon Glyph="&#xEc6c;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-            <NavigationViewItem Content="下载" Icon="Download" Tag="DownloadItem"/>
-            <NavigationViewItem Content="打印机" Icon="Print" Tag="PrinterItem"/>
+            <NavigationViewItem Content="下载" Tag="DownloadItem">
+                <NavigationViewItem.Icon>
+                    <FontIcon Glyph="&#xe896;" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+            <NavigationViewItem Content="打印机" Tag="PrinterItem">
+                <NavigationViewItem.Icon>
+                    <FontIcon Glyph="&#xe749;" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
             <NavigationViewItem Content="重置设置" Tag="ResetItem">
                 <NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xE777;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-            <NavigationViewItem Content="关于 Edge" Icon="Setting" Tag="AboutItem"/>
+            <NavigationViewItem Content="关于 Edge" Tag="AboutItem">
+                <NavigationViewItem.Icon>
+                    <FontIcon Glyph="&#xe713;" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
         </NavigationView.MenuItems>
 
         <Frame x:Name="ContentFrame"/>

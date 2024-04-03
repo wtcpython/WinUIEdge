@@ -35,7 +35,11 @@
                     Click="AddNewButtonClick">
                     <SplitButton.Flyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem Icon="Home" Text="主页" Click="OpenHomePage">
+                            <MenuFlyoutItem Text="主页" Click="OpenHomePage">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xe80f;"/>
+                                </MenuFlyoutItem.Icon>
+
                                 <MenuFlyoutItem.KeyboardAccelerators>
                                     <KeyboardAccelerator Key="H" Modifiers="Menu"/>
                                 </MenuFlyoutItem.KeyboardAccelerators>
@@ -66,17 +70,28 @@
 
         <TabView.Resources>
             <MenuFlyout x:Name="TabFlyout">
-                <MenuFlyoutItem Icon="OpenFile" Text="在右侧新建标签页" Click="CreateNewTabOnRight"/>
+                <MenuFlyoutItem Text="在右侧新建标签页" Click="CreateNewTabOnRight">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xe8a7;"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
 
                 <MenuFlyoutSeparator />
 
-                <MenuFlyoutItem Icon="Refresh" Text="刷新" Click="RefreshTab">
+                <MenuFlyoutItem Text="刷新" Click="RefreshTab">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xe72c;"/>
+                    </MenuFlyoutItem.Icon>
+                    
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator Key="R" Modifiers="Control"/>
                     </MenuFlyoutItem.KeyboardAccelerators>
                 </MenuFlyoutItem>
 
-                <MenuFlyoutItem Icon="Copy" Text="复制标签页" Click="CopyTab">
+                <MenuFlyoutItem Text="复制标签页" Click="CopyTab">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xe8c8;"/>
+                    </MenuFlyoutItem.Icon>
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator Key="K" Modifiers="Control,Shift"/>
                     </MenuFlyoutItem.KeyboardAccelerators>
@@ -90,7 +105,11 @@
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
 
-                <MenuFlyoutItem Name="MuteButton" Icon="Mute" Text="使标签页静音" Click="MuteTab">
+                <MenuFlyoutItem Name="MuteButton" Text="使标签页静音" Click="MuteTab">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xe74f;"/>
+                    </MenuFlyoutItem.Icon>
+                    
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator Key="M" Modifiers="Control"/>
                     </MenuFlyoutItem.KeyboardAccelerators>
@@ -98,14 +117,18 @@
 
                 <MenuFlyoutSeparator />
 
-                <MenuFlyoutItem Icon="Cancel" Text="关闭标签页" Click="CloseTab">
+                <MenuFlyoutItem Text="关闭标签页" Click="CloseTab">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xe711;"/>
+                    </MenuFlyoutItem.Icon>
+                    
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator Key="W" Modifiers="Control"/>
                     </MenuFlyoutItem.KeyboardAccelerators>
                 </MenuFlyoutItem>
 
-                <MenuFlyoutItem Icon="Cancel" Text="关闭其他标签页" Click="CloseOtherTab"/>
-                <MenuFlyoutItem Icon="Cancel" Text="关闭右侧标签页" Click="CloseRightTab"/>
+                <MenuFlyoutItem Text="关闭其他标签页" Click="CloseOtherTab"/>
+                <MenuFlyoutItem Text="关闭右侧标签页" Click="CloseRightTab"/>
 
                 <MenuFlyoutSeparator />
 
