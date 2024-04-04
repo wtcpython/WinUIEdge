@@ -19,6 +19,7 @@ namespace Edge
     {
         public static bool inLoading = false;
         public List<ToolBarVisual> ToolBarVisualList = [];
+        public List<string> themeList = [.. Enum.GetNames(typeof(ElementTheme))];
         public AppearanceItem()
         {
             this.InitializeComponent();
@@ -30,11 +31,8 @@ namespace Edge
             toolBarVisualView.ItemsSource = ToolBarVisualList;
 
             inLoading = true;
-            var themeList = Enum.GetNames(typeof(ElementTheme));
-            appearanceBox.ItemsSource = themeList;
-            appearanceBox.SelectedIndex = Array.IndexOf(themeList, App.settings["Appearance"].ToString());
-            effectBox.ItemsSource = Info.WindowEffectList;
-            effectBox.SelectedIndex = Info.WindowEffectList.IndexOf(App.settings["WindowEffect"].ToString());
+            appearanceView.SelectedIndex = themeList.IndexOf(App.settings["Appearance"].ToString());
+            showMicaSwitch.IsOn = App.settings["ShowMicaIfEnabled"].ToObject<bool>();
             inLoading = false;
         }
 
@@ -42,25 +40,12 @@ namespace Edge
         {
             if (!inLoading)
             {
-                string appearance = appearanceBox.SelectedItem.ToString();
-                App.settings["Appearance"] = appearance;
+                int index = appearanceView.SelectedIndex;
+                App.settings["Appearance"] = themeList[index];
 
                 foreach (Window window in App.mainWindows)
                 {
                     window.SetThemeColor();
-                }
-            }
-        }
-
-        private void EffectChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (!inLoading)
-            {
-                App.settings["WindowEffect"] = effectBox.SelectedItem.ToString();
-
-                foreach (Window window in App.mainWindows)
-                {
-                    window.SetBackdrop();
                 }
             }
         }
@@ -72,6 +57,19 @@ namespace Edge
                 if ((sender as ToggleSwitch).Name == visual.Text)
                 {
                     App.settings["ToolBar"][visual.Text] = (sender as ToggleSwitch).IsOn;
+                }
+            }
+        }
+
+        private void MicaEffectChanged(object sender, RoutedEventArgs e)
+        {
+            if (!inLoading)
+            {
+                App.settings["ShowMicaIfEnabled"] = (sender as ToggleSwitch).IsOn;
+
+                foreach (Window window in App.mainWindows)
+                {
+                    window.SetBackdrop();
                 }
             }
         }

@@ -23,8 +23,6 @@ namespace Edge.Data
         public static List<WebsiteInfo> SearchEngineList = JsonSerializer.Deserialize<List<WebsiteInfo>>(ReadPackageFileText("/Data/SearchEngine.json"))!;
         public static ObservableCollection<WebsiteInfo> SuggestWebsiteList = JsonSerializer.Deserialize<ObservableCollection<WebsiteInfo>>(ReadPackageFileText("/Data/SuggestWebsite.json"))!;
 
-        public static List<string> WindowEffectList = ["Mica", "Mica Alt", "Acrylic", "None"];
-
         public static string ReadPackageFileText(string path)
         {
             return File.ReadAllText(Package.Current.InstalledPath + path);

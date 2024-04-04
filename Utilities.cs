@@ -17,21 +17,9 @@ public static class Utilities
 {
     public static void SetBackdrop(this Window window)
     {
-        string effect = App.settings["WindowEffect"].ToString();
-        if (effect == Info.WindowEffectList[0])
+        if (App.settings["ShowMicaIfEnabled"].ToObject<bool>())
         {
             window.SystemBackdrop = new MicaBackdrop();
-        }
-        else if (effect == Info.WindowEffectList[1])
-        {
-            window.SystemBackdrop = new MicaBackdrop()
-            {
-                Kind = MicaKind.BaseAlt
-            };
-        }
-        else if (effect == Info.WindowEffectList[2])
-        {
-            window.SystemBackdrop = new DesktopAcrylicBackdrop();
         }
         else window.SystemBackdrop = null;
     }

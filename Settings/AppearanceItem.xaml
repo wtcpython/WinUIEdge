@@ -13,17 +13,41 @@
         <controls:SettingsCard
             Header="整体外观"
             Description="适用于新的选项卡、页面、对话框和其他菜单。">
-            <ComboBox
-                Name="appearanceBox"
-                SelectionChanged="AppearanceChanged"/>
         </controls:SettingsCard>
 
+        <GridView Name="appearanceView" SelectionMode="Single" SelectionChanged="AppearanceChanged">
+            <GridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem" BasedOn="{StaticResource DefaultGridViewItemStyle}">
+                    <Setter Property="Margin" Value="5"/>
+                </Style>
+            </GridView.ItemContainerStyle>
+            <StackPanel>
+                <Canvas Width="200" Height="100">
+                    <Polygon
+                    Fill="Black"
+                    Points="0,0,0,100,200,100"/>
+                    <Polygon
+                    Fill="White"
+                    Points="0,0,200,0,200,100"/>
+                </Canvas>
+                <TextBlock Text="系统默认" Margin="10"/>
+            </StackPanel>
+
+            <StackPanel>
+                <Rectangle Width="200" Height="100" Fill="White"/>
+                <TextBlock Text="浅色" Margin="10"/>
+            </StackPanel>
+
+            <StackPanel>
+                <Rectangle Width="200" Height="100" Fill="black"/>
+                <TextBlock Text="深色" Margin="10"/>
+            </StackPanel>
+        </GridView>
+
         <controls:SettingsCard
-            Header="窗口特效"
-            Description="设置窗口特效的形式">
-            <ComboBox
-                Name="effectBox"
-                SelectionChanged="EffectChanged"/>
+            Header="在浏览器中显示 Windows 11 视觉效果"
+            Description="向浏览器添加 Mica 效果。此功能取决于你的设备和 Windows 设置。">
+            <ToggleSwitch Name="showMicaSwitch" Toggled="MicaEffectChanged"/>
         </controls:SettingsCard>
 
         <TextBlock Text="自定义工具栏" Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" Margin="5,10,0,0"/>
