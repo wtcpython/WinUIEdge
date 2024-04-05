@@ -19,7 +19,11 @@ public static class Utilities
     {
         if (App.settings["ShowMicaIfEnabled"].ToObject<bool>())
         {
-            window.SystemBackdrop = new MicaBackdrop();
+            if (MicaController.IsSupported())
+            {
+                window.SystemBackdrop = new MicaBackdrop();
+            }
+            else window.SystemBackdrop = new DesktopAcrylicBackdrop();
         }
         else window.SystemBackdrop = null;
     }

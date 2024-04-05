@@ -19,8 +19,20 @@
 
             <controls:SettingsCard
                 Header="跟踪防护">
-                <ComboBox Name="trackBox" SelectionChanged="TrackLevelChanged"/>
+                <ToggleSwitch Name="trackSwitch" Toggled="TrackLevelToggled"/>
             </controls:SettingsCard>
+
+            <GridView Name="trackView" SelectionChanged="TrackChanged">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="local:TrackKind">
+                        <StackPanel Margin="10">
+                            <TextBlock Text="{x:Bind Title}" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="10"/>
+
+                            <ListView ItemsSource="{x:Bind Description}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
 
             <TextBlock Text="清除浏览数据" Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" Margin="0,10,0,0"/>
 
@@ -44,7 +56,9 @@
              
                 <controls:SettingsExpander.ItemTemplate>
                     <DataTemplate x:DataType="local:BrowserDataKind">
-                        <CheckBox Content="{x:Bind Name}" IsChecked="{x:Bind IsChecked, Mode=TwoWay}" Margin="20,5,0,5"/>
+                        <controls:SettingsCard Header="{x:Bind Name}">
+                            <ToggleSwitch IsOn="{x:Bind IsChecked, Mode=TwoWay}"/>
+                        </controls:SettingsCard>
                     </DataTemplate>
                 </controls:SettingsExpander.ItemTemplate>
             </controls:SettingsExpander>
