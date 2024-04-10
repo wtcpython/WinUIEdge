@@ -18,28 +18,28 @@
         <GridView Name="appearanceView" SelectionMode="Single" SelectionChanged="AppearanceChanged">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem" BasedOn="{StaticResource DefaultGridViewItemStyle}">
-                    <Setter Property="Margin" Value="5"/>
+                    <Setter Property="Margin" Value="10"/>
                 </Style>
             </GridView.ItemContainerStyle>
             <StackPanel>
-                <Canvas Width="200" Height="100">
+                <Canvas Width="150" Height="100">
                     <Polygon
                     Fill="Black"
-                    Points="0,0,0,100,200,100"/>
+                    Points="0,0,0,100,150,100"/>
                     <Polygon
                     Fill="White"
-                    Points="0,0,200,0,200,100"/>
+                    Points="0,0,150,0,150,100"/>
                 </Canvas>
                 <TextBlock Text="系统默认" Margin="10"/>
             </StackPanel>
 
             <StackPanel>
-                <Rectangle Width="200" Height="100" Fill="White"/>
+                <Rectangle Width="150" Height="100" Fill="White"/>
                 <TextBlock Text="浅色" Margin="10"/>
             </StackPanel>
 
             <StackPanel>
-                <Rectangle Width="200" Height="100" Fill="black"/>
+                <Rectangle Width="150" Height="100" Fill="black"/>
                 <TextBlock Text="深色" Margin="10"/>
             </StackPanel>
         </GridView>

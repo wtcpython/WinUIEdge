@@ -18,56 +18,51 @@
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <Button Name="uriGoBackButton" Click="UriGoBackRequest"
+            <StackPanel Orientation="Horizontal">
+                <Button Name="uriGoBackButton" Click="UriGoBackRequest"
                     ToolTipService.ToolTip="返回 (Alt+向左键)" Background="Transparent"
                     Grid.Column="0">
-                <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="Left" Modifiers="Menu"/>
-                </Button.KeyboardAccelerators>
-                <FontIcon Glyph="&#xe72b;"/>
-            </Button>
+                    <Button.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="Left" Modifiers="Menu"/>
+                    </Button.KeyboardAccelerators>
+                    <FontIcon Glyph="&#xe72b;"/>
+                </Button>
 
-            <Button Name="uriGoForwardButton" Click="UriGoForwardRequest"
-                    ToolTipService.ToolTip="继续 (Alt+向右键)" Background="Transparent"
-                    Grid.Column="1">
-                <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="Right" Modifiers="Menu"/>
-                </Button.KeyboardAccelerators>
-                <FontIcon Glyph="&#xe72a;"/>
-            </Button>
+                <Button Name="uriGoForwardButton" Click="UriGoForwardRequest"
+                    ToolTipService.ToolTip="继续 (Alt+向右键)" Background="Transparent">
+                    <Button.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="Right" Modifiers="Menu"/>
+                    </Button.KeyboardAccelerators>
+                    <FontIcon Glyph="&#xe72a;"/>
+                </Button>
 
-            <Button Name="uriRefreshButton" Click="UriRefreshRequest"
-                    ToolTipService.ToolTip="刷新 (Ctrl+R)" Background="Transparent"
-                    Grid.Column="2">
-                <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="R" Modifiers="Control"/>
-                </Button.KeyboardAccelerators>
-                <FontIcon Glyph="&#xe72c;"/>
-            </Button>
+                <Button Name="uriRefreshButton" Click="UriRefreshRequest"
+                    ToolTipService.ToolTip="刷新 (Ctrl+R)" Background="Transparent">
+                    <Button.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="R" Modifiers="Control"/>
+                    </Button.KeyboardAccelerators>
+                    <FontIcon Glyph="&#xe72c;"/>
+                </Button>
 
-            <Button Name="homeButton" Click="ShowHomePage"
-                    ToolTipService.ToolTip="主页" Background="Transparent"
-                    Grid.Column="3">
-                <FontIcon Glyph="&#xe80f;"/>
-            </Button>
+                <Button Name="homeButton" Click="ShowHomePage"
+                    ToolTipService.ToolTip="主页" Background="Transparent">
+                    <FontIcon Glyph="&#xe80f;"/>
+                </Button>
+            </StackPanel>
 
-            <local:WebSearch x:Name="Search" Grid.Column="5"/>
+            <local:WebSearch x:Name="Search" Grid.Column="1"/>
 
-            <local:History x:Name="historyButton" Grid.Column="6"/>
+            <StackPanel Orientation="Horizontal" Grid.Column="2">
+                <local:History x:Name="historyButton"/>
 
-            <local:Download x:Name="downloadButton" Grid.Column="7"/>
+                <local:Download x:Name="downloadButton"/>
 
-            <local:BrowserMenuItems Grid.Column="8"/>
+                <local:BrowserMenuItems/>
+            </StackPanel>
 
         </Grid>
 
