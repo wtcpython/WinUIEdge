@@ -38,33 +38,25 @@ namespace Edge
             string ext = Path.GetExtension(filepath);
             engine.SetData(ext);
 
-            // 加载文件信息
-            file = filepath;
-
-            string content = File.ReadAllText(filepath, Encoding.UTF8);
-
             // 加载编码列表
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             encodeList = Encoding.GetEncodings();
             encodeBox.ItemsSource = encodeList;
 
+            // 加载文件信息
+            file = filepath;
+            AnalyzeFile(file, Encoding.Default);
+
             // 初始化UI 数据
             fileNameBlock.Text = file;
-            EOFType.Text = GetEOF();
             textType.Text = Info.LanguageDict[ext].ToString();
             FontSizeBox.ItemsSource = FontSizeList;
             FontSizeBox.SelectedIndex = FontSizeList.IndexOf(14);
             FontFamilyBox.ItemsSource = FontNameList;
             FontFamilyBox.SelectedIndex = FontNameList.IndexOf(DefaultFontFamily);
 
-            // 设置编辑器文本
-            engine.SetText(content);
-            textInfo.Text = $"共 {content.Length} 个字符";
-
             engine.SetFontFamily(new FontFamily(DefaultFontFamily));
             engine.SetFontSize(DefaultFontSize);
-
-            encodeBox.SelectedIndex = Array.FindIndex(encodeList, x => x.Name == Encoding.UTF8.BodyName);
         }
 
         private void FontFamilyChanged(object sender, SelectionChangedEventArgs e)
@@ -77,30 +69,33 @@ namespace Edge
             engine.SetFontSize((int)(sender as ComboBox).SelectedItem);
         }
 
-        public string GetEOF()
+        public string GetEOF(string content)
         {
-            using StreamReader reader = File.OpenText(file);
-
-            while (reader.Peek() >= 0)
-            {
-                char c = (char)reader.Read();
-
-                if (c == '\r')
-                {
-                    c = (char)reader.Read();
-
-                    if (c == '\n') return "CRLF";
-                    else return "CR";
-                }
-                else if (c == '\n') return "LF";
-            }
-            return "UnKnown";
+            if (content.Contains("\r\n")) return "CRLF";
+            else if (content.Contains('\r')) return "CR";
+            else if (content.Contains('\n')) return "LF";
+            else return "UnKnown";
         }
 
         private void EncodeTypeChanged(object sender, SelectionChangedEventArgs e)
         {
-            string content = File.ReadAllText(file, encodeList[(sender as ComboBox).SelectedIndex].GetEncoding());
+            AnalyzeFile(file, encodeList[(sender as ComboBox).SelectedIndex].GetEncoding());
+        }
+
+        private void AnalyzeFile(string filePath, Encoding encoding)
+        {
+            // 分析文件信息，包含文本内容，文本长度，文本行尾序列和文本编码格式
+            StreamReader reader = null;
+            if (encoding == Encoding.Default)
+            {
+                reader = new StreamReader(filePath, Encoding.Default, true);
+            }
+            else reader = new StreamReader(filePath, encoding);
+            string content = reader.ReadToEnd();
             engine.SetText(content);
+            textInfo.Text = $"共 {content.Length} 个字符";
+            EOFType.Text = GetEOF(content);
+            encodeBox.SelectedIndex = Array.FindIndex(encodeList, x => x.Name == reader.CurrentEncoding.BodyName);
         }
 
         private void SearchText(Microsoft.UI.Xaml.Input.KeyboardAccelerator sender, Microsoft.UI.Xaml.Input.KeyboardAcceleratorInvokedEventArgs args)
@@ -118,14 +113,13 @@ namespace Edge
 
         private unsafe void EnumerateFonts()
         {
-            HWND hWND = (HWND)IntPtr.Zero;
-            HDC hdc = PInvoke.GetDC(hWND);
+            HDC hdc = PInvoke.GetDC(HWND.Null);
             LOGFONTW logFont;
             logFont.lfCharSet = FONT_CHARSET.DEFAULT_CHARSET;
 
             PInvoke.EnumFontFamiliesEx(hdc, &logFont, EnumFontCallback, 0, 0);
 
-            PInvoke.ReleaseDC(hWND, hdc);
+            PInvoke.ReleaseDC(HWND.Null, hdc);
         }
 
         private unsafe int EnumFontCallback(LOGFONTW* lplf, TEXTMETRICW* lpntm, uint FontType, LPARAM lParam)
