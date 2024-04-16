@@ -3,6 +3,10 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppNotifications;
 using Microsoft.Windows.AppNotifications.Builder;
+using Newtonsoft.Json.Linq;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 
@@ -25,8 +29,15 @@ namespace Edge
             {
                 if (App.LatestVersion == null)
                 {
-                    Octokit.GitHubClient client = new(new Octokit.ProductHeaderValue("Edge"));
-                    App.LatestVersion = (await client.Repository.GetAllTags("wtcpython", "WinUIEdge"))[0].Name[1..];
+                    HttpClient httpClient = new();
+                    httpClient.DefaultRequestHeaders.UserAgent.TryParseAdd("wtcpython/WinUIEdge 1.0");
+                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
+
+                    HttpResponseMessage response = await httpClient.GetAsync("https://api.github.com/repos/wtcpython/WinUIEdge/tags");
+
+                    string content = await response.Content.ReadAsStringAsync();
+
+                    App.LatestVersion = JArray.Parse(content).First()["name"].ToString()[1..];
                 }
                 if (App.LatestVersion.CompareTo(appVersion) > 0)
                 {
@@ -41,7 +52,7 @@ namespace Edge
                     notificationManager.Show(builder.BuildNotification());
                 }
             }
-            catch (Octokit.RateLimitExceededException) { }
+            catch (HttpRequestException) { }
         }
 
         private void CopyText(string text)
