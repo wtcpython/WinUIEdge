@@ -58,6 +58,7 @@ namespace Edge
             trackSwitch.IsOn = isTrackOn;
 
             ClearBrowsingDataButton.ItemsSource = BrowserDataKindList;
+            msSmartScreen.IsOn = App.webView2.CoreWebView2.Settings.IsReputationCheckingRequired;
         }
 
         private async void ClearBrowsingData(object sender, RoutedEventArgs e)
@@ -90,6 +91,11 @@ namespace Edge
             {
                 App.webView2.CoreWebView2.Profile.PreferredTrackingPreventionLevel = Enum.Parse<CoreWebView2TrackingPreventionLevel>(trackLevelList[trackView.SelectedIndex + 1].ToString());
             }
+        }
+
+        private void SmartScreenChanged(object sender, RoutedEventArgs e)
+        {
+            App.webView2.CoreWebView2.Settings.IsReputationCheckingRequired = (sender as ToggleSwitch).IsOn;
         }
     }
 }

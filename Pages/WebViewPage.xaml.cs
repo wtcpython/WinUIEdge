@@ -85,7 +85,6 @@ namespace Edge
 
             // 加载设置项
             sender.CoreWebView2.Settings.IsStatusBarEnabled = false;
-            sender.CoreWebView2.Settings.IsReputationCheckingRequired = false;
         }
 
         private void CoreWebView2_ContextMenuRequested(CoreWebView2 sender, CoreWebView2ContextMenuRequestedEventArgs args)
