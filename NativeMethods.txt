@@ -1,5 +1,2 @@
-GetDC
-EnumFontFamiliesEx
-ReleaseDC
 SetWindowLong
 GetWindowLong

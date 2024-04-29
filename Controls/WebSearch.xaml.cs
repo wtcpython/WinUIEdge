@@ -86,7 +86,14 @@ namespace Edge
                         MainWindow mainWindow = App.GetWindowForElement(this);
                         if (Info.LanguageDict.ContainsKey(ext))
                         {
-                            mainWindow.AddNewTab(new TextFilePage(text), fileInfo.Name);
+                            if (ext == ".json")
+                            {
+                                mainWindow.AddNewTab(new JsonFilePage(text), fileInfo.Name);
+                            }
+                            else
+                            {
+                                mainWindow.AddNewTab(new TextFilePage(text), fileInfo.Name);
+                            }
                         }
 
                         else if (Info.ImageDict.ContainsKey(ext))

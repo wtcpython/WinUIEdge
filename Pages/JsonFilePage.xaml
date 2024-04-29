@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Page
-    x:Class="Edge.TextFilePage"
+    x:Class="Edge.JsonFilePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Edge"
@@ -8,6 +8,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <local:FileControl x:Name="fileControl">
-        <TextBlock Name="block" IsTextSelectionEnabled="True"/>
+        <TreeView Name="view"/>
     </local:FileControl>
 </Page>
