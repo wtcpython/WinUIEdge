@@ -90,6 +90,10 @@ namespace Edge
                             {
                                 mainWindow.AddNewTab(new JsonFilePage(text), fileInfo.Name);
                             }
+                            else if (ext == ".lnk")
+                            {
+                                mainWindow.AddNewTab(new InkFilePage(text), fileInfo.Name);
+                            }
                             else
                             {
                                 mainWindow.AddNewTab(new TextFilePage(text), fileInfo.Name);
