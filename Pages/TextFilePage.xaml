@@ -8,6 +8,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <local:FileControl x:Name="fileControl">
-        <TextBlock Name="block" IsTextSelectionEnabled="True"/>
+        <TextBlock Name="block" IsTextSelectionEnabled="True" TextWrapping="WrapWholeWords"/>
     </local:FileControl>
 </Page>

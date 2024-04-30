@@ -23,7 +23,7 @@
                         <TextBlock Text="{TemplateBinding FullPath}" Grid.Column="0" VerticalAlignment="Center"/>
                         <local:BrowserMenuItems Grid.Column="2" HorizontalAlignment="Right"/>
 
-                        <ContentPresenter Content="{TemplateBinding FileContent}" Grid.Row="1"/>
+                        <ContentPresenter Content="{TemplateBinding FileContent}" Grid.Row="1" Grid.ColumnSpan="3"/>
 
                         <TextBlock Text="{TemplateBinding LengthInfo}" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
 
