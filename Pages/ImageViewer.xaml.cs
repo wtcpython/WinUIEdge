@@ -70,7 +70,7 @@ namespace Edge
 
         private void OpenFileLocation(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start("explorer.exe", fileInfo.FullName);
+            System.Diagnostics.Process.Start("explorer.exe", $"/select,\"{fileInfo.FullName}\"");
         }
 
         private void OnPointerWheelChanged(object sender, PointerRoutedEventArgs e)
