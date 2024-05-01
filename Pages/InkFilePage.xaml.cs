@@ -1,3 +1,4 @@
+using Edge.Data;
 using IWshRuntimeLibrary;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -17,11 +18,14 @@ namespace Edge
         {
             this.InitializeComponent();
 
+            string ext = Path.GetExtension(filepath);
+
             WshShell shell = new();
             IWshShortcut shortcut = shell.CreateShortcut(filepath);
 
             fileControl.FullPath = shortcut.FullName;
-            
+            fileControl.TypeName = Info.LanguageDict[ext].ToString();
+
             shortcutName.Text = Path.GetFileNameWithoutExtension(shortcut.FullName);
 
             realLocation = shortcut.TargetPath;
@@ -31,13 +35,23 @@ namespace Edge
             workingDirectory.Text = shortcut.WorkingDirectory;
 
             hotkey.Text = shortcut.Hotkey;
+
+            windowStyle.Text = shortcut.WindowStyle switch
+            {
+                1 => "常规窗口",
+                3 => "最大化",
+                7 => "最小化",
+                _ => "Unknown"
+            };
+
+
             if (shortcut.Description != string.Empty)
             {
                 description.Text = shortcut.Description;
             }
             else
             {
-                description.Text = "�ޱ�ע";
+                description.Text = "无备注";
             }
             LoadIcon(shortcut.TargetPath);
         }
@@ -57,7 +71,7 @@ namespace Edge
             }
             catch (Exception ex)
             {
-                // �����쳣
+                // 处理异常
                 Console.WriteLine("Error loading icon: " + ex.Message);
             }
         }

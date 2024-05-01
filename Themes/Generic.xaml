@@ -32,6 +32,7 @@
                             HorizontalAlignment="Center"
                             ItemsSource="{TemplateBinding EncodingItems}"
                             SelectedIndex="{TemplateBinding EncodingSelectedIndex}"
+                            Visibility="{TemplateBinding EncodingVisibility}"
                             Grid.Row="2" Grid.Column="1">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>

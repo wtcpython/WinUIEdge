@@ -110,5 +110,17 @@ namespace Edge
             get => (int)GetValue(EncodingSelectedIndexProperty);
             set => SetValue(EncodingSelectedIndexProperty, value);
         }
+
+        public static readonly DependencyProperty EncodingVisibilityProperty = DependencyProperty.Register(
+            nameof(EncodingVisibility),
+            typeof(Visibility),
+            typeof(FileControl),
+            new PropertyMetadata(null));
+
+        public Visibility EncodingVisibility
+        {
+            get => (Visibility)GetValue(EncodingVisibilityProperty);
+            set => SetValue(EncodingVisibilityProperty, value);
+        }
     }
 }
