@@ -9,9 +9,6 @@ using System;
 using System.IO;
 using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Win32;
-using Windows.Win32.Foundation;
-using Windows.Win32.UI.WindowsAndMessaging;
 
 
 namespace Edge
@@ -30,11 +27,6 @@ namespace Edge
 
             this.SetBackdrop();
             this.SetThemeColor();
-
-            IntPtr hwnd = this.GetWindowHandle();
-            int nStyle = PInvoke.GetWindowLong((HWND)hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE);
-            nStyle &= ~(int)0x00080000L;
-            PInvoke.SetWindowLong((HWND)hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE, nStyle);
         }
 
         public void AddNewTab(object content, string header = "主页", int index = -1)
