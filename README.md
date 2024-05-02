@@ -1,8 +1,6 @@
 # WinUIEdge
 
-一个简易浏览器，基于WinUI3 和 Edge WebView2
-
-**注意：** 如果想要使用此软件，需要安装 [Microsoft Edge WebView2](https://developer.microsoft.com/zh-cn/microsoft-edge/webview2/) ，因为此软件的核心功能依赖于此。
+**注意：** 如果想要使用此软件，需要确保电脑已经安装 [Microsoft Edge WebView2](https://developer.microsoft.com/zh-cn/microsoft-edge/webview2/) ，如果系统自带的 Microsoft Edge 没有被暴力卸载，那么 WebView2 大概率也是存在的。
 
 ## 特色功能
 
@@ -18,38 +16,42 @@
 
 在网页的右下角提供了快捷打开 DevTools 窗口的按钮
 
-### 搜索栏临时切换搜索引擎
+### 软件高度自定义
 
-在搜索栏的左侧，提供可以切换搜索引擎的选项，切换后的此次搜索将采用指定的搜索引擎，默认搜索引擎不受影响
-
-![Change Search Engine](Assets/ReadmeSource/change-search-engine.png)
-
-### 深浅色自由切换
-
-软件支持深浅色的自由切换，也可以跟随系统主题，同时支持 `Mica`, `Acrylic` 等多种系统主题
+软件支持深浅色的自由切换，默认支持系统原生主题，同时支持多种自定义主题
 
 ![App Theme](Assets/ReadmeSource/app-theme.png)
 
 下载、历史记录的弹出窗口使用重绘的窗口，并不会采用浏览器自带的弹出窗口
 
-### 使用原生组件渲染本地文本
+### 本地原生支持的文本渲染引擎
 
-在显示本地文件时，传统浏览器的呈现方式不是很好，在本软件中，采用 **原生组件** 渲染，并且在文件 **预览** 上，提供 **字体，字号的更改** ，以及 **切换文件编码格式**。
+不同于传统浏览器几乎完全不支持本地文件渲染的情况。本软件使用原生控件提供多种形式的支持。
 
-同时还能显示 `文件行尾序列` ， `文件类型` 等。
+对于传统的文本文件：
 
 ![Text File Preview](Assets/ReadmeSource/text-file-preview.png)
 
-### 设置界面提供自定义选项
+对于 **Json** 文件：
+
+![Json File Preview](Assets/ReadmeSource/json-file-preivew.png)
+
+对于 **Windows lnk** 文件：
+
+![lnk File Preview](Assets/ReadmeSource/lnk-file-preivew.png)
+
+后续会考虑添加更多其他形式的特殊文件。
+
+### 设置界面提供丰富的自定义选项
 
 在设置界面，可以实现不少对浏览器的自定义控制。
 
 ![Settings Page](Assets/ReadmeSource/settings-page.png)
 
-## 安装该软件的最低条件
+## 使用本软件的最低要求
 
 1. 最新版本的 [Microsoft Edge WebView2 Runtime](https://developer.microsoft.com/zh-cn/microsoft-edge/webview2/)
-2. 至少 Windows 11 21H2 (Build 22000)，后续将考虑添加 Win10 支持
+2. 至少 Windows 10 (Build 19041) 及以上，推荐使用 Windows 11
 
 ## 如何从源代码构建
 
