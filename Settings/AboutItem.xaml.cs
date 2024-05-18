@@ -1,8 +1,10 @@
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.Web.WebView2.Core;
 using Microsoft.Windows.AppNotifications;
 using Microsoft.Windows.AppNotifications.Builder;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Linq;
 using System.Net.Http;
@@ -15,7 +17,7 @@ namespace Edge
     public sealed partial class AboutItem : Page
     {
         public string appVersion = Package.Current.Id.Version.ToFormattedString();
-        public string browserVersion = App.webView2.CoreWebView2.Environment.BrowserVersionString;
+        public string browserVersion = CoreWebView2Environment.GetAvailableBrowserVersionString();
 
         public AboutItem()
         {
@@ -42,17 +44,18 @@ namespace Edge
                 if (App.LatestVersion.CompareTo(appVersion) > 0)
                 {
                     var builder = new AppNotificationBuilder()
-                        .AddText($"发现新版本：{App.LatestVersion}，是否要更新？\n当前版本：{appVersion}")
+                        .AddText($"鍙戠幇鏂扮増鏈細{App.LatestVersion}锛屾槸鍚﹁鏇存柊锛焅n褰撳墠鐗堟湰锛歿appVersion}")
                         .AddArgument("UpdateAppRequest", "ReleaseWebsitePage")
-                        .AddButton(new AppNotificationButton("确定")
+                        .AddButton(new AppNotificationButton("纭畾")
                             .AddArgument("UpdateAppRequest", "DownloadApp"))
-                        .AddButton(new AppNotificationButton("取消"));
+                        .AddButton(new AppNotificationButton("鍙栨秷"));
 
                     var notificationManager = AppNotificationManager.Default;
                     notificationManager.Show(builder.BuildNotification());
                 }
             }
             catch (HttpRequestException) { }
+            catch (JsonReaderException) { }
         }
 
         private void CopyText(string text)

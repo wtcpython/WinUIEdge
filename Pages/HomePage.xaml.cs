@@ -1,10 +1,14 @@
 using Edge.Data;
+using Edge.Utilities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.Web.WebView2.Core;
 using System;
+using System.IO;
 using System.Linq;
+using Windows.Storage;
 
 namespace Edge
 {
@@ -13,6 +17,7 @@ namespace Edge
         public HomePage()
         {
             this.InitializeComponent();
+            this.Loaded += InstallWebView2;
 
             if (App.settings["ShowSuggestUri"].ToObject<bool>())
             {
@@ -35,6 +40,41 @@ namespace Edge
                 };
             }
         }
+
+        public async void InstallWebView2(object sender, RoutedEventArgs e)
+        {
+            bool isWebViewInstalled = CheckWebView2();
+            if (!isWebViewInstalled)
+            {
+                await this.XamlRoot.ShowMsgDialog("Warning", "系统未安装 WebView2，请自行前往官网安装 WebView2。", "安装");
+                await Windows.System.Launcher.LaunchUriAsync(new Uri("https://developer.microsoft.com/zh-cn/microsoft-edge/webview2"));
+                App.GetWindowForElement(this).Close();
+            }
+        }
+
+        public bool CheckWebView2()
+        {
+            string version = CoreWebView2Environment.GetAvailableBrowserVersionString();
+            if (!string.IsNullOrEmpty(version))
+            {
+                return true;
+            }
+            else
+            {
+                string webView2Path = Path.Combine(SystemDataPaths.GetDefault().System, "Microsoft-Edge-WebView");
+
+                if (Directory.Exists(webView2Path))
+                {
+                    Environment.SetEnvironmentVariable("WEBVIEW2_BROWSER_EXECUTABLE_FOLDER", webView2Path);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
 
         private void OpenSuggestWebsite(object sender, ItemClickEventArgs e)
         {
