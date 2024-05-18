@@ -1,4 +1,3 @@
-using Edge.Data;
 using Microsoft.UI;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;

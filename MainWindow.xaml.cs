@@ -1,10 +1,7 @@
 using Edge.Data;
 using Edge.Utilities;
-using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Input;
 using System;
 using System.IO;
 using System.Linq;
@@ -15,13 +12,11 @@ namespace Edge
 {
     public sealed partial class MainWindow : Window
     {
-        public OverlappedPresenter presenter;
         public MainWindow()
         {
             this.InitializeComponent();
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(AppTitleBar);
-            presenter = AppWindow.Presenter as OverlappedPresenter;
 
             AddNewTab(new HomePage());
 
@@ -133,54 +128,6 @@ namespace Edge
         {
             get => (tabView.SelectedItem as TabViewItem).Content;
             set => tabView.SelectedItem = value;
-        }
-
-        private void ShowMenuFlyout()
-        {
-            if (presenter.State == OverlappedPresenterState.Maximized)
-            {
-                MaximizeItem.IsEnabled = false;
-                RestoreItem.IsEnabled = true;
-            }
-            else
-            {
-                MaximizeItem.IsEnabled = true;
-                RestoreItem.IsEnabled = presenter.State == OverlappedPresenterState.Minimized;
-            }
-            AppMenuFlyout.ShowAt(AppTitleBarHeader, new FlyoutShowOptions()
-            {
-                Placement = FlyoutPlacementMode.BottomEdgeAlignedLeft
-            });
-        }
-
-        private void AppTitleBarHeader_ContextRequested(UIElement sender, ContextRequestedEventArgs args)
-        {
-            ShowMenuFlyout();
-        }
-
-        private void ShowMenuFlyoutInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
-        {
-            ShowMenuFlyout();
-        }
-
-        private void AppMinimize(object sender, RoutedEventArgs e)
-        {
-            presenter.Minimize();
-        }
-
-        private void AppMaximize(object sender, RoutedEventArgs e)
-        {
-            presenter.Maximize();
-        }
-
-        private void AppRestore(object sender, RoutedEventArgs e)
-        {
-            presenter.Restore();
-        }
-
-        private void AppClose(object sender, RoutedEventArgs e)
-        {
-            this.Close();
         }
 
         private void OpenClosedTabs(object sender, RoutedEventArgs e)

@@ -60,14 +60,6 @@
             </Grid>
         </TabView.TabStripFooter>
 
-        <TabView.TabStripHeader>
-            <Grid Background="Transparent" Width="5" Name="AppTitleBarHeader" ContextRequested="AppTitleBarHeader_ContextRequested"/>
-        </TabView.TabStripHeader>
-
-        <TabView.KeyboardAccelerators>
-            <KeyboardAccelerator Key="Space" Modifiers="Menu" Invoked="ShowMenuFlyoutInvoked"/>
-        </TabView.KeyboardAccelerators>
-
         <TabView.Resources>
             <MenuFlyout x:Name="TabFlyout">
                 <MenuFlyoutItem Text="在右侧新建标签页" Click="CreateNewTabOnRight">
@@ -135,52 +127,6 @@
                 <MenuFlyoutItem Text="重新打开关闭的标签页" Click="OpenClosedTabs">
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator Key="T" Modifiers="Control,Shift"/>
-                    </MenuFlyoutItem.KeyboardAccelerators>
-                </MenuFlyoutItem>
-            </MenuFlyout>
-
-            <MenuFlyout x:Name="AppMenuFlyout">
-                <MenuFlyoutItem Name="RestoreItem" Text="还原" Click="AppRestore">
-                    <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xe923;"/>
-                    </MenuFlyoutItem.Icon>
-                </MenuFlyoutItem>
-                
-                <MenuFlyoutItem Text="最小化" Click="AppMinimize">
-                    <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xe921;"/>
-                    </MenuFlyoutItem.Icon>
-                </MenuFlyoutItem>
-
-                <MenuFlyoutItem Name="MaximizeItem" Text="最大化" Click="AppMaximize">
-                    <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xe922;"/>
-                    </MenuFlyoutItem.Icon>
-                </MenuFlyoutItem>
-
-                <MenuFlyoutSeparator />
-
-                <MenuFlyoutItem Text="新建标签页" Click="CreateNewTabOnRight">
-                    <MenuFlyoutItem.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="T" Modifiers="Control"/>
-                    </MenuFlyoutItem.KeyboardAccelerators>
-                </MenuFlyoutItem>
-
-                <MenuFlyoutItem Text="重新打开关闭的标签页" Click="OpenClosedTabs">
-                    <MenuFlyoutItem.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="T" Modifiers="Control,Shift"/>
-                    </MenuFlyoutItem.KeyboardAccelerators>
-                </MenuFlyoutItem>
-
-                <MenuFlyoutSeparator />
-
-                <MenuFlyoutItem Text="关闭" Click="AppClose">
-                    <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xe8bb;"/>
-                    </MenuFlyoutItem.Icon>
-
-                    <MenuFlyoutItem.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="F4" Modifiers="Menu"/>
                     </MenuFlyoutItem.KeyboardAccelerators>
                 </MenuFlyoutItem>
             </MenuFlyout>
