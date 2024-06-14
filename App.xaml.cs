@@ -5,10 +5,10 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Microsoft.Windows.AppNotifications;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
 using Windows.Storage;
 
 
@@ -19,7 +19,7 @@ namespace Edge
         public static List<MainWindow> mainWindows = [];
         public static List<TabViewItem> ClosedTabs = [];
         public static string LatestVersion = null;
-        public static JToken settings;
+        public static Dictionary<string, JsonElement> settings;
         public static WebView2 webView2 = new();
 
         public App()
@@ -39,7 +39,7 @@ namespace Edge
             window.Closed += (sender, e) =>
             {
                 mainWindows.Remove(window);
-                File.WriteAllText(ApplicationData.Current.LocalFolder.Path + "/settings.json", settings.ToString());
+                File.WriteAllText(ApplicationData.Current.LocalFolder.Path + "/settings.json", JsonSerializer.Serialize(settings));
             };
             mainWindows.Add(window);
             return window;
@@ -58,12 +58,17 @@ namespace Edge
                 }
             }
             return null;
-        } 
+        }
+
+        public static JsonElement ToJsonElement<T>(T value)
+        {
+            return JsonDocument.Parse(JsonSerializer.Serialize(value)).RootElement;
+        }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
             string path = Info.CheckUserSettingData();
-            settings = JToken.Parse(File.ReadAllText(path));
+            settings = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(File.ReadAllText(path));
 
             m_window = CreateNewWindow();
             m_window.Activate();

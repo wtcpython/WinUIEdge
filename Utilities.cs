@@ -16,7 +16,7 @@ public static class Utilities
 {
     public static void SetBackdrop(this Window window)
     {
-        if (App.settings["ShowMicaIfEnabled"].ToObject<bool>())
+        if (App.settings["ShowMicaIfEnabled"].GetBoolean())
         {
             if (MicaController.IsSupported())
             {

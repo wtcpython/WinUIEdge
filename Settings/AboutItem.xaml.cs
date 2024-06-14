@@ -4,11 +4,9 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Windows.AppNotifications;
 using Microsoft.Windows.AppNotifications.Builder;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text.Json;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 
@@ -39,7 +37,7 @@ namespace Edge
 
                     string content = await response.Content.ReadAsStringAsync();
 
-                    App.LatestVersion = JArray.Parse(content).First()["name"].ToString()[1..];
+                    App.LatestVersion = JsonDocument.Parse(content).RootElement.GetProperty("name").GetString()[1..];
                 }
                 if (App.LatestVersion.CompareTo(appVersion) > 0)
                 {
@@ -54,8 +52,7 @@ namespace Edge
                     notificationManager.Show(builder.BuildNotification());
                 }
             }
-            catch (HttpRequestException) { }
-            catch (JsonReaderException) { }
+            catch (System.Exception) { }
         }
 
         private void CopyText(string text)

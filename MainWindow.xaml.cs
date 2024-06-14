@@ -22,7 +22,6 @@ using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Edge
 {
-
     public sealed partial class MainWindow : Window, INotifyPropertyChanged
     {
         private SUBCLASSPROC mainWindowSubClassProc;
@@ -39,7 +38,7 @@ namespace Edge
 
             set
             {
-                if (!Equals(_isWindowMaximized, value))
+                if (_isWindowMaximized != value)
                 {
                     _isWindowMaximized = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsWindowMaximized)));

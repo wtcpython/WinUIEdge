@@ -19,7 +19,7 @@ namespace Edge
             this.InitializeComponent();
             this.Loaded += InstallWebView2;
 
-            if (App.settings["ShowSuggestUri"].ToObject<bool>())
+            if (App.settings["ShowSuggestUri"].GetBoolean())
             {
                 View.ItemsSource = Info.SuggestWebsiteList;
             }
@@ -28,7 +28,7 @@ namespace Edge
                 View.Visibility = Visibility.Collapsed;
             }
 
-            if (App.settings["ShowBackground"].ToObject<bool>())
+            if (App.settings["ShowBackground"].GetBoolean())
             {
                 homeGrid.Background = new ImageBrush()
                 {

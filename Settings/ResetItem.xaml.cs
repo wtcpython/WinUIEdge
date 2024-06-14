@@ -1,7 +1,8 @@
 using Edge.Data;
 using Microsoft.UI.Xaml.Controls;
-using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
 using Windows.Storage;
 
 namespace Edge
@@ -18,7 +19,7 @@ namespace Edge
             string path = ApplicationData.Current.LocalFolder.Path + "/settings.json";
             File.Delete(path);
             Info.CheckUserSettingData();
-            App.settings = JToken.Parse(File.ReadAllText(path));
+            App.settings = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(File.ReadAllText(path));
         }
     }
 }
