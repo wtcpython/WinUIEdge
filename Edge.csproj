@@ -54,7 +54,7 @@
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240531000-experimental1" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="9.0.0-preview.4.24266.19" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="9.0.0-preview.5.24306.7" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
