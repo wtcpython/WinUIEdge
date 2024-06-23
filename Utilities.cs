@@ -1,7 +1,6 @@
 using Microsoft.UI;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.IO;
@@ -22,9 +21,15 @@ public static class Utilities
             {
                 window.SystemBackdrop = new MicaBackdrop();
             }
-            else window.SystemBackdrop = new DesktopAcrylicBackdrop();
+            else
+            {
+                window.SystemBackdrop = new DesktopAcrylicBackdrop();
+            }
         }
-        else window.SystemBackdrop = null;
+        else
+        {
+            window.SystemBackdrop = null;
+        }
     }
 
     public static void SetThemeColor(this Window window)
@@ -47,21 +52,6 @@ public static class Utilities
     {
         Window window = App.GetWindowForElement(element);
         return window.GetWindowHandle();
-    }
-
-    public static async Task<bool> ShowMsgDialog(this XamlRoot xamlRoot, string title, string content, string closeButtonText, string primaryButtonText = null)
-    {
-        ContentDialog dialog = new()
-        {
-            Title = title,
-            Content = content,
-            CloseButtonText = closeButtonText,
-            PrimaryButtonText = primaryButtonText,
-            XamlRoot = xamlRoot,
-            RequestedTheme = Enum.Parse<ElementTheme>(App.settings["Appearance"].ToString())
-        };
-        var result = await dialog.ShowAsync();
-        return result == ContentDialogResult.Primary;
     }
 
     public static async Task<StorageFile> SaveFile(string suggestFile, IntPtr hwnd)

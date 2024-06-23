@@ -70,5 +70,7 @@
             </GridView.ItemTemplate>
         </GridView>
 
+        <ContentDialog Name="warningDialog" Title="Warning" Content="系统未安装 WebView2，请自行前往官网安装 WebView2。" CloseButtonText="安装"/>
+
     </Grid>
 </Page>

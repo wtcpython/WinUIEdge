@@ -7,77 +7,167 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <Grid>
+    <Grid Margin="5" RowSpacing="5">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Grid Margin="0,5,0,5">
-
+        <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Name="imageNameBlock" Grid.Column="0" Margin="20,0,0,0" VerticalAlignment="Center"/>
+            <StackPanel Orientation="Horizontal" Grid.Column="0" Spacing="5">
+                <Button BorderThickness="0" Style="{StaticResource AccentButtonStyle}">
+                    <StackPanel Orientation="Horizontal" Spacing="5">
+                        <FontIcon Glyph="&#xe70f;"/>
+                        <TextBlock Text="编辑"/>
+                    </StackPanel>
+                </Button>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="1">
-                <Button Click="ImageRotateRequest">
+                <Button Click="ImageRotateRequest" Background="{x:Null}" BorderThickness="0">
                     <FontIcon Glyph="&#xe7ad;"/>
                 </Button>
 
-                <Button Click="ImageDeleteRequest">
+                <Button Click="ImageDeleteRequest" Background="{x:Null}" BorderThickness="0">
                     <FontIcon Glyph="&#xe74d;"/>
                 </Button>
 
-                <Button>
-                    <FontIcon Glyph="&#xE946;"/>
-                    <Button.Flyout>
-                        <Flyout>
-                            
-                            <StackPanel>
-                                <ItemsControl x:Name="view">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal" Spacing="30" Margin="10">
-                                                <TextBlock Text="{Binding Key}"/>
-                                                <TextBlock Text="{Binding Value}"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-
-                                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                                    <TextBlock Text="文件路径" Margin="0,0,30,0" VerticalAlignment="Center"/>
-                                    <HyperlinkButton Click="OpenFileLocation" MaxWidth="200">
-                                        <HyperlinkButton.Content>
-                                            <TextBlock Name="fileLocation" TextWrapping="WrapWholeWords"/>
-                                        </HyperlinkButton.Content>
-                                    </HyperlinkButton>
-                                </StackPanel>
-                            </StackPanel>
-                            
-                        </Flyout>
-                    </Button.Flyout>
+                <Button Click="PrintImageRequest" Background="{x:Null}" BorderThickness="0">
+                    <FontIcon Glyph="&#xe749;"/>
                 </Button>
 
             </StackPanel>
 
-            <local:BrowserMenuItems Grid.Column="2" />
+            <TextBlock Name="imageNameBlock" Grid.Column="0" Grid.ColumnSpan="2" Margin="20,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+            <local:BrowserMenuItems Grid.Column="1" HorizontalAlignment="Right"/>
 
         </Grid>
 
-        <ScrollViewer
-            x:Name="scrollViewer" 
-            Grid.Row="1"
-            HorizontalScrollBarVisibility="Auto" 
-            VerticalScrollBarVisibility="Auto"
-            PointerWheelChanged="OnPointerWheelChanged">
-            <Image x:Name="image" Stretch="UniformToFill"/>
-        </ScrollViewer>
+        <ItemContainer Grid.Row="1">
+            <Image
+                x:Name="image"
+                Stretch="Uniform"
+                HorizontalAlignment="Center"
+                PointerWheelChanged="Image_PointerWheelChanged"/>
+
+            <ItemContainer.ContextFlyout>
+                <MenuFlyout>
+                    <MenuFlyoutItem Text="另存为" Click="SaveImageAs">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xe792;"/>
+                        </MenuFlyoutItem.Icon>
+
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="S" Modifiers="Control"/>
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+
+                    <MenuFlyoutItem Text="打印" Click="PrintImageRequest">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xe749;"/>
+                        </MenuFlyoutItem.Icon>
+
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="P" Modifiers="Control"/>
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+
+                    <MenuFlyoutItem Text="复制">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xe8c8;"/>
+                        </MenuFlyoutItem.Icon>
+
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="C" Modifiers="Control"/>
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+
+                    <MenuFlyoutItem Text="复制为路径" Click="CopyFilePath">
+
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="C" Modifiers="Control,Shift"/>
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+
+                    <MenuFlyoutSubItem Text="设置为">
+                        <MenuFlyoutSubItem.Icon>
+                            <FontIcon Glyph="&#xee71;"/>
+                        </MenuFlyoutSubItem.Icon>
+
+                        <MenuFlyoutItem Text="锁屏界面" Click="SetImageAsLockScreen">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xee3f;"/>
+                            </MenuFlyoutItem.Icon>
+
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="L" Modifiers="Control"/>
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+
+                        <MenuFlyoutItem Text="背景" Click="SetImageAsWallpaper">
+
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="B" Modifiers="Control"/>
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                    </MenuFlyoutSubItem>
+
+                    <MenuFlyoutItem Text="调整图像大小"/>
+
+                    <MenuFlyoutSeparator />
+
+                    <MenuFlyoutItem Text="在文件资源管理器中打开" Click="OpenFileLocation">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xe8da;"/>
+                        </MenuFlyoutItem.Icon>
+                        
+                    </MenuFlyoutItem>
+                </MenuFlyout>
+            </ItemContainer.ContextFlyout>
+        </ItemContainer>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Horizontal" Grid.Column="0" Spacing="10">
+                <Button Click="OpenFileLocation" Background="{x:Null}" BorderThickness="0">
+                    <FontIcon Glyph="&#xe8da;"/>
+                </Button>
+
+                <Border Width="1" Background="LightGray" Margin="0,5,5,5"/>
+
+                <TextBlock Name="imagePixel" Foreground="DarkGray" VerticalAlignment="Center"/>
+
+                <FontIcon Glyph="&#xe74e;" Foreground="DarkGray"/>
+
+                <TextBlock Name="imageSize" Foreground="DarkGray" VerticalAlignment="Center"/>
+
+            </StackPanel>
+
+            <Button
+                Click="ImageFullScreen"
+                Grid.Column="2" HorizontalAlignment="Right"
+                Background="{x:Null}" BorderThickness="0">
+                <FontIcon Glyph="&#xe740;"/>
+            </Button>
+
+        </Grid>
+
+        <ContentDialog Name="deleteDialog" Title="删除此文件？" CloseButtonText="取消" PrimaryButtonText="删除">
+            <StackPanel Spacing="10">
+                <TextBlock Text="是否确定要删除此文件？"/>
+                <CheckBox Name="showDialogBox" Content="不再显示此警告" VerticalAlignment="Center"/>
+            </StackPanel>
+        </ContentDialog>
 
     </Grid>
 

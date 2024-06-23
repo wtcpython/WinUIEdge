@@ -1,31 +1,31 @@
 using CommunityToolkit.Common;
 using Edge.Utilities;
-using Microsoft.UI.Input;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml.Printing;
 using System;
-using System.Collections.Generic;
 using System.IO;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
+using Windows.Graphics.Printing;
 using Windows.Storage;
-using Windows.System;
+using Windows.System.UserProfile;
 
 
 namespace Edge
 {
     public sealed partial class ImageViewer : Page
     {
-        private double zoomFactor = 1.0;
-
         public FileInfo fileInfo;
-
         public BitmapImage source;
 
-        private int Angle = 0;
-
-        public Dictionary<string, string> dict = [];
+        private PrintManager printManager;
+        private PrintDocument printDocument;
+        private IPrintDocumentSource printDocumentSource;
 
         public ImageViewer(string filepath)
         {
@@ -36,36 +36,77 @@ namespace Edge
             source.ImageOpened += ImageOpened;
         }
 
+        private void RegisterPrint()
+        {
+            IntPtr hwnd = this.GetWindowHandle();
+            printManager = PrintManagerInterop.GetForWindow(hwnd);
+            printManager.PrintTaskRequested += PrintManager_PrintTaskRequested;
+
+            printDocument = new();
+            printDocumentSource = printDocument.DocumentSource;
+            printDocument.Paginate += PrintDocument_Paginate;
+            printDocument.GetPreviewPage += PrintDocument_GetPreviewPage;
+            printDocument.AddPages += PrintDocument_AddPages;
+        }
+
+        private void PrintDocument_AddPages(object sender, AddPagesEventArgs e)
+        {
+            printDocument.AddPage(image);
+            printDocument.AddPagesComplete();
+        }
+
+        private void PrintDocument_GetPreviewPage(object sender, GetPreviewPageEventArgs e)
+        {
+            printDocument.SetPreviewPage(e.PageNumber, image);
+        }
+
+        private void PrintDocument_Paginate(object sender, PaginateEventArgs e)
+        {
+            printDocument.SetPreviewPageCount(1, PreviewPageCountType.Final);
+        }
+
+        private void PrintManager_PrintTaskRequested(PrintManager sender, PrintTaskRequestedEventArgs args)
+        {
+            PrintTask task = args.Request.CreatePrintTask(fileInfo.Name, PrintTaskSourceRequested);
+        }
+
+        private void PrintTaskSourceRequested(PrintTaskSourceRequestedArgs args)
+        {
+            args.SetSource(printDocumentSource);
+        }
+
+        private async void PrintImageRequest(object sender, RoutedEventArgs e)
+        {
+            RegisterPrint();
+            if (PrintManager.IsSupported())
+            {
+                IntPtr hwnd = this.GetWindowHandle();
+                await PrintManagerInterop.ShowPrintUIForWindowAsync(hwnd);
+            }
+        }
+
         private async void ImageOpened(object sender, RoutedEventArgs e)
         {
             StorageFile file = await StorageFile.GetFileFromPathAsync(fileInfo.FullName);
             imageNameBlock.Text = file.Name;
-            dict["文件名称"] = file.Name;
-            dict["文件类型"] = file.DisplayType;
-            dict["像素大小"] = $"{source.PixelWidth} x {source.PixelHeight}";
-            dict["文件大小"] = Converters.ToFileSizeString(fileInfo.Length);
-            view.ItemsSource = dict;
-            fileLocation.Text = fileInfo.FullName;
+            imagePixel.Text = $"{source.PixelWidth} x {source.PixelHeight}";
+            imageSize.Text = Converters.ToFileSizeString(fileInfo.Length);
         }
 
         private async void ImageDeleteRequest(object sender, RoutedEventArgs e)
         {
-            bool deleted = await App.GetWindowForElement(this).Content.XamlRoot.ShowMsgDialog(
-                "文件删除确认", $"是否要删除文件 {fileInfo.FullName} ?", "取消", "确定");
-            if (deleted) fileInfo.Delete();
+            ContentDialogResult result = await deleteDialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+                fileInfo.Delete();
+            }
         }
 
         private void ImageRotateRequest(object sender, RoutedEventArgs e)
         {
-            Angle = (Angle + 180) % 360;
-
-            RotateTransform rotateTransform = new()
-            {
-                CenterX = image.Width / 2,
-                CenterY = image.Height / 2,
-                Angle = Angle
-            };
-            image.RenderTransform = rotateTransform;
+            CompositeTransform transform = image.RenderTransform as CompositeTransform ?? new CompositeTransform();
+            transform.Rotation = (transform.Rotation + 90) % 360;
+            image.RenderTransform = transform;
         }
 
         private void OpenFileLocation(object sender, RoutedEventArgs e)
@@ -73,19 +114,67 @@ namespace Edge
             System.Diagnostics.Process.Start("explorer.exe", $"/select,\"{fileInfo.FullName}\"");
         }
 
-        private void OnPointerWheelChanged(object sender, PointerRoutedEventArgs e)
+        private void Image_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
         {
-            PointerPoint pointerPoint = e.GetCurrentPoint(sender as ScrollViewer);
+            int delta = e.GetCurrentPoint(image).Properties.MouseWheelDelta;
+            Point position = e.GetCurrentPoint(image).Position;
 
-            if (e.KeyModifiers == VirtualKeyModifiers.Control)
+            double centerOffsetX = position.X - (image.ActualWidth / 2);
+            double centerOffsetY = position.Y - (image.ActualHeight / 2);
+
+            double scale = 1 + (delta / 1200.0);
+
+            image.RenderTransformOrigin = new Point(0.5, 0.5);
+
+            CompositeTransform transform = image.RenderTransform as CompositeTransform ?? new CompositeTransform();
+            transform.ScaleX *= scale;
+            transform.ScaleY *= scale;
+            image.RenderTransform = transform;
+        }
+
+        private void ImageFullScreen(object sender, RoutedEventArgs e)
+        {
+            AppWindow appWindow = App.GetWindowForElement(this).AppWindow;
+            if (appWindow.Presenter.Kind != AppWindowPresenterKind.FullScreen)
             {
-                double delta = pointerPoint.Properties.MouseWheelDelta / 2400.0;
-                if (zoomFactor < 5.0 && zoomFactor > 0.2)
-                {
-                    zoomFactor += delta;
-                    image.RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
-                    image.RenderTransform = new CompositeTransform() { ScaleX = zoomFactor, ScaleY = zoomFactor };
-                }
+                appWindow.SetPresenter(AppWindowPresenterKind.FullScreen);
+            }
+            else
+            {
+                appWindow.SetPresenter(AppWindowPresenterKind.Default);
+            }
+        }
+
+        private async void SaveImageAs(object sender, RoutedEventArgs e)
+        {
+            StorageFile storageFile = await Utilities.Utilities.SaveFile(fileInfo.FullName, this.GetWindowHandle());
+            fileInfo.CopyTo(storageFile.Path, true);
+        }
+
+        private void CopyFilePath(object sender, RoutedEventArgs e)
+        {
+            DataPackage package = new();
+            package.SetText(fileInfo.FullName);
+            Clipboard.SetContent(package);
+        }
+
+        private async void SetImageAsLockScreen(object sender, RoutedEventArgs e)
+        {
+            if (UserProfilePersonalizationSettings.IsSupported())
+            {
+                UserProfilePersonalizationSettings settings = UserProfilePersonalizationSettings.Current;
+                StorageFile imageFile = await StorageFile.GetFileFromPathAsync(fileInfo.FullName);
+                await settings.TrySetLockScreenImageAsync(imageFile);
+            }
+        }
+
+        private async void SetImageAsWallpaper(object sender, RoutedEventArgs e)
+        {
+            if (UserProfilePersonalizationSettings.IsSupported())
+            {
+                UserProfilePersonalizationSettings settings = UserProfilePersonalizationSettings.Current;
+                StorageFile imageFile = await StorageFile.GetFileFromPathAsync(fileInfo.FullName);
+                await settings.TrySetWallpaperImageAsync(imageFile);
             }
         }
     }

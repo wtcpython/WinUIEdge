@@ -1,5 +1,4 @@
 using Edge.Data;
-using Edge.Utilities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -46,7 +45,7 @@ namespace Edge
             bool isWebViewInstalled = CheckWebView2();
             if (!isWebViewInstalled)
             {
-                await this.XamlRoot.ShowMsgDialog("Warning", "系统未安装 WebView2，请自行前往官网安装 WebView2。", "安装");
+                await warningDialog.ShowAsync();
                 await Windows.System.Launcher.LaunchUriAsync(new Uri("https://developer.microsoft.com/zh-cn/microsoft-edge/webview2"));
                 App.GetWindowForElement(this).Close();
             }
@@ -97,7 +96,7 @@ namespace Edge
 
         private void HideItem(object sender, RoutedEventArgs e)
         {
-            Info.SuggestWebsiteList.Remove(Info.SuggestWebsiteList.First(x => x.Name == (sender as MenuFlyoutItem).CommandParameter as string));
+            Info.SuggestWebsiteList.Remove(Info.SuggestWebsiteList.First(x => x.Name == ((sender as MenuFlyoutItem).CommandParameter as string)));
         }
     }
 }

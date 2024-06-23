@@ -93,7 +93,7 @@ namespace Edge
             var menuItems = args.MenuItems;
 
             Deferral deferral = args.GetDeferral();
-            
+
             MenuFlyout flyout = new();
             flyout.Closed += (sender, e) => deferral.Complete();
 
@@ -178,7 +178,10 @@ namespace Edge
                 args.ResultFilePath = file.Path;
             }
             downloadButton.DownloadList.Add(new DownloadObject(args.DownloadOperation));
-            if (App.settings["ShowFlyoutWhenStartDownloading"].GetBoolean()) downloadButton.ShowFlyout();
+            if (App.settings["ShowFlyoutWhenStartDownloading"].GetBoolean())
+            {
+                downloadButton.ShowFlyout();
+            }
         }
 
         private void CoreWebView2_DOMContentLoaded(CoreWebView2 sender, CoreWebView2DOMContentLoadedEventArgs args)
@@ -190,7 +193,7 @@ namespace Edge
             historyButton.Histories.Add(sender);
 
             TabViewItem item = (mainWindow.Content as TabView).TabItems
-                .First(x => (x as TabViewItem).Content as Page == this) as TabViewItem;
+                .First(x => ((x as TabViewItem).Content as Page) == this) as TabViewItem;
             if (item != null)
             {
                 item.Header = sender.DocumentTitle;
@@ -208,19 +211,9 @@ namespace Edge
             }
         }
 
-        private async void CoreWebView2_NavigationStarting(CoreWebView2 sender, CoreWebView2NavigationStartingEventArgs args)
+        private void CoreWebView2_NavigationStarting(CoreWebView2 sender, CoreWebView2NavigationStartingEventArgs args)
         {
-            Uri uri = new(args.Uri);
-            if (uri.Scheme == "http")
-            {
-                args.Cancel = true;
-                await App.GetWindowForElement(this).Content.XamlRoot.ShowMsgDialog(
-                    "网站警告", $"网址：{uri} 使用了不安全的 {uri.Scheme} 协议。", "确定");
-            }
-            else
-            {
-                Search.Text = uri.ToString();
-            }
+            Search.Text = args.Uri;
         }
 
         private void ShowHomePage(object sender, RoutedEventArgs e)
@@ -243,8 +236,14 @@ namespace Edge
 
         public void ShowFlyout(string name)
         {
-            if (name == "历史记录") historyButton.ShowFlyout();
-            else if (name == "下载") downloadButton.ShowFlyout();
+            if (name == "历史记录")
+            {
+                historyButton.ShowFlyout();
+            }
+            else if (name == "下载")
+            {
+                downloadButton.ShowFlyout();
+            }
         }
     }
 }

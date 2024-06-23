@@ -107,7 +107,11 @@ namespace Edge
                 Header = header,
                 Content = content
             };
-            if (content is WebViewPage) newTab.ContextFlyout = TabFlyout;
+            if (content is WebViewPage)
+            {
+                newTab.ContextFlyout = TabFlyout;
+            }
+
             if (index >= 0)
             {
                 tabView.TabItems.Insert(index, newTab);
@@ -207,31 +211,31 @@ namespace Edge
             {
                 // 选择窗口右键菜单的条目时接收到的消息
                 case PInvoke.WM_SYSCOMMAND:
-                {
-                    nuint sysCommand = wParam.Value & 0xFFF0;
+                    {
+                        nuint sysCommand = wParam.Value & 0xFFF0;
 
-                    if (sysCommand == PInvoke.SC_MOUSEMENU)
-                    {
-                        FlyoutShowOptions options = new()
+                        if (sysCommand == PInvoke.SC_MOUSEMENU)
                         {
-                            Position = new Point(0, 15),
-                            ShowMode = FlyoutShowMode.Standard,
-                        };
-                        TitlebarMenuFlyout.ShowAt(null, options);
-                        return (LRESULT)0;
-                    }
-                    else if (sysCommand == PInvoke.SC_KEYMENU)
-                    {
-                        FlyoutShowOptions options = new()
+                            FlyoutShowOptions options = new()
+                            {
+                                Position = new Point(0, 15),
+                                ShowMode = FlyoutShowMode.Standard,
+                            };
+                            TitlebarMenuFlyout.ShowAt(null, options);
+                            return (LRESULT)0;
+                        }
+                        else if (sysCommand == PInvoke.SC_KEYMENU)
                         {
-                            Position = new Point(0, 45),
-                            ShowMode = FlyoutShowMode.Standard,
-                        };
-                        TitlebarMenuFlyout.ShowAt(null, options);
-                        return (LRESULT)0;
+                            FlyoutShowOptions options = new()
+                            {
+                                Position = new Point(0, 45),
+                                ShowMode = FlyoutShowMode.Standard,
+                            };
+                            TitlebarMenuFlyout.ShowAt(null, options);
+                            return (LRESULT)0;
+                        }
+                        break;
                     }
-                    break;
-                }
             }
             return PInvoke.DefSubclassProc(hWnd, Msg, wParam, lParam);
         }
@@ -245,34 +249,34 @@ namespace Edge
             {
                 // 当用户按下鼠标左键时，光标位于窗口的非工作区内的消息
                 case PInvoke.WM_NCLBUTTONDOWN:
-                {
-                    if (TitlebarMenuFlyout.IsOpen)
                     {
-                        TitlebarMenuFlyout.Hide();
+                        if (TitlebarMenuFlyout.IsOpen)
+                        {
+                            TitlebarMenuFlyout.Hide();
+                        }
+                        break;
                     }
-                    break;
-                }
 
                 // 当用户按下鼠标右键并释放时，光标位于窗口的非工作区内的消息
                 case PInvoke.WM_NCRBUTTONUP:
-                {
-                    if (Content is not null && Content.XamlRoot is not null)
                     {
-                        PointInt32 screenPoint = new((int)(lParam.Value & 0xFFFF), (int)(lParam.Value >> 16));
-                        Point localPoint = contentCoordinateConverter.ConvertScreenToLocal(screenPoint);
-
-                        FlyoutShowOptions options = new()
+                        if (Content is not null && Content.XamlRoot is not null)
                         {
-                            ShowMode = FlyoutShowMode.Standard,
-                            Position = Environment.OSVersion.Version.Build >= 22000 ?
-                                new Point(localPoint.X / Content.XamlRoot.RasterizationScale, localPoint.Y / Content.XamlRoot.RasterizationScale) :
-                                new Point(localPoint.X, localPoint.Y)
-                        };
+                            PointInt32 screenPoint = new((int)(lParam.Value & 0xFFFF), (int)(lParam.Value >> 16));
+                            Point localPoint = contentCoordinateConverter.ConvertScreenToLocal(screenPoint);
 
-                        TitlebarMenuFlyout.ShowAt(Content, options);
+                            FlyoutShowOptions options = new()
+                            {
+                                ShowMode = FlyoutShowMode.Standard,
+                                Position = Environment.OSVersion.Version.Build >= 22000 ?
+                                    new Point(localPoint.X / Content.XamlRoot.RasterizationScale, localPoint.Y / Content.XamlRoot.RasterizationScale) :
+                                    new Point(localPoint.X, localPoint.Y)
+                            };
+
+                            TitlebarMenuFlyout.ShowAt(Content, options);
+                        }
+                        return (LRESULT)0;
                     }
-                    return (LRESULT)0;
-                }
             }
             return PInvoke.DefSubclassProc(hWnd, Msg, wParam, lParam);
         }
@@ -285,13 +289,17 @@ namespace Edge
         private void RefreshTab(object sender, RoutedEventArgs e)
         {
             if (SelectedItem is WebViewPage page)
+            {
                 page.Refresh();
+            }
         }
 
         private void CopyTab(object sender, RoutedEventArgs e)
         {
             if (SelectedItem is WebViewPage page)
+            {
                 AddNewTab(new WebViewPage() { WebUri = page.WebUri }, index: tabView.SelectedIndex + 1);
+            }
         }
 
         private void MoveTabToNewWindow(object sender, RoutedEventArgs e)
@@ -307,7 +315,10 @@ namespace Edge
 
         private void CloseTab(object sender, object e)
         {
-            if (e is TabViewTabCloseRequestedEventArgs args) tabView.TabItems.Remove(args.Tab);
+            if (e is TabViewTabCloseRequestedEventArgs args)
+            {
+                tabView.TabItems.Remove(args.Tab);
+            }
             // else e is RoutedEventArgs
             else
             {
@@ -318,7 +329,10 @@ namespace Edge
                     App.ClosedTabs.Add(item);
                 }
             }
-            if (!tabView.TabItems.Any()) Close();
+            if (!tabView.TabItems.Any())
+            {
+                Close();
+            }
         }
 
         private void CloseOtherTab(object sender, RoutedEventArgs e)
