@@ -8,9 +8,9 @@
 
 ![Home Page](Assets/ReadmeSource/home-page.png)
 
-提供了搜索框以及下方的推荐网站，相较于国内浏览器的网站导航，整体 **干净清爽** 。
+主页的设计整体 **干净清爽**，默认在下方固定一些国内常用的导航网址，既可以单独删除，也可以不显示这些网站。
 
-具有 **高自定义度** ，可以在设置中选择主页的壁纸，以及选择是否隐藏推荐的网站。
+同时还可以自定义主页的壁纸样式。
 
 ### 快捷打开Dev Tools 工具
 
@@ -42,6 +42,16 @@
 
 后续会考虑添加更多其他形式的特殊文件。
 
+### 重新制作的图片查看界面
+
+![Image View](Assets/ReadmeSource/image-viewer.png)
+
+左：Windows 11 新版照片查看器
+
+右：本软件的照片查看界面
+
+重新设计的图片查看界面借鉴了 Windows 11 新版的照片查看界面，在功能上更加完善。
+
 ### 设置界面提供丰富的自定义选项
 
 在设置界面，可以实现不少对浏览器的自定义控制。
@@ -51,7 +61,7 @@
 ## 使用本软件的最低要求
 
 1. 最新版本的 [Microsoft Edge WebView2 Runtime](https://developer.microsoft.com/zh-cn/microsoft-edge/webview2/)
-2. 至少 Windows 10 (Build 19041) 及以上，推荐使用 Windows 11
+2. Windows 10 Build 19041+ 或 Windows 11 系统
 
 ## 如何从源代码构建
 
