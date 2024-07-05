@@ -1,4 +1,3 @@
-using Edge.Data;
 using Edge.Utilities;
 using Microsoft.UI.Content;
 using Microsoft.UI.Windowing;
@@ -7,11 +6,9 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using System;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Graphics;
 using Windows.Win32;
@@ -58,6 +55,7 @@ namespace Edge
 
             this.SetBackdrop();
             this.SetThemeColor();
+            this.AppWindow.DefaultTitleBarShouldMatchAppModeTheme = true;
 
             // 窗口部分初始化
             overlappedPresenter = AppWindow.Presenter as OverlappedPresenter;
@@ -384,34 +382,6 @@ namespace Edge
             }
             App.ClosedTabs.Clear();
         }
-
-        private void TabView_DragOver(object sender, DragEventArgs e)
-        {
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
-            {
-                e.AcceptedOperation = DataPackageOperation.Copy;
-                e.DragUIOverride.Caption = "在新选项卡打开文件";
-            }
-        }
-
-        private async void TabView_Drop(object sender, DragEventArgs e)
-        {
-            var items = await e.DataView.GetStorageItemsAsync();
-            foreach (var item in items)
-            {
-                FileInfo fileInfo = new(item.Path);
-                if (Info.LanguageDict.ContainsKey(fileInfo.Extension))
-                {
-                    AddNewTab(new TextFilePage(fileInfo.FullName), fileInfo.Name);
-                }
-
-                else if (Info.ImageDict.ContainsKey(fileInfo.Extension))
-                {
-                    AddNewTab(new ImageViewer(fileInfo.FullName), fileInfo.Name);
-                }
-            }
-        }
-
         private void PinTab(object sender, RoutedEventArgs e)
         {
             var menuItem = sender as MenuFlyoutItem;

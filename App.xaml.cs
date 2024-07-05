@@ -7,6 +7,7 @@ using Microsoft.Windows.AppLifecycle;
 using Microsoft.Windows.AppNotifications;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Text.Json;
 using Windows.Storage;
@@ -21,6 +22,7 @@ namespace Edge
         public static string LatestVersion = null;
         public static Dictionary<string, JsonElement> settings;
         public static WebView2 webView2 = new();
+        public static ObservableCollection<WebViewHistory> Histories = [];
 
         public App()
         {

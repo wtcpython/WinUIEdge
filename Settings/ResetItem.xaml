@@ -18,6 +18,10 @@
                 <FontIcon Glyph="&#xE8A7;" />
             </controls:SettingsCard.ActionIcon>
         </controls:SettingsCard>
+
+        <ContentDialog Name="resetDialog" Title="重置设置" CloseButtonText="取消" PrimaryButtonText="重置">
+            <TextBlock TextWrapping="Wrap">此操作将重置启动页面、新选项卡页、搜索引擎和固定的选项卡。它还将禁用所有扩展并清除 Cookie 等临时数据。收藏夹、历史记录和保存的密码不会被清除。</TextBlock>
+        </ContentDialog>
     </StackPanel>
 
 </Page>

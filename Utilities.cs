@@ -1,4 +1,3 @@
-using Microsoft.UI;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
@@ -38,8 +37,6 @@ public static class Utilities
         if (window.Content is FrameworkElement rootElement)
         {
             rootElement.RequestedTheme = Enum.Parse<ElementTheme>(appearance);
-            window.AppWindow.TitleBar.ButtonForegroundColor =
-                rootElement.ActualTheme == ElementTheme.Dark ? Colors.White : Colors.Black;
         }
     }
 

@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Button Name="DownloadButton" ToolTipService.ToolTip="下载 (Ctrl+J)">
+    <Button Name="DownloadButton" ToolTipService.ToolTip="下载 (Ctrl+J)" Style="{StaticResource AlternateCloseButtonStyle}">
 
         <Button.KeyboardAccelerators>
             <KeyboardAccelerator Key="J" Modifiers="Control"/>

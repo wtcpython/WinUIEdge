@@ -3,32 +3,25 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.Web.WebView2.Core;
 using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 
 namespace Edge
 {
+    public class WebViewHistory
+    {
+        public string DocumentTitle { get; set; }
+        public string Source { get; set; }
+        public string FaviconUri { get; set; }
+        public string Time { get; set; }
+    }
+
     public sealed partial class History : Page
     {
-        public ObservableCollection<CoreWebView2> Histories = [];
-
         public History()
         {
             this.InitializeComponent();
-            listView.ItemsSource = Histories;
-        }
-
-        private void RemoveHistoryItem(object sender, RoutedEventArgs e)
-        {
-            foreach (CoreWebView2 history in Histories)
-            {
-                if (history.Source == (sender as Button).CommandParameter as string)
-                {
-                    Histories.Remove(history);
-                    return;
-                }
-            }
+            listView.ItemsSource = App.Histories;
         }
 
         private async void DeleteHistoryRequest(object sender, RoutedEventArgs e)
@@ -38,20 +31,27 @@ namespace Edge
             {
                 await page.CoreWebView2.Profile.ClearBrowsingDataAsync(CoreWebView2BrowsingDataKinds.BrowsingHistory);
             }
-            Histories.Clear();
+            App.Histories.Clear();
         }
 
         private void SearchHistory(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter || SearchHistoryBox.Text == string.Empty)
             {
-                listView.ItemsSource = Histories.Where(x => x.DocumentTitle.Contains(SearchHistoryBox.Text));
+                listView.ItemsSource = App.Histories.Where(x => x.DocumentTitle.Contains(SearchHistoryBox.Text));
             }
         }
 
         public void ShowFlyout()
         {
             HistoryButton.Flyout.ShowAt(HistoryButton);
+        }
+
+        private void OpenHistory(object sender, ItemClickEventArgs e)
+        {
+            MainWindow mainWindow = App.GetWindowForElement(this);
+
+            mainWindow.AddNewTab(new WebViewPage() { WebUri = (e.ClickedItem as WebViewHistory).Source });
         }
     }
 }

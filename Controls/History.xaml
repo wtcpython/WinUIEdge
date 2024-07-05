@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Button Name="HistoryButton" ToolTipService.ToolTip="历史记录 (Ctrl+H)">
+    <Button Name="HistoryButton" ToolTipService.ToolTip="历史记录 (Ctrl+H)" Style="{StaticResource AlternateCloseButtonStyle}">
 
         <Button.KeyboardAccelerators>
             <KeyboardAccelerator Key="H" Modifiers="Control"/>
@@ -20,30 +20,21 @@
             <Flyout>
                 <StackPanel>
 
-                    <Grid Width="420" ColumnSpacing="10">
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Text="历史记录" FontWeight="Bold" FontSize="16" Grid.Column="0" VerticalAlignment="Center"/>
-                        <TextBox Name="SearchHistoryBox" PlaceholderText="搜索 历史记录" Grid.Column="1" KeyDown="SearchHistory"/>
-                        <Button Grid.Column="2" Click="DeleteHistoryRequest">
+                    <StackPanel Width="400" Orientation="Horizontal" Spacing="5">
+                        <TextBlock Text="历史记录" FontWeight="Bold" FontSize="16" VerticalAlignment="Center"/>
+                        <TextBox Name="SearchHistoryBox" PlaceholderText="搜索 历史记录" Width="230" KeyDown="SearchHistory" VerticalAlignment="Center"/>
+                        <Button Style="{StaticResource AlternateCloseButtonStyle}" Click="DeleteHistoryRequest">
                             <FontIcon Glyph="&#xe74d;"/>
                         </Button>
 
-                        <Button Grid.Column="3">
+                        <Button Style="{StaticResource AlternateCloseButtonStyle}">
                             <FontIcon Glyph="&#xe713;"/>
                         </Button>
+                    </StackPanel>
 
-                    </Grid>
-
-                    <ListView x:Name="listView" SelectionMode="Single">
+                    <ListView x:Name="listView" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="OpenHistory">
                         <ListView.ItemTemplate>
-                            <DataTemplate>
+                            <DataTemplate x:DataType="local:WebViewHistory">
                                 <StackPanel Orientation="Horizontal" Spacing="5">
 
                                     <ToolTipService.ToolTip>
@@ -58,14 +49,11 @@
                                     <ImageIcon Source="{Binding FaviconUri}" Width="30" Height="30"/>
 
                                     <TextBlock
-                                        Text="{Binding DocumentTitle}" Width="280" TextTrimming="CharacterEllipsis"
+                                        Text="{Binding DocumentTitle}" Width="230" TextTrimming="CharacterEllipsis"
                                         VerticalAlignment="Center"/>
 
-                                    <Button CommandParameter="{Binding Source}" Click="RemoveHistoryItem">
-                                        <Button.Content>
-                                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe711;"/>
-                                        </Button.Content>
-                                    </Button>
+                                    <TextBlock Name="timeBlock" Text="{Binding Time}"
+                                               VerticalAlignment="Center" HorizontalAlignment="Right"/>
 
                                 </StackPanel>
                             </DataTemplate>

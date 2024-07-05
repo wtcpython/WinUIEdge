@@ -25,7 +25,7 @@
             <StackPanel Orientation="Horizontal">
                 <Button Name="uriGoBackButton" Click="UriGoBackRequest"
                     ToolTipService.ToolTip="返回 (Alt+向左键)" Background="Transparent"
-                    Grid.Column="0">
+                    Grid.Column="0" Style="{StaticResource AlternateCloseButtonStyle}">
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator Key="Left" Modifiers="Menu"/>
                     </Button.KeyboardAccelerators>
@@ -33,7 +33,8 @@
                 </Button>
 
                 <Button Name="uriGoForwardButton" Click="UriGoForwardRequest"
-                    ToolTipService.ToolTip="继续 (Alt+向右键)" Background="Transparent">
+                        ToolTipService.ToolTip="继续 (Alt+向右键)" Background="Transparent"
+                        Style="{StaticResource AlternateCloseButtonStyle}">
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator Key="Right" Modifiers="Menu"/>
                     </Button.KeyboardAccelerators>
@@ -41,7 +42,8 @@
                 </Button>
 
                 <Button Name="uriRefreshButton" Click="UriRefreshRequest"
-                    ToolTipService.ToolTip="刷新 (Ctrl+R)" Background="Transparent">
+                        ToolTipService.ToolTip="刷新 (Ctrl+R)" Background="Transparent"
+                        Style="{StaticResource AlternateCloseButtonStyle}">
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator Key="R" Modifiers="Control"/>
                     </Button.KeyboardAccelerators>
@@ -49,12 +51,13 @@
                 </Button>
 
                 <Button Name="homeButton" Click="ShowHomePage"
-                    ToolTipService.ToolTip="主页" Background="Transparent">
+                        ToolTipService.ToolTip="主页" Background="Transparent"
+                        Style="{StaticResource AlternateCloseButtonStyle}">
                     <FontIcon Glyph="&#xe80f;"/>
                 </Button>
             </StackPanel>
 
-            <local:WebSearch x:Name="Search" Grid.Column="1"/>
+            <local:WebSearch x:Name="Search" Grid.Column="1" VerticalAlignment="Center"/>
 
             <StackPanel Orientation="Horizontal" Grid.Column="2">
                 <local:History x:Name="historyButton"/>
@@ -78,9 +81,6 @@
                 Name="uriPreview" TextTrimming="CharacterEllipsis" FontSize="12"
                 VerticalAlignment="Center"/>
         </Border>
-
-        <Button Content="Dev Tools" Grid.Row="1" Grid.Column="2" Click="OpenDevToolRequest" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10,0,0,0"/>
-
     </Grid>
     
 </Page>

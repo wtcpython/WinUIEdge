@@ -190,7 +190,13 @@ namespace Edge
             MainWindow mainWindow = App.GetWindowForElement(this);
 
             mainWindow.Title = sender.DocumentTitle;
-            historyButton.Histories.Add(sender);
+            App.Histories.Add(new WebViewHistory()
+            {
+                DocumentTitle = sender.DocumentTitle,
+                Source = sender.Source,
+                FaviconUri = sender.FaviconUri,
+                Time = DateTime.Now.ToString()
+            });
 
             TabViewItem item = (mainWindow.Content as TabView).TabItems
                 .First(x => ((x as TabViewItem).Content as Page) == this) as TabViewItem;
@@ -220,11 +226,6 @@ namespace Edge
         {
             MainWindow mainWindow = App.GetWindowForElement(this);
             mainWindow.AddNewTab(new HomePage());
-        }
-
-        private void OpenDevToolRequest(object sender, RoutedEventArgs e)
-        {
-            EdgeWebViewEngine.CoreWebView2.OpenDevToolsWindow();
         }
 
         public void ShowPrintUI()

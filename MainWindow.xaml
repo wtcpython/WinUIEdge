@@ -11,10 +11,7 @@
         Name="tabView"
         TabCloseRequested="CloseTab"
         VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-        IsAddTabButtonVisible="False"
-        AllowDrop="True"
-        DragOver="TabView_DragOver"
-        Drop="TabView_Drop">
+        IsAddTabButtonVisible="False">
         <TabView.TabStripFooter>
             <Grid>
 
