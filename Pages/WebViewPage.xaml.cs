@@ -16,7 +16,7 @@ namespace Edge
     {
         public string WebUri
         {
-            get => Search.Text;
+            get => EdgeWebViewEngine.CoreWebView2.Source;
             set => EdgeWebViewEngine.Source = new Uri(value);
         }
 
@@ -24,12 +24,6 @@ namespace Edge
         {
             this.InitializeComponent();
             SetWebNaviButtonStatus();
-            EdgeWebViewEngine.UpdateLayout();
-
-            if (WebUri == string.Empty)
-            {
-                WebUri = "https://bing.com";
-            }
 
             homeButton.Visibility = App.settings["ToolBar"].GetProperty("HomeButton").GetBoolean() ? Visibility.Visible : Visibility.Collapsed;
             historyButton.Visibility = App.settings["ToolBar"].GetProperty("HistoryButton").GetBoolean() ? Visibility.Visible : Visibility.Collapsed;

@@ -75,7 +75,7 @@ namespace Edge
                 }
             };
 
-            InitializeWithWindow.Initialize(picker, this.GetWindowHandle()); 
+            InitializeWithWindow.Initialize(picker, this.GetWindowHandle());
 
             StorageFile storageFile = await picker.PickSingleFileAsync();
             App.settings["BackgroundImage"] = App.ToJsonElement(storageFile.Path);

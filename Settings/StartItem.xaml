@@ -12,25 +12,33 @@
 
         <StackPanel Spacing="10" Margin="20">
 
-            <TextBlock Text="浏览器启动时" Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" Margin="5,10,0,0"/>
+            <TextBlock Text="Edge 启动时" Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" Margin="5,10,0,0"/>
 
-            <RadioButtons Name="radios" SelectionChanged="BehaviorChanged">
-                <RadioButton Content="打开新标签页"/>
-                <RadioButton Content="打开上一个会话中的标签页"/>
-                <RadioButton Content="打开以下页面"/>
-            </RadioButtons>
+            <Grid Background="{ThemeResource CardBackgroundFillColorDefault}"
+                  BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                  BorderThickness="0.5" CornerRadius="4" Padding="10" RowSpacing="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <RadioButtons Name="radios" SelectionChanged="BehaviorChanged">
+                    <RadioButton Content="打开新标签页"/>
+                    <RadioButton Content="打开上一个会话中的标签页"/>
+                    <RadioButton Content="打开以下页面："/>
+                </RadioButtons>
 
-            <Grid ColumnSpacing="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+                <Grid ColumnSpacing="10" Grid.Row="1" Margin="80,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-                <TextBlock Text="输入网址 Uri" VerticalAlignment="Center" Grid.Column="0"/>
-                <TextBox Name="uriBox" Grid.Column="1"/>
-                <Button Name="uriButton" Content="确定" Click="SetStartUri" Grid.Column="2"/>
+                    <TextBlock Text="页面" VerticalAlignment="Center" Grid.Column="0"/>
+                    <TextBox Name="uriBox" PlaceholderText="输入 URL" Grid.Column="1"/>
+                    <Button Name="uriButton" Content="确定" Click="SetStartUri" Grid.Column="2"/>
 
+                </Grid>
             </Grid>
 
             <controls:SettingsCard
