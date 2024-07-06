@@ -21,13 +21,5 @@
         AllowDrop="True"
         DragOver="AutoSuggestBox_DragOver"
         Drop="AutoSuggestBox_Drop">
-        <AutoSuggestBox.ItemTemplate>
-            <DataTemplate>
-                <StackPanel>
-                    <TextBlock Text="{Binding Text}" FontWeight="Bold"/>
-                    <TextBlock Text="{Binding Uri}"/>
-                </StackPanel>
-            </DataTemplate>
-        </AutoSuggestBox.ItemTemplate>
     </AutoSuggestBox>
 </UserControl>

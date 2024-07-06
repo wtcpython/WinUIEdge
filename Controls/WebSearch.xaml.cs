@@ -1,21 +1,17 @@
 using Edge.Data;
 using Microsoft.UI.Xaml.Controls;
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace Edge
 {
-    public class SuggestItem
-    {
-        public string Text { get; set; }
-        public string Uri { get; set; }
-    }
-
     public sealed partial class WebSearch : UserControl
     {
+        public ObservableCollection<string> suggestItems = [];
+
         public string Text
         {
             get => box.Text;
@@ -29,24 +25,13 @@ namespace Edge
 
         private void SuggestTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            List<SuggestItem> suggestItems = [];
+            suggestItems.Clear();
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                if (Uri.TryCreate(sender.Text, UriKind.Absolute, out var uri) && (uri.Scheme == Uri.UriSchemeHttps))
+                suggestItems.Add($"将 {sender.Text} 作为网址搜索");
+                foreach (var item in Info.SearchEngineList)
                 {
-                    suggestItems.Add(new()
-                    {
-                        Text = $"搜索网址",
-                        Uri = sender.Text
-                    });
-                }
-                else
-                {
-                    suggestItems.AddRange(Info.SearchEngineList.Select(x => new SuggestItem()
-                    {
-                        Text = $"使用 {x.Name} 搜索",
-                        Uri = x.Uri + sender.Text
-                    }));
+                    suggestItems.Add($"使用 {item.Name} 搜索 \"{sender.Text}\"");
                 }
                 sender.ItemsSource = suggestItems;
             }
@@ -54,7 +39,19 @@ namespace Edge
 
         private void SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
-            Navigate((args.SelectedItem as SuggestItem).Uri);
+            int index = suggestItems.IndexOf(args.SelectedItem as string);
+            if (index > 0)
+            {
+                Navigate(Info.SearchEngineList[index - 1].Uri + sender.Text);
+            }
+            else
+            {
+                if (!sender.Text.StartsWith("https://"))
+                {
+                    sender.Text = "https://" + sender.Text;
+                }
+                Navigate(sender.Text);
+            }
         }
 
         private void Navigate(string uri)
