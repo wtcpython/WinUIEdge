@@ -22,6 +22,7 @@ namespace Edge.Data
         public static JObject ImageDict = JObject.Parse(ReadPackageFileText("/Data/ImageType.json"));
         public static List<WebsiteInfo> SearchEngineList = JsonSerializer.Deserialize<List<WebsiteInfo>>(ReadPackageFileText("/Data/SearchEngine.json"))!;
         public static ObservableCollection<WebsiteInfo> SuggestWebsiteList = JsonSerializer.Deserialize<ObservableCollection<WebsiteInfo>>(ReadPackageFileText("/Data/SuggestWebsite.json"))!;
+        public static Dictionary<string, List<string>> HighlightKeyWords = JsonSerializer.Deserialize<Dictionary<string, List<string>>>(ReadPackageFileText("/Data/HighlightData.json"))!;
 
         public static string ReadPackageFileText(string path)
         {

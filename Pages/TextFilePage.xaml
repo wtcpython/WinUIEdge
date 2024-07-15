@@ -8,6 +8,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <local:FileControl x:Name="fileControl">
-        <TextBlock Name="block" IsTextSelectionEnabled="True" TextWrapping="WrapWholeWords"/>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <TextBlock Name="block" IsTextSelectionEnabled="True" TextWrapping="WrapWholeWords"/>
+        </ScrollViewer>
     </local:FileControl>
 </Page>
