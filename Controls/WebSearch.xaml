@@ -8,18 +8,51 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <AutoSuggestBox
-        Name="box"
-        PlaceholderText="输入想要搜索的内容"
-        TextChanged="SuggestTextChanged"
-        UpdateTextOnSelect="False"
-        SuggestionChosen="SuggestionChosen"
-        QuerySubmitted="StartToSearch"
-        CornerRadius="{x:Bind CornerRadius}"
-        FontSize="{x:Bind FontSize}"
-        Text="{x:Bind Text}"
-        AllowDrop="True"
-        DragOver="AutoSuggestBox_DragOver"
-        Drop="AutoSuggestBox_Drop">
-    </AutoSuggestBox>
+    <StackPanel>
+        <TextBox
+            x:Name="SearchBox" 
+            PlaceholderText="搜索或输入 Web 地址"
+            GotFocus="SearchBox_GotFocus"
+            LostFocus="SearchBox_LostFocus"
+            KeyDown="TextBox_KeyDown"
+            TextChanged="OnTextChanged"/>
+        <Popup
+            x:Name="SuggestionPopup">
+            <Grid
+                Name="panel"
+                Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
+                BorderBrush="{ThemeResource ButtonBorderThemeBrush}" 
+                BorderThickness="{ThemeResource ButtonBorderThemeThickness}"
+                CornerRadius="{ThemeResource ControlCornerRadius}"
+                Padding="10,10,0,0"
+                RowSpacing="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Name="box" Visibility="Collapsed"/>
+
+                <GridView 
+                    Name="View" Grid.Row="1"
+                    IsItemClickEnabled="True" ItemClick="SearchEngineClick"
+                    SelectionMode="Single">
+
+                    <GridView.ItemTemplate>
+                        <DataTemplate>
+
+                            <Image Width="20" Height="20"
+                                   ToolTipService.ToolTip="{Binding Name}">
+                                <Image.Source>
+                                    <BitmapImage UriSource="{Binding Icon}"/>
+                                </Image.Source>
+                            </Image>
+
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+
+            </Grid>
+        </Popup>
+    </StackPanel>
 </UserControl>

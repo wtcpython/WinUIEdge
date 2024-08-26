@@ -1,244 +1,211 @@
 using Edge.Utilities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Windows.Foundation;
-using Windows.Storage;
-
 
 namespace Edge
 {
     public sealed partial class WebViewPage : Page
     {
+        public WebViewPage()
+        {
+            InitializeComponent();
+            InitializeToolbarVisibility();
+            SetNavigationButtonStatus();
+            EdgeWebViewEngine.CoreWebView2Initialized += WebView2Initialized;
+        }
+
         public string WebUri
         {
-            get => EdgeWebViewEngine.CoreWebView2.Source;
+            get => EdgeWebViewEngine.Source.ToString();
             set => EdgeWebViewEngine.Source = new Uri(value);
         }
 
-        public WebViewPage()
+        private void InitializeToolbarVisibility()
         {
-            this.InitializeComponent();
-            SetWebNaviButtonStatus();
-
             homeButton.Visibility = App.settings["ToolBar"].GetProperty("HomeButton").GetBoolean() ? Visibility.Visible : Visibility.Collapsed;
             historyButton.Visibility = App.settings["ToolBar"].GetProperty("HistoryButton").GetBoolean() ? Visibility.Visible : Visibility.Collapsed;
             downloadButton.Visibility = App.settings["ToolBar"].GetProperty("DownloadButton").GetBoolean() ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private void SetWebNaviButtonStatus()
+        private void SetNavigationButtonStatus()
         {
             uriGoBackButton.IsEnabled = EdgeWebViewEngine.CanGoBack;
-            if (App.settings["ToolBar"].GetProperty("ForwardButton").GetBoolean())
-            {
-                uriGoForwardButton.Visibility = EdgeWebViewEngine.CanGoForward ? Visibility.Visible : Visibility.Collapsed;
-            }
+            uriGoForwardButton.Visibility = App.settings["ToolBar"].GetProperty("ForwardButton").GetBoolean() && EdgeWebViewEngine.CanGoForward
+                ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private void UriGoBackRequest(object sender, RoutedEventArgs e)
+        private void WebView2Initialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
         {
-            if (EdgeWebViewEngine.CanGoBack)
-            {
-                EdgeWebViewEngine.GoBack();
-            }
-            SetWebNaviButtonStatus();
-        }
-
-        private void UriGoForwardRequest(object sender, RoutedEventArgs e)
-        {
-            if (EdgeWebViewEngine.CanGoForward)
-            {
-                EdgeWebViewEngine.GoForward();
-            }
-            SetWebNaviButtonStatus();
-        }
-
-        public void Refresh()
-        {
-            EdgeWebViewEngine.Reload();
-        }
-
-        private void UriRefreshRequest(object sender, RoutedEventArgs e)
-        {
-            Refresh();
-        }
-
-        private void EdgeWebViewEngine_CoreWebView2Initialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
-        {
-            // 事件绑定
-            sender.CoreWebView2.NavigationStarting += CoreWebView2_NavigationStarting;
-            sender.CoreWebView2.DOMContentLoaded += CoreWebView2_DOMContentLoaded;
+            sender.CoreWebView2.NavigationStarting += (s, e) => Search.Text = e.Uri;
+            sender.CoreWebView2.DOMContentLoaded += (s, e) => UpdatePageTitleAndHistory();
             sender.CoreWebView2.DownloadStarting += CoreWebView2_DownloadStarting;
             sender.CoreWebView2.NewWindowRequested += CoreWebView2_NewWindowRequested;
-            sender.CoreWebView2.StatusBarTextChanged += CoreWebView2_StatusBarTextChanged;
+            sender.CoreWebView2.StatusBarTextChanged += (s, e) => uriPreview.Text = s.StatusBarText;
             sender.CoreWebView2.ContextMenuRequested += CoreWebView2_ContextMenuRequested;
 
-            // 加载设置项
             sender.CoreWebView2.Settings.IsStatusBarEnabled = false;
+        }
+
+        private void UpdatePageTitleAndHistory()
+        {
+            SetNavigationButtonStatus();
+            var mainWindow = App.GetWindowForElement(this);
+            mainWindow.Title = EdgeWebViewEngine.CoreWebView2.DocumentTitle;
+
+            App.Histories.Add(new WebViewHistory()
+            {
+                DocumentTitle = mainWindow.Title,
+                Source = WebUri,
+                FaviconUri = EdgeWebViewEngine.CoreWebView2.FaviconUri,
+                Time = DateTime.Now.ToString()
+            });
+
+            UpdateTabIconAndTitle(mainWindow);
+        }
+
+        private void UpdateTabIconAndTitle(MainWindow mainWindow)
+        {
+            var tabView = mainWindow.Content as TabView;
+            var tabItem = tabView?.TabItems
+                .FirstOrDefault(x => ((x as TabViewItem)?.Content as Page) == this) as TabViewItem;
+
+            if (tabItem != null)
+            {
+                tabItem.Header = EdgeWebViewEngine.CoreWebView2.DocumentTitle;
+                if (!string.IsNullOrEmpty(EdgeWebViewEngine.CoreWebView2.FaviconUri))
+                {
+                    tabItem.IconSource = new ImageIconSource()
+                    {
+                        ImageSource = new BitmapImage(new Uri(EdgeWebViewEngine.CoreWebView2.FaviconUri))
+                    };
+                }
+            }
         }
 
         private void CoreWebView2_ContextMenuRequested(CoreWebView2 sender, CoreWebView2ContextMenuRequestedEventArgs args)
         {
             args.Handled = true;
-            var menuItems = args.MenuItems;
+            var deferral = args.GetDeferral();
+            var menuFlyout = new MenuFlyout();
 
-            Deferral deferral = args.GetDeferral();
+            PopulateContextMenuItems(args, args.MenuItems, menuFlyout.Items);
 
-            MenuFlyout flyout = new();
-            flyout.Closed += (sender, e) => deferral.Complete();
-
-            SetMenuItems(args, menuItems, flyout.Items);
-            flyout.ShowAt(EdgeWebViewEngine, args.Location);
+            menuFlyout.Closed += (s, e) => deferral.Complete();
+            menuFlyout.ShowAt(EdgeWebViewEngine, args.Location);
         }
 
-        private void SetMenuItems(
-            CoreWebView2ContextMenuRequestedEventArgs args,
-            IList<CoreWebView2ContextMenuItem> webMenuItems,
-            IList<MenuFlyoutItemBase> menuItems)
+        private void PopulateContextMenuItems(CoreWebView2ContextMenuRequestedEventArgs args, IList<CoreWebView2ContextMenuItem> webMenuItems, IList<MenuFlyoutItemBase> menuItems)
         {
             foreach (var menuItem in webMenuItems)
             {
-                switch (menuItem.Kind)
+                menuItems.Add(menuItem.Kind switch
                 {
-                    case CoreWebView2ContextMenuItemKind.Separator:
-                        menuItems.Add(new MenuFlyoutSeparator());
-                        break;
-                    case CoreWebView2ContextMenuItemKind.Submenu:
-                        MenuFlyoutSubItem subItem = new()
-                        {
-                            Text = menuItem.Label[..menuItem.Label.IndexOf('(')],
-                            IsEnabled = menuItem.IsEnabled,
-                        };
-
-                        SetMenuItems(args, menuItem.Children, subItem.Items);
-                        menuItems.Add(subItem);
-                        break;
-                    case CoreWebView2ContextMenuItemKind.CheckBox:
-                        menuItems.Add(new ToggleMenuFlyoutItem()
-                        {
-                            Text = menuItem.Label[..menuItem.Label.IndexOf('(')],
-                            IsEnabled = menuItem.IsEnabled,
-                            KeyboardAcceleratorTextOverride = menuItem.ShortcutKeyDescription,
-                            IsChecked = menuItem.IsChecked
-                        });
-                        break;
-                    case CoreWebView2ContextMenuItemKind.Command:
-                        MenuFlyoutItem newItem = new()
-                        {
-                            Text = menuItem.Label[..menuItem.Label.IndexOf('(')],
-                            IsEnabled = menuItem.IsEnabled,
-                            KeyboardAcceleratorTextOverride = menuItem.ShortcutKeyDescription,
-                            Icon = new FontIcon() { Glyph = menuItem.Name.ToGlyph() }
-                        };
-
-                        newItem.Click += (sender, e) =>
-                        {
-                            args.SelectedCommandId = menuItem.CommandId;
-                        };
-                        menuItems.Add(newItem);
-                        break;
-                    default:
-                        break;
-                }
+                    CoreWebView2ContextMenuItemKind.Separator => new MenuFlyoutSeparator(),
+                    CoreWebView2ContextMenuItemKind.Submenu => CreateSubMenuItem(args, menuItem),
+                    CoreWebView2ContextMenuItemKind.CheckBox => CreateToggleMenuItem(menuItem),
+                    CoreWebView2ContextMenuItemKind.Command => CreateCommandMenuItem(args, menuItem),
+                    _ => null
+                });
             }
         }
 
-        private void CoreWebView2_StatusBarTextChanged(CoreWebView2 sender, object args)
+        private MenuFlyoutSubItem CreateSubMenuItem(CoreWebView2ContextMenuRequestedEventArgs args, CoreWebView2ContextMenuItem menuItem)
         {
-            uriPreview.Text = sender.StatusBarText;
+            var subItem = new MenuFlyoutSubItem
+            {
+                Text = menuItem.Label.Split('(')[0],
+                IsEnabled = menuItem.IsEnabled
+            };
+
+            PopulateContextMenuItems(args, menuItem.Children, subItem.Items);
+            return subItem;
         }
 
-        private void CoreWebView2_NewWindowRequested(CoreWebView2 sender, CoreWebView2NewWindowRequestedEventArgs args)
+        private ToggleMenuFlyoutItem CreateToggleMenuItem(CoreWebView2ContextMenuItem menuItem)
         {
-            args.Handled = true;
+            return new ToggleMenuFlyoutItem
+            {
+                Text = menuItem.Label.Split('(')[0],
+                IsEnabled = menuItem.IsEnabled,
+                IsChecked = menuItem.IsChecked,
+                KeyboardAcceleratorTextOverride = menuItem.ShortcutKeyDescription
+            };
+        }
 
-            MainWindow mainWindow = App.GetWindowForElement(this);
-            mainWindow.AddNewTab(new WebViewPage() { WebUri = args.Uri });
+        private MenuFlyoutItem CreateCommandMenuItem(CoreWebView2ContextMenuRequestedEventArgs args, CoreWebView2ContextMenuItem menuItem)
+        {
+            var newItem = new MenuFlyoutItem
+            {
+                Text = menuItem.Label.Split('(')[0],
+                IsEnabled = menuItem.IsEnabled,
+                KeyboardAcceleratorTextOverride = menuItem.ShortcutKeyDescription,
+                Icon = new FontIcon { Glyph = menuItem.Name.ToGlyph() }
+            };
+
+            newItem.Click += (s, e) => args.SelectedCommandId = menuItem.CommandId;
+            return newItem;
         }
 
         private async void CoreWebView2_DownloadStarting(CoreWebView2 sender, CoreWebView2DownloadStartingEventArgs args)
         {
+            if (!App.settings["AskDownloadBehavior"].GetBoolean()) return;
+
             args.Handled = true;
-            if (App.settings["AskDownloadBehavior"].GetBoolean())
-            {
-                IntPtr hwnd = this.GetWindowHandle();
+            var hwnd = this.GetWindowHandle();
+            var file = await Utilities.Utilities.SaveFile(args.ResultFilePath, hwnd);
 
-                StorageFile file = await Utilities.Utilities.SaveFile(args.ResultFilePath, hwnd);
-
-                args.ResultFilePath = file.Path;
-            }
+            args.ResultFilePath = file.Path;
             downloadButton.DownloadList.Add(new DownloadObject(args.DownloadOperation));
+
             if (App.settings["ShowFlyoutWhenStartDownloading"].GetBoolean())
             {
                 downloadButton.ShowFlyout();
             }
         }
 
-        private void CoreWebView2_DOMContentLoaded(CoreWebView2 sender, CoreWebView2DOMContentLoadedEventArgs args)
+        private void CoreWebView2_NewWindowRequested(CoreWebView2 sender, CoreWebView2NewWindowRequestedEventArgs args)
         {
-            SetWebNaviButtonStatus();
-            MainWindow mainWindow = App.GetWindowForElement(this);
-
-            mainWindow.Title = sender.DocumentTitle;
-            App.Histories.Add(new WebViewHistory()
-            {
-                DocumentTitle = sender.DocumentTitle,
-                Source = sender.Source,
-                FaviconUri = sender.FaviconUri,
-                Time = DateTime.Now.ToString()
-            });
-
-            TabViewItem item = (mainWindow.Content as TabView).TabItems
-                .First(x => ((x as TabViewItem).Content as Page) == this) as TabViewItem;
-            if (item != null)
-            {
-                item.Header = sender.DocumentTitle;
-                string iconUri = sender.FaviconUri;
-                if (iconUri != string.Empty)
-                {
-                    item.IconSource = new ImageIconSource()
-                    {
-                        ImageSource = new BitmapImage()
-                        {
-                            UriSource = new Uri(iconUri)
-                        }
-                    };
-                }
-            }
+            args.Handled = true;
+            var mainWindow = App.GetWindowForElement(this);
+            mainWindow.AddNewTab(new WebViewPage { WebUri = args.Uri });
         }
 
-        private void CoreWebView2_NavigationStarting(CoreWebView2 sender, CoreWebView2NavigationStartingEventArgs args)
+        private void UriGoBackRequest(object sender, RoutedEventArgs e)
         {
-            Search.Text = args.Uri;
+            if (EdgeWebViewEngine.CanGoBack) EdgeWebViewEngine.GoBack();
+            SetNavigationButtonStatus();
         }
 
-        private void ShowHomePage(object sender, RoutedEventArgs e)
+        private void UriGoForwardRequest(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = App.GetWindowForElement(this);
+            if (EdgeWebViewEngine.CanGoForward) EdgeWebViewEngine.GoForward();
+            SetNavigationButtonStatus();
+        }
+
+        private void UriRefreshRequest(object sender, RoutedEventArgs e) => Refresh();
+
+        public void Refresh() => EdgeWebViewEngine.Reload();
+
+        public void ShowHomePage(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = App.GetWindowForElement(this);
             mainWindow.AddNewTab(new HomePage());
         }
 
-        public void ShowPrintUI()
-        {
-            EdgeWebViewEngine.CoreWebView2.ShowPrintUI(CoreWebView2PrintDialogKind.Browser);
-        }
-
-        public CoreWebView2 CoreWebView2 => EdgeWebViewEngine.CoreWebView2;
+        public void ShowPrintUI() => EdgeWebViewEngine.CoreWebView2.ShowPrintUI(CoreWebView2PrintDialogKind.Browser);
 
         public void ShowFlyout(string name)
         {
-            if (name == "历史记录")
-            {
-                historyButton.ShowFlyout();
-            }
-            else if (name == "下载")
-            {
-                downloadButton.ShowFlyout();
-            }
+            if (name == "历史记录") historyButton.ShowFlyout();
+            else if (name == "下载") downloadButton.ShowFlyout();
         }
+
+        public CoreWebView2 CoreWebView2 => EdgeWebViewEngine.CoreWebView2;
     }
 }

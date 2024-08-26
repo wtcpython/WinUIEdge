@@ -55,7 +55,6 @@ namespace Edge
 
             this.SetBackdrop();
             this.SetThemeColor();
-            this.AppWindow.DefaultTitleBarShouldMatchAppModeTheme = true;
 
             // 窗口部分初始化
             overlappedPresenter = AppWindow.Presenter as OverlappedPresenter;

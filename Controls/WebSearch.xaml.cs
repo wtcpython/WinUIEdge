@@ -1,76 +1,107 @@
 using Edge.Data;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media.Animation;
 using System;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
 
 namespace Edge
 {
     public sealed partial class WebSearch : UserControl
     {
-        public ObservableCollection<string> suggestItems = [];
-
         public string Text
         {
-            get => box.Text;
-            set => box.Text = value;
+            get => SearchBox.Text;
+            set => SearchBox.Text = value;
         }
 
         public WebSearch()
         {
             this.InitializeComponent();
+            this.PointerPressed += OnGlobalPointerPressed;
+            View.ItemsSource = Info.SearchEngineList;
         }
 
-        private void SuggestTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        private void SearchBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            suggestItems.Clear();
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            showPopup(true);
+        }
+
+        private void SearchBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            DispatcherQueue.TryEnqueue(() =>
             {
-                suggestItems.Add($"将 {sender.Text} 作为网址搜索");
-                foreach (var item in Info.SearchEngineList)
+                if (SuggestionPopup.IsOpen)
                 {
-                    suggestItems.Add($"使用 {item.Name} 搜索 \"{sender.Text}\"");
+                    showPopup(false);
                 }
-                sender.ItemsSource = suggestItems;
+            });
+        }
+
+        private void OnGlobalPointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            var pointerPosition = e.GetCurrentPoint(this).Position;
+            var rect = SuggestionPopup.TransformToVisual(this).TransformBounds(new Rect(0, 0, SuggestionPopup.ActualWidth, SuggestionPopup.ActualHeight));
+
+            if (!rect.Contains(pointerPosition))
+            {
+                showPopup(false);
             }
         }
 
-        private void SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        private void showPopup(bool visible)
         {
-            int index = suggestItems.IndexOf(args.SelectedItem as string);
-            if (index > 0)
+            panel.Width = SearchBox.ActualWidth;
+            if (visible)
             {
-                Navigate(Info.SearchEngineList[index - 1].Uri + sender.Text);
+                SuggestionPopup.IsOpen = visible;
+            }
+
+            DoubleAnimation animation = new()
+            {
+                From = visible ? 0 : 1,
+                To = visible ? 1 : 0,
+                Duration = new Duration(TimeSpan.FromMilliseconds(200))
+            };
+            Storyboard storyboard = new();
+            storyboard.Children.Add(animation);
+            Storyboard.SetTarget(animation, SuggestionPopup);
+            Storyboard.SetTargetProperty(animation, "Opacity");
+            if (!visible)
+            {
+                storyboard.Completed += (s, e) => SuggestionPopup.IsOpen = visible;
+            }
+            storyboard.Begin();
+        }
+
+        private void OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            string text = (sender as TextBox).Text;
+            if (text == string.Empty)
+            {
+                box.Visibility = Visibility.Collapsed;
             }
             else
             {
-                if (!sender.Text.StartsWith("https://"))
-                {
-                    sender.Text = "https://" + sender.Text;
-                }
-                Navigate(sender.Text);
+                box.Visibility = Visibility.Visible;
+                box.Text = $"使用默认搜索引擎 (或作为网址) 搜索：{text}";
             }
         }
 
-        private void Navigate(string uri)
+        private void TextBox_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            MainWindow mainWindow = App.GetWindowForElement(this);
-            var selectedItem = mainWindow.SelectedItem;
-            if (selectedItem is WebViewPage webviewPage)
+            if (e.Key == Windows.System.VirtualKey.Enter)
             {
-                webviewPage.WebUri = uri;
-            }
-            else
-            {
-                mainWindow.AddNewTab(new WebViewPage() { WebUri = uri });
+                StartToSearch();
             }
         }
 
-        private void StartToSearch(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        private void StartToSearch()
         {
-            string text = sender.Text;
+            string text = SearchBox.Text;
             if (Uri.TryCreate(text, UriKind.Absolute, out var uri))
             {
                 if (uri.Scheme == Uri.UriSchemeFile)
@@ -115,22 +146,23 @@ namespace Edge
             }
         }
 
-        private void AutoSuggestBox_DragOver(object sender, Microsoft.UI.Xaml.DragEventArgs e)
+        private void Navigate(string uri)
         {
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            MainWindow mainWindow = App.GetWindowForElement(this);
+            var selectedItem = mainWindow.SelectedItem;
+            if (selectedItem is WebViewPage webviewPage)
             {
-                e.AcceptedOperation = DataPackageOperation.Copy;
-                e.DragUIOverride.Caption = "粘贴文件路径";
+                webviewPage.WebUri = uri;
+            }
+            else
+            {
+                mainWindow.AddNewTab(new WebViewPage() { WebUri = uri });
             }
         }
 
-        private async void AutoSuggestBox_Drop(object sender, Microsoft.UI.Xaml.DragEventArgs e)
+        private void SearchEngineClick(object sender, ItemClickEventArgs e)
         {
-            var items = await e.DataView.GetStorageItemsAsync();
-            foreach (var item in items)
-            {
-                box.Text = item.Path;
-            }
+            Navigate((e.ClickedItem as WebsiteInfo).Uri + SearchBox.Text);
         }
     }
 }

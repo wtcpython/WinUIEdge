@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
-    <WindowsSdkPackageVersion>10.0.22621.35-preview</WindowsSdkPackageVersion>
+    <WindowsSdkPackageVersion>10.0.22621.38</WindowsSdkPackageVersion>
     <RootNamespace>Edge</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Platforms>x86;x64;ARM64</Platforms>
@@ -48,13 +48,13 @@
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.1.240606-rc" />
-    <PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.1.240606-rc" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.1.240821" />
+    <PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.1.240821" />
     <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.106" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240701003-experimental2" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240821007-preview2" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="9.0.0-preview.6.24327.7" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="9.0.0-preview.7.24405.7" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
