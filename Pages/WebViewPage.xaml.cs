@@ -188,17 +188,13 @@ namespace Edge
             SetNavigationButtonStatus();
         }
 
-        private void UriRefreshRequest(object sender, RoutedEventArgs e) => Refresh();
-
-        public void Refresh() => EdgeWebViewEngine.Reload();
+        private void UriRefreshRequest(object sender, RoutedEventArgs e) => EdgeWebViewEngine.Reload();
 
         public void ShowHomePage(object sender, RoutedEventArgs e)
         {
             var mainWindow = App.GetWindowForElement(this);
             mainWindow.AddNewTab(new HomePage());
         }
-
-        public void ShowPrintUI() => EdgeWebViewEngine.CoreWebView2.ShowPrintUI(CoreWebView2PrintDialogKind.Browser);
 
         public void ShowFlyout(string name)
         {

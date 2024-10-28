@@ -3,6 +3,7 @@ using Microsoft.UI.Dispatching;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.Web.WebView2.Core;
 using Microsoft.Windows.AppLifecycle;
 using Microsoft.Windows.AppNotifications;
 using System;
@@ -60,6 +61,12 @@ namespace Edge
                 }
             }
             return null;
+        }
+
+        public static CoreWebView2 GetCoreWebView2(UIElement element)
+        {
+            WebViewPage page = GetWindowForElement(element).SelectedItem as WebViewPage;
+            return page.CoreWebView2;
         }
 
         public static JsonElement ToJsonElement<T>(T value)

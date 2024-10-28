@@ -4,6 +4,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.Web.WebView2.Core;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -285,10 +286,8 @@ namespace Edge
 
         private void RefreshTab(object sender, RoutedEventArgs e)
         {
-            if (SelectedItem is WebViewPage page)
-            {
-                page.Refresh();
-            }
+            CoreWebView2 coreWebView2 = App.GetCoreWebView2(tabView.SelectedItem as TabViewItem);
+            coreWebView2.Reload();
         }
 
         private void CopyTab(object sender, RoutedEventArgs e)
@@ -301,13 +300,11 @@ namespace Edge
 
         private void MoveTabToNewWindow(object sender, RoutedEventArgs e)
         {
-            if (SelectedItem is WebViewPage page)
-            {
-                var window = App.CreateNewWindow();
-                window.AddNewTab(new WebViewPage() { WebUri = page.WebUri });
-                window.Activate();
-                tabView.TabItems.Remove(tabView.SelectedItem);
-            }
+            CoreWebView2 coreWebView2 = App.GetCoreWebView2(tabView.SelectedItem as TabViewItem);
+            var window = App.CreateNewWindow();
+            window.AddNewTab(new WebViewPage() { WebUri = coreWebView2.Source.ToString() });
+            window.Activate();
+            tabView.TabItems.Remove(tabView.SelectedItem);
         }
 
         private void CloseTab(object sender, object e)
@@ -350,20 +347,18 @@ namespace Edge
 
         private void MuteTab(object sender, RoutedEventArgs e)
         {
-            if (SelectedItem is WebViewPage page)
+            CoreWebView2 coreWebView2 = App.GetCoreWebView2(tabView.SelectedItem as TabViewItem);
+            if (!coreWebView2.IsMuted)
             {
-                if (!page.CoreWebView2.IsMuted)
-                {
-                    page.CoreWebView2.IsMuted = true;
-                    MuteButton.Icon = new FontIcon() { Glyph = "\ue995" };
-                    MuteButton.Text = "取消标签页静音";
-                }
-                else
-                {
-                    page.CoreWebView2.IsMuted = false;
-                    MuteButton.Icon = new FontIcon() { Glyph = "\ue74f" };
-                    MuteButton.Text = "使标签页静音";
-                }
+                coreWebView2.IsMuted = true;
+                MuteButton.Icon = new FontIcon() { Glyph = "\ue995" };
+                MuteButton.Text = "取消标签页静音";
+            }
+            else
+            {
+                coreWebView2.IsMuted = false;
+                MuteButton.Icon = new FontIcon() { Glyph = "\ue74f" };
+                MuteButton.Text = "使标签页静音";
             }
         }
 
