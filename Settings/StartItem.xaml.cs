@@ -19,7 +19,8 @@ namespace Edge
             this.InitializeComponent();
             radios.SelectedIndex = App.settings["StartBehavior"].GetInt32();
 
-            uriButton.IsEnabled = radios.SelectedIndex == 2;
+            uriBox.Text = App.settings["SpecificUri"].GetString();
+            uriBox.IsEnabled = radios.SelectedIndex == 2;
 
             setHomeButton.IsOn = ToolBar["HomeButton"];
             searchEngineBox.ItemsSource = Info.SearchEngineList.Select(x => x.Name);
@@ -30,7 +31,7 @@ namespace Edge
             showBackground.IsOn = backgroundCard.IsEnabled = App.settings["ShowBackground"].GetBoolean();
         }
 
-        private void SetStartUri(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        private void SetStartUri(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
             App.settings["SpecificUri"] = App.ToJsonElement(uriBox.Text);
         }
@@ -48,7 +49,13 @@ namespace Edge
 
         private void BehaviorChanged(object sender, SelectionChangedEventArgs e)
         {
-            uriButton.IsEnabled = radios.SelectedIndex == 2;
+            uriBox.IsEnabled = radios.SelectedIndex == 2;
+            App.settings["StartBehavior"] = App.ToJsonElement(radios.SelectedIndex);
+            if (radios.SelectedIndex != 2)
+            {
+                uriBox.Text = string.Empty;
+                App.settings["SpecificUri"] = App.ToJsonElement(uriBox.Text);
+            }
         }
 
         private void SuggestUriVisualChanged(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)

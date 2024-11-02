@@ -52,12 +52,9 @@ namespace Edge
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(AppTitleBar);
 
-            AddNewTab(new HomePage());
-
             this.SetBackdrop();
             this.SetThemeColor();
 
-            // 窗口部分初始化
             overlappedPresenter = AppWindow.Presenter as OverlappedPresenter;
 
             IsWindowMaximized = overlappedPresenter.State == OverlappedPresenterState.Maximized;
@@ -97,6 +94,19 @@ namespace Edge
             }
         }
 
+        public void AddHomePage()
+        {
+            string uri = App.settings["SpecificUri"].GetString();
+            if (uri != string.Empty)
+            {
+                AddNewTab(new WebViewPage() { WebUri = uri });
+            }
+            else
+            {
+                AddNewTab(new HomePage());
+            }
+        }
+
         public void AddNewTab(object content, string header = "主页", int index = -1)
         {
             TabViewItem newTab = new()
@@ -110,16 +120,9 @@ namespace Edge
                 newTab.ContextFlyout = TabFlyout;
             }
 
-            if (index >= 0)
-            {
-                tabView.TabItems.Insert(index, newTab);
-                tabView.SelectedIndex = index;
-            }
-            else
-            {
-                tabView.TabItems.Add(newTab);
-                tabView.SelectedIndex = tabView.TabItems.Count - 1;
-            }
+            int insertIndex = index >= 0 ? index : tabView.TabItems.Count;
+            tabView.TabItems.Insert(insertIndex, newTab);
+            tabView.SelectedIndex = insertIndex;
         }
 
         /// <summary>
@@ -281,7 +284,7 @@ namespace Edge
 
         private void CreateNewTabOnRight(object sender, RoutedEventArgs e)
         {
-            AddNewTab(new HomePage(), index: tabView.SelectedIndex + 1);
+            AddHomePage();
         }
 
         private void RefreshTab(object sender, RoutedEventArgs e)
@@ -292,10 +295,8 @@ namespace Edge
 
         private void CopyTab(object sender, RoutedEventArgs e)
         {
-            if (SelectedItem is WebViewPage page)
-            {
-                AddNewTab(new WebViewPage() { WebUri = page.WebUri }, index: tabView.SelectedIndex + 1);
-            }
+            CoreWebView2 coreWebView2 = App.GetCoreWebView2(tabView.SelectedItem as TabViewItem);
+            AddNewTab(new WebViewPage() { WebUri = coreWebView2.Source }, index: tabView.SelectedIndex + 1);
         }
 
         private void MoveTabToNewWindow(object sender, RoutedEventArgs e)
@@ -394,12 +395,12 @@ namespace Edge
 
         private void AddNewButtonClick(SplitButton sender, SplitButtonClickEventArgs args)
         {
-            AddNewTab(new HomePage());
+            AddHomePage();
         }
 
         private void OpenHomePage(object sender, RoutedEventArgs e)
         {
-            AddNewTab(new HomePage());
+            AddHomePage();
         }
 
         private void OpenBingPage(object sender, RoutedEventArgs e)

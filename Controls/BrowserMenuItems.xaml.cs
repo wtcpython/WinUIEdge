@@ -20,7 +20,7 @@ namespace Edge
         {
             MainWindow mainWindow = App.GetWindowForElement(this);
 
-            mainWindow.AddNewTab(new HomePage());
+            mainWindow.AddHomePage();
         }
 
         private void TryCreateNewWindow(object sender, RoutedEventArgs e)

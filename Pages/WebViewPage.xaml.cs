@@ -1,7 +1,6 @@
 using Edge.Utilities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
 using System;
@@ -193,7 +192,7 @@ namespace Edge
         public void ShowHomePage(object sender, RoutedEventArgs e)
         {
             var mainWindow = App.GetWindowForElement(this);
-            mainWindow.AddNewTab(new HomePage());
+            mainWindow.AddHomePage();
         }
 
         public void ShowFlyout(string name)

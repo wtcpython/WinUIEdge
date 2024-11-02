@@ -39,6 +39,7 @@ namespace Edge
         public static MainWindow CreateNewWindow()
         {
             MainWindow window = new();
+            window.AddHomePage();
             window.Closed += (sender, e) =>
             {
                 mainWindows.Remove(window);
