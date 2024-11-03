@@ -121,7 +121,7 @@
 
                 <MenuFlyoutSeparator />
 
-                <MenuFlyoutItem Text="重新打开关闭的标签页" Click="OpenClosedTabs">
+                <MenuFlyoutItem Text="重新打开关闭的标签页" Click="OpenClosedTab">
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator Key="T" Modifiers="Control,Shift"/>
                     </MenuFlyoutItem.KeyboardAccelerators>

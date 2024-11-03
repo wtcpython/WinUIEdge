@@ -19,7 +19,6 @@ namespace Edge
     public partial class App : Application
     {
         public static List<MainWindow> mainWindows = [];
-        public static List<TabViewItem> ClosedTabs = [];
         public static string LatestVersion = null;
         public static Dictionary<string, JsonElement> settings;
         public static WebView2 webView2 = new();

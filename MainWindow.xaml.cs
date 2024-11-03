@@ -317,12 +317,7 @@ namespace Edge
             // else e is RoutedEventArgs
             else
             {
-                TabViewItem item = tabView.SelectedItem as TabViewItem;
-                tabView.TabItems.Remove(item);
-                if (item.Content is WebViewPage)
-                {
-                    App.ClosedTabs.Add(item);
-                }
+                tabView.TabItems.RemoveAt(tabView.SelectedIndex);
             }
             if (!tabView.TabItems.Any())
             {
@@ -369,13 +364,9 @@ namespace Edge
             set => tabView.SelectedItem = value;
         }
 
-        private void OpenClosedTabs(object sender, RoutedEventArgs e)
+        private void OpenClosedTab(object sender, RoutedEventArgs e)
         {
-            foreach (var item in App.ClosedTabs)
-            {
-                tabView.TabItems.Add(item);
-            }
-            App.ClosedTabs.Clear();
+            AddNewTab(new WebViewPage() { WebUri = App.Histories.Last().Source });
         }
         private void PinTab(object sender, RoutedEventArgs e)
         {
