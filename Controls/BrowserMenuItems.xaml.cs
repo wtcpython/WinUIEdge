@@ -59,16 +59,14 @@ namespace Edge
         private async void ScreenClip(object sender, RoutedEventArgs e)
         {
             CoreWebView2 coreWebView2 = App.GetCoreWebView2(this);
-            using (var stream = new InMemoryRandomAccessStream())
-            {
-                await coreWebView2.CapturePreviewAsync(CoreWebView2CapturePreviewImageFormat.Png, stream);
+            using InMemoryRandomAccessStream stream = new();
+            await coreWebView2.CapturePreviewAsync(CoreWebView2CapturePreviewImageFormat.Png, stream);
 
-                BitmapImage bitmapImage = new();
-                stream.Seek(0);
-                await bitmapImage.SetSourceAsync(stream);
+            BitmapImage bitmapImage = new();
+            stream.Seek(0);
+            await bitmapImage.SetSourceAsync(stream);
 
-                await ShowScreenshotDialog(bitmapImage);
-            }
+            await ShowScreenshotDialog(bitmapImage);
         }
 
         private async Task ShowScreenshotDialog(BitmapImage screenshot)

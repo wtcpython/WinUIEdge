@@ -24,7 +24,7 @@ namespace Edge
             IWshShortcut shortcut = shell.CreateShortcut(filepath);
 
             fileControl.FullPath = shortcut.FullName;
-            fileControl.TypeName = Info.LanguageDict[ext].ToString();
+            fileControl.TypeName = Info.LanguageDict.RootElement.GetProperty(ext).ToString();
 
             shortcutName.Text = Path.GetFileNameWithoutExtension(shortcut.FullName);
 

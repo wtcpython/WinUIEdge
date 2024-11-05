@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Media.Animation;
 using System;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using Windows.Foundation;
 
 namespace Edge
@@ -112,7 +113,7 @@ namespace Edge
                         string ext = fileInfo.Extension;
 
                         MainWindow mainWindow = App.GetWindowForElement(this);
-                        if (Info.LanguageDict.ContainsKey(ext))
+                        if (Info.LanguageDict.RootElement.TryGetProperty(ext, out JsonElement _))
                         {
                             if (ext == ".lnk")
                             {
@@ -124,7 +125,7 @@ namespace Edge
                             }
                         }
 
-                        else if (Info.ImageDict.ContainsKey(ext))
+                        else if (Info.ImageDict.RootElement.TryGetProperty(ext, out JsonElement _))
                         {
                             mainWindow.AddNewTab(new ImageViewer(text), fileInfo.Name);
                         }

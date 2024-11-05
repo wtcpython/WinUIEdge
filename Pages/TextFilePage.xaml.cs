@@ -29,7 +29,7 @@ namespace Edge
             this.InitializeComponent();
 
             string ext = Path.GetExtension(filepath);
-            typeName = Info.LanguageDict[ext].ToString();
+            typeName = Info.LanguageDict.RootElement.GetProperty(ext).ToString();
 
             // 加载编码列表
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
@@ -135,12 +135,6 @@ namespace Edge
                 Run remainingTextRun = new() { Text = content.Substring(lastEnd) };
                 block.Inlines.Add(remainingTextRun);
             }
-        }
-
-        private static Regex BuildRegex(string[] keywords)
-        {
-            string pattern = @"\b(?:" + string.Join("|", keywords) + @")\b";
-            return new Regex(pattern, RegexOptions.IgnoreCase);
         }
     }
 }
