@@ -21,7 +21,8 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Text="主页" CharacterSpacing="200" FontSize="25" Margin="20,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontFamily="Microsoft Jhenghei UI"/>
+        <!-- 删除 主页 标签 -->
+        <!-- <TextBlock Text="主页" CharacterSpacing="200" FontSize="25" Margin="20,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontFamily="Microsoft Jhenghei UI"/> -->
 
         <local:BrowserMenuItems Grid.Column="2" HorizontalAlignment="Right"/>
 
