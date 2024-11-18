@@ -17,7 +17,7 @@ namespace Edge
     public sealed partial class AppearanceItem : Page
     {
         public static bool inLoading = false;
-        public Dictionary<string, bool> ToolBar = JsonSerializer.Deserialize<Dictionary<string, bool>>(App.settings["ToolBar"].ToString());
+        public Dictionary<string, bool> ToolBar = JsonSerializer.Deserialize<Dictionary<string, bool>>(App.settings["ToolBar"].ToJsonString());
         public List<ToolBarVisual> ToolBarVisualList = [];
         public List<string> themeList = [.. Enum.GetNames(typeof(ElementTheme))];
         public AppearanceItem()
@@ -32,7 +32,7 @@ namespace Edge
 
             inLoading = true;
             appearanceView.SelectedIndex = themeList.IndexOf(App.settings["Appearance"].ToString());
-            showMicaSwitch.IsOn = App.settings["ShowMicaIfEnabled"].GetBoolean();
+            showMicaSwitch.IsOn = App.settings["ShowMicaIfEnabled"].GetValue<bool>();
             inLoading = false;
         }
 
@@ -41,7 +41,7 @@ namespace Edge
             if (!inLoading)
             {
                 int index = appearanceView.SelectedIndex;
-                App.settings["Appearance"] = App.ToJsonElement(themeList[index]);
+                App.settings["Appearance"] = themeList[index];
 
                 foreach (Window window in App.mainWindows)
                 {
@@ -57,7 +57,7 @@ namespace Edge
                 if ((sender as ToggleSwitch).Name == visual.Text)
                 {
                     ToolBar[visual.Text] = (sender as ToggleSwitch).IsOn;
-                    App.settings["ToolBar"] = App.ToJsonElement(ToolBar);
+                    App.settings["ToolBar"] = JsonSerializer.SerializeToNode(ToolBar);
                 }
             }
         }
@@ -66,7 +66,7 @@ namespace Edge
         {
             if (!inLoading)
             {
-                App.settings["ShowMicaIfEnabled"] = App.ToJsonElement((sender as ToggleSwitch).IsOn);
+                App.settings["ShowMicaIfEnabled"] = (sender as ToggleSwitch).IsOn;
 
                 foreach (Window window in App.mainWindows)
                 {

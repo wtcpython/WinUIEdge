@@ -27,15 +27,15 @@ namespace Edge
 
         private void InitializeToolbarVisibility()
         {
-            homeButton.Visibility = App.settings["ToolBar"].GetProperty("HomeButton").GetBoolean() ? Visibility.Visible : Visibility.Collapsed;
-            historyButton.Visibility = App.settings["ToolBar"].GetProperty("HistoryButton").GetBoolean() ? Visibility.Visible : Visibility.Collapsed;
-            downloadButton.Visibility = App.settings["ToolBar"].GetProperty("DownloadButton").GetBoolean() ? Visibility.Visible : Visibility.Collapsed;
+            homeButton.Visibility = App.settings["ToolBar"]!["HomeButton"].GetValue<bool>() ? Visibility.Visible : Visibility.Collapsed;
+            historyButton.Visibility = App.settings["ToolBar"]!["HistoryButton"].GetValue<bool>() ? Visibility.Visible : Visibility.Collapsed;
+            downloadButton.Visibility = App.settings["ToolBar"]!["DownloadButton"].GetValue<bool>() ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void SetNavigationButtonStatus()
         {
             uriGoBackButton.IsEnabled = EdgeWebViewEngine.CanGoBack;
-            uriGoForwardButton.Visibility = App.settings["ToolBar"].GetProperty("ForwardButton").GetBoolean() && EdgeWebViewEngine.CanGoForward
+            uriGoForwardButton.Visibility = App.settings["ToolBar"]!["ForwardButton"].GetValue<bool>() && EdgeWebViewEngine.CanGoForward
                 ? Visibility.Visible : Visibility.Collapsed;
         }
 
@@ -153,7 +153,7 @@ namespace Edge
 
         private async void CoreWebView2_DownloadStarting(CoreWebView2 sender, CoreWebView2DownloadStartingEventArgs args)
         {
-            if (!App.settings["AskDownloadBehavior"].GetBoolean()) return;
+            if (!App.settings["AskDownloadBehavior"].GetValue<bool>()) return;
 
             args.Handled = true;
             var hwnd = this.GetWindowHandle();
@@ -162,7 +162,7 @@ namespace Edge
             args.ResultFilePath = file.Path;
             downloadButton.DownloadList.Add(new DownloadObject(args.DownloadOperation));
 
-            if (App.settings["ShowFlyoutWhenStartDownloading"].GetBoolean())
+            if (App.settings["ShowFlyoutWhenStartDownloading"].GetValue<bool>())
             {
                 downloadButton.ShowFlyout();
             }
