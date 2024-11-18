@@ -2,9 +2,8 @@ using Edge.Data;
 using Edge.Utilities;
 using Microsoft.UI.Xaml.Controls;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
+using System.Text.Json.Nodes;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
@@ -13,7 +12,7 @@ namespace Edge
 {
     public sealed partial class StartItem : Page
     {
-        public Dictionary<string, bool> ToolBar = JsonSerializer.Deserialize<Dictionary<string, bool>>(App.settings["ToolBar"].ToJsonString());
+        public JsonObject ToolBar = App.settings["ToolBar"].AsObject();
         public StartItem()
         {
             this.InitializeComponent();
@@ -22,7 +21,7 @@ namespace Edge
             uriBox.Text = App.settings["SpecificUri"].ToString();
             uriBox.IsEnabled = radios.SelectedIndex == 2;
 
-            setHomeButton.IsOn = ToolBar["HomeButton"];
+            setHomeButton.IsOn = ToolBar["HomeButton"].GetValue<bool>();
             searchEngineBox.ItemsSource = Info.SearchEngineList.Select(x => x.Name);
             searchEngineBox.SelectedItem = Info.SearchEngineList.Select(x => x.Name).First(name => name == App.settings["SearchEngine"].ToString());
 
@@ -39,7 +38,7 @@ namespace Edge
         private void HomeButtonVisualChanged(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             ToolBar["HomeButton"] = setHomeButton.IsOn;
-            App.settings["ToolBar"] = JsonSerializer.SerializeToNode(ToolBar);
+            App.settings["ToolBar"] = ToolBar;
         }
 
         private void SearchEngineChanged(object sender, SelectionChangedEventArgs e)

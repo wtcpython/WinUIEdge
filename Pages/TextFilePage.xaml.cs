@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -97,12 +98,12 @@ namespace Edge
 
         private void SetHighlightContent(string content)
         {
-            List<string> keywords;
-            if (!Info.HighlightKeyWords.TryGetValue(typeName, out keywords))
+            if (!Info.HighlightKeyWords.TryGetProperty(typeName, out var property))
             {
                 block.Text = content;
                 return;
             }
+            IEnumerable<string> keywords = property.EnumerateArray().ToList().Select(x => x.ToString());
 
             string pattern = @"\b(?:" + string.Join("|", keywords) + @")\b";
             Regex regex = new(pattern, RegexOptions.IgnoreCase);

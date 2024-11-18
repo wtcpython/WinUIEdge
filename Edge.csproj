@@ -13,15 +13,6 @@
     <EnableMsixTooling>true</EnableMsixTooling>
     <DefaultLanguage>zh-hans-cn</DefaultLanguage>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
-    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
-    <GenerateTestArtifacts>True</GenerateTestArtifacts>
-    <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
-    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-    <PackageCertificateThumbprint>AB3A77AC66EBEF74B79E30655AE69887D9B08A90</PackageCertificateThumbprint>
   </PropertyGroup>
   <ItemGroup>
     <COMReference Include="IWshRuntimeLibrary">
@@ -47,9 +38,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0-preview1" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0-preview2" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.241112-preview1" />
     <PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.2.241112-preview1" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2792.45" />
     <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.106" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.241106002" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
