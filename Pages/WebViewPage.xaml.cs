@@ -6,6 +6,7 @@ using Microsoft.Web.WebView2.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.Foundation;
 
 namespace Edge
 {
@@ -151,21 +152,32 @@ namespace Edge
             return newItem;
         }
 
-        private async void CoreWebView2_DownloadStarting(CoreWebView2 sender, CoreWebView2DownloadStartingEventArgs args)
+        private void CoreWebView2_DownloadStarting(CoreWebView2 sender, CoreWebView2DownloadStartingEventArgs args)
         {
-            if (!App.settings["AskDownloadBehavior"].GetValue<bool>()) return;
+            Deferral deferral = args.GetDeferral();
 
-            args.Handled = true;
-            var hwnd = this.GetWindowHandle();
-            var file = await Utilities.Utilities.SaveFile(args.ResultFilePath, hwnd);
-
-            args.ResultFilePath = file.Path;
-            downloadButton.DownloadList.Add(new DownloadObject(args.DownloadOperation));
-
-            if (App.settings["ShowFlyoutWhenStartDownloading"].GetValue<bool>())
+            System.Threading.SynchronizationContext.Current.Post(async (_) =>
             {
-                downloadButton.ShowFlyout();
-            }
+                using (deferral)
+                {
+                    args.Handled = true;
+                    var hwnd = this.GetWindowHandle();
+                    var file = await Utilities.Utilities.SaveFile(args.ResultFilePath, hwnd);
+                    if (file != null)
+                    {
+                        args.ResultFilePath = file.Path;
+                        downloadButton.DownloadList.Add(new DownloadObject(args.DownloadOperation));
+                        if (App.settings["ShowFlyoutWhenStartDownloading"].GetValue<bool>())
+                        {
+                            downloadButton.ShowFlyout();
+                        }
+                    }
+                    else
+                    {
+                        args.Cancel = true;
+                    }
+                }
+            }, null);
         }
 
         private void CoreWebView2_NewWindowRequested(CoreWebView2 sender, CoreWebView2NewWindowRequestedEventArgs args)
