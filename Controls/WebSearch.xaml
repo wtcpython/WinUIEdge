@@ -39,12 +39,12 @@
                     SelectionMode="Single">
 
                     <GridView.ItemTemplate>
-                        <DataTemplate>
+                        <DataTemplate x:DataType="data:WebsiteInfo" xmlns:data="using:Edge.Data">
 
                             <Image Width="20" Height="20"
-                                   ToolTipService.ToolTip="{Binding Name}">
+                                   ToolTipService.ToolTip="{x:Bind Name}">
                                 <Image.Source>
-                                    <BitmapImage UriSource="{Binding Icon}"/>
+                                    <BitmapImage UriSource="{x:Bind Icon}"/>
                                 </Image.Source>
                             </Image>
 

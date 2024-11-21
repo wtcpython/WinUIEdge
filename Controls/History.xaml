@@ -40,19 +40,19 @@
                                     <ToolTipService.ToolTip>
                                         <ToolTip>
                                             <StackPanel>
-                                                <TextBlock Text="{Binding DocumentTitle}"/>
-                                                <TextBlock Text="{Binding Source}"/>
+                                                <TextBlock Text="{x:Bind DocumentTitle}"/>
+                                                <TextBlock Text="{x:Bind Source}"/>
                                             </StackPanel>
                                         </ToolTip>
                                     </ToolTipService.ToolTip>
 
-                                    <ImageIcon Source="{Binding FaviconUri}" Width="30" Height="30"/>
+                                    <ImageIcon Source="{x:Bind FaviconUri}" Width="30" Height="30"/>
 
                                     <TextBlock
-                                        Text="{Binding DocumentTitle}" Width="230" TextTrimming="CharacterEllipsis"
+                                        Text="{x:Bind DocumentTitle}" Width="230" TextTrimming="CharacterEllipsis"
                                         VerticalAlignment="Center"/>
 
-                                    <TextBlock Name="timeBlock" Text="{Binding Time}"
+                                    <TextBlock Name="timeBlock" Text="{x:Bind Time}"
                                                VerticalAlignment="Center" HorizontalAlignment="Right"/>
 
                                 </StackPanel>

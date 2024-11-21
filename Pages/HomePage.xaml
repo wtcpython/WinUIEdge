@@ -37,25 +37,25 @@
             </GridView.ItemContainerStyle>
             
             <GridView.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="data:WebsiteInfo" xmlns:data="using:Edge.Data">
 
                     <StackPanel Width="64" Margin="10"
-                                ToolTipService.ToolTip="{Binding Uri}">
+                                ToolTipService.ToolTip="{x:Bind Uri}">
                         <Image Width="32" Height="32">
                             <Image.Source>
-                                <BitmapImage UriSource="{Binding Icon}"/>
+                                <BitmapImage UriSource="{x:Bind Icon}"/>
                             </Image.Source>
                         </Image>
-                        <TextBlock Text="{Binding Name}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{x:Bind Name}" HorizontalAlignment="Center"/>
                         <StackPanel.ContextFlyout>
                             <MenuFlyout>
-                                <MenuFlyoutItem Text="打开" CommandParameter="{Binding Uri}" Click="OpenWebSite">
+                                <MenuFlyoutItem Text="打开" CommandParameter="{x:Bind Uri}" Click="OpenWebSite">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xe8a7;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
 
-                                <MenuFlyoutItem Text="隐藏" CommandParameter="{Binding Name}" Click="HideItem">
+                                <MenuFlyoutItem Text="隐藏" CommandParameter="{x:Bind Name}" Click="HideItem">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xed1a;"/>
                                     </MenuFlyoutItem.Icon>
