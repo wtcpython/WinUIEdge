@@ -13,18 +13,18 @@ namespace Edge
 
             DownloadFolderCard.Description = App.webView2.CoreWebView2.Profile.DefaultDownloadFolderPath;
 
-            setDownloadBehavior.IsOn = App.settings["AskDownloadBehavior"].GetBoolean();
-            setDownloadFlyout.IsOn = App.settings["ShowFlyoutWhenStartDownloading"].GetBoolean();
+            setDownloadBehavior.IsOn = App.settings["AskDownloadBehavior"].GetValue<bool>();
+            setDownloadFlyout.IsOn = App.settings["ShowFlyoutWhenStartDownloading"].GetValue<bool>();
         }
 
         private void DownloadBehaviorChanged(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
-            App.settings["AskDownloadBehavior"] = App.ToJsonElement(setDownloadBehavior.IsOn);
+            App.settings["AskDownloadBehavior"] = setDownloadBehavior.IsOn;
         }
 
         private void ShowFlyoutChanged(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
-            App.settings["ShowFlyoutWhenStartDownloading"] = App.ToJsonElement(setDownloadFlyout.IsOn);
+            App.settings["ShowFlyoutWhenStartDownloading"] = setDownloadFlyout.IsOn;
         }
 
         private async void ChangeDownloadFolder(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)

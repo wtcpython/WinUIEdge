@@ -19,9 +19,19 @@ namespace Edge.Data
     {
         public static JsonDocument LanguageDict = JsonDocument.Parse(ReadPackageFileText("/Data/LanguageType.json"));
         public static JsonDocument ImageDict = JsonDocument.Parse(ReadPackageFileText("/Data/ImageType.json"));
-        public static List<WebsiteInfo> SearchEngineList = JsonSerializer.Deserialize<List<WebsiteInfo>>(ReadPackageFileText("/Data/SearchEngine.json"))!;
-        public static ObservableCollection<WebsiteInfo> SuggestWebsiteList = JsonSerializer.Deserialize<ObservableCollection<WebsiteInfo>>(ReadPackageFileText("/Data/SuggestWebsite.json"))!;
-        public static Dictionary<string, List<string>> HighlightKeyWords = JsonSerializer.Deserialize<Dictionary<string, List<string>>>(ReadPackageFileText("/Data/HighlightData.json"))!;
+        public static List<WebsiteInfo> SearchEngineList = JsonDocument.Parse(ReadPackageFileText("/Data/SearchEngine.json"))!.RootElement.EnumerateArray().Select(x => new WebsiteInfo()
+        {
+            Name = x.GetProperty("Name").GetString(),
+            Icon = x.GetProperty("Icon").GetString(),
+            Uri = x.GetProperty("Uri").GetString()
+        }).ToList();
+        public static List<WebsiteInfo> SuggestWebsiteList = JsonDocument.Parse(ReadPackageFileText("/Data/SuggestWebsite.json"))!.RootElement.EnumerateArray().Select(x => new WebsiteInfo()
+        {
+            Name = x.GetProperty("Name").GetString(),
+            Icon = x.GetProperty("Icon").GetString(),
+            Uri = x.GetProperty("Uri").GetString()
+        }).ToList();
+        public static JsonElement HighlightKeyWords = JsonDocument.Parse(ReadPackageFileText("/Data/HighlightData.json"))!.RootElement;
 
         public static string ReadPackageFileText(string path)
         {

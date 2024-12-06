@@ -96,7 +96,7 @@ namespace Edge
 
         public void AddHomePage()
         {
-            string uri = App.settings["SpecificUri"].GetString();
+            string uri = App.settings["SpecificUri"].ToString();
             if (uri != string.Empty)
             {
                 AddNewTab(new WebViewPage() { WebUri = uri });

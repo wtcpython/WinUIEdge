@@ -12,24 +12,19 @@ using Windows.Storage;
 
 namespace Edge
 {
-    public class DownloadObject : ObservableObject
+    public partial class DownloadObject : ObservableObject
     {
         public CoreWebView2DownloadOperation Operation { get; set; }
         public string Title { get; set; }
-        private long bytesReceived;
-        public long BytesReceived
-        {
-            get => bytesReceived;
-            set => SetProperty(ref bytesReceived, value);
-        }
-        public long TotalBytes { get; set; }
+
+        [ObservableProperty]
+        private double bytesReceived;
+
+        public double TotalBytes { get; set; }
+
+        [ObservableProperty]
         private string information;
 
-        public string Information
-        {
-            get => information;
-            set => SetProperty(ref information, value);
-        }
 
         public string Time { get; set; }
         public DateTime DateTime { get; set; }

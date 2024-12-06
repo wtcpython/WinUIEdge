@@ -61,11 +61,11 @@
 ## 使用本软件的最低要求
 
 1. 最新版本的 [Microsoft Edge WebView2 Runtime](https://developer.microsoft.com/zh-cn/microsoft-edge/webview2/)
-2. Windows 10 Build 19041+ 或 Windows 11 系统
+2. Windows 11 21H2 (Build 22000.0) 或更高版本
 
 ## 如何从源代码构建
 
 1. [Visual Studio 2022 Community](https://visualstudio.microsoft.com/zh-hans/vs/)
 2. 确保安装 `.NET 桌面开发`， `通用 Windows 平台开发` 等组件
-3. [.NET 8.0](https://dotnet.microsoft.com/zh-cn/download/dotnet/8.0)
+3. [.NET 9.0](https://dotnet.microsoft.com/zh-cn/download/dotnet/9.0)
 4. `NuGet` 包

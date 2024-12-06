@@ -52,16 +52,16 @@
                                 <StackPanel Orientation="Horizontal" Spacing="5">
 
                                     <StackPanel Grid.Column="0" Width="320" Spacing="5">
-                                        <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis"/>
+                                        <TextBlock Text="{x:Bind Title}" TextTrimming="CharacterEllipsis"/>
 
                                         <ProgressBar
-                                            Value="{Binding BytesReceived}" Maximum="{Binding TotalBytes}"/>
+                                            Value="{x:Bind BytesReceived, Mode=TwoWay}" Maximum="{x:Bind TotalBytes, Mode=TwoWay}"/>
 
-                                        <TextBlock Text="{Binding Information}" TextTrimming="CharacterEllipsis"/>
+                                        <TextBlock Text="{x:Bind Information, Mode=TwoWay}" TextTrimming="CharacterEllipsis"/>
 
                                     </StackPanel>
 
-                                    <Button CommandParameter="{Binding Time}" Click="RemoveDownloadItem">
+                                    <Button CommandParameter="{x:Bind Time}" Click="RemoveDownloadItem">
                                         <Button.Content>
                                             <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe711;"/>
                                         </Button.Content>
