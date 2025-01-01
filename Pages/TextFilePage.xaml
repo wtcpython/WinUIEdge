@@ -6,6 +6,7 @@
     xmlns:local="using:Edge"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:editor="using:WinUIEditor"
     mc:Ignorable="d">
 
     <Grid Margin="10,0,0,5" ColumnSpacing="10">
@@ -24,9 +25,8 @@
         <TextBlock x:Name="FullPath" Grid.Column="0" VerticalAlignment="Center"/>
         <local:BrowserMenuItems Grid.Column="2" HorizontalAlignment="Right"/>
 
-        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Row="1" Grid.ColumnSpan="3">
-            <TextBlock Name="block" IsTextSelectionEnabled="True" TextWrapping="WrapWholeWords"/>
-        </ScrollViewer>
+        <editor:CodeEditorControl
+            x:Name="editor" Grid.Row="1" Grid.ColumnSpan="3"/>
 
         <TextBlock x:Name="LengthInfo" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
 
@@ -44,7 +44,7 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
 
-        <TextBlock x:Name="EOF" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <TextBlock x:Name="EOL" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
         <TextBlock x:Name="TypeName" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center"/>
     </Grid>
 </Page>

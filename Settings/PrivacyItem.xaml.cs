@@ -39,7 +39,7 @@ namespace Edge
             new() { Title = "严格", Description = ["阻止来自所有站点的大多数跟踪器", "内容和广告的个性化程度可能降至最低", "部分站点可能无法工作", "阻止已知的有害跟踪器"] },
         ];
 
-        public List<string> trackLevelList = [.. Enum.GetNames(typeof(CoreWebView2TrackingPreventionLevel))];
+        public List<string> trackLevelList = [.. Enum.GetNames<CoreWebView2TrackingPreventionLevel>()];
 
         public PrivacyItem()
         {

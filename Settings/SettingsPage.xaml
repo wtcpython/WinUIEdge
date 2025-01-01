@@ -15,7 +15,7 @@
         IsBackButtonVisible="Collapsed"
         SelectionChanged="NavigationView_SelectionChanged">
         <NavigationView.MenuItems>
-            <NavigationViewItem Content="隐私和安全" Tag="PrivacyItem">
+            <NavigationViewItem Content="隐私、搜索和服务" Tag="PrivacyItem">
                 <NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xE72E;" />
                 </NavigationViewItem.Icon>
@@ -25,7 +25,7 @@
                     <FontIcon Glyph="&#xE790;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-            <NavigationViewItem Content="开始、主页和新建标签页" Tag="StartItem">
+            <NavigationViewItem Content="启动、主页和新建选项卡页" Tag="StartItem">
                 <NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xEc6c;" />
                 </NavigationViewItem.Icon>

@@ -31,7 +31,6 @@ namespace Edge.Data
             Icon = x.GetProperty("Icon").GetString(),
             Uri = x.GetProperty("Uri").GetString()
         }).ToList();
-        public static JsonElement HighlightKeyWords = JsonDocument.Parse(ReadPackageFileText("/Data/HighlightData.json"))!.RootElement;
 
         public static string ReadPackageFileText(string path)
         {

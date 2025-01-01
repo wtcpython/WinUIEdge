@@ -50,7 +50,7 @@ namespace Edge
             string lastWord = text.Split(' ').Last().ToLower();
             if (!string.IsNullOrEmpty(lastWord))
             {
-                var result = App.searchEngine.SearchWords(lastWord).Take(10);
+                var result = App.searchEngine.SearchWords(lastWord).Take(10).ToList();
                 listView.ItemsSource = result;
             }
         }
