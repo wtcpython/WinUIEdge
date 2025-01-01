@@ -1,4 +1,3 @@
-using Edge.Data;
 using IWshRuntimeLibrary;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;

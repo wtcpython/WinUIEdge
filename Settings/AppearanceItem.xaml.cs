@@ -16,10 +16,10 @@ namespace Edge
 
     public sealed partial class AppearanceItem : Page
     {
-        public static bool inLoading = false;
+        private static bool inLoading = false;
         public JsonObject ToolBar = App.settings["ToolBar"].AsObject();
         public List<ToolBarVisual> ToolBarVisualList = [];
-        public List<string> themeList = [.. Enum.GetNames(typeof(ElementTheme))];
+        public List<string> themeList = [.. Enum.GetNames<ElementTheme>()];
         public AppearanceItem()
         {
             this.InitializeComponent();

@@ -25,12 +25,12 @@ namespace Edge.Data
             Icon = x.GetProperty("Icon").GetString(),
             Uri = x.GetProperty("Uri").GetString()
         }).ToList();
-        public static List<WebsiteInfo> SuggestWebsiteList = JsonDocument.Parse(ReadPackageFileText("/Data/SuggestWebsite.json"))!.RootElement.EnumerateArray().Select(x => new WebsiteInfo()
+        public static ObservableCollection<WebsiteInfo> SuggestWebsiteList = new(JsonDocument.Parse(ReadPackageFileText("/Data/SuggestWebsite.json"))!.RootElement.EnumerateArray().Select(x => new WebsiteInfo()
         {
             Name = x.GetProperty("Name").GetString(),
             Icon = x.GetProperty("Icon").GetString(),
             Uri = x.GetProperty("Uri").GetString()
-        }).ToList();
+        }));
 
         public static string ReadPackageFileText(string path)
         {

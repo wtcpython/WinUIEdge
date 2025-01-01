@@ -117,10 +117,6 @@ namespace Edge
         private void Image_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
         {
             int delta = e.GetCurrentPoint(image).Properties.MouseWheelDelta;
-            Point position = e.GetCurrentPoint(image).Position;
-
-            double centerOffsetX = position.X - (image.ActualWidth / 2);
-            double centerOffsetY = position.Y - (image.ActualHeight / 2);
 
             double scale = 1 + (delta / 1200.0);
 

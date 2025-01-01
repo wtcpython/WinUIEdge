@@ -39,17 +39,18 @@ namespace Edge
             new() { Title = "严格", Description = ["阻止来自所有站点的大多数跟踪器", "内容和广告的个性化程度可能降至最低", "部分站点可能无法工作", "阻止已知的有害跟踪器"] },
         ];
 
-        public List<string> trackLevelList = [.. Enum.GetNames<CoreWebView2TrackingPreventionLevel>()];
+        public List<CoreWebView2TrackingPreventionLevel> trackLevelList = [.. Enum.GetValues<CoreWebView2TrackingPreventionLevel>()];
 
         public PrivacyItem()
         {
             this.InitializeComponent();
             trackView.ItemsSource = TrackKindList;
 
-            bool isTrackOn = App.webView2.CoreWebView2.Profile.PreferredTrackingPreventionLevel != CoreWebView2TrackingPreventionLevel.None;
+            var level = App.webView2.CoreWebView2.Profile.PreferredTrackingPreventionLevel;
+            bool isTrackOn = level != CoreWebView2TrackingPreventionLevel.None;
             if (isTrackOn)
             {
-                trackView.SelectedIndex = trackLevelList.IndexOf(App.webView2.CoreWebView2.Profile.PreferredTrackingPreventionLevel.ToString()) - 1;
+                trackView.SelectedIndex = trackLevelList.IndexOf(level) - 1;
             }
             else
             {
@@ -77,7 +78,7 @@ namespace Edge
         {
             if ((sender as ToggleSwitch).IsOn)
             {
-                App.webView2.CoreWebView2.Profile.PreferredTrackingPreventionLevel = Enum.Parse<CoreWebView2TrackingPreventionLevel>(trackLevelList[trackView.SelectedIndex + 1].ToString());
+                App.webView2.CoreWebView2.Profile.PreferredTrackingPreventionLevel = trackLevelList[trackView.SelectedIndex + 1];
             }
             else
             {
@@ -89,7 +90,7 @@ namespace Edge
         {
             if (trackSwitch.IsOn)
             {
-                App.webView2.CoreWebView2.Profile.PreferredTrackingPreventionLevel = Enum.Parse<CoreWebView2TrackingPreventionLevel>(trackLevelList[trackView.SelectedIndex + 1].ToString());
+                App.webView2.CoreWebView2.Profile.PreferredTrackingPreventionLevel = trackLevelList[trackView.SelectedIndex + 1];
             }
         }
 
