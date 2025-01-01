@@ -18,41 +18,14 @@
             TextChanged="OnTextChanged"/>
         <Popup
             x:Name="SuggestionPopup">
-            <Grid
-                Name="panel"
+            <ListView
+                x:Name="listView"
                 Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
                 BorderBrush="{ThemeResource ButtonBorderThemeBrush}" 
                 BorderThickness="{ThemeResource ButtonBorderThemeThickness}"
                 CornerRadius="{ThemeResource ControlCornerRadius}"
-                Padding="10,10,0,0"
-                RowSpacing="10">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-
-                <TextBlock Name="box" Visibility="Collapsed"/>
-
-                <GridView 
-                    Name="View" Grid.Row="1"
-                    IsItemClickEnabled="True" ItemClick="SearchEngineClick"
-                    SelectionMode="Single">
-
-                    <GridView.ItemTemplate>
-                        <DataTemplate x:DataType="data:WebsiteInfo" xmlns:data="using:Edge.Data">
-
-                            <Image Width="20" Height="20"
-                                   ToolTipService.ToolTip="{x:Bind Name}">
-                                <Image.Source>
-                                    <BitmapImage UriSource="{x:Bind Icon}"/>
-                                </Image.Source>
-                            </Image>
-
-                        </DataTemplate>
-                    </GridView.ItemTemplate>
-                </GridView>
-
-            </Grid>
+                IsItemClickEnabled="True"
+                ItemClick="SuggestItemClick"/>
         </Popup>
     </StackPanel>
 </UserControl>

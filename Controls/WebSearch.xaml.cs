@@ -2,12 +2,10 @@ using Edge.Data;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media.Animation;
 using System;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using Windows.Foundation;
 
 namespace Edge
 {
@@ -22,8 +20,6 @@ namespace Edge
         public WebSearch()
         {
             this.InitializeComponent();
-            this.PointerPressed += OnGlobalPointerPressed;
-            View.ItemsSource = Info.SearchEngineList;
         }
 
         private void SearchBox_GotFocus(object sender, RoutedEventArgs e)
@@ -42,53 +38,20 @@ namespace Edge
             });
         }
 
-        private void OnGlobalPointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            var pointerPosition = e.GetCurrentPoint(this).Position;
-            var rect = SuggestionPopup.TransformToVisual(this).TransformBounds(new Rect(0, 0, SuggestionPopup.ActualWidth, SuggestionPopup.ActualHeight));
-
-            if (!rect.Contains(pointerPosition))
-            {
-                showPopup(false);
-            }
-        }
-
         private void showPopup(bool visible)
         {
-            panel.Width = SearchBox.ActualWidth;
-            if (visible)
-            {
-                SuggestionPopup.IsOpen = visible;
-            }
-
-            DoubleAnimation animation = new()
-            {
-                From = visible ? 0 : 1,
-                To = visible ? 1 : 0,
-                Duration = new Duration(TimeSpan.FromMilliseconds(200))
-            };
-            Storyboard storyboard = new();
-            storyboard.Children.Add(animation);
-            Storyboard.SetTarget(animation, SuggestionPopup);
-            Storyboard.SetTargetProperty(animation, "Opacity");
-            if (!visible)
-            {
-                storyboard.Completed += (s, e) => SuggestionPopup.IsOpen = visible;
-            }
-            storyboard.Begin();
+            SuggestionPopup.IsOpen = visible;
+            listView.Width = SearchBox.ActualWidth;
         }
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
             string text = (sender as TextBox).Text;
-            if (text == string.Empty)
+            string lastWord = text.Split(' ').Last().ToLower();
+            if (!string.IsNullOrEmpty(lastWord))
             {
-                box.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                box.Visibility = Visibility.Visible;
-                box.Text = $"使用默认搜索引擎 (或作为网址) 搜索：{text}";
+                var result = App.searchEngine.SearchWords(lastWord).Take(10);
+                listView.ItemsSource = result;
             }
         }
 
@@ -98,6 +61,21 @@ namespace Edge
             {
                 StartToSearch();
             }
+        }
+
+        private void SuggestItemClick(object sender, ItemClickEventArgs e)
+        {
+            string item = e.ClickedItem as string;
+            string text = SearchBox.Text;
+            int lastIndex = text.LastIndexOf(' ');
+            if (lastIndex == -1)
+            {
+                SearchBox.Text = item;
+                return;
+            }
+
+            string prefix = text[..lastIndex];
+            SearchBox.Text = $"{prefix} {item}";
         }
 
         private void StartToSearch()
@@ -159,11 +137,6 @@ namespace Edge
             {
                 mainWindow.AddNewTab(new WebViewPage() { WebUri = uri });
             }
-        }
-
-        private void SearchEngineClick(object sender, ItemClickEventArgs e)
-        {
-            Navigate((e.ClickedItem as WebsiteInfo).Uri + SearchBox.Text);
         }
     }
 }

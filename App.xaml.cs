@@ -24,10 +24,12 @@ namespace Edge
         public static JsonNode settings;
         public static WebView2 webView2 = new();
         public static ObservableCollection<WebViewHistory> Histories = [];
+        public static WordSearchEngine searchEngine;
 
         public App()
         {
             this.InitializeComponent();
+            searchEngine = new("ms-appx:///Assets/words.txt");
             EnsureWebView2Async();
         }
 
