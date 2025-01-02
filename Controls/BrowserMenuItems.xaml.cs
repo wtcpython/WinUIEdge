@@ -1,11 +1,11 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
-using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Windows.Storage.Streams;
+using System.Runtime.InteropServices;
+using Windows.Win32;
+using Windows.Win32.UI.Input.KeyboardAndMouse;
 
 namespace Edge
 {
@@ -56,34 +56,45 @@ namespace Edge
             App.mainWindows.ForEach(x => x.Close());
         }
 
-        private async void ScreenClip(object sender, RoutedEventArgs e)
+        private void ScreenClip(object sender, RoutedEventArgs e)
         {
-            CoreWebView2 coreWebView2 = App.GetCoreWebView2(this);
-            using InMemoryRandomAccessStream stream = new();
-            await coreWebView2.CapturePreviewAsync(CoreWebView2CapturePreviewImageFormat.Png, stream);
+            WebView2 webView2 = (App.GetWindowForElement(this).SelectedItem as WebViewPage).webView2;
+            webView2.Focus(FocusState.Programmatic);
 
-            BitmapImage bitmapImage = new();
-            stream.Seek(0);
-            await bitmapImage.SetSourceAsync(stream);
-
-            await ShowScreenshotDialog(bitmapImage);
-        }
-
-        private async Task ShowScreenshotDialog(BitmapImage screenshot)
-        {
-            ContentDialog dialog = new()
-            {
-                Title = "网页截图",
-                CloseButtonText = "关闭",
-                Content = new Image
+            List<INPUT> inputs =
+            [
+                new()
                 {
-                    Source = screenshot,
-                    Stretch = Microsoft.UI.Xaml.Media.Stretch.Uniform
+                    type = INPUT_TYPE.INPUT_KEYBOARD,
+                    Anonymous = { ki = { wVk = VIRTUAL_KEY.VK_CONTROL } }
                 },
-                XamlRoot = this.Content.XamlRoot
-            };
-
-            await dialog.ShowAsync();
+                new()
+                {
+                    type = INPUT_TYPE.INPUT_KEYBOARD,
+                    Anonymous = { ki = { wVk = VIRTUAL_KEY.VK_SHIFT } }
+                },
+                new()
+                {
+                    type = INPUT_TYPE.INPUT_KEYBOARD,
+                    Anonymous = { ki = { wVk = VIRTUAL_KEY.VK_S } }
+                },
+                new()
+                {
+                    type = INPUT_TYPE.INPUT_KEYBOARD,
+                    Anonymous = { ki = { wVk = VIRTUAL_KEY.VK_S, dwFlags = KEYBD_EVENT_FLAGS.KEYEVENTF_KEYUP } }
+                },
+                new()
+                {
+                    type = INPUT_TYPE.INPUT_KEYBOARD,
+                    Anonymous = { ki = { wVk = VIRTUAL_KEY.VK_SHIFT, dwFlags = KEYBD_EVENT_FLAGS.KEYEVENTF_KEYUP } }
+                },
+                new()
+                {
+                    type = INPUT_TYPE.INPUT_KEYBOARD,
+                    Anonymous = { ki = { wVk = VIRTUAL_KEY.VK_CONTROL, dwFlags = KEYBD_EVENT_FLAGS.KEYEVENTF_KEYUP } }
+                }
+            ];
+            PInvoke.SendInput(inputs.ToArray(), Marshal.SizeOf<INPUT>());
         }
 
         private void MenuFlyout_Opening(object sender, object e)

@@ -3,6 +3,7 @@ SetWindowSubclass
 FindWindowEx
 SendMessage
 DefSubclassProc
+SendInput
 
 WM_COPYDATA
 WM_SYSCOMMAND
