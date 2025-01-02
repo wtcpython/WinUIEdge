@@ -31,7 +31,7 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Text="下载" FontWeight="Bold" FontSize="16" Grid.Column="0" VerticalAlignment="Center"/>
-                        <TextBox Name="SearchDownloadBox" PlaceholderText="搜索下载项" Grid.Column="1" KeyDown="SearchDownload"/>
+                        <TextBox PlaceholderText="搜索 所有文件" Grid.Column="1" TextChanged="SearchDownload"/>
                         <Button Grid.Column="2" Click="OpenDownloadFolderRequest">
                             <FontIcon Glyph="&#xe8b7;"/>
                         </Button>

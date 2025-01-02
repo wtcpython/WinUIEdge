@@ -22,7 +22,7 @@
 
                     <StackPanel Width="400" Orientation="Horizontal" Spacing="5">
                         <TextBlock Text="历史记录" FontWeight="Bold" FontSize="16" VerticalAlignment="Center"/>
-                        <TextBox Name="SearchHistoryBox" PlaceholderText="搜索 历史记录" Width="230" KeyDown="SearchHistory" VerticalAlignment="Center"/>
+                        <TextBox PlaceholderText="搜索 历史记录" Width="230" TextChanged="SearchHistory" VerticalAlignment="Center"/>
                         <Button Style="{StaticResource AlternateCloseButtonStyle}" Click="DeleteHistoryRequest">
                             <FontIcon Glyph="&#xe74d;"/>
                         </Button>

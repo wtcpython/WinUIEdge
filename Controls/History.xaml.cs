@@ -34,12 +34,10 @@ namespace Edge
             App.Histories.Clear();
         }
 
-        private void SearchHistory(object sender, KeyRoutedEventArgs e)
+        private void SearchHistory(object sender, TextChangedEventArgs e)
         {
-            if (e.Key == Windows.System.VirtualKey.Enter || SearchHistoryBox.Text == string.Empty)
-            {
-                listView.ItemsSource = App.Histories.Where(x => x.DocumentTitle.Contains(SearchHistoryBox.Text));
-            }
+            string text = (sender as TextBox).Text;
+            listView.ItemsSource = App.Histories.Where(x => x.DocumentTitle.Contains(text, StringComparison.OrdinalIgnoreCase)).ToList();
         }
 
         public void ShowFlyout()

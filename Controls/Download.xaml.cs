@@ -82,12 +82,10 @@ namespace Edge
             DownloadList.Clear();
         }
 
-        private void SearchDownload(object sender, KeyRoutedEventArgs e)
+        private void SearchDownload(object sender, TextChangedEventArgs e)
         {
-            if (e.Key == Windows.System.VirtualKey.Enter || SearchDownloadBox.Text == string.Empty)
-            {
-                listView.ItemsSource = DownloadList.Where(x => x.Title.Contains(SearchDownloadBox.Text));
-            }
+            string text = (sender as TextBox).Text;
+            listView.ItemsSource = DownloadList.Where(x => x.Title.Contains(text, StringComparison.OrdinalIgnoreCase)).ToList();
         }
 
         public void ShowFlyout()
