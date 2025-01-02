@@ -42,14 +42,107 @@ namespace Edge
 
         private void WebView2Initialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
         {
-            sender.CoreWebView2.NavigationStarting += (s, e) => Search.Text = e.Uri;
-            sender.CoreWebView2.DOMContentLoaded += (s, e) => UpdatePageTitleAndHistory();
-            sender.CoreWebView2.DownloadStarting += CoreWebView2_DownloadStarting;
-            sender.CoreWebView2.NewWindowRequested += CoreWebView2_NewWindowRequested;
-            sender.CoreWebView2.StatusBarTextChanged += (s, e) => uriPreview.Text = s.StatusBarText;
             sender.CoreWebView2.ContextMenuRequested += CoreWebView2_ContextMenuRequested;
+            sender.CoreWebView2.DownloadStarting += CoreWebView2_DownloadStarting;
+            sender.CoreWebView2.DOMContentLoaded += (s, e) => UpdatePageTitleAndHistory();
+            sender.CoreWebView2.NavigationStarting += (s, e) => Search.Text = e.Uri;
+            sender.CoreWebView2.NewWindowRequested += CoreWebView2_NewWindowRequested;
+            sender.CoreWebView2.ScriptDialogOpening += CoreWebView2_ScriptDialogOpening;
+            sender.CoreWebView2.StatusBarTextChanged += (s, e) => uriPreview.Text = s.StatusBarText;
+            sender.CoreWebView2.WindowCloseRequested += CoreWebView2_WindowCloseRequested;
 
             sender.CoreWebView2.Settings.IsStatusBarEnabled = false;
+            sender.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = false;
+        }
+
+        private void CoreWebView2_WindowCloseRequested(CoreWebView2 sender, object args)
+        {
+            TabView tabView = App.GetWindowForElement(this).Content as TabView;
+            tabView.TabItems.Remove(tabView.SelectedItem);
+        }
+
+        private async void CoreWebView2_ScriptDialogOpening(CoreWebView2 sender, CoreWebView2ScriptDialogOpeningEventArgs args)
+        {
+            string title = $"{new Uri(args.Uri).Host} 显示";
+            if (args.Kind == CoreWebView2ScriptDialogKind.Alert)
+            {
+                ContentDialog dialog = new()
+                {
+                    Title = title,
+                    Content = args.Message,
+                    XamlRoot = this.XamlRoot,
+                    CloseButtonText = "确定",
+                    DefaultButton = ContentDialogButton.Close
+                };
+                await dialog.ShowAsync();
+            }
+            else if (args.Kind == CoreWebView2ScriptDialogKind.Confirm)
+            {
+                ContentDialog dialog = new()
+                {
+                    Title = title,
+                    Content = args.Message,
+                    XamlRoot = this.XamlRoot,
+                    PrimaryButtonText = "确定",
+                    SecondaryButtonText = "取消",
+                    DefaultButton = ContentDialogButton.Primary
+                };
+                ContentDialogResult result = await dialog.ShowAsync();
+                if (result == ContentDialogResult.Primary)
+                {
+                    args.Accept();
+                }
+            }
+            else if (args.Kind == CoreWebView2ScriptDialogKind.Prompt)
+            {
+                TextBox box = new()
+                {
+                    Text = args.DefaultText,
+                };
+                ContentDialog dialog = new()
+                {
+                    Title = title,
+                    Content = new StackPanel()
+                    {
+                        Children =
+                        {
+                            new TextBlock() { Text = args.Message },
+                            box
+                        }
+                    },
+                    XamlRoot = this.XamlRoot,
+                    PrimaryButtonText = "确定",
+                    SecondaryButtonText = "取消",
+                    DefaultButton = ContentDialogButton.Primary
+                };
+                ContentDialogResult result = await dialog.ShowAsync();
+                if (result == ContentDialogResult.Primary)
+                {
+                    args.ResultText = box.Text;
+                    args.Accept();
+                }
+            }
+            else if (args.Kind == CoreWebView2ScriptDialogKind.Beforeunload)
+            {
+                ContentDialog dialog = new()
+                {
+                    Title = "是否离开网站？",
+                    Content = "你所做的更改可能未保存。",
+                    XamlRoot = this.XamlRoot,
+                    PrimaryButtonText = "确定",
+                    SecondaryButtonText = "取消",
+                    DefaultButton = ContentDialogButton.Primary
+                };
+                ContentDialogResult result = await dialog.ShowAsync();
+                if (result == ContentDialogResult.Primary)
+                {
+                    args.Accept();
+                }
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }    
         }
 
         private void UpdatePageTitleAndHistory()
@@ -72,8 +165,7 @@ namespace Edge
         private void UpdateTabIconAndTitle(MainWindow mainWindow)
         {
             var tabView = mainWindow.Content as TabView;
-            var tabItem = tabView?.TabItems
-                .FirstOrDefault(x => ((x as TabViewItem)?.Content as Page) == this) as TabViewItem;
+            var tabItem = tabView.TabItems.OfType<TabViewItem>().FirstOrDefault(x => (x.Content as Page) == this);
 
             if (tabItem != null)
             {
@@ -214,5 +306,6 @@ namespace Edge
         }
 
         public CoreWebView2 CoreWebView2 => EdgeWebViewEngine.CoreWebView2;
+        public WebView2 webView2 => EdgeWebViewEngine;
     }
 }
