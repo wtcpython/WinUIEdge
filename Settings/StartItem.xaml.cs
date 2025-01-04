@@ -22,7 +22,7 @@ namespace Edge
             uriBox.IsEnabled = radios.SelectedIndex == 2;
 
             setHomeButton.IsOn = ToolBar["HomeButton"].GetValue<bool>();
-            searchEngineBox.ItemsSource = Info.SearchEngineList.Select(x => x.Name);
+            searchEngineBox.ItemsSource = Info.SearchEngineList.Select(x => x.Name).ToList();
             searchEngineBox.SelectedItem = Info.SearchEngineList.Select(x => x.Name).First(name => name == App.settings["SearchEngine"].ToString());
 
             showSuggestUri.IsOn = App.settings["ShowSuggestUri"].GetValue<bool>();

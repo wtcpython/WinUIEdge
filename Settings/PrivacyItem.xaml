@@ -26,9 +26,14 @@
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="local:TrackKind">
                         <StackPanel Margin="10">
-                            <TextBlock Text="{x:Bind Title}" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="10"/>
-
-                            <ListView ItemsSource="{x:Bind Description}" SelectionMode="None"/>
+                            <TextBlock Text="{x:Bind Title}" Style="{ThemeResource TitleTextBlockStyle}" Margin="10"/>
+                            <ItemsControl ItemsSource="{x:Bind Description}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" Margin="10"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
                         </StackPanel>
                     </DataTemplate>
                 </GridView.ItemTemplate>

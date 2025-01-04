@@ -69,10 +69,12 @@
 
         </Grid>
 
-        <WebView2 Name="EdgeWebViewEngine" Grid.Row="1"/>
+        <Border BorderThickness="5" Grid.Row="1">
+            <WebView2 Name="EdgeWebViewEngine" CoreWebView2Initialized="WebView2Initialized"/>
+        </Border>
 
         <Border
-            Background="{ThemeResource LayerOnMicaBaseAltFillColorTertiaryBrush}" CornerRadius="5"
+            Background="{ThemeResource LayerOnMicaBaseAltFillColorTertiaryBrush}" CornerRadius="{ThemeResource ControlCornerRadius}"
             MaxWidth="400" Height="24" Grid.Row="1"
             HorizontalAlignment="Left" VerticalAlignment="Bottom">
             <TextBlock

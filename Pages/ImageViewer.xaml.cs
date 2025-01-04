@@ -85,10 +85,9 @@ namespace Edge
             }
         }
 
-        private async void ImageOpened(object sender, RoutedEventArgs e)
+        private void ImageOpened(object sender, RoutedEventArgs e)
         {
-            StorageFile file = await StorageFile.GetFileFromPathAsync(fileInfo.FullName);
-            imageNameBlock.Text = file.Name;
+            imageNameBlock.Text = fileInfo.Name;
             imagePixel.Text = $"{source.PixelWidth} x {source.PixelHeight}";
             imageSize.Text = Converters.ToFileSizeString(fileInfo.Length);
         }

@@ -115,9 +115,10 @@ namespace Edge
                 Header = header,
                 Content = content
             };
-            if (content is WebViewPage)
+            if (content is WebViewPage web)
             {
                 newTab.ContextFlyout = TabFlyout;
+                web.tabViewItem = newTab;
             }
 
             int insertIndex = index >= 0 ? index : tabView.TabItems.Count;
