@@ -49,25 +49,25 @@
                     <ListView x:Name="listView" SelectionMode="Single">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="local:DownloadObject">
-                                <StackPanel Orientation="Horizontal" Spacing="5">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="5*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
 
-                                    <StackPanel Grid.Column="0" Width="320" Spacing="5">
+                                    <StackPanel Padding="0,10,0,10" Spacing="5">
                                         <TextBlock Text="{x:Bind Title}" TextTrimming="CharacterEllipsis"/>
-
                                         <ProgressBar
                                             Value="{x:Bind BytesReceived, Mode=TwoWay}" Maximum="{x:Bind TotalBytes, Mode=TwoWay}"/>
-
                                         <TextBlock Text="{x:Bind Information, Mode=TwoWay}" TextTrimming="CharacterEllipsis"/>
-
                                     </StackPanel>
 
-                                    <Button CommandParameter="{x:Bind Time}" Click="RemoveDownloadItem">
+                                    <Button Click="RemoveDownloadItem" Grid.Column="1" HorizontalAlignment="Right">
                                         <Button.Content>
                                             <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe711;"/>
                                         </Button.Content>
                                     </Button>
-
-                                </StackPanel>
+                                </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>

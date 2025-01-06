@@ -2,7 +2,6 @@ using CommunityToolkit.Common;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 using Microsoft.Web.WebView2.Core;
 using System;
 using System.Collections.ObjectModel;
@@ -25,23 +24,23 @@ namespace Edge
         [ObservableProperty]
         private string information;
 
-
-        public string Time { get; set; }
         public DateTime DateTime { get; set; }
         public DownloadObject(CoreWebView2DownloadOperation operation)
         {
             Operation = operation;
             Title = Path.GetFileName(Operation.ResultFilePath);
             TotalBytes = Operation.TotalBytesToReceive;
-            Time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             DateTime = DateTime.Now;
             Operation.BytesReceivedChanged += Operation_BytesReceivedChanged;
         }
 
         private void Operation_BytesReceivedChanged(CoreWebView2DownloadOperation sender, object args)
         {
-            string speed = Converters.ToFileSizeString((long)((sender.BytesReceived - BytesReceived) / (DateTime.Now - DateTime).TotalSeconds)) + "/ s";
-            string information = $"Speed: {speed} Time: {DateTime.Parse(sender.EstimatedEndTime) - DateTime.Now:hh\\:mm\\:ss}";
+            string receivedDelta = Converters.ToFileSizeString((long)((sender.BytesReceived - BytesReceived) / (DateTime.Now - DateTime).TotalSeconds));
+            string received = Converters.ToFileSizeString(sender.BytesReceived);
+            string total = Converters.ToFileSizeString(sender.TotalBytesToReceive);
+            string speed = receivedDelta + "/s";
+            string information = $"{speed} - {received}/{total}£¨ £”‡ ±º‰£∫{DateTime.Parse(sender.EstimatedEndTime) - DateTime.Now:hh\\:mm\\:ss}";
             BytesReceived = sender.BytesReceived;
             DateTime = DateTime.Now;
             Information = information;
@@ -60,14 +59,9 @@ namespace Edge
 
         private void RemoveDownloadItem(object sender, RoutedEventArgs e)
         {
-            foreach (DownloadObject download in DownloadList)
-            {
-                if (download.Time == (sender as Button).CommandParameter as string)
-                {
-                    DownloadList.Remove(download);
-                    return;
-                }
-            }
+            DownloadObject deleteObject = (sender as Button).DataContext as DownloadObject;
+            deleteObject.Operation.Cancel();
+            DownloadList.Remove(deleteObject);
         }
 
         private void OpenDownloadFolderRequest(object sender, RoutedEventArgs e)
