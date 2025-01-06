@@ -1,11 +1,9 @@
-ChangeWindowMessageFilterEx
 SetWindowSubclass
-FindWindowEx
 SendMessage
 DefSubclassProc
 SendInput
+ScreenToClient
 
-WM_COPYDATA
 WM_SYSCOMMAND
 WM_NCLBUTTONDOWN
 WM_NCRBUTTONUP

@@ -174,7 +174,9 @@
 
                 <MenuFlyoutSeparator Width="200" />
 
-                <MenuFlyoutItem Text="关闭">
+                <MenuFlyoutItem
+                    Click="OnCloseClicked"
+                    Text="关闭">
 
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xE8BB;" />

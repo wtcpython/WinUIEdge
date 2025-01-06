@@ -1,21 +1,15 @@
 using Edge.Utilities;
-using Microsoft.UI.Content;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.Web.WebView2.Core;
-using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Security.Principal;
 using Windows.Foundation;
-using Windows.Graphics;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;
-using Windows.Win32.UI.WindowsAndMessaging;
 
 
 namespace Edge
@@ -23,9 +17,6 @@ namespace Edge
     public sealed partial class MainWindow : Window, INotifyPropertyChanged
     {
         private SUBCLASSPROC mainWindowSubClassProc;
-        private SUBCLASSPROC inputNonClientPointerSourceSubClassProc;
-
-        private ContentCoordinateConverter contentCoordinateConverter;
         private OverlappedPresenter overlappedPresenter;
 
         private bool _isWindowMaximized;
@@ -58,40 +49,13 @@ namespace Edge
             overlappedPresenter = AppWindow.Presenter as OverlappedPresenter;
 
             IsWindowMaximized = overlappedPresenter.State == OverlappedPresenterState.Maximized;
-            contentCoordinateConverter = ContentCoordinateConverter.CreateForWindowId(AppWindow.Id);
 
             HWND hWND = (HWND)this.GetWindowHandle();
 
             // 挂载相应的事件
             AppWindow.Changed += OnAppWindowChanged;
-
-            // 为应用主窗口添加窗口过程
             mainWindowSubClassProc = new SUBCLASSPROC(MainWindowSubClassProc);
             PInvoke.SetWindowSubclass(hWND, mainWindowSubClassProc, 0, 0);
-
-            // 为非工作区的窗口设置相应的窗口样式，添加窗口过程
-            HWND inputNonClientPointerSourceHandle = PInvoke.FindWindowEx(hWND, HWND.Null, "InputNonClientPointerSource", null);
-
-            if (inputNonClientPointerSourceHandle != HWND.Null)
-            {
-                inputNonClientPointerSourceSubClassProc = new SUBCLASSPROC(InputNonClientPointerSourceSubClassProc);
-                PInvoke.SetWindowSubclass(hWND, inputNonClientPointerSourceSubClassProc, 0, 0);
-            }
-
-            WindowsIdentity identity = WindowsIdentity.GetCurrent();
-            WindowsPrincipal principal = new(identity);
-            bool IsElevated = principal.IsInRole(WindowsBuiltInRole.Administrator);
-
-            // 处理提权模式下运行应用
-            unsafe
-            {
-                if (IsElevated)
-                {
-                    CHANGEFILTERSTRUCT changeFilterStatus = new();
-                    changeFilterStatus.cbSize = (uint)Marshal.SizeOf<CHANGEFILTERSTRUCT>();
-                    PInvoke.ChangeWindowMessageFilterEx(hWND, PInvoke.WM_COPYDATA, WINDOW_MESSAGE_FILTER_ACTION.MSGFLT_ALLOW, &changeFilterStatus);
-                }
-            }
         }
 
         public void AddHomePage()
@@ -238,18 +202,6 @@ namespace Edge
                         }
                         break;
                     }
-            }
-            return PInvoke.DefSubclassProc(hWnd, Msg, wParam, lParam);
-        }
-
-        /// <summary>
-        /// 应用拖拽区域窗口消息处理
-        /// </summary>
-        private LRESULT InputNonClientPointerSourceSubClassProc(HWND hWnd, uint Msg, WPARAM wParam, LPARAM lParam, nuint uIdSubclass, nuint dwRefData)
-        {
-            switch (Msg)
-            {
-                // 当用户按下鼠标左键时，光标位于窗口的非工作区内的消息
                 case PInvoke.WM_NCLBUTTONDOWN:
                     {
                         if (TitlebarMenuFlyout.IsOpen)
@@ -264,16 +216,14 @@ namespace Edge
                     {
                         if (Content is not null && Content.XamlRoot is not null)
                         {
-                            PointInt32 screenPoint = new((int)(lParam.Value & 0xFFFF), (int)(lParam.Value >> 16));
-                            Point localPoint = contentCoordinateConverter.ConvertScreenToLocal(screenPoint);
+                            System.Drawing.Point point = new((int)(lParam.Value & 0xFFFF), (int)(lParam.Value >> 16));
+                            PInvoke.ScreenToClient(hWnd, ref point);
 
                             FlyoutShowOptions options = new()
                             {
                                 ShowMode = FlyoutShowMode.Standard,
-                                Position = Environment.OSVersion.Version.Build >= 22000 ?
-                                    new Point(localPoint.X / Content.XamlRoot.RasterizationScale, localPoint.Y / Content.XamlRoot.RasterizationScale) :
-                                    new Point(localPoint.X, localPoint.Y)
-                            };
+                                Position = new Point(point.X, point.Y)
+                             };
 
                             TitlebarMenuFlyout.ShowAt(Content, options);
                         }
