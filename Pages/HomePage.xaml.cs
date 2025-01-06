@@ -87,7 +87,7 @@ namespace Edge
         private void OpenWebSite(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = App.GetWindowForElement(this);
-            string Uri = (sender as MenuFlyoutItem).CommandParameter as string;
+            string Uri = ((sender as MenuFlyoutItem).DataContext as WebsiteInfo).Uri;
             mainWindow.AddNewTab(new WebViewPage()
             {
                 WebUri = Uri
@@ -96,7 +96,7 @@ namespace Edge
 
         private void HideItem(object sender, RoutedEventArgs e)
         {
-            Info.SuggestWebsiteList.Remove(Info.SuggestWebsiteList.First(x => x.Name == ((sender as MenuFlyoutItem).CommandParameter as string)));
+            Info.SuggestWebsiteList.Remove(Info.SuggestWebsiteList.First(x => x.Name == ((sender as MenuFlyoutItem).DataContext as WebsiteInfo).Name));
         }
     }
 }

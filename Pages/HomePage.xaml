@@ -49,13 +49,13 @@
                         <TextBlock Text="{x:Bind Name}" HorizontalAlignment="Center"/>
                         <StackPanel.ContextFlyout>
                             <MenuFlyout>
-                                <MenuFlyoutItem Text="打开" CommandParameter="{x:Bind Uri}" Click="OpenWebSite">
+                                <MenuFlyoutItem Text="打开" Click="OpenWebSite">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xe8a7;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
 
-                                <MenuFlyoutItem Text="隐藏" CommandParameter="{x:Bind Name}" Click="HideItem">
+                                <MenuFlyoutItem Text="隐藏" Click="HideItem">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xed1a;"/>
                                     </MenuFlyoutItem.Icon>
