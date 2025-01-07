@@ -12,7 +12,6 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using Windows.Storage;
 
 
 namespace Edge
@@ -29,7 +28,7 @@ namespace Edge
         public App()
         {
             this.InitializeComponent();
-            searchEngine = new("ms-appx:///Assets/words.txt");
+            searchEngine = new("./Assets/words.txt");
             EnsureWebView2Async();
         }
 
@@ -45,7 +44,7 @@ namespace Edge
             window.Closed += (sender, e) =>
             {
                 mainWindows.Remove(window);
-                File.WriteAllText(ApplicationData.Current.LocalFolder.Path + "/settings.json", settings.ToJsonString(new JsonSerializerOptions { WriteIndented = true }));
+                File.WriteAllText("./settings.json", settings.ToJsonString(new JsonSerializerOptions { WriteIndented = true }));
             };
             mainWindows.Add(window);
             return window;

@@ -3,8 +3,6 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using Windows.ApplicationModel;
-using Windows.Storage;
 
 namespace Edge.Data
 {
@@ -17,31 +15,25 @@ namespace Edge.Data
 
     public static class Info
     {
-        public static JsonDocument LanguageDict = JsonDocument.Parse(ReadPackageFileText("/Data/LanguageType.json"));
-        public static JsonDocument ImageDict = JsonDocument.Parse(ReadPackageFileText("/Data/ImageType.json"));
-        public static List<WebsiteInfo> SearchEngineList = JsonDocument.Parse(ReadPackageFileText("/Data/SearchEngine.json"))!.RootElement.EnumerateArray().Select(x => new WebsiteInfo()
+        public static JsonDocument LanguageDict = JsonDocument.Parse(File.ReadAllText("./Data/LanguageType.json"));
+        public static JsonDocument ImageDict = JsonDocument.Parse(File.ReadAllText("./Data/ImageType.json"));
+        public static List<WebsiteInfo> SearchEngineList = JsonDocument.Parse(File.ReadAllText("./Data/SearchEngine.json"))!.RootElement.EnumerateArray().Select(x => new WebsiteInfo()
         {
             Name = x.GetProperty("Name").GetString(),
             Icon = x.GetProperty("Icon").GetString(),
             Uri = x.GetProperty("Uri").GetString()
         }).ToList();
-        public static ObservableCollection<WebsiteInfo> SuggestWebsiteList = new(JsonDocument.Parse(ReadPackageFileText("/Data/SuggestWebsite.json"))!.RootElement.EnumerateArray().Select(x => new WebsiteInfo()
+        public static ObservableCollection<WebsiteInfo> SuggestWebsiteList = new(JsonDocument.Parse(File.ReadAllText("./Data/SuggestWebsite.json"))!.RootElement.EnumerateArray().Select(x => new WebsiteInfo()
         {
             Name = x.GetProperty("Name").GetString(),
             Icon = x.GetProperty("Icon").GetString(),
             Uri = x.GetProperty("Uri").GetString()
         }));
 
-        public static string ReadPackageFileText(string path)
-        {
-            return File.ReadAllText(Package.Current.InstalledPath + path);
-        }
-
         public static string CheckUserSettingData()
         {
-            string localFolder = ApplicationData.Current.LocalFolder.Path;
-            string settingsFile = localFolder + "/settings.json";
-            string defaultSettingsPath = Package.Current.InstalledPath + "/Data/DefaultSettings.json";
+            string settingsFile = "./settings.json";
+            string defaultSettingsPath = "./Data/DefaultSettings.json";
 
             if (!File.Exists(settingsFile))
             {

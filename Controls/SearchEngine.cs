@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Windows.Storage;
+﻿using System.Collections.Generic;
+using System.IO;
 
 namespace Edge
 {
@@ -87,13 +86,12 @@ namespace Edge
         public WordSearchEngine(string filePath)
         {
             trie = new Trie();
-            LoadWordsAsync(filePath);
+            LoadWords(filePath);
         }
 
-        private async void LoadWordsAsync(string filePath)
+        private void LoadWords(string filePath)
         {
-            var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(filePath));
-            var words = await FileIO.ReadLinesAsync(file);
+            var words = File.ReadAllLines(filePath);
 
             foreach (var word in words)
             {

@@ -1,20 +1,19 @@
-using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Windows.AppNotifications;
 using Microsoft.Windows.AppNotifications.Builder;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace Edge
 {
     public sealed partial class AboutItem : Page
     {
-        public string appVersion = Package.Current.Id.Version.ToFormattedString();
+        public string appVersion = File.ReadAllText("./Assets/version.txt");
         public string browserVersion = CoreWebView2Environment.GetAvailableBrowserVersionString();
 
         public AboutItem()

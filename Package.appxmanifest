@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <Package
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
@@ -12,9 +12,9 @@
   <Identity
     Name="WinUIEdge"
     Publisher="CN=wtc"
-    Version="1.9.5.0" />
+    Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="b5d7d1fb-9979-4b08-b2b8-16be9f9b0673" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="71ae8621-8427-46b0-9d28-e05e044bc12c" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>Edge</DisplayName>

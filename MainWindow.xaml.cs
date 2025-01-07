@@ -222,7 +222,7 @@ namespace Edge
                             {
                                 ShowMode = FlyoutShowMode.Standard,
                                 Position = new Point(point.X, point.Y)
-                             };
+                            };
 
                             TitlebarMenuFlyout.ShowAt(Content, options);
                         }
