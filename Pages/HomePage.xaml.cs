@@ -6,7 +6,6 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
 using System;
 using System.IO;
-using System.Linq;
 using Windows.Storage;
 
 namespace Edge
@@ -96,7 +95,7 @@ namespace Edge
 
         private void HideItem(object sender, RoutedEventArgs e)
         {
-            Info.SuggestWebsiteList.Remove(Info.SuggestWebsiteList.First(x => x.Name == ((sender as MenuFlyoutItem).DataContext as WebsiteInfo).Name));
+            Info.SuggestWebsiteList.Remove((sender as MenuFlyoutItem).DataContext as WebsiteInfo);
         }
     }
 }

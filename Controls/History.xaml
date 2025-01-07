@@ -46,7 +46,11 @@
                                         </ToolTip>
                                     </ToolTipService.ToolTip>
 
-                                    <ImageIcon Source="{x:Bind FaviconUri}" Width="30" Height="30"/>
+                                    <ImageIcon Width="30" Height="30">
+                                        <ImageIcon.Source>
+                                            <BitmapImage UriSource="{x:Bind FaviconUri}"/>
+                                        </ImageIcon.Source>
+                                    </ImageIcon>
 
                                     <TextBlock
                                         Text="{x:Bind DocumentTitle}" Width="230" TextTrimming="CharacterEllipsis"

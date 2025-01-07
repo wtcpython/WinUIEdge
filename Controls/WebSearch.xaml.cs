@@ -47,7 +47,7 @@ namespace Edge
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
             string text = (sender as TextBox).Text;
-            string lastWord = text.Split(' ').Last().ToLower();
+            string lastWord = text.Split(' ')[^1].ToLower();
             if (!string.IsNullOrEmpty(lastWord))
             {
                 var result = App.searchEngine.SearchWords(lastWord).Take(10).ToList();

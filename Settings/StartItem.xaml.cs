@@ -23,7 +23,7 @@ namespace Edge
 
             setHomeButton.IsOn = ToolBar["HomeButton"].GetValue<bool>();
             searchEngineBox.ItemsSource = Info.SearchEngineList.Select(x => x.Name).ToList();
-            searchEngineBox.SelectedItem = Info.SearchEngineList.Select(x => x.Name).First(name => name == App.settings["SearchEngine"].ToString());
+            searchEngineBox.SelectedItem = Info.SearchEngineList.First(x => x.Name.Equals(App.settings["SearchEngine"].ToString())).Name;
 
             showSuggestUri.IsOn = App.settings["ShowSuggestUri"].GetValue<bool>();
 
@@ -43,7 +43,7 @@ namespace Edge
 
         private void SearchEngineChanged(object sender, SelectionChangedEventArgs e)
         {
-            App.settings["SearchEngine"] = Info.SearchEngineList.Where(x => x.Name == (string)searchEngineBox.SelectedItem).First().Name;
+            App.settings["SearchEngine"] = Info.SearchEngineList.First(x => x.Name == (string)searchEngineBox.SelectedItem).Name;
         }
 
         private void BehaviorChanged(object sender, SelectionChangedEventArgs e)

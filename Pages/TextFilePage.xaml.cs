@@ -1,7 +1,6 @@
 using Edge.Data;
 using Microsoft.UI.Xaml.Controls;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 
@@ -27,7 +26,7 @@ namespace Edge
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             encodeList = Encoding.GetEncodings();
             EncodingComboBox.ItemsSource = encodeList;
-            EncodingComboBox.SelectedItem = encodeList.Last();
+            EncodingComboBox.SelectedItem = encodeList[^1];
 
             // 初始化UI 数据
             FullPath.Text = file;

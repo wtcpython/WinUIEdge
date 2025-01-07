@@ -1,6 +1,5 @@
 using Microsoft.UI.Xaml.Controls;
 using System;
-using System.Linq;
 
 namespace Edge
 {
@@ -9,7 +8,7 @@ namespace Edge
         public SettingsPage()
         {
             this.InitializeComponent();
-            navigation.SelectedItem = navigation.MenuItems.OfType<NavigationViewItem>().First();
+            navigation.SelectedItem = navigation.MenuItems[0];
         }
 
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)

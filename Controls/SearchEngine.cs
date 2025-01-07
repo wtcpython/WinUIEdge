@@ -34,11 +34,12 @@ namespace Edge
             TrieNode current = root;
             foreach (var ch in word)
             {
-                if (!current.Children.ContainsKey(ch))
+                if (!current.Children.TryGetValue(ch, out TrieNode value))
                 {
-                    current.Children[ch] = new TrieNode();
+                    value = new TrieNode();
+                    current.Children[ch] = value;
                 }
-                current = current.Children[ch];
+                current = value;
             }
             current.IsEndOfWord = true;
         }
@@ -49,11 +50,11 @@ namespace Edge
 
             foreach (var ch in prefix)
             {
-                if (!current.Children.ContainsKey(ch))
+                if (!current.Children.TryGetValue(ch, out TrieNode value))
                 {
                     yield break;
                 }
-                current = current.Children[ch];
+                current = value;
             }
 
             foreach(var word in FindWordsFromNode(current, prefix))

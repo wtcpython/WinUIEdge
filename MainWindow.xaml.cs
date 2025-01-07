@@ -5,7 +5,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.Web.WebView2.Core;
 using System.ComponentModel;
-using System.Linq;
 using Windows.Foundation;
 using Windows.Win32;
 using Windows.Win32.Foundation;
@@ -270,7 +269,7 @@ namespace Edge
             {
                 tabView.TabItems.RemoveAt(tabView.SelectedIndex);
             }
-            if (!tabView.TabItems.Any())
+            if (tabView.TabItems.Count <= 0)
             {
                 Close();
             }
@@ -317,8 +316,9 @@ namespace Edge
 
         private void OpenClosedTab(object sender, RoutedEventArgs e)
         {
-            AddNewTab(new WebViewPage() { WebUri = App.Histories.Last().Source });
+            AddNewTab(new WebViewPage() { WebUri = App.Histories[^1].Source });
         }
+
         private void PinTab(object sender, RoutedEventArgs e)
         {
             var menuItem = sender as MenuFlyoutItem;

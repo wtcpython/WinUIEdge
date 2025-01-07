@@ -43,9 +43,9 @@ namespace Edge
         {
             sender.CoreWebView2.ContextMenuRequested += CoreWebView2_ContextMenuRequested;
             sender.CoreWebView2.DocumentTitleChanged += CoreWebView2_DocumentTitleChanged;
+            sender.CoreWebView2.DOMContentLoaded += CoreWebView2_DOMContentLoaded;
             sender.CoreWebView2.DownloadStarting += CoreWebView2_DownloadStarting;
             sender.CoreWebView2.FaviconChanged += CoreWebView2_FaviconChanged;
-            sender.CoreWebView2.NavigationCompleted += CoreWebView2_NavigationCompleted;
             sender.CoreWebView2.NavigationStarting += (s, e) => Search.Text = e.Uri;
             sender.CoreWebView2.NewWindowRequested += CoreWebView2_NewWindowRequested;
             sender.CoreWebView2.ScriptDialogOpening += CoreWebView2_ScriptDialogOpening;
@@ -56,13 +56,13 @@ namespace Edge
             sender.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = false;
         }
 
-        private void CoreWebView2_NavigationCompleted(CoreWebView2 sender, CoreWebView2NavigationCompletedEventArgs args)
+        private void CoreWebView2_DOMContentLoaded(CoreWebView2 sender, CoreWebView2DOMContentLoadedEventArgs args)
         {
             App.Histories.Add(new WebViewHistory()
             {
                 DocumentTitle = sender.DocumentTitle,
                 Source = sender.Source,
-                FaviconUri = sender.FaviconUri,
+                FaviconUri = new Uri(sender.FaviconUri),
                 Time = DateTime.Now.ToString()
             });
             SetNavigationButtonStatus();

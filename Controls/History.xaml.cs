@@ -1,6 +1,5 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 using Microsoft.Web.WebView2.Core;
 using System;
 using System.Linq;
@@ -12,7 +11,7 @@ namespace Edge
     {
         public string DocumentTitle { get; set; }
         public string Source { get; set; }
-        public string FaviconUri { get; set; }
+        public Uri FaviconUri { get; set; }
         public string Time { get; set; }
     }
 
