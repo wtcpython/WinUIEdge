@@ -1,7 +1,7 @@
-# This workflow will build, sign, and package a WinUI 3 MSIX desktop application
+# This workflow will build and publish a WinUI 3 unpackaged desktop application
 # built on .NET.
 
-name: WinUI 3 MSIX app
+name: WinUI 3 unpackaged app
 
 on:
   push:
@@ -52,30 +52,16 @@ jobs:
       env:
         Configuration: ${{ matrix.configuration }}
 
-    # Decode the base 64 encoded pfx and save the Signing_Certificate
-    - name: Decode the pfx
-      run: |
-        $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.BASE64_ENCODED_PFX }}")
-        $certificatePath = "GitHubActionsWorkflow.pfx"
-        [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
-
-    # Create the app package by building and packaging the project
-    - name: Create the app package
-      run: msbuild $env:Edge /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx /p:AppxPackageDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true
+    # Create the app by building and publishing the project
+    - name: Create the app
+      run: msbuild $env:Edge /t:Publish /p:Configuration=$env:Configuration /p:Platform=$env:Platform
       env:
-        Appx_Bundle: Never
-        Appx_Package_Build_Mode: SideloadOnly
-        Appx_Package_Dir: Packages\
         Configuration: ${{ matrix.configuration }}
         Platform: ${{ matrix.platform }}
 
-    # Remove the pfx
-    - name: Remove the pfx
-      run: Remove-Item -path GitHubActionsWorkflow.pfx
-
-    # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
-    - name: Upload MSIX package
+    # Upload the app
+    - name: Upload app
       uses: actions/upload-artifact@v4.5.0
       with:
-        name: Edge-nightly-build-${{ steps.date.outputs.date }}
-        path: ${{ github.workspace }}\\Packages
+        name: Edge-${{ steps.date.outputs.date }}
+        path: ${{ github.workspace }}\\bin\\win-${{ matrix.platform }}\\publish
