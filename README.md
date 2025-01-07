@@ -59,7 +59,7 @@
 ## 使用本软件的最低要求
 
 1. 最新版本的 [Microsoft Edge WebView2 Runtime](https://developer.microsoft.com/zh-cn/microsoft-edge/webview2/)
-2. Windows 11 21H2 (Build 22000.0) 或更高版本
+2. Windows 10+ (Build 19041.0) 或更高版本
 
 ## 如何从源代码构建
 
