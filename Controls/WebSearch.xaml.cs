@@ -80,6 +80,7 @@ namespace Edge
         private void StartToSearch()
         {
             string text = SearchBox.Text;
+            SearchBox.Text = string.Empty;
             UriType uriType = text.DetectUri();
             if (uriType == UriType.WithProtocol)
             {

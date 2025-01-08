@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -12,7 +13,6 @@ namespace Edge
 {
     public enum UriType
     {
-        Invalid,
         WithProtocol,
         WithoutProtocol,
         PlainText
@@ -100,15 +100,15 @@ namespace Edge
         {
             if (string.IsNullOrWhiteSpace(text))
             {
-                return UriType.Invalid;
+                return UriType.PlainText;
             }
             if (text.Contains("://"))
             {
-                return Uri.IsWellFormedUriString(text, UriKind.Absolute) ? UriType.WithProtocol : UriType.Invalid;
+                return Uri.IsWellFormedUriString(text, UriKind.Absolute) ? UriType.WithProtocol : UriType.PlainText;
             }
 
-            string testUrl = "https://" + text;
-            if (Uri.IsWellFormedUriString(testUrl, UriKind.Absolute))
+            string domainPattern = @"^(?!-)[A-Za-z0-9-]+(\.[A-Za-z]{2,})+$";
+            if (Regex.IsMatch(text, domainPattern))
             {
                 return UriType.WithoutProtocol;
             }
