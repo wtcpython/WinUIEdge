@@ -20,7 +20,10 @@
 
         <controls:SettingsCard
             Header="应用程序版本"
-            Description="{x:Bind appVersion}">
+            Description="{x:Bind appVersion}"
+            Click="CheckUpdate"
+            IsClickEnabled="True"
+            IsActionIconVisible="False">
             <Button Name="CopyAppVersionButton"
                     Click="TryCopyAppVersion"
                     Content="复制"/>

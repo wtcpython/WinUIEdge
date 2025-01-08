@@ -100,15 +100,12 @@ namespace Edge
         {
             var dispatcherQueue = m_window?.DispatcherQueue ?? DispatcherQueue.GetForCurrentThread();
 
-            dispatcherQueue.TryEnqueue(delegate
+            dispatcherQueue.TryEnqueue(async delegate
             {
                 switch (args.Arguments["UpdateAppRequest"])
                 {
                     case "ReleaseWebsitePage":
-                        mainWindows[0].AddNewTab(new WebViewPage() { WebUri = "https://github.com/wtcpython/WinUIEdge/releases/latest/" });
-                        break;
-                    case "DownloadApp":
-                        mainWindows[0].AddNewTab(new WebViewPage() { WebUri = $"https://github.com/wtcpython/WinUIEdge/releases/latest/download/Edge_{LatestVersion}_x64.7z" });
+                        await Windows.System.Launcher.LaunchUriAsync(new Uri("https://github.com/wtcpython/WinUIEdge/releases/latest/"));
                         break;
                 }
             });

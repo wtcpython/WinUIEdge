@@ -5,8 +5,6 @@ using Microsoft.Windows.AppNotifications;
 using Microsoft.Windows.AppNotifications.Builder;
 using System.IO;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text.Json;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace Edge
@@ -19,32 +17,23 @@ namespace Edge
         public AboutItem()
         {
             this.InitializeComponent();
-            this.Loaded += CheckAppVersion;
         }
 
-        private async void CheckAppVersion(object sender, RoutedEventArgs e)
+        private async void CheckUpdate(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (App.LatestVersion == null)
-                {
-                    HttpClient httpClient = new();
-                    httpClient.DefaultRequestHeaders.UserAgent.TryParseAdd("wtcpython/WinUIEdge 1.0");
-                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
+                string fileUri = "https://raw.githubusercontent.com/wtcpython/WinUIEdge/main/Assets/version.txt";
+                using HttpClient client = new();
+                App.LatestVersion = await client.GetStringAsync(fileUri);
 
-                    HttpResponseMessage response = await httpClient.GetAsync("https://api.github.com/repos/wtcpython/WinUIEdge/tags");
-
-                    string content = await response.Content.ReadAsStringAsync();
-
-                    App.LatestVersion = JsonDocument.Parse(content).RootElement.GetProperty("name").GetString()[1..];
-                }
                 if (App.LatestVersion.CompareTo(appVersion) > 0)
                 {
                     var builder = new AppNotificationBuilder()
                         .AddText($"发现新版本：{App.LatestVersion}，是否要更新？\n当前版本：{appVersion}")
                         .AddArgument("UpdateAppRequest", "ReleaseWebsitePage")
                         .AddButton(new AppNotificationButton("确定")
-                            .AddArgument("UpdateAppRequest", "DownloadApp"))
+                            .AddArgument("UpdateAppRequest", "ReleaseWebsitePage"))
                         .AddButton(new AppNotificationButton("取消"));
 
                     var notificationManager = AppNotificationManager.Default;
