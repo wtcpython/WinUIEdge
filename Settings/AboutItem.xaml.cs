@@ -31,9 +31,9 @@ namespace Edge
                 {
                     var builder = new AppNotificationBuilder()
                         .AddText($"发现新版本：{App.LatestVersion}，是否要更新？\n当前版本：{appVersion}")
-                        .AddArgument("UpdateAppRequest", "ReleaseWebsitePage")
+                        .AddArgument("Notification", "LaunchReleaseWebsite")
                         .AddButton(new AppNotificationButton("确定")
-                            .AddArgument("UpdateAppRequest", "ReleaseWebsitePage"))
+                            .AddArgument("Notification", "LaunchReleaseWebsite"))
                         .AddButton(new AppNotificationButton("取消"));
 
                     var notificationManager = AppNotificationManager.Default;

@@ -102,10 +102,13 @@ namespace Edge
 
             dispatcherQueue.TryEnqueue(async delegate
             {
-                switch (args.Arguments["UpdateAppRequest"])
+                switch (args.Arguments["Notification"])
                 {
-                    case "ReleaseWebsitePage":
+                    case "LaunchReleaseWebsite":
                         await Windows.System.Launcher.LaunchUriAsync(new Uri("https://github.com/wtcpython/WinUIEdge/releases/latest/"));
+                        break;
+                    case "ChangeStartUri":
+                        m_window.Content.Focus(FocusState.Programmatic);
                         break;
                 }
             });

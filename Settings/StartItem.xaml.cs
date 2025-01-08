@@ -43,7 +43,8 @@ namespace Edge
             if (uriType != UriType.WithProtocol)
             {
                 var builder = new AppNotificationBuilder()
-                    .AddText("输入的 Uri 非法，请修改内容");
+                    .AddText("输入的 Uri 非法，请修改内容")
+                    .AddArgument("Notification", "ChangeStartUri");
                 var notificationManager = AppNotificationManager.Default;
                 notificationManager.Show(builder.BuildNotification());
             }
