@@ -31,11 +31,12 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Text="页面" VerticalAlignment="Center" Grid.Column="0"/>
-                    <TextBox Name="uriBox" PlaceholderText="输入 URL" Grid.Column="1" KeyDown="SetStartUri"/>
-
+                    <TextBox Name="uriBox" PlaceholderText="输入 URL" Grid.Column="1"/>
+                    <Button Name="uriButton" Content="确定" Click="CheckUri" Grid.Column="2"/>
                 </Grid>
             </Grid>
 

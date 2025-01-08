@@ -2,7 +2,6 @@ using Edge.Data;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using System;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -81,42 +80,38 @@ namespace Edge
         private void StartToSearch()
         {
             string text = SearchBox.Text;
-            if (Uri.TryCreate(text, UriKind.Absolute, out var uri))
+            UriType uriType = text.DetectUri();
+            if (uriType == UriType.WithProtocol)
             {
-                if (uri.Scheme == Uri.UriSchemeFile)
+                Navigate(text);
+            }
+            else if (uriType == UriType.WithoutProtocol)
+            {
+                Navigate("https://" + text);
+            }
+            else if (File.Exists(text))
+            {
+                FileInfo fileInfo = new(text);
+                string ext = fileInfo.Extension;
+                MainWindow mainWindow = App.GetWindowForElement(this);
+                if (Info.LanguageDict.RootElement.TryGetProperty(ext, out JsonElement _))
                 {
-                    FileInfo fileInfo = new(text);
-                    if (fileInfo.Exists)
+                    if (ext == ".lnk")
                     {
-                        string ext = fileInfo.Extension;
-
-                        MainWindow mainWindow = App.GetWindowForElement(this);
-                        if (Info.LanguageDict.RootElement.TryGetProperty(ext, out JsonElement _))
-                        {
-                            if (ext == ".lnk")
-                            {
-                                mainWindow.AddNewTab(new InkFilePage(text), fileInfo.Name);
-                            }
-                            else
-                            {
-                                mainWindow.AddNewTab(new TextFilePage(text), fileInfo.Name);
-                            }
-                        }
-
-                        else if (Info.ImageDict.RootElement.TryGetProperty(ext, out JsonElement _))
-                        {
-                            mainWindow.AddNewTab(new ImageViewer(text), fileInfo.Name);
-                        }
-
-                        else
-                        {
-                            Navigate(text);
-                        }
+                        mainWindow.AddNewTab(new InkFilePage(text), fileInfo.Name);
                     }
+                    else
+                    {
+                        mainWindow.AddNewTab(new TextFilePage(text), fileInfo.Name);
+                    }
+                }
+                else if (Info.ImageDict.RootElement.TryGetProperty(ext, out JsonElement _))
+                {
+                    mainWindow.AddNewTab(new ImageViewer(text), fileInfo.Name);
                 }
                 else
                 {
-                    Navigate(uri.OriginalString);
+                    Navigate(text);
                 }
             }
             else

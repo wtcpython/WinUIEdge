@@ -1,5 +1,4 @@
 using CommunityToolkit.Common;
-using Edge.Utilities;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -142,7 +141,7 @@ namespace Edge
 
         private async void SaveImageAs(object sender, RoutedEventArgs e)
         {
-            StorageFile storageFile = await Utilities.Utilities.SaveFile(fileInfo.FullName, this.GetWindowHandle());
+            StorageFile storageFile = await Utilities.SaveFile(fileInfo.FullName, this.GetWindowHandle());
             fileInfo.CopyTo(storageFile.Path, true);
         }
 

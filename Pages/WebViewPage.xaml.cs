@@ -1,4 +1,3 @@
-using Edge.Utilities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -264,7 +263,7 @@ namespace Edge
                 {
                     args.Handled = true;
                     var hwnd = this.GetWindowHandle();
-                    var file = await Utilities.Utilities.SaveFile(args.ResultFilePath, hwnd);
+                    var file = await Utilities.SaveFile(args.ResultFilePath, hwnd);
                     if (file != null)
                     {
                         args.ResultFilePath = file.Path;
