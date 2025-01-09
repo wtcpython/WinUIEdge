@@ -214,7 +214,7 @@ namespace Edge
                     {
                         if (Content is not null && Content.XamlRoot is not null)
                         {
-                            System.Drawing.Point point = new((int)(lParam.Value & 0xFFFF), (int)(lParam.Value >> 16));
+                            System.Drawing.Point point = new((short)(lParam.Value & 0xFFFF), (short)((lParam.Value >> 16) & 0xFFFF));
                             PInvoke.ScreenToClient(hWnd, ref point);
 
                             FlyoutShowOptions options = new()

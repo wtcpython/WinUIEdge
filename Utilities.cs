@@ -1,13 +1,17 @@
+using Microsoft.UI;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Windows.Storage;
-using Windows.Storage.Pickers;
-using WinRT.Interop;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.System.Com;
+using Windows.Win32.UI.Shell;
+using Windows.Win32.UI.Shell.Common;
 
 namespace Edge
 {
@@ -50,7 +54,7 @@ namespace Edge
 
         public static IntPtr GetWindowHandle(this Window window)
         {
-            return WindowNative.GetWindowHandle(window);
+            return Win32Interop.GetWindowFromWindowId(window.AppWindow.Id);
         }
 
         public static IntPtr GetWindowHandle(this UIElement element)
@@ -59,19 +63,49 @@ namespace Edge
             return window.GetWindowHandle();
         }
 
-        public static async Task<StorageFile> SaveFile(string suggestFile, IntPtr hwnd)
+        public static unsafe string Win32SaveFile(string fileName, IntPtr hwnd)
         {
-            FileInfo fileInfo = new(suggestFile);
-            FileSavePicker picker = new()
+            try
             {
-                SuggestedStartLocation = PickerLocationId.Downloads,
-                SuggestedFileName = fileInfo.Name,
-                FileTypeChoices = { { fileInfo.Extension, [fileInfo.Extension] } }
-            };
+                FileInfo info = new(fileName);
 
-            InitializeWithWindow.Initialize(picker, hwnd);
+                PInvoke.CoCreateInstance<IFileSaveDialog>(
+                    typeof(FileSaveDialog).GUID,
+                    null,
+                    CLSCTX.CLSCTX_INPROC_SERVER,
+                    out var fsd);
+                List<COMDLG_FILTERSPEC> extensions = [
+                    new()
+                    {
+                        pszSpec = (char* )Marshal.StringToHGlobalUni(info.Extension),
+                        pszName = (char* )Marshal.StringToHGlobalUni(info.Extension),
+                    }
+                ];
+                fsd.SetFileTypes(extensions.ToArray());
+                PInvoke.SHGetKnownFolderPath(
+                    PInvoke.FOLDERID_Downloads,
+                    KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT,
+                    null,
+                    out PWSTR ppszPath);
+                string path = ppszPath.ToString();
 
-            return await picker.PickSaveFileAsync();
+                PInvoke.SHCreateItemFromParsingName(
+                    path,
+                    null,
+                    typeof(IShellItem).GUID,
+                    out var directoryShellItem);
+
+                fsd.SetFolder((IShellItem)directoryShellItem);
+                fsd.SetDefaultFolder((IShellItem)directoryShellItem);
+                fsd.SetFileName(info.Name);
+                fsd.SetDefaultExtension(info.Extension);
+                fsd.Show(new HWND(hwnd));
+                fsd.GetResult(out var ppsi);
+
+                ppsi.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out PWSTR pwFileName);
+                return pwFileName.ToString();
+            }
+            catch (Exception) { return string.Empty; }
         }
 
         public static string ToGlyph(this string name)

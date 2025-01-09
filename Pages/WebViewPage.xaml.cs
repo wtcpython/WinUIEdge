@@ -257,16 +257,15 @@ namespace Edge
         {
             Deferral deferral = args.GetDeferral();
 
-            System.Threading.SynchronizationContext.Current.Post(async (_) =>
+            System.Threading.SynchronizationContext.Current.Post((_) =>
             {
                 using (deferral)
                 {
                     args.Handled = true;
-                    var hwnd = this.GetWindowHandle();
-                    var file = await Utilities.SaveFile(args.ResultFilePath, hwnd);
+                    string file = Utilities.Win32SaveFile(args.ResultFilePath, this.GetWindowHandle());
                     if (file != null)
                     {
-                        args.ResultFilePath = file.Path;
+                        args.ResultFilePath = file;
                         downloadButton.DownloadList.Add(new DownloadObject(args.DownloadOperation));
                         if (App.settings["ShowFlyoutWhenStartDownloading"].GetValue<bool>())
                         {

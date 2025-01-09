@@ -139,10 +139,13 @@ namespace Edge
             }
         }
 
-        private async void SaveImageAs(object sender, RoutedEventArgs e)
+        private void SaveImageAs(object sender, RoutedEventArgs e)
         {
-            StorageFile storageFile = await Utilities.SaveFile(fileInfo.FullName, this.GetWindowHandle());
-            fileInfo.CopyTo(storageFile.Path, true);
+            string path = Utilities.Win32SaveFile(fileInfo.FullName, this.GetWindowHandle());
+            if (path != string.Empty)
+            {
+                fileInfo.CopyTo(path, true);
+            }
         }
 
         private void CopyFilePath(object sender, RoutedEventArgs e)
