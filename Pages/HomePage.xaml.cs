@@ -5,8 +5,9 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
 using System;
+using System.Diagnostics;
 using System.IO;
-using Windows.Storage;
+using System.Net.Http;
 
 namespace Edge
 {
@@ -41,38 +42,36 @@ namespace Edge
 
         public async void InstallWebView2(object sender, RoutedEventArgs e)
         {
-            bool isWebViewInstalled = CheckWebView2();
-            if (!isWebViewInstalled)
+            string version = CoreWebView2Environment.GetAvailableBrowserVersionString();
+            string bootstrapUri = "https://go.microsoft.com/fwlink/p/?LinkId=2124703";
+            string bootstrapPath = Path.Combine(AppContext.BaseDirectory, "MicrosoftEdgeWebview2Setup.exe");
+            try
+            {
+                if (string.IsNullOrEmpty(version))
+                {
+                    using HttpClient client = new();
+                    var response = await client.GetAsync(bootstrapUri);
+                    response.EnsureSuccessStatusCode();
+
+                    using var stream = await response.Content.ReadAsStreamAsync();
+                    using var fileStream = new FileStream(bootstrapPath, FileMode.Create, FileAccess.Write);
+                    await stream.CopyToAsync(fileStream);
+
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = bootstrapPath,
+                        Arguments = "/silent /install",
+                        UseShellExecute = true
+                    });
+                }
+            }
+            catch (HttpRequestException)
             {
                 await warningDialog.ShowAsync();
-                await Windows.System.Launcher.LaunchUriAsync(new Uri("https://developer.microsoft.com/zh-cn/microsoft-edge/webview2"));
+                await Windows.System.Launcher.LaunchUriAsync(new Uri(bootstrapUri));
                 App.GetWindowForElement(this).Close();
             }
         }
-
-        public bool CheckWebView2()
-        {
-            string version = CoreWebView2Environment.GetAvailableBrowserVersionString();
-            if (!string.IsNullOrEmpty(version))
-            {
-                return true;
-            }
-            else
-            {
-                string webView2Path = Path.Combine(SystemDataPaths.GetDefault().System, "Microsoft-Edge-WebView");
-
-                if (Directory.Exists(webView2Path))
-                {
-                    Environment.SetEnvironmentVariable("WEBVIEW2_BROWSER_EXECUTABLE_FOLDER", webView2Path);
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
-
 
         private void OpenSuggestWebsite(object sender, ItemClickEventArgs e)
         {

@@ -64,7 +64,7 @@
 
                                     <Button Click="RemoveDownloadItem" Grid.Column="1" HorizontalAlignment="Right">
                                         <Button.Content>
-                                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe711;"/>
+                                            <FontIcon Glyph="&#xe711;"/>
                                         </Button.Content>
                                     </Button>
                                 </Grid>
