@@ -40,7 +40,7 @@ namespace Edge
             string received = Converters.ToFileSizeString(sender.BytesReceived);
             string total = Converters.ToFileSizeString(sender.TotalBytesToReceive);
             string speed = receivedDelta + "/s";
-            string information = $"{speed} - {received}/{total}£¬Ê£ÓàÊ±¼ä£º{DateTime.Parse(sender.EstimatedEndTime) - DateTime.Now:hh\\:mm\\:ss}";
+            string information = $"{speed} - {received}/{total}ï¼Œå‰©ä½™æ—¶é—´ï¼š{DateTime.Parse(sender.EstimatedEndTime) - DateTime.Now:hh\\:mm\\:ss}";
             BytesReceived = sender.BytesReceived;
             DateTime = DateTime.Now;
             Information = information;

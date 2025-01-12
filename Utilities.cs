@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using Windows.Storage;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.Com;
@@ -82,12 +83,7 @@ namespace Edge
                     }
                 ];
                 fsd.SetFileTypes(extensions.ToArray());
-                PInvoke.SHGetKnownFolderPath(
-                    PInvoke.FOLDERID_Downloads,
-                    KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT,
-                    null,
-                    out PWSTR ppszPath);
-                string path = ppszPath.ToString();
+                string path = UserDataPaths.GetDefault().Downloads;
 
                 PInvoke.SHCreateItemFromParsingName(
                     path,

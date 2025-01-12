@@ -8,8 +8,6 @@ CoCreateInstance
 FileSaveDialog
 IFileSaveDialog
 SHCreateItemFromParsingName
-SHGetKnownFolderPath
-FOLDERID_Downloads
 
 WM_SYSCOMMAND
 WM_NCLBUTTONDOWN
