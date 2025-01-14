@@ -58,8 +58,8 @@ namespace Edge
 
         public void AddHomePage()
         {
-            string uri = App.settings["SpecificUri"].ToString();
-            if (uri != string.Empty)
+            string uri = App.settings.SpecificUri;
+            if (!string.IsNullOrEmpty(uri))
             {
                 AddNewTab(new WebViewPage() { WebUri = uri });
             }

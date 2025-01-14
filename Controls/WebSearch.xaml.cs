@@ -1,10 +1,8 @@
-using Edge.Data;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System.IO;
 using System.Linq;
-using System.Text.Json;
 
 namespace Edge
 {
@@ -95,7 +93,7 @@ namespace Edge
                 FileInfo fileInfo = new(text);
                 string ext = fileInfo.Extension;
                 MainWindow mainWindow = App.GetWindowForElement(this);
-                if (Info.LanguageDict.RootElement.TryGetProperty(ext, out JsonElement _))
+                if (Info.LanguageDict.TryGetValue(ext, out var _))
                 {
                     if (ext == ".lnk")
                     {
@@ -106,7 +104,7 @@ namespace Edge
                         mainWindow.AddNewTab(new TextFilePage(text), fileInfo.Name);
                     }
                 }
-                else if (Info.ImageDict.RootElement.TryGetProperty(ext, out JsonElement _))
+                else if (Info.ImageDict.TryGetValue(ext, out var _))
                 {
                     mainWindow.AddNewTab(new ImageViewer(text), fileInfo.Name);
                 }
@@ -117,7 +115,7 @@ namespace Edge
             }
             else
             {
-                Navigate(Info.SearchEngineList.First(x => x.Name == App.settings["SearchEngine"].ToString()).Uri + text);
+                Navigate(Info.SearchEngineList.First(x => x.Name == App.settings.SearchEngine).Uri + text);
             }
         }
 

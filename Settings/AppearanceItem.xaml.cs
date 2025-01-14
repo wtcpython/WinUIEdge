@@ -3,7 +3,6 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Text.Json.Nodes;
 
 namespace Edge
 {
@@ -16,7 +15,7 @@ namespace Edge
     public sealed partial class AppearanceItem : Page
     {
         private static bool inLoading = false;
-        public JsonObject ToolBar = App.settings["ToolBar"].AsObject();
+        public Dictionary<string, bool> ToolBar = App.settings.ToolBar;
         public List<ToolBarVisual> ToolBarVisualList = [];
         public List<string> themeList = [.. Enum.GetNames<ElementTheme>()];
         public AppearanceItem()
@@ -25,13 +24,13 @@ namespace Edge
             ToolBarVisualList = ToolBar.Select(x => new ToolBarVisual()
             {
                 Text = x.Key,
-                Visual = x.Value.GetValue<bool>()
+                Visual = x.Value
             }).ToList();
             toolBarVisualView.ItemsSource = ToolBarVisualList;
 
             inLoading = true;
-            appearanceView.SelectedIndex = themeList.IndexOf(App.settings["Appearance"].ToString());
-            showMicaSwitch.IsOn = App.settings["ShowMicaIfEnabled"].GetValue<bool>();
+            appearanceView.SelectedIndex = themeList.IndexOf(App.settings.Appearance);
+            showMicaSwitch.IsOn = App.settings.ShowMicaIfEnabled;
             inLoading = false;
         }
 
@@ -40,7 +39,7 @@ namespace Edge
             if (!inLoading)
             {
                 int index = appearanceView.SelectedIndex;
-                App.settings["Appearance"] = themeList[index];
+                App.settings.Appearance = themeList[index];
 
                 foreach (Window window in App.mainWindows)
                 {
@@ -56,7 +55,7 @@ namespace Edge
                 if ((sender as ToggleSwitch).Name == visual.Text)
                 {
                     ToolBar[visual.Text] = (sender as ToggleSwitch).IsOn;
-                    App.settings["ToolBar"] = ToolBar;
+                    App.settings.ToolBar = ToolBar;
                 }
             }
         }
@@ -65,7 +64,7 @@ namespace Edge
         {
             if (!inLoading)
             {
-                App.settings["ShowMicaIfEnabled"] = (sender as ToggleSwitch).IsOn;
+                App.settings.ShowMicaIfEnabled = (sender as ToggleSwitch).IsOn;
 
                 foreach (Window window in App.mainWindows)
                 {

@@ -37,7 +37,7 @@
             </GridView.ItemContainerStyle>
             
             <GridView.ItemTemplate>
-                <DataTemplate x:DataType="data:WebsiteInfo" xmlns:data="using:Edge.Data">
+                <DataTemplate x:DataType="local:WebsiteInfo">
 
                     <StackPanel Width="64" Margin="10"
                                 ToolTipService.ToolTip="{x:Bind Uri}">

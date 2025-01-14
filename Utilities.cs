@@ -27,7 +27,7 @@ namespace Edge
     {
         public static void SetBackdrop(this Window window)
         {
-            if (App.settings["ShowMicaIfEnabled"].GetValue<bool>())
+            if (App.settings.ShowMicaIfEnabled)
             {
                 if (MicaController.IsSupported())
                 {
@@ -46,7 +46,7 @@ namespace Edge
 
         public static void SetThemeColor(this Window window)
         {
-            string appearance = App.settings["Appearance"].ToString();
+            string appearance = App.settings.Appearance;
             if (window.Content is FrameworkElement rootElement)
             {
                 rootElement.RequestedTheme = Enum.Parse<ElementTheme>(appearance);

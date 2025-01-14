@@ -1,30 +1,51 @@
 using CommunityToolkit.Common;
-using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using Windows.Storage;
 
 namespace Edge
 {
-    public partial class DownloadObject : ObservableObject
+    public partial class DownloadObject : INotifyPropertyChanged
     {
         public CoreWebView2DownloadOperation Operation { get; set; }
         public string Title { get; set; }
 
-        [ObservableProperty]
         private double bytesReceived;
+
+        public double BytesReceived
+        {
+            get => bytesReceived;
+            set
+            {
+                bytesReceived = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BytesReceived)));
+            }
+        }
 
         public double TotalBytes { get; set; }
 
-        [ObservableProperty]
         private string information;
 
+        public string Information
+        {
+            get => information;
+            set
+            {
+                information = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Information)));
+            }
+        }
+
         public DateTime DateTime { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public DownloadObject(CoreWebView2DownloadOperation operation)
         {
             Operation = operation;

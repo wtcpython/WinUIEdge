@@ -1,4 +1,3 @@
-using Edge.Data;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -18,7 +17,7 @@ namespace Edge
             this.InitializeComponent();
             this.Loaded += InstallWebView2;
 
-            if (App.settings["ShowSuggestUri"].GetValue<bool>())
+            if (App.settings.ShowSuggestUri)
             {
                 View.ItemsSource = Info.SuggestWebsiteList;
             }
@@ -27,13 +26,13 @@ namespace Edge
                 View.Visibility = Visibility.Collapsed;
             }
 
-            if (App.settings["ShowBackground"].GetValue<bool>())
+            if (App.settings.ShowBackground)
             {
                 homeGrid.Background = new ImageBrush()
                 {
                     ImageSource = new BitmapImage()
                     {
-                        UriSource = new Uri(App.settings["BackgroundImage"].ToString())
+                        UriSource = new Uri(App.settings.BackgroundImage)
                     },
                     Stretch = Stretch.UniformToFill
                 };

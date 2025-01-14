@@ -1,10 +1,9 @@
-using Edge.Data;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppNotifications;
 using Microsoft.Windows.AppNotifications.Builder;
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json.Nodes;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
@@ -13,23 +12,24 @@ namespace Edge
 {
     public sealed partial class StartItem : Page
     {
-        public JsonObject ToolBar = App.settings["ToolBar"].AsObject();
+        public Dictionary<string, bool> ToolBar = App.settings.ToolBar;
         public StartItem()
         {
             this.InitializeComponent();
-            radios.SelectedIndex = App.settings["StartBehavior"].GetValue<int>();
+            radios.SelectedIndex = App.settings.StartBehavior;
 
-            uriBox.Text = App.settings["SpecificUri"].ToString();
+            uriBox.Text = App.settings.SpecificUri;
             uriBox.IsEnabled = radios.SelectedIndex == 2;
             uriButton.IsEnabled = radios.SelectedIndex == 2;
 
-            setHomeButton.IsOn = ToolBar["HomeButton"].GetValue<bool>();
+            setHomeButton.IsOn = ToolBar.GetValueOrDefault("HomeButton", false);
+
             searchEngineBox.ItemsSource = Info.SearchEngineList.Select(x => x.Name).ToList();
-            searchEngineBox.SelectedItem = Info.SearchEngineList.First(x => x.Name.Equals(App.settings["SearchEngine"].ToString())).Name;
+            searchEngineBox.SelectedItem = Info.SearchEngineList.First(x => x.Name.Equals(App.settings.SearchEngine)).Name;
 
-            showSuggestUri.IsOn = App.settings["ShowSuggestUri"].GetValue<bool>();
+            showSuggestUri.IsOn = App.settings.ShowSuggestUri;
 
-            showBackground.IsOn = backgroundCard.IsEnabled = App.settings["ShowBackground"].GetValue<bool>();
+            showBackground.IsOn = backgroundCard.IsEnabled = App.settings.ShowBackground;
         }
 
         private void CheckUri(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -50,42 +50,42 @@ namespace Edge
             }
             else
             {
-                App.settings["SpecificUri"] = uriBox.Text;
+                App.settings.SpecificUri = uriBox.Text;
             }
         }
 
         private void HomeButtonVisualChanged(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             ToolBar["HomeButton"] = setHomeButton.IsOn;
-            App.settings["ToolBar"] = ToolBar;
+            App.settings.ToolBar = ToolBar;
         }
 
         private void SearchEngineChanged(object sender, SelectionChangedEventArgs e)
         {
-            App.settings["SearchEngine"] = Info.SearchEngineList.First(x => x.Name == (string)searchEngineBox.SelectedItem).Name;
+            App.settings.SearchEngine = Info.SearchEngineList.First(x => x.Name == (string)searchEngineBox.SelectedItem).Name;
         }
 
         private void BehaviorChanged(object sender, SelectionChangedEventArgs e)
         {
             uriBox.IsEnabled = radios.SelectedIndex == 2;
             uriButton.IsEnabled = radios.SelectedIndex == 2;
-            App.settings["StartBehavior"] = radios.SelectedIndex;
+            App.settings.StartBehavior = radios.SelectedIndex;
             if (radios.SelectedIndex != 2)
             {
                 uriBox.Text = string.Empty;
-                App.settings["SpecificUri"] = uriBox.Text;
+                App.settings.SpecificUri = uriBox.Text;
             }
         }
 
         private void SuggestUriVisualChanged(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
-            App.settings["ShowSuggestUri"] = showSuggestUri.IsOn;
+            App.settings.ShowSuggestUri = showSuggestUri.IsOn;
         }
 
         private void ShowBackgroundChanged(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             backgroundCard.IsEnabled = showBackground.IsOn;
-            App.settings["ShowBackground"] = showBackground.IsOn;
+            App.settings.ShowBackground = showBackground.IsOn;
         }
 
         private async void SetBackgroundImage(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -104,7 +104,7 @@ namespace Edge
             InitializeWithWindow.Initialize(picker, this.GetWindowHandle());
 
             StorageFile storageFile = await picker.PickSingleFileAsync();
-            App.settings["BackgroundImage"] = storageFile.Path;
+            App.settings.BackgroundImage = storageFile.Path;
         }
     }
 }

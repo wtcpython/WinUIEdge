@@ -1,5 +1,5 @@
-using Edge.Data;
 using Microsoft.UI.Xaml.Controls;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -20,7 +20,7 @@ namespace Edge
 
             file = filepath;
             string ext = Path.GetExtension(filepath);
-            typeName = Info.LanguageDict.RootElement.GetProperty(ext).ToString();
+            typeName = Info.LanguageDict.GetValueOrDefault(ext);
 
             // 加载编码列表
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);

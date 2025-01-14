@@ -26,15 +26,15 @@ namespace Edge
 
         private void InitializeToolbarVisibility()
         {
-            homeButton.Visibility = App.settings["ToolBar"]!["HomeButton"].GetValue<bool>() ? Visibility.Visible : Visibility.Collapsed;
-            historyButton.Visibility = App.settings["ToolBar"]!["HistoryButton"].GetValue<bool>() ? Visibility.Visible : Visibility.Collapsed;
-            downloadButton.Visibility = App.settings["ToolBar"]!["DownloadButton"].GetValue<bool>() ? Visibility.Visible : Visibility.Collapsed;
+            homeButton.Visibility = App.settings.ToolBar!["HomeButton"] ? Visibility.Visible : Visibility.Collapsed;
+            historyButton.Visibility = App.settings.ToolBar!["HistoryButton"] ? Visibility.Visible : Visibility.Collapsed;
+            downloadButton.Visibility = App.settings.ToolBar!["DownloadButton"] ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void SetNavigationButtonStatus()
         {
             uriGoBackButton.IsEnabled = EdgeWebViewEngine.CanGoBack;
-            uriGoForwardButton.Visibility = App.settings["ToolBar"]!["ForwardButton"].GetValue<bool>() && EdgeWebViewEngine.CanGoForward
+            uriGoForwardButton.Visibility = App.settings.ToolBar!["ForwardButton"] && EdgeWebViewEngine.CanGoForward
                 ? Visibility.Visible : Visibility.Collapsed;
         }
 
@@ -267,7 +267,7 @@ namespace Edge
                     {
                         args.ResultFilePath = file;
                         downloadButton.DownloadList.Add(new DownloadObject(args.DownloadOperation));
-                        if (App.settings["ShowFlyoutWhenStartDownloading"].GetValue<bool>())
+                        if (App.settings.ShowFlyoutWhenStartDownloading)
                         {
                             downloadButton.ShowFlyout();
                         }

@@ -1,4 +1,3 @@
-using Edge.Data;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -11,7 +10,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 
 
 namespace Edge
@@ -20,7 +18,7 @@ namespace Edge
     {
         public static List<MainWindow> mainWindows = [];
         public static string LatestVersion = null;
-        public static JsonNode settings;
+        public static Settings settings;
         public static WebView2 webView2 = new();
         public static ObservableCollection<WebViewHistory> Histories = [];
         public static WordSearchEngine searchEngine;
@@ -44,7 +42,7 @@ namespace Edge
             window.Closed += (sender, e) =>
             {
                 mainWindows.Remove(window);
-                File.WriteAllText("./settings.json", settings.ToJsonString(new JsonSerializerOptions { WriteIndented = true }));
+                File.WriteAllText("./settings.json", JsonSerializer.Serialize(settings, JsonContext.Default.Settings));
             };
             mainWindows.Add(window);
             return window;
@@ -73,8 +71,7 @@ namespace Edge
 
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-            string path = Info.CheckUserSettingData();
-            settings = JsonNode.Parse(File.ReadAllText(path));
+            settings = Info.LoadSettings();
 
             m_window = CreateNewWindow();
             m_window.Activate();
