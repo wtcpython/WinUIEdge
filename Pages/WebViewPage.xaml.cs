@@ -266,7 +266,7 @@ namespace Edge
                     if (file != null)
                     {
                         args.ResultFilePath = file;
-                        downloadButton.DownloadList.Add(new DownloadObject(args.DownloadOperation));
+                        App.DownloadList.Add(new DownloadObject(args.DownloadOperation));
                         if (App.settings.ShowFlyoutWhenStartDownloading)
                         {
                             downloadButton.ShowFlyout();

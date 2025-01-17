@@ -21,6 +21,7 @@ namespace Edge
         public static Settings settings;
         public static WebView2 webView2 = new();
         public static ObservableCollection<WebViewHistory> Histories = [];
+        public static ObservableCollection<DownloadObject> DownloadList = [];
         public static WordSearchEngine searchEngine;
 
         public App()

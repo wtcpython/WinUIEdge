@@ -70,19 +70,17 @@ namespace Edge
 
     public sealed partial class Download : Page
     {
-        public ObservableCollection<DownloadObject> DownloadList = [];
-
         public Download()
         {
             this.InitializeComponent();
-            listView.ItemsSource = DownloadList;
+            listView.ItemsSource = App.DownloadList;
         }
 
         private void RemoveDownloadItem(object sender, RoutedEventArgs e)
         {
             DownloadObject deleteObject = (sender as Button).DataContext as DownloadObject;
             deleteObject.Operation.Cancel();
-            DownloadList.Remove(deleteObject);
+            App.DownloadList.Remove(deleteObject);
         }
 
         private void OpenDownloadFolderRequest(object sender, RoutedEventArgs e)
@@ -94,13 +92,13 @@ namespace Edge
         {
             CoreWebView2 coreWebView2 = App.GetCoreWebView2(this);
             await coreWebView2.Profile.ClearBrowsingDataAsync(CoreWebView2BrowsingDataKinds.DownloadHistory);
-            DownloadList.Clear();
+            App.DownloadList.Clear();
         }
 
         private void SearchDownload(object sender, TextChangedEventArgs e)
         {
             string text = (sender as TextBox).Text;
-            listView.ItemsSource = DownloadList.Where(x => x.Title.Contains(text, StringComparison.OrdinalIgnoreCase)).ToList();
+            listView.ItemsSource = App.DownloadList.Where(x => x.Title.Contains(text, StringComparison.OrdinalIgnoreCase)).ToList();
         }
 
         public void ShowFlyout()
