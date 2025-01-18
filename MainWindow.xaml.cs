@@ -3,8 +3,10 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.Web.WebView2.Core;
+using System;
 using System.ComponentModel;
 using Windows.Foundation;
+using Windows.System;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;
@@ -347,6 +349,16 @@ namespace Edge
         private void OpenBingPage(object sender, RoutedEventArgs e)
         {
             AddNewTab(new WebViewPage() { WebUri = "https://www.bing.com/" });
+        }
+
+        private async void LearnAboutWorkspaces(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("https://aka.ms/edgeworkspaces/learn-more-msa"));
+        }
+
+        private void CreateNewWorkspaces(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -25,7 +25,8 @@ namespace Edge
 
         private void TryCreateNewWindow(object sender, RoutedEventArgs e)
         {
-            var window = App.CreateNewWindow();
+            MainWindow window = App.CreateNewWindow();
+            window.AddHomePage();
             window.Activate();
         }
 

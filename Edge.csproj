@@ -51,7 +51,7 @@
     <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.106" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.241114003" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="9.0.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="9.0.1" />
     <PackageReference Include="WinUIEdit" Version="0.0.3-prerelease" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>

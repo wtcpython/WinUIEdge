@@ -10,8 +10,58 @@
     <TabView
         Name="tabView"
         TabCloseRequested="CloseTab"
-        VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        HorizontalAlignment="Stretch"
         IsAddTabButtonVisible="False">
+        <TabView.TabStripHeader>
+            <Button
+                Style="{StaticResource AlternateCloseButtonStyle}"
+                ToolTipService.ToolTip="工作区">
+                <FontIcon Glyph="&#xe8b7;"/>
+                <Button.Flyout>
+                    <Flyout>
+                        <StackPanel Width="300" Spacing="10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="Edge 工作区" VerticalAlignment="Center" FontWeight="Bold"/>
+
+                                <Button
+                                    Style="{StaticResource AlternateCloseButtonStyle}"
+                                    HorizontalAlignment="Right"
+                                    ToolTipService.ToolTip="创建新工作区" Grid.Column="1">
+                                    <FontIcon Glyph="&#xecc8;"/>
+                                </Button>
+
+                                <Button
+                                    Style="{StaticResource AlternateCloseButtonStyle}"
+                                    ToolTipService.ToolTip="创建新工作区" Grid.Column="2">
+                                    <FontIcon Glyph="&#xe712;" />
+                                </Button>
+                            </Grid>
+
+                            <TextBlock TextWrapping="WrapWholeWords">
+                                使用工作区组织浏览活动,并与他人共享,以实现无缝的协作浏览。
+                            </TextBlock>
+
+                            <Grid ColumnSpacing="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <Button Content="新建" Click="CreateNewWorkspaces" HorizontalAlignment="Stretch" Style="{ThemeResource AccentButtonStyle}"/>
+                                <Button Content="了解更多信息" Click="LearnAboutWorkspaces" HorizontalAlignment="Stretch" Grid.Column="1"/>
+                            </Grid>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+        </TabView.TabStripHeader>
         <TabView.TabStripFooter>
             <Grid>
 

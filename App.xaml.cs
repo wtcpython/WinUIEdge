@@ -39,7 +39,6 @@ namespace Edge
         public static MainWindow CreateNewWindow()
         {
             MainWindow window = new();
-            window.AddHomePage();
             window.Closed += (sender, e) =>
             {
                 mainWindows.Remove(window);
@@ -74,8 +73,9 @@ namespace Edge
         {
             settings = Info.LoadSettings();
 
-            m_window = CreateNewWindow();
-            m_window.Activate();
+            window = CreateNewWindow();
+            window.AddHomePage();
+            window.Activate();
 
             AppNotificationManager notificationManager = AppNotificationManager.Default;
             notificationManager.NotificationInvoked += NotificationManager_NotificationInvoked;
@@ -85,7 +85,7 @@ namespace Edge
             var activationKind = activatedArgs.Kind;
             if (activationKind != ExtendedActivationKind.AppNotification)
             {
-                OverlappedPresenter presenter = m_window.AppWindow.Presenter as OverlappedPresenter;
+                OverlappedPresenter presenter = window.AppWindow.Presenter as OverlappedPresenter;
                 presenter.Restore(true);
             }
             else
@@ -96,7 +96,7 @@ namespace Edge
 
         private void HandleNotification(AppNotificationActivatedEventArgs args)
         {
-            var dispatcherQueue = m_window?.DispatcherQueue ?? DispatcherQueue.GetForCurrentThread();
+            var dispatcherQueue = window?.DispatcherQueue ?? DispatcherQueue.GetForCurrentThread();
 
             dispatcherQueue.TryEnqueue(async delegate
             {
@@ -106,7 +106,7 @@ namespace Edge
                         await Windows.System.Launcher.LaunchUriAsync(new Uri("https://github.com/wtcpython/WinUIEdge/releases/latest/"));
                         break;
                     case "ChangeStartUri":
-                        m_window.Content.Focus(FocusState.Programmatic);
+                        window.Content.Focus(FocusState.Programmatic);
                         break;
                 }
             });
@@ -117,6 +117,6 @@ namespace Edge
             HandleNotification(args);
         }
 
-        private static Window m_window;
+        private static MainWindow window;
     }
 }
