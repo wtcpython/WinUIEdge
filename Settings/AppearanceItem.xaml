@@ -55,18 +55,10 @@
         <ItemsControl x:Name="toolBarVisualView">
             <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="local:ToolBarVisual">
-                    <Grid>
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Text="{x:Bind Text}" VerticalAlignment="Center"/>
-                        <ToggleSwitch
-                            Name="{x:Bind Text}" IsOn="{x:Bind Visual}" Toggled="VisualChanged"
-                            HorizontalAlignment="Right" Grid.Column="1"/>
-                    </Grid>
+                    <controls:SettingsCard
+                        Header="{x:Bind Description}">
+                        <ToggleSwitch IsOn="{x:Bind Visual}" Toggled="VisualChanged" />
+                    </controls:SettingsCard>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
