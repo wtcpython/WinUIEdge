@@ -2,7 +2,6 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.Web.WebView2.Core;
 using System;
 using System.ComponentModel;
 using Windows.Foundation;
