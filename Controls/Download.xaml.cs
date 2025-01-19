@@ -90,8 +90,8 @@ namespace Edge
 
         private async void DeleteDownloadRequest(object sender, RoutedEventArgs e)
         {
-            CoreWebView2 coreWebView2 = App.GetCoreWebView2(this);
-            await coreWebView2.Profile.ClearBrowsingDataAsync(CoreWebView2BrowsingDataKinds.DownloadHistory);
+            WebView2 webView2 = App.GetWebView2(this);
+            await webView2.CoreWebView2.Profile.ClearBrowsingDataAsync(CoreWebView2BrowsingDataKinds.DownloadHistory);
             App.DownloadList.Clear();
         }
 

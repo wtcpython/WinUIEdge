@@ -1,18 +1,80 @@
 {
-  "Appearance": "Default",
-  "AskDownloadBehavior": false,
-  "BackgroundImage": "",
-  "SearchEngine": "Bing",
-  "ShowBackground": false,
-  "ShowFlyoutWhenStartDownloading": true,
-  "ShowMicaIfEnabled": true,
-  "ShowSuggestUri": true,
-  "SpecificUri": "",
-  "StartBehavior": 0,
-  "ToolBar": {
-    "HomeButton": false,
-    "ForwardButton": true,
-    "HistoryButton": true,
-    "DownloadButton": true
-  }
+    "Appearance": "Default",
+    "AskDownloadBehavior": false,
+    "BackgroundImage": "",
+    "SearchEngine": "Bing",
+    "ShowBackground": false,
+    "ShowFlyoutWhenStartDownloading": true,
+    "ShowMicaIfEnabled": true,
+    "ShowSuggestUri": true,
+    "SpecificUri": "",
+    "StartBehavior": 0,
+    "ToolBar": {
+        "HomeButton": false,
+        "ForwardButton": true,
+        "HistoryButton": true,
+        "DownloadButton": true
+    },
+    "Favorites": [
+        {
+            "Name": "百度",
+            "Icon": "https://www.baidu.com/favicon.ico",
+            "Uri": "https://www.baidu.com"
+        },
+        {
+            "Name": "B 站",
+            "Icon": "https://www.bilibili.com/favicon.ico",
+            "Uri": "https://www.bilibili.com"
+        },
+        {
+            "Name": "抖音",
+            "Icon": "https://www.douyin.com/favicon.ico",
+            "Uri": "https://www.douyin.com"
+        },
+        {
+            "Name": "爱奇艺",
+            "Icon": "https://www.iqiyi.com/favicon.ico",
+            "Uri": "https://www.iqiyi.com"
+        },
+        {
+            "Name": "4399",
+            "Icon": "https://www.4399.com/favicon.ico",
+            "Uri": "https://www.4399.com"
+        },
+        {
+            "Name": "京东",
+            "Icon": "https://www.jd.com/favicon.ico",
+            "Uri": "https://www.jd.com"
+        },
+        {
+            "Name": "淘宝",
+            "Icon": "https://www.taobao.com/favicon.ico",
+            "Uri": "https://www.taobao.com"
+        },
+        {
+            "Name": "360 搜索",
+            "Icon": "https://www.so.com/favicon.ico",
+            "Uri": "https://www.so.com/"
+        },
+        {
+            "Name": "天猫",
+            "Icon": "https://www.tmall.com/favicon.ico",
+            "Uri": "https://www.tmall.com"
+        },
+        {
+            "Name": "QQ 邮箱",
+            "Icon": "https://mail.qq.com/favicon.ico",
+            "Uri": "https://mail.qq.com"
+        },
+        {
+            "Name": "腾讯视频",
+            "Icon": "https://v.qq.com/favicon.ico",
+            "Uri": "https://v.qq.com"
+        },
+        {
+            "Name": "小红书",
+            "Icon": "https://www.xiaohongshu.com/favicon.ico",
+            "Uri": "https://www.xiaohongshu.com"
+        }
+    ]
 }

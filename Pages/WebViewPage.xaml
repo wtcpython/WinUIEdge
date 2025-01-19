@@ -11,6 +11,7 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -58,6 +59,14 @@
             </StackPanel>
 
             <local:WebSearch x:Name="Search" Grid.Column="1" VerticalAlignment="Center"/>
+            <Button Name="favoriteButton" Click="FavoriteStateChanged" Grid.Column="1" 
+                ToolTipService.ToolTip="将此页面添加到收藏夹 (Ctrl+D)" Background="Transparent"
+                Style="{StaticResource AlternateCloseButtonStyle}">
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="D" Modifiers="Control"/>
+                </Button.KeyboardAccelerators>
+                <FontIcon Glyph="&#xe734;"/>
+            </Button>
 
             <StackPanel Orientation="Horizontal" Grid.Column="2">
                 <local:History x:Name="historyButton"/>
@@ -69,13 +78,13 @@
 
         </Grid>
 
-        <Border BorderThickness="5" Grid.Row="1">
-            <WebView2 Name="EdgeWebViewEngine" CoreWebView2Initialized="WebView2Initialized"/>
-        </Border>
+        <local:FavoriteBar Grid.Row="1"/>
+
+        <WebView2 Name="EdgeWebViewEngine" CoreWebView2Initialized="WebView2Initialized" Grid.Row="2"/>
 
         <Border
             Background="{ThemeResource LayerOnMicaBaseAltFillColorTertiaryBrush}" CornerRadius="{ThemeResource ControlCornerRadius}"
-            MaxWidth="400" Height="24" Grid.Row="1"
+            MaxWidth="400" Height="24" Grid.Row="2"
             HorizontalAlignment="Left" VerticalAlignment="Bottom">
             <TextBlock
                 Name="uriPreview" TextTrimming="CharacterEllipsis" FontSize="12"

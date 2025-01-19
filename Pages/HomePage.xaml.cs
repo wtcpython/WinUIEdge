@@ -77,17 +77,17 @@ namespace Edge
             MainWindow mainWindow = App.GetWindowForElement(this);
             mainWindow.AddNewTab(new WebViewPage()
             {
-                WebUri = (e.ClickedItem as WebsiteInfo).Uri
+                WebUri = (e.ClickedItem as WebsiteInfo).Uri,
             });
         }
 
         private void OpenWebSite(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = App.GetWindowForElement(this);
-            string Uri = ((sender as MenuFlyoutItem).DataContext as WebsiteInfo).Uri;
+            Uri uri = ((sender as MenuFlyoutItem).DataContext as WebsiteInfo).Uri;
             mainWindow.AddNewTab(new WebViewPage()
             {
-                WebUri = Uri
+                WebUri = uri
             });
         }
 

@@ -48,8 +48,8 @@ namespace Edge
 
         private void ShowPrintUI(object sender, RoutedEventArgs e)
         {
-            CoreWebView2 coreWebView2 = App.GetCoreWebView2(this);
-            coreWebView2.ShowPrintUI(CoreWebView2PrintDialogKind.Browser);
+            WebView2 webView2 = App.GetWebView2(this);
+            webView2.CoreWebView2.ShowPrintUI(CoreWebView2PrintDialogKind.Browser);
         }
 
         private void CloseApp(object sender, RoutedEventArgs e)

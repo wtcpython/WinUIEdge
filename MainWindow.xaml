@@ -111,7 +111,7 @@
             <MenuFlyout x:Name="TabFlyout">
                 <MenuFlyoutItem Text="在右侧新建标签页" Click="CreateNewTabOnRight">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xe8a7;"/>
+                        <FontIcon Glyph="&#xec6c;"/>
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
 
@@ -136,7 +136,11 @@
                     </MenuFlyoutItem.KeyboardAccelerators>
                 </MenuFlyoutItem>
 
-                <MenuFlyoutItem Icon="NewWindow" Text="将标签页移动到新窗口" Click="MoveTabToNewWindow"/>
+                <MenuFlyoutItem Text="将标签页移动到新窗口" Click="MoveTabToNewWindow">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xe737;"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
 
                 <MenuFlyoutItem Text="固定标签页" Click="PinTab">
                     <MenuFlyoutItem.Icon>

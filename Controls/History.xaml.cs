@@ -28,7 +28,7 @@ namespace Edge
             MainWindow mainWindow = App.GetWindowForElement(this);
             if (mainWindow.SelectedItem is WebViewPage page)
             {
-                await page.CoreWebView2.Profile.ClearBrowsingDataAsync(CoreWebView2BrowsingDataKinds.BrowsingHistory);
+                await page.webView2.CoreWebView2.Profile.ClearBrowsingDataAsync(CoreWebView2BrowsingDataKinds.BrowsingHistory);
             }
             App.Histories.Clear();
         }
@@ -48,7 +48,7 @@ namespace Edge
         {
             MainWindow mainWindow = App.GetWindowForElement(this);
 
-            mainWindow.AddNewTab(new WebViewPage() { WebUri = (e.ClickedItem as WebViewHistory).Source });
+            mainWindow.AddNewTab(new WebViewPage() { WebUri = new Uri((e.ClickedItem as WebViewHistory).Source) });
         }
     }
 }

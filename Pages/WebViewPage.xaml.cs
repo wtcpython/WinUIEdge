@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Windows.Foundation;
 
 namespace Edge
@@ -11,6 +12,8 @@ namespace Edge
     public sealed partial class WebViewPage : Page
     {
         public TabViewItem tabViewItem { get; set; }
+        private bool InFavoriteList = false;
+
         public WebViewPage()
         {
             InitializeComponent();
@@ -18,10 +21,10 @@ namespace Edge
             SetNavigationButtonStatus();
         }
 
-        public string WebUri
+        public Uri WebUri
         {
-            get => EdgeWebViewEngine.Source.ToString();
-            set => EdgeWebViewEngine.Source = new Uri(value);
+            get => EdgeWebViewEngine.Source;
+            set => EdgeWebViewEngine.Source = value;
         }
 
         private void InitializeToolbarVisibility()
@@ -65,6 +68,16 @@ namespace Edge
                 Time = DateTime.Now.ToString()
             });
             SetNavigationButtonStatus();
+
+            if (App.settings.Favorites.Where(x => x.Uri.Equals(sender.Source)).Any())
+            {
+                InFavoriteList = true;
+            }
+            else
+            {
+                InFavoriteList = false;
+            }
+            SetFavoriteIcon();
         }
 
         private void CoreWebView2_FaviconChanged(CoreWebView2 sender, object args)
@@ -213,7 +226,7 @@ namespace Edge
             return subItem;
         }
 
-        private RadioMenuFlyoutItem CreateRadioMenuItem(CoreWebView2ContextMenuItem menuItem)
+        private static RadioMenuFlyoutItem CreateRadioMenuItem(CoreWebView2ContextMenuItem menuItem)
         {
             var item = new RadioMenuFlyoutItem()
             {
@@ -226,7 +239,7 @@ namespace Edge
             return item;
         }
 
-        private ToggleMenuFlyoutItem CreateToggleMenuItem(CoreWebView2ContextMenuItem menuItem)
+        private static ToggleMenuFlyoutItem CreateToggleMenuItem(CoreWebView2ContextMenuItem menuItem)
         {
             var item = new ToggleMenuFlyoutItem
             {
@@ -239,7 +252,7 @@ namespace Edge
             return item;
         }
 
-        private MenuFlyoutItem CreateCommandMenuItem(CoreWebView2ContextMenuRequestedEventArgs args, CoreWebView2ContextMenuItem menuItem)
+        private static MenuFlyoutItem CreateCommandMenuItem(CoreWebView2ContextMenuRequestedEventArgs args, CoreWebView2ContextMenuItem menuItem)
         {
             var item = new MenuFlyoutItem
             {
@@ -284,7 +297,7 @@ namespace Edge
         {
             args.Handled = true;
             var mainWindow = App.GetWindowForElement(this);
-            mainWindow.AddNewTab(new WebViewPage { WebUri = args.Uri });
+            mainWindow.AddNewTab(new WebViewPage { WebUri = new Uri(args.Uri) });
         }
 
         private void UriGoBackRequest(object sender, RoutedEventArgs e)
@@ -313,7 +326,46 @@ namespace Edge
             else if (name == "下载") downloadButton.ShowFlyout();
         }
 
-        public CoreWebView2 CoreWebView2 => EdgeWebViewEngine.CoreWebView2;
         public WebView2 webView2 => EdgeWebViewEngine;
+
+        private void FavoriteStateChanged(object sender, RoutedEventArgs e)
+        {
+            WebsiteInfo info = App.settings.Favorites.FirstOrDefault(x => x.Uri.Equals(EdgeWebViewEngine.Source));
+            if (info != null)
+            {
+                App.settings.Favorites.Remove(info);
+                InFavoriteList = false;
+            }
+            else
+            {
+                WebsiteInfo newInfo = new()
+                {
+                    Name = EdgeWebViewEngine.CoreWebView2.DocumentTitle,
+                    Icon = EdgeWebViewEngine.CoreWebView2.FaviconUri,
+                    Uri = EdgeWebViewEngine.Source
+                };
+                App.settings.Favorites.Add(newInfo);
+                InFavoriteList = true;
+            }
+            SetFavoriteIcon();
+        }
+
+        private void SetFavoriteIcon()
+        {
+            if (InFavoriteList)
+            {
+                favoriteButton.Content = new FontIcon()
+                {
+                    Glyph = "\ue735"
+                };
+            }
+            else
+            {
+                favoriteButton.Content = new FontIcon()
+                {
+                    Glyph = "\ue734"
+                };
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using System;
 using System.IO;
 using System.Linq;
 
@@ -119,8 +120,9 @@ namespace Edge
             }
         }
 
-        private void Navigate(string uri)
+        private void Navigate(string site)
         {
+            Uri uri = new(site);
             MainWindow mainWindow = App.GetWindowForElement(this);
             var selectedItem = mainWindow.SelectedItem;
             if (selectedItem is WebViewPage webviewPage)

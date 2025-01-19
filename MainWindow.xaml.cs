@@ -63,7 +63,7 @@ namespace Edge
             string uri = App.settings.SpecificUri;
             if (!string.IsNullOrEmpty(uri))
             {
-                AddNewTab(new WebViewPage() { WebUri = uri });
+                AddNewTab(new WebViewPage() { WebUri = new Uri(uri) });
             }
             else
             {
@@ -240,21 +240,21 @@ namespace Edge
 
         private void RefreshTab(object sender, RoutedEventArgs e)
         {
-            CoreWebView2 coreWebView2 = App.GetCoreWebView2(tabView.SelectedItem as TabViewItem);
-            coreWebView2.Reload();
+            WebView2 webView2 = App.GetWebView2(tabView.SelectedItem as TabViewItem);
+            webView2.Reload();
         }
 
         private void CopyTab(object sender, RoutedEventArgs e)
         {
-            CoreWebView2 coreWebView2 = App.GetCoreWebView2(tabView.SelectedItem as TabViewItem);
-            AddNewTab(new WebViewPage() { WebUri = coreWebView2.Source }, index: tabView.SelectedIndex + 1);
+            WebView2 webView2 = App.GetWebView2(tabView.SelectedItem as TabViewItem);
+            AddNewTab(new WebViewPage() { WebUri = webView2.Source }, index: tabView.SelectedIndex + 1);
         }
 
         private void MoveTabToNewWindow(object sender, RoutedEventArgs e)
         {
-            CoreWebView2 coreWebView2 = App.GetCoreWebView2(tabView.SelectedItem as TabViewItem);
+            WebView2 webView2 = App.GetWebView2(tabView.SelectedItem as TabViewItem);
             var window = App.CreateNewWindow();
-            window.AddNewTab(new WebViewPage() { WebUri = coreWebView2.Source.ToString() });
+            window.AddNewTab(new WebViewPage() { WebUri = webView2.Source });
             window.Activate();
             tabView.TabItems.Remove(tabView.SelectedItem);
         }
@@ -294,16 +294,16 @@ namespace Edge
 
         private void MuteTab(object sender, RoutedEventArgs e)
         {
-            CoreWebView2 coreWebView2 = App.GetCoreWebView2(tabView.SelectedItem as TabViewItem);
-            if (!coreWebView2.IsMuted)
+            WebView2 webView2 = App.GetWebView2(tabView.SelectedItem as TabViewItem);
+            if (!webView2.CoreWebView2.IsMuted)
             {
-                coreWebView2.IsMuted = true;
+                webView2.CoreWebView2.IsMuted = true;
                 MuteButton.Icon = new FontIcon() { Glyph = "\ue995" };
                 MuteButton.Text = "取消标签页静音";
             }
             else
             {
-                coreWebView2.IsMuted = false;
+                webView2.CoreWebView2.IsMuted = false;
                 MuteButton.Icon = new FontIcon() { Glyph = "\ue74f" };
                 MuteButton.Text = "使标签页静音";
             }
@@ -317,7 +317,7 @@ namespace Edge
 
         private void OpenClosedTab(object sender, RoutedEventArgs e)
         {
-            AddNewTab(new WebViewPage() { WebUri = App.Histories[^1].Source });
+            AddNewTab(new WebViewPage() { WebUri = new Uri(App.Histories[^1].Source) });
         }
 
         private void PinTab(object sender, RoutedEventArgs e)
@@ -348,7 +348,7 @@ namespace Edge
 
         private void OpenBingPage(object sender, RoutedEventArgs e)
         {
-            AddNewTab(new WebViewPage() { WebUri = "https://www.bing.com/" });
+            AddNewTab(new WebViewPage() { WebUri = new Uri("https://www.bing.com/") });
         }
 
         private async void LearnAboutWorkspaces(object sender, RoutedEventArgs e)

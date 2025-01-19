@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text.Json;
@@ -19,13 +20,14 @@ namespace Edge
         public string SpecificUri { get; set; }
         public int StartBehavior { get; set; }
         public Dictionary<string, bool> ToolBar { get; set; }
+        public ObservableCollection<WebsiteInfo> Favorites { get; set; }
     }
 
     public class WebsiteInfo
     {
         public string Name { get; set; }
         public string Icon { get; set; }
-        public string Uri { get; set; }
+        public Uri Uri { get; set; }
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true)]

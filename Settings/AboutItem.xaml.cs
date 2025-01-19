@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Windows.AppNotifications;
 using Microsoft.Windows.AppNotifications.Builder;
+using System;
 using System.IO;
 using System.Net.Http;
 using Windows.ApplicationModel.DataTransfer;
@@ -66,7 +67,7 @@ namespace Edge
         private void OpenRepoWebsite(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = App.GetWindowForElement(this);
-            mainWindow.AddNewTab(new WebViewPage() { WebUri = "https://github.com/wtcpython/WinUIEdge" });
+            mainWindow.AddNewTab(new WebViewPage() { WebUri = new Uri("https://github.com/wtcpython/WinUIEdge") });
         }
     }
 }

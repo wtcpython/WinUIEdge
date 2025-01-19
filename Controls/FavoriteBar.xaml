@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="Edge.FavoriteBar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Edge"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ListView
+        Name="FavoritesView"
+        IsItemClickEnabled="True"
+        ItemClick="OpenFavoriteWebsite">
+        <ListView.ItemsPanel>
+            <ItemsPanelTemplate>
+                <StackPanel Orientation="Horizontal" />
+            </ItemsPanelTemplate>
+        </ListView.ItemsPanel>
+
+        <ListView.ItemTemplate>
+            <DataTemplate x:DataType="local:WebsiteInfo">
+                <StackPanel Orientation="Horizontal" Spacing="5" MaxWidth="160">
+                    <ImageIcon Source="{x:Bind Icon}" Width="16" Height="16" />
+                    <TextBlock Text="{x:Bind Name}" VerticalAlignment="Center"/>
+                    <ToolTipService.ToolTip>
+                        <StackPanel>
+                            <TextBlock Text="{x:Bind Name}" />
+                            <TextBlock Text="{x:Bind Uri}" />
+                        </StackPanel>
+                    </ToolTipService.ToolTip>
+                    <StackPanel.ContextFlyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="在新标签页中打开" Click="OpenFavoriteWebsiteInNewTab">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xe8b7;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+
+                            <MenuFlyoutItem Text="在新窗口中打开" Click="OpenFavoriteWebsiteInNewWindow">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xe737;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+
+                            <MenuFlyoutSeparator />
+
+                            <MenuFlyoutItem Text="复制" Click="CopyFavoriteWebsite">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xe8c8;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+
+                            <MenuFlyoutSeparator />
+
+                            <MenuFlyoutItem Text="删除" Click="DeleteFavoriteWebsite">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xe74d;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                        </MenuFlyout>
+                    </StackPanel.ContextFlyout>
+                </StackPanel>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</UserControl>
