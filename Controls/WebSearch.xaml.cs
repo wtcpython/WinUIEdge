@@ -4,6 +4,8 @@ using Microsoft.UI.Xaml.Input;
 using System;
 using System.IO;
 using System.Linq;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
 
 namespace Edge
 {
@@ -132,6 +134,31 @@ namespace Edge
             else
             {
                 mainWindow.AddNewTab(new WebViewPage() { WebUri = uri });
+            }
+        }
+
+        private void SearchBox_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                e.AcceptedOperation = DataPackageOperation.Copy;
+            }
+            else
+            {
+                e.AcceptedOperation = DataPackageOperation.None;
+            }
+        }
+
+        private async void SearchBox_Drop(object sender, DragEventArgs e)
+        {
+            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                var items = await e.DataView.GetStorageItemsAsync();
+                var file = items.OfType<StorageFile>().FirstOrDefault();
+                if (file != null)
+                {
+                    SearchBox.Text = file.Path;
+                }
             }
         }
     }

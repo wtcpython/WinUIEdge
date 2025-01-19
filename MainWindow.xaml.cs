@@ -41,6 +41,7 @@ namespace Edge
         {
             this.InitializeComponent();
             ExtendsContentIntoTitleBar = true;
+            AppWindow.SetIcon("./Assets/icon.ico");
             SetTitleBar(AppTitleBar);
 
             this.SetBackdrop();

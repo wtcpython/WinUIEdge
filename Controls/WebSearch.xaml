@@ -15,7 +15,9 @@
             GotFocus="SearchBox_GotFocus"
             LostFocus="SearchBox_LostFocus"
             KeyDown="TextBox_KeyDown"
-            TextChanged="OnTextChanged"/>
+            TextChanged="OnTextChanged"
+            DragOver="SearchBox_DragOver"
+            Drop="SearchBox_Drop"/>
         <Popup
             x:Name="SuggestionPopup">
             <ListView
