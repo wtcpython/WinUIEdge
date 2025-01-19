@@ -12,7 +12,7 @@
   <Identity
     Name="WinUIEdge"
     Publisher="CN=wtc"
-    Version="1.0.0.0" />
+    Version="1.9.7.0" />
 
   <mp:PhoneIdentity PhoneProductId="71ae8621-8427-46b0-9d28-e05e044bc12c" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
