@@ -72,7 +72,7 @@
 
         </Grid>
 
-        <local:FavoriteBar Grid.Row="1"/>
+        <local:FavoriteList Grid.Row="1"/>
 
         <WebView2 Name="EdgeWebViewEngine" CoreWebView2Initialized="WebView2Initialized" Grid.Row="2"/>
 

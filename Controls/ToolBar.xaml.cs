@@ -74,6 +74,7 @@ namespace Edge
             this.InitializeComponent();
             historyList.ItemsSource = App.Histories;
             downloadList.ItemsSource = App.DownloadList;
+            FavoriteList.SetItemsPanel(FavoriteList.VerticalTemplate);
 
             HistoryButton.Visibility = App.settings.ToolBar!["HistoryButton"] ? Visibility.Visible : Visibility.Collapsed;
             DownloadButton.Visibility = App.settings.ToolBar!["DownloadButton"] ? Visibility.Visible : Visibility.Collapsed;

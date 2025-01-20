@@ -1,16 +1,49 @@
-using System;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System;
+using System.Collections.ObjectModel;
 using Windows.ApplicationModel.DataTransfer;
+
 
 namespace Edge
 {
-    public sealed partial class FavoriteBar : UserControl
+    public sealed partial class FavoriteList : UserControl
     {
-        public FavoriteBar()
+        public ItemsPanelTemplate HorizontalTemplate => horizontalTemplate;
+        public ItemsPanelTemplate VerticalTemplate => verticalTemplate;
+
+        public FavoriteList()
         {
             this.InitializeComponent();
-            FavoritesView.ItemsSource = App.settings.Favorites;
+            SetItemsPanel(HorizontalTemplate);
+            listView.ItemsSource = App.settings.Favorites;
+        }
+
+        public void SetItemsPanel(ItemsPanelTemplate itemsPanelTemplate)
+        {
+            listView.ItemsPanel = itemsPanelTemplate;
+            if (itemsPanelTemplate == HorizontalTemplate)
+            {
+                scroll.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+                scroll.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            }
+            else
+            {
+                scroll.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+                scroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+            }
+        }
+
+        public ItemsPanelTemplate ItemsPanel
+        {
+            get => listView.ItemsPanel;
+            set => listView.ItemsPanel = value;
+        }
+
+        public ObservableCollection<WebsiteInfo> ItemsSource
+        {
+            get => (ObservableCollection<WebsiteInfo>)listView.ItemsSource;
+            set => listView.ItemsSource = value;
         }
 
         private void OpenFavoriteWebsite(object sender, ItemClickEventArgs e)

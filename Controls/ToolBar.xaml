@@ -13,7 +13,7 @@
             x:Name="FavoriteButton"
             Title="收藏夹" PlaceholderText="搜索收藏夹"
             ButtonTip="收藏夹 (Ctrl+Shift+O)" FontIconGlyph="&#xe728;">
-            <ListView />
+            <local:FavoriteList x:Name="FavoriteList"/>
         </local:ToolButton>
 
         <local:ToolButton
