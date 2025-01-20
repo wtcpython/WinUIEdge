@@ -3,21 +3,26 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using Windows.Storage;
+
 
 namespace Edge
 {
+    public class WebViewHistory
+    {
+        public string DocumentTitle { get; set; }
+        public string Source { get; set; }
+        public Uri FaviconUri { get; set; }
+        public string Time { get; set; }
+    }
+
     public partial class DownloadObject : INotifyPropertyChanged
     {
         public CoreWebView2DownloadOperation Operation { get; set; }
         public string Title { get; set; }
-
         private double bytesReceived;
-
         public double BytesReceived
         {
             get => bytesReceived;
@@ -27,11 +32,8 @@ namespace Edge
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BytesReceived)));
             }
         }
-
         public double TotalBytes { get; set; }
-
         private string information;
-
         public string Information
         {
             get => information;
@@ -41,11 +43,8 @@ namespace Edge
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Information)));
             }
         }
-
         public DateTime DateTime { get; set; }
-
         public event PropertyChangedEventHandler PropertyChanged;
-
         public DownloadObject(CoreWebView2DownloadOperation operation)
         {
             Operation = operation;
@@ -61,19 +60,36 @@ namespace Edge
             string received = Converters.ToFileSizeString(sender.BytesReceived);
             string total = Converters.ToFileSizeString(sender.TotalBytesToReceive);
             string speed = receivedDelta + "/s";
-            string information = $"{speed} - {received}/{total}锛屽墿浣欐椂闂达細{DateTime.Parse(sender.EstimatedEndTime) - DateTime.Now:hh\\:mm\\:ss}";
+            string information = $"{speed} - {received}/{total}，剩余时间：{DateTime.Parse(sender.EstimatedEndTime) - DateTime.Now:hh\\:mm\\:ss}";
             BytesReceived = sender.BytesReceived;
             DateTime = DateTime.Now;
             Information = information;
         }
     }
 
-    public sealed partial class Download : Page
+    public sealed partial class ToolBar : UserControl
     {
-        public Download()
+        public ToolBar()
         {
             this.InitializeComponent();
-            listView.ItemsSource = App.DownloadList;
+            historyList.ItemsSource = App.Histories;
+            downloadList.ItemsSource = App.DownloadList;
+
+            HistoryButton.Visibility = App.settings.ToolBar!["HistoryButton"] ? Visibility.Visible : Visibility.Collapsed;
+            DownloadButton.Visibility = App.settings.ToolBar!["DownloadButton"] ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void SearchHistory(object sender, TextChangedEventArgs e)
+        {
+            string text = (sender as TextBox).Text;
+            historyList.ItemsSource = App.Histories.Where(x => x.DocumentTitle.Contains(text, StringComparison.OrdinalIgnoreCase)).ToList();
+        }
+
+        private void OpenHistory(object sender, ItemClickEventArgs e)
+        {
+            MainWindow mainWindow = App.GetWindowForElement(this);
+
+            mainWindow.AddNewTab(new WebViewPage() { WebUri = new Uri((e.ClickedItem as WebViewHistory).Source) });
         }
 
         private void RemoveDownloadItem(object sender, RoutedEventArgs e)
@@ -83,27 +99,26 @@ namespace Edge
             App.DownloadList.Remove(deleteObject);
         }
 
-        private void OpenDownloadFolderRequest(object sender, RoutedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("explorer", UserDataPaths.GetDefault().Downloads);
-        }
-
-        private async void DeleteDownloadRequest(object sender, RoutedEventArgs e)
-        {
-            WebView2 webView2 = App.GetWebView2(this);
-            await webView2.CoreWebView2.Profile.ClearBrowsingDataAsync(CoreWebView2BrowsingDataKinds.DownloadHistory);
-            App.DownloadList.Clear();
-        }
-
         private void SearchDownload(object sender, TextChangedEventArgs e)
         {
             string text = (sender as TextBox).Text;
-            listView.ItemsSource = App.DownloadList.Where(x => x.Title.Contains(text, StringComparison.OrdinalIgnoreCase)).ToList();
+            historyList.ItemsSource = App.DownloadList.Where(x => x.Title.Contains(text, StringComparison.OrdinalIgnoreCase)).ToList();
         }
 
-        public void ShowFlyout()
+        public void ShowFlyout(string name)
         {
-            DownloadButton.Flyout.ShowAt(DownloadButton);
+            switch (name)
+            {
+                case "下载":
+                    DownloadButton.ShowFlyout();
+                    break;
+                case "历史记录":
+                    HistoryButton.ShowFlyout();
+                    break;
+                case "收藏夹":
+                    FavoriteButton.ShowFlyout();
+                    break;
+            }
         }
     }
 }

@@ -30,8 +30,6 @@ namespace Edge
         private void InitializeToolbarVisibility()
         {
             homeButton.Visibility = App.settings.ToolBar!["HomeButton"] ? Visibility.Visible : Visibility.Collapsed;
-            historyButton.Visibility = App.settings.ToolBar!["HistoryButton"] ? Visibility.Visible : Visibility.Collapsed;
-            downloadButton.Visibility = App.settings.ToolBar!["DownloadButton"] ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void SetNavigationButtonStatus()
@@ -282,7 +280,7 @@ namespace Edge
                         App.DownloadList.Add(new DownloadObject(args.DownloadOperation));
                         if (App.settings.ShowFlyoutWhenStartDownloading)
                         {
-                            downloadButton.ShowFlyout();
+                            ShowFlyout("下载");
                         }
                     }
                     else
@@ -322,8 +320,7 @@ namespace Edge
 
         public void ShowFlyout(string name)
         {
-            if (name == "历史记录") historyButton.ShowFlyout();
-            else if (name == "下载") downloadButton.ShowFlyout();
+            toolBar.ShowFlyout(name);
         }
 
         public WebView2 webView2 => EdgeWebViewEngine;

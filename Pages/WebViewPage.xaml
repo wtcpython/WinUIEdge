@@ -68,13 +68,7 @@
                 <FontIcon Glyph="&#xe734;"/>
             </Button>
 
-            <StackPanel Orientation="Horizontal" Grid.Column="2">
-                <local:History x:Name="historyButton"/>
-
-                <local:Download x:Name="downloadButton"/>
-
-                <local:BrowserMenuItems/>
-            </StackPanel>
+            <local:ToolBar x:Name="toolBar" Grid.Column="2" />
 
         </Grid>
 

@@ -8,7 +8,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+    <ScrollViewer
+        HorizontalScrollBarVisibility="Auto"
+        VerticalScrollBarVisibility="Disabled">
         <ListView
             Name="FavoritesView"
             IsItemClickEnabled="True"
@@ -21,7 +23,7 @@
 
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="local:WebsiteInfo">
-                    <StackPanel Orientation="Horizontal" Spacing="5" MaxWidth="160">
+                    <StackPanel Orientation="Horizontal" Spacing="5">
                         <ImageIcon Source="{x:Bind Icon}" Width="16" Height="16" />
                         <TextBlock Text="{x:Bind Name}" VerticalAlignment="Center"/>
                         <ToolTipService.ToolTip>

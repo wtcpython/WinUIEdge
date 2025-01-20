@@ -18,15 +18,33 @@
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator Key="T" Modifiers="Control"/>
                     </MenuFlyoutItem.KeyboardAccelerators>
+
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xec6c;"/>
+                    </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
 
                 <MenuFlyoutItem Text="新建窗口" Click="TryCreateNewWindow">
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator Key="N" Modifiers="Control"/>
                     </MenuFlyoutItem.KeyboardAccelerators>
+
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xe737;"/>
+                    </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
 
                 <MenuFlyoutSeparator />
+
+                <MenuFlyoutItem Text="收藏夹" Click="ShowFlyout">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="O" Modifiers="Control,Shift"/>
+                    </MenuFlyoutItem.KeyboardAccelerators>
+
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xe728;"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
 
                 <MenuFlyoutItem Text="历史记录" Click="ShowFlyout">
                     <MenuFlyoutItem.KeyboardAccelerators>
