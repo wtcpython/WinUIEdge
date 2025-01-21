@@ -93,7 +93,7 @@
                             </MenuFlyoutItem>
                             <MenuFlyoutItem Text="Bing 主页" Click="OpenBingPage">
                                 <MenuFlyoutItem.Icon>
-                                    <BitmapIcon UriSource="https://bing.com/favicon.ico"/>
+                                    <ImageIcon Source="https://bing.com/favicon.ico" />
                                 </MenuFlyoutItem.Icon>
 
                                 <MenuFlyoutItem.KeyboardAccelerators>

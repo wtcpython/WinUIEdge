@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <Grid Margin="5" RowSpacing="5">
+    <Grid Margin="5,0,0,0" RowSpacing="5">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -29,15 +29,15 @@
                     </StackPanel>
                 </Button>
 
-                <Button Click="ImageRotateRequest" Background="{x:Null}" BorderThickness="0">
+                <Button Click="ImageRotateRequest" Style="{StaticResource AlternateCloseButtonStyle}">
                     <FontIcon Glyph="&#xe7ad;"/>
                 </Button>
 
-                <Button Click="ImageDeleteRequest" Background="{x:Null}" BorderThickness="0">
+                <Button Click="ImageDeleteRequest" Style="{StaticResource AlternateCloseButtonStyle}">
                     <FontIcon Glyph="&#xe74d;"/>
                 </Button>
 
-                <Button Click="PrintImageRequest" Background="{x:Null}" BorderThickness="0">
+                <Button Click="PrintImageRequest" Style="{StaticResource AlternateCloseButtonStyle}">
                     <FontIcon Glyph="&#xe749;"/>
                 </Button>
 

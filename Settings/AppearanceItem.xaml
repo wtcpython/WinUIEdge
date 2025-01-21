@@ -8,60 +8,62 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     mc:Ignorable="d">
-    <StackPanel Spacing="10" Margin="15">
+    <ScrollView>
 
-        <controls:SettingsCard
-            Header="整体外观"
-            Description="适用于新的选项卡、页面、对话框和其他菜单。">
-        </controls:SettingsCard>
+        <StackPanel Spacing="10" Margin="15">
+            <controls:SettingsCard
+                Header="整体外观"
+                Description="适用于新的选项卡、页面、对话框和其他菜单。">
+            </controls:SettingsCard>
 
-        <GridView Name="appearanceView" SelectionMode="Single" SelectionChanged="AppearanceChanged">
-            <GridView.ItemContainerStyle>
-                <Style TargetType="GridViewItem" BasedOn="{StaticResource DefaultGridViewItemStyle}">
-                    <Setter Property="Margin" Value="10"/>
-                </Style>
-            </GridView.ItemContainerStyle>
-            <StackPanel>
-                <Canvas Width="150" Height="100">
-                    <Polygon
-                    Fill="Black"
-                    Points="0,0,0,100,150,100"/>
-                    <Polygon
-                    Fill="White"
-                    Points="0,0,150,0,150,100"/>
-                </Canvas>
-                <TextBlock Text="系统默认" Margin="10"/>
-            </StackPanel>
+            <GridView Name="appearanceView" SelectionMode="Single" SelectionChanged="AppearanceChanged">
+                <GridView.ItemContainerStyle>
+                    <Style TargetType="GridViewItem" BasedOn="{StaticResource DefaultGridViewItemStyle}">
+                        <Setter Property="Margin" Value="10"/>
+                    </Style>
+                </GridView.ItemContainerStyle>
+                <StackPanel>
+                    <Canvas Width="150" Height="100">
+                        <Polygon
+                            Fill="Black"
+                            Points="0,0,0,100,150,100"/>
+                        <Polygon
+                            Fill="White"
+                            Points="0,0,150,0,150,100"/>
+                    </Canvas>
+                    <TextBlock Text="系统默认" Margin="10"/>
+                </StackPanel>
 
-            <StackPanel>
-                <Rectangle Width="150" Height="100" Fill="White"/>
-                <TextBlock Text="浅色" Margin="10"/>
-            </StackPanel>
+                <StackPanel>
+                    <Rectangle Width="150" Height="100" Fill="White"/>
+                    <TextBlock Text="浅色" Margin="10"/>
+                </StackPanel>
 
-            <StackPanel>
-                <Rectangle Width="150" Height="100" Fill="black"/>
-                <TextBlock Text="深色" Margin="10"/>
-            </StackPanel>
-        </GridView>
+                <StackPanel>
+                    <Rectangle Width="150" Height="100" Fill="black"/>
+                    <TextBlock Text="深色" Margin="10"/>
+                </StackPanel>
+            </GridView>
 
-        <controls:SettingsCard
-            Header="在浏览器中显示 Windows 11 视觉效果"
-            Description="向浏览器添加 Mica 效果。此功能取决于你的设备和 Windows 设置。">
-            <ToggleSwitch Name="showMicaSwitch" Toggled="MicaEffectChanged"/>
-        </controls:SettingsCard>
+            <controls:SettingsCard
+                Header="在浏览器中显示 Windows 11 视觉效果"
+                Description="向浏览器添加 Mica 效果。此功能取决于你的设备和 Windows 设置。">
+                <ToggleSwitch Name="showMicaSwitch" Toggled="MicaEffectChanged"/>
+            </controls:SettingsCard>
 
-        <TextBlock Text="自定义工具栏" Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" Margin="5,10,0,0"/>
+            <TextBlock Text="自定义工具栏" Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" Margin="5,10,0,0"/>
 
-        <ItemsControl x:Name="toolBarVisualView">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate x:DataType="local:ToolBarVisual">
-                    <controls:SettingsCard
-                        Header="{x:Bind Description}">
-                        <ToggleSwitch IsOn="{x:Bind Visual}" Toggled="VisualChanged" />
-                    </controls:SettingsCard>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </StackPanel>
-
+            <ItemsControl x:Name="toolBarVisualView">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="local:ToolBarVisual">
+                        <controls:SettingsCard
+                            Header="{x:Bind Description}">
+                            <ToggleSwitch IsOn="{x:Bind Visual}" Toggled="VisualChanged" />
+                        </controls:SettingsCard>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+        
+    </ScrollView>
 </Page>

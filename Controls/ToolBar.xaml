@@ -55,8 +55,8 @@
                                 Text="{x:Bind DocumentTitle}" TextTrimming="CharacterEllipsis"/>
 
                             <TextBlock
-                                Name="timeBlock" Text="{x:Bind Time}"
-                                Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                                Text="{x:Bind Time}" Grid.Column="2"
+                                VerticalAlignment="Center" HorizontalAlignment="Right"/>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>

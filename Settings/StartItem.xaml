@@ -41,32 +41,32 @@
             </Grid>
 
             <controls:SettingsCard
-            Header='在工具栏上显示"首页"按钮'>
+                Header='在工具栏上显示"首页"按钮'>
                 <ToggleSwitch Name="setHomeButton" Toggled="HomeButtonVisualChanged"/>
             </controls:SettingsCard>
 
             <controls:SettingsCard
-            Header="选择搜索引擎">
+                Header="选择搜索引擎">
                 <ComboBox
-                Name="searchEngineBox"
-                SelectionChanged="SearchEngineChanged"/>
+                    Name="searchEngineBox"
+                    SelectionChanged="SearchEngineChanged"/>
             </controls:SettingsCard>
 
             <TextBlock Text="新标签页" Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" Margin="5,10,0,0"/>
 
             <controls:SettingsCard
-            Header="在新标签页显示推荐的网站">
+                Header="在新标签页显示推荐的网站">
                 <ToggleSwitch Name="showSuggestUri" Toggled="SuggestUriVisualChanged"/>
             </controls:SettingsCard>
 
             <controls:SettingsExpander
-            Header="在新标签页显示背景图">
+                Header="在新标签页显示背景图">
                 <ToggleSwitch Name="showBackground" Toggled="ShowBackgroundChanged"/>
 
                 <controls:SettingsExpander.Items>
                     <controls:SettingsCard
-                    x:Name="backgroundCard"
-                    Header="选择背景图片的路径">
+                        x:Name="backgroundCard"
+                        Header="选择背景图片的路径">
                         <Button Content="更改" Click="SetBackgroundImage"/>
                     </controls:SettingsCard>
                 </controls:SettingsExpander.Items>
