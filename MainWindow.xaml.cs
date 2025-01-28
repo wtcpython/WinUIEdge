@@ -336,19 +336,9 @@ namespace Edge
             }
         }
 
-        private void AddNewButtonClick(SplitButton sender, SplitButtonClickEventArgs args)
+        private void TabViewAddTabButtonClick(TabView sender, object args)
         {
             AddHomePage();
-        }
-
-        private void OpenHomePage(object sender, RoutedEventArgs e)
-        {
-            AddHomePage();
-        }
-
-        private void OpenBingPage(object sender, RoutedEventArgs e)
-        {
-            AddNewTab(new WebViewPage() { WebUri = new Uri("https://www.bing.com/") });
         }
 
         private async void LearnAboutWorkspaces(object sender, RoutedEventArgs e)

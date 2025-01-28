@@ -12,7 +12,7 @@
         TabCloseRequested="CloseTab"
         VerticalAlignment="Stretch"
         HorizontalAlignment="Stretch"
-        IsAddTabButtonVisible="False"
+        AddTabButtonClick="TabViewAddTabButtonClick"
         PointerPressed="TabViewPointerPressed">
         <TabView.TabStripHeader>
             <Button
@@ -63,49 +63,9 @@
                 </Button.Flyout>
             </Button>
         </TabView.TabStripHeader>
+
         <TabView.TabStripFooter>
-            <Grid>
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <SplitButton 
-                    x:Name="NewTabButton"
-                    BorderThickness="0"
-                    Margin="0,8,0,0"
-                    Background="Transparent"
-                    Content="&#xE710;"
-                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                    FontSize="12"
-                    ToolTipService.ToolTip="新建标签页 (Ctrl+T)"
-                    Click="AddNewButtonClick">
-                    <SplitButton.Flyout>
-                        <MenuFlyout>
-                            <MenuFlyoutItem Text="主页" Click="OpenHomePage">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xe80f;"/>
-                                </MenuFlyoutItem.Icon>
-
-                                <MenuFlyoutItem.KeyboardAccelerators>
-                                    <KeyboardAccelerator Key="H" Modifiers="Menu"/>
-                                </MenuFlyoutItem.KeyboardAccelerators>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem Text="Bing 主页" Click="OpenBingPage">
-                                <MenuFlyoutItem.Icon>
-                                    <ImageIcon Source="https://bing.com/favicon.ico" />
-                                </MenuFlyoutItem.Icon>
-
-                                <MenuFlyoutItem.KeyboardAccelerators>
-                                    <KeyboardAccelerator Key="B" Modifiers="Menu"/>
-                                </MenuFlyoutItem.KeyboardAccelerators>
-                            </MenuFlyoutItem>
-                        </MenuFlyout>
-                    </SplitButton.Flyout>
-                </SplitButton>
-                <Grid Background="Transparent" Name="AppTitleBar" Padding="0,0,200,0" Grid.Column="1"/>
-            </Grid>
+            <Grid Background="Transparent" Name="AppTitleBar" Padding="0,0,200,0"/>
         </TabView.TabStripFooter>
 
         <TabView.Resources>
