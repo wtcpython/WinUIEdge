@@ -360,5 +360,28 @@ namespace Edge
         {
 
         }
+
+        private void TabViewPointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            var properties = e.GetCurrentPoint(null).Properties;
+            if (properties.IsMiddleButtonPressed)
+            {
+                var pointerPosition = e.GetCurrentPoint(tabView).Position;
+                foreach (var item in tabView.TabItems)
+                {
+                    if (item is TabViewItem tabViewItem)
+                    {
+                        var transform = tabViewItem.TransformToVisual(tabView);
+                        var itemBounds = transform.TransformBounds(new Rect(0, 0, tabViewItem.ActualWidth, tabViewItem.ActualHeight));
+                        if (itemBounds.Contains(pointerPosition))
+                        {
+                            tabView.TabItems.Remove(tabViewItem);
+                            if (tabView.TabItems.Count <= 0) Close();
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

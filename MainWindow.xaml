@@ -12,7 +12,8 @@
         TabCloseRequested="CloseTab"
         VerticalAlignment="Stretch"
         HorizontalAlignment="Stretch"
-        IsAddTabButtonVisible="False">
+        IsAddTabButtonVisible="False"
+        PointerPressed="TabViewPointerPressed">
         <TabView.TabStripHeader>
             <Button
                 Style="{StaticResource AlternateCloseButtonStyle}"

@@ -58,7 +58,6 @@ namespace Edge
             }
             trackSwitch.IsOn = isTrackOn;
 
-            ClearBrowsingDataButton.ItemsSource = BrowserDataKindList;
             msSmartScreen.IsOn = App.webView2.CoreWebView2.Settings.IsReputationCheckingRequired;
         }
 

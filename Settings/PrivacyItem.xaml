@@ -57,7 +57,8 @@
 
             <controls:SettingsExpander
                 x:Name="ClearBrowsingDataButton"
-                Header="选择每次关闭浏览器时要清除的内容">
+                Header="选择每次关闭浏览器时要清除的内容"
+                ItemsSource="{x:Bind BrowserDataKindList}">
              
                 <controls:SettingsExpander.ItemTemplate>
                     <DataTemplate x:DataType="local:BrowserDataKind">
