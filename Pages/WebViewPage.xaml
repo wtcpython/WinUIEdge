@@ -15,7 +15,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" ColumnSpacing="5">
+        <Grid Grid.Row="0" ColumnSpacing="2">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -24,49 +24,41 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Orientation="Horizontal">
-                <Button Name="uriGoBackButton" Click="UriGoBackRequest"
-                    ToolTipService.ToolTip="返回 (Alt+向左键)" Background="Transparent"
-                    Grid.Column="0" Style="{StaticResource AlternateCloseButtonStyle}">
-                    <Button.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="Left" Modifiers="Menu"/>
-                    </Button.KeyboardAccelerators>
-                    <FontIcon Glyph="&#xe72b;"/>
-                </Button>
-
-                <Button Name="uriGoForwardButton" Click="UriGoForwardRequest"
-                        ToolTipService.ToolTip="继续 (Alt+向右键)" Background="Transparent"
-                        Style="{StaticResource AlternateCloseButtonStyle}">
-                    <Button.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="Right" Modifiers="Menu"/>
-                    </Button.KeyboardAccelerators>
-                    <FontIcon Glyph="&#xe72a;"/>
-                </Button>
-
-                <Button Name="uriRefreshButton" Click="UriRefreshRequest"
-                        ToolTipService.ToolTip="刷新 (Ctrl+R)" Background="Transparent"
-                        Style="{StaticResource AlternateCloseButtonStyle}">
-                    <Button.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="R" Modifiers="Control"/>
-                    </Button.KeyboardAccelerators>
-                    <FontIcon Glyph="&#xe72c;"/>
-                </Button>
+                <local:IconButton
+                    x:Name="uriGoBackButton"
+                    TipText="返回 (Alt+向左键)"
+                    Key="Left" Modifiers="Menu"
+                    IconGlyph="&#xe72b;"
+                    ButtonClicked="UriGoBackRequest" />
+                <local:IconButton
+                    x:Name="uriGoForwardButton"
+                    TipText="继续 (Alt+向右键)"
+                    Key="Right" Modifiers="Menu"
+                    IconGlyph="&#xe72a;"
+                    ButtonClicked="UriGoForwardRequest" />
+                <local:IconButton
+                    x:Name="uriRefreshButton"
+                    TipText="刷新 (Ctrl+R)"
+                    Key="R" Modifiers="Control"
+                    IconGlyph="&#xe72c;"
+                    ButtonClicked="UriRefreshRequest" />
 
                 <Button Name="homeButton" Click="ShowHomePage"
-                        ToolTipService.ToolTip="主页" Background="Transparent"
+                        ToolTipService.ToolTip="主页"
                         Style="{StaticResource AlternateCloseButtonStyle}">
                     <FontIcon Glyph="&#xe80f;"/>
                 </Button>
             </StackPanel>
 
             <local:WebSearch x:Name="Search" Grid.Column="1" VerticalAlignment="Center"/>
-            <Button Name="favoriteButton" Click="FavoriteStateChanged" Grid.Column="1" 
-                ToolTipService.ToolTip="将此页面添加到收藏夹 (Ctrl+D)" Background="Transparent"
-                Style="{StaticResource AlternateCloseButtonStyle}">
-                <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="D" Modifiers="Control"/>
-                </Button.KeyboardAccelerators>
-                <FontIcon Glyph="&#xe734;"/>
-            </Button>
+
+            <local:IconButton
+                x:Name="favoriteButton"
+                TipText="将此页面添加到收藏夹 (Ctrl+D)"
+                Key="D" Modifiers="Control"
+                IconGlyph="&#xe734;"
+                Grid.Column="1"
+                ButtonClicked="FavoriteStateChanged" />
 
             <local:ToolBar x:Name="toolBar" Grid.Column="2" />
 

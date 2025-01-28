@@ -29,17 +29,21 @@
                     </StackPanel>
                 </Button>
 
-                <Button Click="ImageRotateRequest" Style="{StaticResource AlternateCloseButtonStyle}">
-                    <FontIcon Glyph="&#xe7ad;"/>
-                </Button>
-
-                <Button Click="ImageDeleteRequest" Style="{StaticResource AlternateCloseButtonStyle}">
-                    <FontIcon Glyph="&#xe74d;"/>
-                </Button>
-
-                <Button Click="PrintImageRequest" Style="{StaticResource AlternateCloseButtonStyle}">
-                    <FontIcon Glyph="&#xe749;"/>
-                </Button>
+                <local:IconButton
+                    TipText="旋转 (Ctrl+R)"
+                    IconGlyph="&#xe7ad;"
+                    Key="R" Modifiers="Control"
+                    ButtonClicked="ImageRotateRequest" />
+                <local:IconButton
+                    TipText="删除 (Del)"
+                    IconGlyph="&#xe74d;"
+                    Key="Delete" Modifiers="None"
+                    ButtonClicked="ImageDeleteRequest" />
+                <local:IconButton
+                    TipText="打印 (Ctrl+P)"
+                    IconGlyph="&#xe749;"
+                    Key="P" Modifiers="Control"
+                    ButtonClicked="PrintImageRequest" />
 
             </StackPanel>
 

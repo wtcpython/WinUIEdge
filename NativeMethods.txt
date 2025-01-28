@@ -3,6 +3,7 @@ SendMessage
 DefSubclassProc
 SendInput
 ScreenToClient
+GetDpiForWindow
 
 CoCreateInstance
 FileSaveDialog

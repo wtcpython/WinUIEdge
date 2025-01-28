@@ -31,28 +31,28 @@ namespace Edge
             TextChanged?.Invoke(sender, e);
         }
 
-        public static readonly DependencyProperty FontIconGlyphProperty = DependencyProperty.Register(
-            nameof(FontIconGlyph),
+        public static readonly DependencyProperty IconGlyphProperty = DependencyProperty.Register(
+            nameof(IconGlyph),
             typeof(string),
             typeof(ToolButton),
             new PropertyMetadata(null));
 
-        public string FontIconGlyph
+        public string IconGlyph
         {
-            get => (string)GetValue(FontIconGlyphProperty);
-            set => SetValue(FontIconGlyphProperty, value);
+            get => (string)GetValue(IconGlyphProperty);
+            set => SetValue(IconGlyphProperty, value);
         }
 
-        public static readonly DependencyProperty ButtonTipProperty = DependencyProperty.Register(
-            nameof(ButtonTip),
+        public static readonly DependencyProperty TipTextProperty = DependencyProperty.Register(
+            nameof(TipText),
             typeof(string),
             typeof(ToolButton),
             new PropertyMetadata(null));
 
-        public string ButtonTip
+        public string TipText
         {
-            get => (string)GetValue(ButtonTipProperty);
-            set => SetValue(ButtonTipProperty, value);
+            get => (string)GetValue(TipTextProperty);
+            set => SetValue(TipTextProperty, value);
         }
 
         public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(

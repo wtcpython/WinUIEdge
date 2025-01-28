@@ -31,18 +31,15 @@
 
                                 <TextBlock Text="Edge 工作区" VerticalAlignment="Center" FontWeight="Bold"/>
 
-                                <Button
-                                    Style="{StaticResource AlternateCloseButtonStyle}"
+                                <local:IconButton
+                                    TipText="创建新工作区"
+                                    IconGlyph="&#xecc8;"
                                     HorizontalAlignment="Right"
-                                    ToolTipService.ToolTip="创建新工作区" Grid.Column="1">
-                                    <FontIcon Glyph="&#xecc8;"/>
-                                </Button>
-
-                                <Button
-                                    Style="{StaticResource AlternateCloseButtonStyle}"
-                                    ToolTipService.ToolTip="创建新工作区" Grid.Column="2">
-                                    <FontIcon Glyph="&#xe712;" />
-                                </Button>
+                                    Grid.Column="1" />
+                                <local:IconButton
+                                    TipText="更多选项"
+                                    IconGlyph="&#xe712;"
+                                    Grid.Column="2" />
                             </Grid>
 
                             <TextBlock TextWrapping="WrapWholeWords">

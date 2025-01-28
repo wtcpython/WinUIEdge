@@ -12,14 +12,14 @@
         <local:ToolButton
             x:Name="FavoriteButton"
             Title="收藏夹" PlaceholderText="搜索收藏夹"
-            ButtonTip="收藏夹 (Ctrl+Shift+O)" FontIconGlyph="&#xe728;">
+            TipText="收藏夹 (Ctrl+Shift+O)" IconGlyph="&#xe728;">
             <local:FavoriteList x:Name="FavoriteList"/>
         </local:ToolButton>
 
         <local:ToolButton
             x:Name="HistoryButton"
             Title="历史记录" PlaceholderText="搜索历史记录"
-            ButtonTip="历史记录 (Ctrl+H)" FontIconGlyph="&#xe81c;"
+            TipText="历史记录 (Ctrl+H)" IconGlyph="&#xe81c;"
             TextChanged="SearchHistory">
             <local:ToolButton.KeyboardAccelerators>
                 <KeyboardAccelerator Key="H" Modifiers="Control"/>
@@ -66,7 +66,7 @@
         <local:ToolButton
             x:Name="DownloadButton"
             Title="下载" PlaceholderText="搜索下载文件"
-            ButtonTip="下载 (Ctrl+J)" FontIconGlyph="&#xe896;"
+            TipText="下载 (Ctrl+J)" IconGlyph="&#xe896;"
             TextChanged="SearchDownload">
             <local:ToolButton.KeyboardAccelerators>
                 <KeyboardAccelerator Key="J" Modifiers="Control"/>
@@ -88,11 +88,11 @@
                                 <TextBlock Text="{x:Bind Information, Mode=TwoWay}" TextTrimming="CharacterEllipsis"/>
                             </StackPanel>
 
-                            <Button Click="RemoveDownloadItem" Grid.Column="1" HorizontalAlignment="Right">
-                                <Button.Content>
-                                    <FontIcon Glyph="&#xe711;"/>
-                                </Button.Content>
-                            </Button>
+                            <local:IconButton
+                                TipText="删除"
+                                IconGlyph="&#xe711;"
+                                Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"
+                                ButtonClicked="RemoveDownloadItem" />
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>

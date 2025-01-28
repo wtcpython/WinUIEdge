@@ -59,7 +59,7 @@ namespace Edge
 
         private void ScreenClip(object sender, RoutedEventArgs e)
         {
-            WebView2 webView2 = (App.GetWindowForElement(this).SelectedItem as WebViewPage).webView2;
+            WebView2 webView2 = App.GetWebView2(this);
             webView2.Focus(FocusState.Programmatic);
 
             List<INPUT> inputs =

@@ -351,17 +351,11 @@ namespace Edge
         {
             if (InFavoriteList)
             {
-                favoriteButton.Content = new FontIcon()
-                {
-                    Glyph = "\ue735"
-                };
+                favoriteButton.IconGlyph = "\ue735";
             }
             else
             {
-                favoriteButton.Content = new FontIcon()
-                {
-                    Glyph = "\ue734"
-                };
+                favoriteButton.IconGlyph = "\ue734";
             }
         }
     }

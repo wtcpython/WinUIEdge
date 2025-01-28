@@ -216,8 +216,16 @@ namespace Edge
                     {
                         if (Content is not null && Content.XamlRoot is not null)
                         {
-                            System.Drawing.Point point = new((short)(lParam.Value & 0xFFFF), (short)((lParam.Value >> 16) & 0xFFFF));
+                            int x = (short)(lParam.Value & 0xFFFF);
+                            int y = (short)((lParam.Value >> 16) & 0xFFFF);
+                            System.Drawing.Point point = new(x, y);
                             PInvoke.ScreenToClient(hWnd, ref point);
+
+                            uint dpi = PInvoke.GetDpiForWindow(hWnd);
+                            float scalingFactor = dpi / 96.0f;
+
+                            point.X = (int)(point.X / scalingFactor);
+                            point.Y = (int)(point.Y / scalingFactor);
 
                             FlyoutShowOptions options = new()
                             {

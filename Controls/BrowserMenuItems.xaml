@@ -7,12 +7,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <Button ToolTipService.ToolTip="设置及其他 (Alt+F)" Style="{StaticResource AlternateCloseButtonStyle}">
-        <Button.KeyboardAccelerators>
-            <KeyboardAccelerator Key="F" Modifiers="Menu"/>
-        </Button.KeyboardAccelerators>
-        <FontIcon Glyph="&#xe712;" />
-        <Button.Flyout>
+    <local:IconButton
+        TipText="设置及其他 (Alt+F)"
+        IconGlyph="&#xe712;"
+        Key="F" Modifiers="Menu">
+        <local:IconButton.Flyout>
             <MenuFlyout Opening="MenuFlyout_Opening" Placement="BottomEdgeAlignedRight">
                 <MenuFlyoutItem Text="新建标签页" Click="TryCreateNewTab">
                     <MenuFlyoutItem.KeyboardAccelerators>
@@ -32,6 +31,44 @@
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xe737;"/>
                     </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+
+                <MenuFlyoutSeparator />
+
+                <MenuFlyoutItem>
+                    <MenuFlyoutItem.Template>
+                        <ControlTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="缩放" Margin="48,0,0,0" VerticalAlignment="Center"/>
+
+                                <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
+                                    <local:IconButton
+                                        TipText="缩小 (Ctrl+减号键)"
+                                        IconGlyph="&#xe949;"
+                                        Key="Subtract" Modifiers="Control" />
+
+                                    <TextBlock x:Name="zoomBlock" Text="100%" VerticalAlignment="Center"/>
+
+                                    <local:IconButton
+                                        TipText="放大 (Ctrl+加号键)"
+                                        IconGlyph="&#xe948;"
+                                        Key="Add" Modifiers="Control" />
+
+                                    <Border Grid.Column="4" Background="LightGray" Width="1" Margin="0,5,0,5"/>
+
+                                    <local:IconButton
+                                        TipText="进入全屏"
+                                        IconGlyph="&#xe740;"
+                                        Key="F11" Modifiers="None" />
+                                </StackPanel>
+                            </Grid>
+                        </ControlTemplate>
+                    </MenuFlyoutItem.Template>
                 </MenuFlyoutItem>
 
                 <MenuFlyoutSeparator />
@@ -72,7 +109,7 @@
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator Key="P" Modifiers="Control"/>
                     </MenuFlyoutItem.KeyboardAccelerators>
-                    
+
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xe749;"/>
                     </MenuFlyoutItem.Icon>
@@ -104,7 +141,7 @@
 
                 <MenuFlyoutItem Text="关闭此软件" Click="CloseApp"/>
             </MenuFlyout>
-        </Button.Flyout>
-    </Button>
+        </local:IconButton.Flyout>
+    </local:IconButton>
 
 </Page>

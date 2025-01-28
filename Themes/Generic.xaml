@@ -8,9 +8,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:ToolButton">
                     <Button
-                        ToolTipService.ToolTip="{TemplateBinding ButtonTip}"
+                        ToolTipService.ToolTip="{TemplateBinding TipText}"
                         Style="{StaticResource AlternateCloseButtonStyle}">
-                        <FontIcon Glyph="{TemplateBinding FontIconGlyph}" />
+                        <FontIcon Glyph="{TemplateBinding IconGlyph}" />
 
                         <Button.Flyout>
                             <Flyout x:Name="ButtonFlyout">
@@ -40,6 +40,25 @@
                                 </StackPanel>
                             </Flyout>
                         </Button.Flyout>
+                    </Button>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="local:IconButton" >
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:IconButton">
+                    <Button
+                        x:Name="IconButton"
+                        ToolTipService.ToolTip="{TemplateBinding TipText}"
+                        Style="{StaticResource AlternateCloseButtonStyle}"
+                        Flyout="{TemplateBinding Flyout}">
+                        <FontIcon Glyph="{TemplateBinding IconGlyph}" />
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="{TemplateBinding Key}" Modifiers="{TemplateBinding Modifiers}" />
+                        </Button.KeyboardAccelerators>
                     </Button>
                 </ControlTemplate>
             </Setter.Value>
