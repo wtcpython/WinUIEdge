@@ -8,19 +8,18 @@ namespace Edge
 {
     public sealed partial class TextFilePage : Page
     {
-        public string file;
+        public FileInfo info;
 
         public EncodingInfo[] encodeList;
 
         public string typeName;
 
-        public TextFilePage(string filepath)
+        public TextFilePage(FileInfo fileInfo)
         {
             this.InitializeComponent();
 
-            file = filepath;
-            string ext = Path.GetExtension(filepath);
-            typeName = Info.LanguageDict.GetValueOrDefault(ext);
+            info = fileInfo;
+            typeName = Info.LanguageDict.GetValueOrDefault(fileInfo.Extension);
 
             // 加载编码列表
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
@@ -29,7 +28,7 @@ namespace Edge
             EncodingComboBox.SelectedItem = encodeList[^1];
 
             // 初始化UI 数据
-            FullPath.Text = file;
+            FullPath.Text = fileInfo.FullName;
             TypeName.Text = typeName;
         }
 
@@ -40,11 +39,11 @@ namespace Edge
             StreamReader reader;
             if (encoding == Encoding.Default)
             {
-                reader = new StreamReader(file, Encoding.Default, true);
+                reader = new StreamReader(info.FullName, Encoding.Default, true);
             }
             else
             {
-                reader = new StreamReader(file, encoding);
+                reader = new StreamReader(info.FullName, encoding);
             }
 
             string content = reader.ReadToEnd();

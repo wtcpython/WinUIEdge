@@ -14,17 +14,12 @@ namespace Edge
         public TabViewItem tabViewItem { get; set; }
         private bool InFavoriteList = false;
 
-        public WebViewPage()
+        public WebViewPage(Uri WebUri)
         {
             InitializeComponent();
             InitializeToolbarVisibility();
             SetNavigationButtonStatus();
-        }
-
-        public Uri WebUri
-        {
-            get => EdgeWebViewEngine.Source;
-            set => EdgeWebViewEngine.Source = value;
+            EdgeWebViewEngine.Source = WebUri;
         }
 
         private void InitializeToolbarVisibility()
@@ -295,7 +290,7 @@ namespace Edge
         {
             args.Handled = true;
             var mainWindow = App.GetWindowForElement(this);
-            mainWindow.AddNewTab(new WebViewPage { WebUri = new Uri(args.Uri) });
+            mainWindow.AddNewTab(new WebViewPage(new Uri(args.Uri)));
         }
 
         private void UriGoBackRequest(object sender, RoutedEventArgs e)

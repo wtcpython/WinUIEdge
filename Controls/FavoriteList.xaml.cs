@@ -60,17 +60,14 @@ namespace Edge
         private void OpenWebSite(Uri uri)
         {
             MainWindow mainWindow = App.GetWindowForElement(this);
-            mainWindow.AddNewTab(new WebViewPage()
-            {
-                WebUri = uri
-            });
+            mainWindow.AddNewTab(new WebViewPage(uri));
         }
 
         private void OpenFavoriteWebsiteInNewWindow(object sender, RoutedEventArgs e)
         {
             Uri uri = ((sender as MenuFlyoutItem).DataContext as WebsiteInfo).Uri;
             var window = App.CreateNewWindow();
-            window.AddNewTab(new WebViewPage() { WebUri = uri });
+            window.AddNewTab(new WebViewPage(uri));
             window.Activate();
         }
 

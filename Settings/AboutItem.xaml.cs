@@ -41,7 +41,7 @@ namespace Edge
                     notificationManager.Show(builder.BuildNotification());
                 }
             }
-            catch (System.Exception) { }
+            catch (Exception) { }
         }
 
         private void CopyText(string text)
@@ -67,7 +67,7 @@ namespace Edge
         private void OpenRepoWebsite(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = App.GetWindowForElement(this);
-            mainWindow.AddNewTab(new WebViewPage() { WebUri = new Uri("https://github.com/wtcpython/WinUIEdge") });
+            mainWindow.AddNewTab(new WebViewPage(new Uri("https://github.com/wtcpython/WinUIEdge")));
         }
     }
 }

@@ -63,7 +63,7 @@ namespace Edge
             string uri = App.settings.SpecificUri;
             if (!string.IsNullOrEmpty(uri))
             {
-                AddNewTab(new WebViewPage() { WebUri = new Uri(uri) });
+                AddNewTab(new WebViewPage(new Uri(uri)));
             }
             else
             {
@@ -255,14 +255,14 @@ namespace Edge
         private void CopyTab(object sender, RoutedEventArgs e)
         {
             WebView2 webView2 = App.GetWebView2(tabView.SelectedItem as TabViewItem);
-            AddNewTab(new WebViewPage() { WebUri = webView2.Source }, index: tabView.SelectedIndex + 1);
+            AddNewTab(new WebViewPage(webView2.Source), index: tabView.SelectedIndex + 1);
         }
 
         private void MoveTabToNewWindow(object sender, RoutedEventArgs e)
         {
             WebView2 webView2 = App.GetWebView2(tabView.SelectedItem as TabViewItem);
             var window = App.CreateNewWindow();
-            window.AddNewTab(new WebViewPage() { WebUri = webView2.Source });
+            window.AddNewTab(new WebViewPage(webView2.Source));
             window.Activate();
             tabView.TabItems.Remove(tabView.SelectedItem);
         }
@@ -323,9 +323,11 @@ namespace Edge
             set => tabView.SelectedItem = value;
         }
 
+        public TabView TabView => tabView;
+
         private void OpenClosedTab(object sender, RoutedEventArgs e)
         {
-            AddNewTab(new WebViewPage() { WebUri = new Uri(App.Histories[^1].Source) });
+            AddNewTab(new WebViewPage(new Uri(App.Histories[^1].Source)));
         }
 
         private void PinTab(object sender, RoutedEventArgs e)

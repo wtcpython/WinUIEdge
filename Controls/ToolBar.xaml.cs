@@ -90,7 +90,7 @@ namespace Edge
         {
             MainWindow mainWindow = App.GetWindowForElement(this);
 
-            mainWindow.AddNewTab(new WebViewPage() { WebUri = new Uri((e.ClickedItem as WebViewHistory).Source) });
+            mainWindow.AddNewTab(new WebViewPage(new Uri((e.ClickedItem as WebViewHistory).Source)));
         }
 
         private void RemoveDownloadItem(object sender, RoutedEventArgs e)

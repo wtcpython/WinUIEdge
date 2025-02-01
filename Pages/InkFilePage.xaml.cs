@@ -13,14 +13,12 @@ namespace Edge
     public sealed partial class InkFilePage : Page
     {
         string realLocation;
-        public InkFilePage(string filepath)
+        public InkFilePage(FileInfo fileInfo)
         {
             this.InitializeComponent();
 
-            string ext = Path.GetExtension(filepath);
-
             WshShell shell = new();
-            IWshShortcut shortcut = shell.CreateShortcut(filepath);
+            IWshShortcut shortcut = shell.CreateShortcut(fileInfo.FullName);
 
             shortcutName.Text = Path.GetFileNameWithoutExtension(shortcut.FullName);
 

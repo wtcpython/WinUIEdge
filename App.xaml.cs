@@ -73,7 +73,19 @@ namespace Edge
             settings = Info.LoadSettings();
 
             window = CreateNewWindow();
-            window.AddHomePage();
+
+            string[] arguments = Environment.GetCommandLineArgs()[1..];
+            if (arguments.Length > 0)
+            {
+                foreach (string arg in arguments)
+                {
+                    WebSearch.StartSearch(arg, window);
+                }
+            }
+            else
+            {
+                window.AddHomePage();
+            }
             window.Activate();
 
             AppNotificationManager notificationManager = AppNotificationManager.Default;

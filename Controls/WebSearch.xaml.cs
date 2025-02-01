@@ -59,7 +59,9 @@ namespace Edge
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
-                StartToSearch();
+                MainWindow mainWindow = App.GetWindowForElement(this);
+                StartSearch(SearchBox.Text, mainWindow);
+                SearchBox.Text = string.Empty;
             }
         }
 
@@ -78,33 +80,30 @@ namespace Edge
             SearchBox.Text = $"{prefix} {item}";
         }
 
-        private void StartToSearch()
+        public static void StartSearch(string text, MainWindow mainWindow)
         {
-            string text = SearchBox.Text;
-            SearchBox.Text = string.Empty;
             UriType uriType = text.DetectUri();
             if (uriType == UriType.WithProtocol)
             {
-                Navigate(text);
+                Navigate(text, mainWindow);
             }
             else if (uriType == UriType.WithoutProtocol)
             {
-                Navigate("https://" + text);
+                Navigate("https://" + text, mainWindow);
             }
             else if (File.Exists(text))
             {
                 FileInfo fileInfo = new(text);
                 string ext = fileInfo.Extension;
-                MainWindow mainWindow = App.GetWindowForElement(this);
                 if (Info.LanguageDict.TryGetValue(ext, out var _))
                 {
                     if (ext == ".lnk")
                     {
-                        mainWindow.AddNewTab(new InkFilePage(text), fileInfo.Name);
+                        mainWindow.AddNewTab(new InkFilePage(fileInfo), fileInfo.Name);
                     }
                     else
                     {
-                        mainWindow.AddNewTab(new TextFilePage(text), fileInfo.Name);
+                        mainWindow.AddNewTab(new TextFilePage(fileInfo), fileInfo.Name);
                     }
                 }
                 else if (Info.ImageDict.TryGetValue(ext, out var _))
@@ -113,27 +112,25 @@ namespace Edge
                 }
                 else
                 {
-                    Navigate(text);
+                    Navigate(text, mainWindow);
                 }
             }
             else
             {
-                Navigate(Info.SearchEngineList.First(x => x.Name == App.settings.SearchEngine).Uri + text);
+                Navigate(Info.SearchEngineList.First(x => x.Name == App.settings.SearchEngine).Uri + text, mainWindow);
             }
         }
 
-        private void Navigate(string site)
+        public static void Navigate(string site, MainWindow mainWindow)
         {
             Uri uri = new(site);
-            MainWindow mainWindow = App.GetWindowForElement(this);
-            var selectedItem = mainWindow.SelectedItem;
-            if (selectedItem is WebViewPage webviewPage)
+            if ((mainWindow.TabView.SelectedItem != null) && (mainWindow.SelectedItem is WebViewPage webviewPage))
             {
-                webviewPage.WebUri = uri;
+                webviewPage.webView2.Source = uri;
             }
             else
             {
-                mainWindow.AddNewTab(new WebViewPage() { WebUri = uri });
+                mainWindow.AddNewTab(new WebViewPage(uri));
             }
         }
 
