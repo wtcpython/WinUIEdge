@@ -44,22 +44,19 @@ namespace Edge
             catch (Exception) { }
         }
 
-        private void CopyText(string text)
+        private static void CopyText(string text)
         {
-            DataPackage package = new()
-            {
-                RequestedOperation = DataPackageOperation.Copy
-            };
+            DataPackage package = new();
             package.SetText(text);
             Clipboard.SetContent(package);
         }
 
-        private void TryCopyChromiumVersion(object sender, RoutedEventArgs e)
+        private void CopyChromiumVersion(object sender, RoutedEventArgs e)
         {
             CopyText(browserVersion);
         }
 
-        private void TryCopyAppVersion(object sender, RoutedEventArgs e)
+        private void CopyAppVersion(object sender, RoutedEventArgs e)
         {
             CopyText(appVersion);
         }
@@ -67,7 +64,7 @@ namespace Edge
         private void OpenRepoWebsite(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = App.GetWindowForElement(this);
-            mainWindow.AddNewTab(new WebViewPage(new Uri("https://github.com/wtcpython/WinUIEdge")));
+            mainWindow.AddNewTab(new WebViewPage(new("https://github.com/wtcpython/WinUIEdge")));
         }
     }
 }

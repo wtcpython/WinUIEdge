@@ -6,6 +6,7 @@
     xmlns:local="using:Edge"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     mc:Ignorable="d">
     <Grid>
 
@@ -67,6 +68,28 @@
         <local:FavoriteList Grid.Row="1"/>
 
         <WebView2 Name="EdgeWebViewEngine" CoreWebView2Initialized="WebView2Initialized" Grid.Row="2"/>
+
+        <Grid
+            x:Name="splitGrid"
+            Grid.Row="2"
+            Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <WebView2 Source="https://www.bing.com/" Grid.Column="1" />
+            <controls:GridSplitter
+                Grid.Column="1"
+                Width="16"
+                HorizontalAlignment="Left"
+                ResizeBehavior="BasedOnAlignment"
+                ResizeDirection="Auto">
+                <controls:GridSplitter.RenderTransform>
+                    <TranslateTransform X="-7" />
+                </controls:GridSplitter.RenderTransform>
+            </controls:GridSplitter>
+        </Grid>
 
         <Border
             Background="{ThemeResource LayerOnMicaBaseAltFillColorTertiaryBrush}" CornerRadius="{ThemeResource ControlCornerRadius}"

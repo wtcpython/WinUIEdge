@@ -14,7 +14,7 @@
             Header="WebView2"
             Description="{x:Bind browserVersion}">
             <Button Name="CopyChromiumVersionButton"
-                    Click="TryCopyChromiumVersion"
+                    Click="CopyChromiumVersion"
                     Content="复制"/>
         </controls:SettingsCard>
 
@@ -25,7 +25,7 @@
             IsClickEnabled="True"
             IsActionIconVisible="False">
             <Button Name="CopyAppVersionButton"
-                    Click="TryCopyAppVersion"
+                    Click="CopyAppVersion"
                     Content="复制"/>
         </controls:SettingsCard>
 

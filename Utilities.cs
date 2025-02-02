@@ -95,7 +95,7 @@ namespace Edge
                 fsd.SetDefaultFolder((IShellItem)directoryShellItem);
                 fsd.SetFileName(info.Name);
                 fsd.SetDefaultExtension(info.Extension);
-                fsd.Show(new HWND(hwnd));
+                fsd.Show(new(hwnd));
                 fsd.GetResult(out var ppsi);
 
                 ppsi.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out PWSTR pwFileName);

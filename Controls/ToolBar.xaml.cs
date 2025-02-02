@@ -121,5 +121,11 @@ namespace Edge
                     break;
             }
         }
+
+        private void SplitWindow(object sender, RoutedEventArgs e)
+        {
+            WebViewPage page = App.GetWindowForElement(this).SelectedItem as WebViewPage;
+            page.CreateSplitWindow();
+        }
     }
 }

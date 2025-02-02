@@ -39,9 +39,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.241112-preview1" />
-    <PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.2.241112-preview1" />
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2957.106" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.250129-preview2" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.2.250129-preview2" />
+    <PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.2.250129-preview2" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3079-prerelease" />
     <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.162" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.250108002" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />

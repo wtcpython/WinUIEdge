@@ -353,5 +353,17 @@ namespace Edge
                 favoriteButton.IconGlyph = "\ue734";
             }
         }
+
+        public void CreateSplitWindow()
+        {
+            EdgeWebViewEngine.Visibility = Visibility.Collapsed;
+            WebView2 webView2 = new()
+            {
+                Source = EdgeWebViewEngine.Source
+            };
+            splitGrid.Children.Add(webView2);
+            Grid.SetColumn(webView2, 0);
+            splitGrid.Visibility = Visibility.Visible;
+        }
     }
 }
