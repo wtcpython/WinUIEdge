@@ -47,15 +47,11 @@ namespace Edge
             this.SetThemeColor();
 
             overlappedPresenter = AppWindow.Presenter as OverlappedPresenter;
-
             IsWindowMaximized = overlappedPresenter.State == OverlappedPresenterState.Maximized;
 
-            HWND hWND = (HWND)this.GetWindowHandle();
-
-            // 挂载相应的事件
             AppWindow.Changed += OnAppWindowChanged;
             mainWindowSubClassProc = new SUBCLASSPROC(MainWindowSubClassProc);
-            PInvoke.SetWindowSubclass(hWND, mainWindowSubClassProc, 0, 0);
+            PInvoke.SetWindowSubclass(new(this.GetWindowHandle()), mainWindowSubClassProc, 0, 0);
         }
 
         public void AddHomePage()
@@ -123,12 +119,7 @@ namespace Edge
         /// </summary>
         private void OnMoveClicked(object sender, RoutedEventArgs args)
         {
-            MenuFlyoutItem menuItem = sender as MenuFlyoutItem;
-            if (menuItem.Tag is not null)
-            {
-                ((MenuFlyout)menuItem.Tag).Hide();
-                PInvoke.SendMessage((HWND)this.GetWindowHandle(), PInvoke.WM_SYSCOMMAND, 0xF010, 0);
-            }
+            PInvoke.SendMessage((HWND)this.GetWindowHandle(), PInvoke.WM_SYSCOMMAND, 0xF010, 0);
         }
 
         /// <summary>
@@ -136,12 +127,7 @@ namespace Edge
         /// </summary>
         private void OnSizeClicked(object sender, RoutedEventArgs args)
         {
-            MenuFlyoutItem menuItem = sender as MenuFlyoutItem;
-            if (menuItem.Tag is not null)
-            {
-                ((MenuFlyout)menuItem.Tag).Hide();
-                PInvoke.SendMessage((HWND)this.GetWindowHandle(), PInvoke.WM_SYSCOMMAND, 0xF000, 0);
-            }
+            PInvoke.SendMessage((HWND)this.GetWindowHandle(), PInvoke.WM_SYSCOMMAND, 0xF000, 0);
         }
 
         /// <summary>
@@ -175,43 +161,6 @@ namespace Edge
         {
             switch (Msg)
             {
-                // 选择窗口右键菜单的条目时接收到的消息
-                case PInvoke.WM_SYSCOMMAND:
-                    {
-                        nuint sysCommand = wParam.Value & 0xFFF0;
-
-                        if (sysCommand == PInvoke.SC_MOUSEMENU)
-                        {
-                            FlyoutShowOptions options = new()
-                            {
-                                Position = new Point(0, 15),
-                                ShowMode = FlyoutShowMode.Standard,
-                            };
-                            TitlebarMenuFlyout.ShowAt(null, options);
-                            return (LRESULT)0;
-                        }
-                        else if (sysCommand == PInvoke.SC_KEYMENU)
-                        {
-                            FlyoutShowOptions options = new()
-                            {
-                                Position = new Point(0, 45),
-                                ShowMode = FlyoutShowMode.Standard,
-                            };
-                            TitlebarMenuFlyout.ShowAt(null, options);
-                            return (LRESULT)0;
-                        }
-                        break;
-                    }
-                case PInvoke.WM_NCLBUTTONDOWN:
-                    {
-                        if (TitlebarMenuFlyout.IsOpen)
-                        {
-                            TitlebarMenuFlyout.Hide();
-                        }
-                        break;
-                    }
-
-                // 当用户按下鼠标右键并释放时，光标位于窗口的非工作区内的消息
                 case PInvoke.WM_NCRBUTTONUP:
                     {
                         if (Content is not null && Content.XamlRoot is not null)

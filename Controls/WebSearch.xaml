@@ -8,26 +8,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel>
-        <TextBox
-            x:Name="SearchBox" 
-            PlaceholderText="搜索或输入 Web 地址"
-            GotFocus="SearchBox_GotFocus"
-            LostFocus="SearchBox_LostFocus"
-            KeyDown="TextBox_KeyDown"
-            TextChanged="OnTextChanged"
-            DragOver="SearchBox_DragOver"
-            Drop="SearchBox_Drop"/>
-        <Popup
-            x:Name="SuggestionPopup">
-            <ListView
-                x:Name="listView"
-                Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
-                BorderBrush="{ThemeResource ButtonBorderThemeBrush}" 
-                BorderThickness="{ThemeResource ButtonBorderThemeThickness}"
-                CornerRadius="{ThemeResource ControlCornerRadius}"
-                IsItemClickEnabled="True"
-                ItemClick="SuggestItemClick"/>
-        </Popup>
-    </StackPanel>
+    <AutoSuggestBox
+        x:Name="searchBox"
+        PlaceholderText="搜索或输入 Web 地址"
+        TextChanged="AutoSuggestBox_TextChanged"
+        SuggestionChosen="AutoSuggestBox_SuggestionChosen"
+        QuerySubmitted="AutoSuggestBox_QuerySubmitted" />
 </UserControl>

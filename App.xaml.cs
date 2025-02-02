@@ -65,7 +65,7 @@ namespace Edge
         public static WebView2 GetWebView2(UIElement element)
         {
             WebViewPage page = GetWindowForElement(element).SelectedItem as WebViewPage;
-            return page.webView2;
+            return page.WebView2;
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args)

@@ -318,7 +318,7 @@ namespace Edge
             toolBar.ShowFlyout(name);
         }
 
-        public WebView2 webView2 => EdgeWebViewEngine;
+        public WebView2 WebView2 => EdgeWebViewEngine;
 
         private void FavoriteStateChanged(object sender, RoutedEventArgs e)
         {

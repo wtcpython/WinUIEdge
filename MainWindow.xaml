@@ -138,6 +138,12 @@
                         <KeyboardAccelerator Key="T" Modifiers="Control,Shift"/>
                     </MenuFlyoutItem.KeyboardAccelerators>
                 </MenuFlyoutItem>
+
+                <MenuFlyoutItem Text="将所有标签页添加到收藏夹">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="D" Modifiers="Control,Shift"/>
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
             </MenuFlyout>
 
             <MenuFlyout
@@ -148,7 +154,6 @@
                     Click="OnRestoreClicked"
                     IsEnabled="{x:Bind IsWindowMaximized, Mode=OneWay}"
                     Text="还原">
-
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xE923;" />
                     </MenuFlyoutItem.Icon>
@@ -178,18 +183,40 @@
                     Click="OnMaximizeClicked"
                     IsEnabled="{x:Bind IsWindowMaximized.Equals(x:False), Mode=OneWay}"
                     Text="最大化">
-
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xE922;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
 
-                <MenuFlyoutSeparator Width="200" />
+                <MenuFlyoutSeparator />
+
+                <MenuFlyoutItem
+                    Text="新建标签页">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="T" Modifiers="Control" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+
+                <MenuFlyoutItem
+                    Click="OpenClosedTab"
+                    Text="重新打开关闭的标签页">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="T" Modifiers="Control,Shift" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+
+                <MenuFlyoutItem
+                    Text="将打开的页面添加到收藏夹">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="D" Modifiers="Control,Shift" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+
+                <MenuFlyoutSeparator />
 
                 <MenuFlyoutItem
                     Click="OnCloseClicked"
                     Text="关闭">
-
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xE8BB;" />
                     </MenuFlyoutItem.Icon>

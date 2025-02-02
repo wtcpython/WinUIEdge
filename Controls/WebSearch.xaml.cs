@@ -1,11 +1,7 @@
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 using System;
 using System.IO;
 using System.Linq;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Storage;
 
 namespace Edge
 {
@@ -13,71 +9,13 @@ namespace Edge
     {
         public string Text
         {
-            get => SearchBox.Text;
-            set => SearchBox.Text = value;
+            get => searchBox.Text;
+            set => searchBox.Text = value;
         }
 
         public WebSearch()
         {
             this.InitializeComponent();
-        }
-
-        private void SearchBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            showPopup(true);
-        }
-
-        private void SearchBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            DispatcherQueue.TryEnqueue(() =>
-            {
-                if (SuggestionPopup.IsOpen)
-                {
-                    showPopup(false);
-                }
-            });
-        }
-
-        private void showPopup(bool visible)
-        {
-            SuggestionPopup.IsOpen = visible;
-            listView.Width = SearchBox.ActualWidth;
-        }
-
-        private void OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-            string text = (sender as TextBox).Text;
-            string lastWord = text.Split(' ')[^1].ToLower();
-            if (!string.IsNullOrEmpty(lastWord))
-            {
-                var result = App.searchEngine.SearchWords(lastWord).Take(10).ToList();
-                listView.ItemsSource = result;
-            }
-        }
-
-        private void TextBox_KeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            if (e.Key == Windows.System.VirtualKey.Enter)
-            {
-                MainWindow mainWindow = App.GetWindowForElement(this);
-                StartSearch(SearchBox.Text, mainWindow);
-                SearchBox.Text = string.Empty;
-            }
-        }
-
-        private void SuggestItemClick(object sender, ItemClickEventArgs e)
-        {
-            string item = e.ClickedItem as string;
-            string text = SearchBox.Text;
-            int lastIndex = text.LastIndexOf(' ');
-            if (lastIndex == -1)
-            {
-                SearchBox.Text = item;
-                return;
-            }
-
-            string prefix = text[..lastIndex];
-            SearchBox.Text = $"{prefix} {item}";
         }
 
         public static void StartSearch(string text, MainWindow mainWindow)
@@ -126,7 +64,7 @@ namespace Edge
             Uri uri = new(site);
             if ((mainWindow.TabView.SelectedItem != null) && (mainWindow.SelectedItem is WebViewPage webviewPage))
             {
-                webviewPage.webView2.Source = uri;
+                webviewPage.WebView2.Source = uri;
             }
             else
             {
@@ -134,28 +72,43 @@ namespace Edge
             }
         }
 
-        private void SearchBox_DragOver(object sender, DragEventArgs e)
+        private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                e.AcceptedOperation = DataPackageOperation.Copy;
-            }
-            else
-            {
-                e.AcceptedOperation = DataPackageOperation.None;
+                string text = sender.Text;
+                string lastWord = text.Split(' ')[^1].ToLower();
+                if (!string.IsNullOrEmpty(lastWord))
+                {
+                    sender.ItemsSource = App.searchEngine.SearchWords(lastWord);
+                }
             }
         }
 
-        private async void SearchBox_Drop(object sender, DragEventArgs e)
+        private void AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            string text = sender.Text;
+            string item = args.SelectedItem as string;
+
+            int lastIndex = text.LastIndexOf(' ');
+            if (lastIndex == -1)
             {
-                var items = await e.DataView.GetStorageItemsAsync();
-                var file = items.OfType<StorageFile>().FirstOrDefault();
-                if (file != null)
-                {
-                    SearchBox.Text = file.Path;
-                }
+                sender.Text = item;
+                return;
+            }
+
+            string prefix = text[..lastIndex];
+            sender.Text = $"{prefix} {item}";
+        }
+
+        private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (args.ChosenSuggestion == null)
+            {
+                string text = args.QueryText;
+                sender.Text = string.Empty;
+                MainWindow mainWindow = App.GetWindowForElement(this);
+                StartSearch(text, mainWindow);
             }
         }
     }
