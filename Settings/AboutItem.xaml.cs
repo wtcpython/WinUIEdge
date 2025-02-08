@@ -26,12 +26,12 @@ namespace Edge
             {
                 string fileUri = "https://raw.githubusercontent.com/wtcpython/WinUIEdge/main/Assets/version.txt";
                 using HttpClient client = new();
-                App.LatestVersion = await client.GetStringAsync(fileUri);
+                string version = await client.GetStringAsync(fileUri);
 
-                if (App.LatestVersion.CompareTo(appVersion) > 0)
+                if (version.CompareTo(appVersion) > 0)
                 {
                     var builder = new AppNotificationBuilder()
-                        .AddText($"发现新版本：{App.LatestVersion}，是否要更新？\n当前版本：{appVersion}")
+                        .AddText($"发现新版本：{version}，是否要更新？\n当前版本：{appVersion}")
                         .AddArgument("Notification", "LaunchReleaseWebsite")
                         .AddButton(new AppNotificationButton("确定")
                             .AddArgument("Notification", "LaunchReleaseWebsite"))

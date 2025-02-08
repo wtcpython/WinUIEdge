@@ -16,7 +16,6 @@ namespace Edge
     public partial class App : Application
     {
         public static List<MainWindow> mainWindows = [];
-        public static string LatestVersion = null;
         public static Settings settings;
         public static WebView2 webView2 = new();
         public static ObservableCollection<WebViewHistory> Histories = [];

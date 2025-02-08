@@ -19,18 +19,18 @@ namespace Edge
 {
     public sealed partial class ImageViewer : Page
     {
-        public FileInfo fileInfo;
+        public FileInfo info;
         public BitmapImage source;
 
         private PrintManager printManager;
         private PrintDocument printDocument;
         private IPrintDocumentSource printDocumentSource;
 
-        public ImageViewer(string filepath)
+        public ImageViewer(FileInfo fileInfo)
         {
             this.InitializeComponent();
-            fileInfo = new(filepath);
-            source = new(new Uri(filepath));
+            info = fileInfo;
+            source = new(new Uri(info.FullName));
             image.Source = source;
             source.ImageOpened += ImageOpened;
         }
@@ -66,7 +66,7 @@ namespace Edge
 
         private void PrintManager_PrintTaskRequested(PrintManager sender, PrintTaskRequestedEventArgs args)
         {
-            PrintTask task = args.Request.CreatePrintTask(fileInfo.Name, PrintTaskSourceRequested);
+            PrintTask task = args.Request.CreatePrintTask(info.Name, PrintTaskSourceRequested);
         }
 
         private void PrintTaskSourceRequested(PrintTaskSourceRequestedArgs args)
@@ -86,9 +86,9 @@ namespace Edge
 
         private void ImageOpened(object sender, RoutedEventArgs e)
         {
-            imageNameBlock.Text = fileInfo.Name;
+            imageNameBlock.Text = info.Name;
             imagePixel.Text = $"{source.PixelWidth} x {source.PixelHeight}";
-            imageSize.Text = Converters.ToFileSizeString(fileInfo.Length);
+            imageSize.Text = Converters.ToFileSizeString(info.Length);
         }
 
         private async void ImageDeleteRequest(object sender, RoutedEventArgs e)
@@ -96,7 +96,7 @@ namespace Edge
             ContentDialogResult result = await deleteDialog.ShowAsync();
             if (result == ContentDialogResult.Primary)
             {
-                fileInfo.Delete();
+                info.Delete();
             }
         }
 
@@ -109,7 +109,7 @@ namespace Edge
 
         private void OpenFileLocation(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start("explorer.exe", $"/select,\"{fileInfo.FullName}\"");
+            System.Diagnostics.Process.Start("explorer.exe", $"/select,\"{info.FullName}\"");
         }
 
         private void Image_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
@@ -141,17 +141,17 @@ namespace Edge
 
         private void SaveImageAs(object sender, RoutedEventArgs e)
         {
-            string path = Utilities.Win32SaveFile(fileInfo.FullName, this.GetWindowHandle());
+            string path = Utilities.Win32SaveFile(info.FullName, this.GetWindowHandle());
             if (path != string.Empty)
             {
-                fileInfo.CopyTo(path, true);
+                info.CopyTo(path, true);
             }
         }
 
         private void CopyFilePath(object sender, RoutedEventArgs e)
         {
             DataPackage package = new();
-            package.SetText(fileInfo.FullName);
+            package.SetText(info.FullName);
             Clipboard.SetContent(package);
         }
 
@@ -160,7 +160,7 @@ namespace Edge
             if (UserProfilePersonalizationSettings.IsSupported())
             {
                 UserProfilePersonalizationSettings settings = UserProfilePersonalizationSettings.Current;
-                StorageFile imageFile = await StorageFile.GetFileFromPathAsync(fileInfo.FullName);
+                StorageFile imageFile = await StorageFile.GetFileFromPathAsync(info.FullName);
                 await settings.TrySetLockScreenImageAsync(imageFile);
             }
         }
@@ -170,7 +170,7 @@ namespace Edge
             if (UserProfilePersonalizationSettings.IsSupported())
             {
                 UserProfilePersonalizationSettings settings = UserProfilePersonalizationSettings.Current;
-                StorageFile imageFile = await StorageFile.GetFileFromPathAsync(fileInfo.FullName);
+                StorageFile imageFile = await StorageFile.GetFileFromPathAsync(info.FullName);
                 await settings.TrySetWallpaperImageAsync(imageFile);
             }
         }

@@ -184,7 +184,7 @@ namespace Edge
 
                             TitlebarMenuFlyout.ShowAt(Content, options);
                         }
-                        return (LRESULT)0;
+                        return new(0);
                     }
             }
             return PInvoke.DefSubclassProc(hWnd, Msg, wParam, lParam);

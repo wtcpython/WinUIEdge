@@ -39,7 +39,7 @@ namespace Edge
                 }
                 else if (Info.ImageDict.TryGetValue(ext, out var _))
                 {
-                    mainWindow.AddNewTab(new ImageViewer(text), fileInfo.Name);
+                    mainWindow.AddNewTab(new ImageViewer(fileInfo), fileInfo.Name);
                 }
                 else
                 {
