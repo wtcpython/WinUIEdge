@@ -35,14 +35,7 @@ namespace Edge
                 string ext = fileInfo.Extension;
                 if (Info.LanguageDict.TryGetValue(ext, out var _))
                 {
-                    if (ext == ".lnk")
-                    {
-                        mainWindow.AddNewTab(new InkFilePage(fileInfo), fileInfo.Name);
-                    }
-                    else
-                    {
-                        mainWindow.AddNewTab(new TextFilePage(fileInfo), fileInfo.Name);
-                    }
+                    mainWindow.AddNewTab(new TextFilePage(fileInfo), fileInfo.Name);
                 }
                 else if (Info.ImageDict.TryGetValue(ext, out var _))
                 {
