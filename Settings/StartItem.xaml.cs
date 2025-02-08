@@ -12,7 +12,6 @@ namespace Edge
 {
     public sealed partial class StartItem : Page
     {
-        public Dictionary<string, bool> ToolBar = App.settings.ToolBar;
         public StartItem()
         {
             this.InitializeComponent();
@@ -22,7 +21,7 @@ namespace Edge
             uriBox.IsEnabled = radios.SelectedIndex == 2;
             uriButton.IsEnabled = radios.SelectedIndex == 2;
 
-            setHomeButton.IsOn = ToolBar.GetValueOrDefault("HomeButton", false);
+            setHomeButton.IsOn = App.settings.ToolBar.GetValueOrDefault("HomeButton", false);
 
             searchEngineBox.ItemsSource = Info.SearchEngineList.Select(x => x.Name).ToList();
             searchEngineBox.SelectedItem = Info.SearchEngineList.First(x => x.Name.Equals(App.settings.SearchEngine)).Name;
@@ -56,8 +55,7 @@ namespace Edge
 
         private void HomeButtonVisualChanged(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
-            ToolBar["HomeButton"] = setHomeButton.IsOn;
-            App.settings.ToolBar = ToolBar;
+            App.settings.ToolBar["HomeButton"] = setHomeButton.IsOn;
         }
 
         private void SearchEngineChanged(object sender, SelectionChangedEventArgs e)

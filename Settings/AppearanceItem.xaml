@@ -40,7 +40,7 @@
                 </StackPanel>
 
                 <StackPanel>
-                    <Rectangle Width="150" Height="100" Fill="black"/>
+                    <Rectangle Width="150" Height="100" Fill="Black"/>
                     <TextBlock Text="深色" Margin="10"/>
                 </StackPanel>
             </GridView>

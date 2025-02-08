@@ -16,7 +16,6 @@ namespace Edge
     public sealed partial class AppearanceItem : Page
     {
         private static bool inLoading = false;
-        public Dictionary<string, bool> ToolBar = App.settings.ToolBar;
         public List<ToolBarVisual> ToolBarVisualList = [];
         public List<string> themeList = [.. Enum.GetNames<ElementTheme>()];
         public Dictionary<string, string> ToolBarName = new(){
@@ -28,7 +27,7 @@ namespace Edge
         public AppearanceItem()
         {
             this.InitializeComponent();
-            ToolBarVisualList = ToolBar.Select(x => new ToolBarVisual()
+            ToolBarVisualList = App.settings.ToolBar.Select(x => new ToolBarVisual()
             {
                 Text = x.Key,
                 Description = ToolBarName[x.Key],
@@ -59,8 +58,7 @@ namespace Edge
         private void VisualChanged(object sender, RoutedEventArgs e)
         {
             ToolBarVisual visual = (sender as ToggleSwitch).DataContext as ToolBarVisual;
-            ToolBar[visual.Text] = (sender as ToggleSwitch).IsOn;
-            App.settings.ToolBar = ToolBar;
+            App.settings.ToolBar[visual.Text] = (sender as ToggleSwitch).IsOn;
         }
 
         private void MicaEffectChanged(object sender, RoutedEventArgs e)
