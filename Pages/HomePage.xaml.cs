@@ -28,7 +28,7 @@ namespace Edge
 
             if (App.settings.ShowBackground)
             {
-                homeGrid.Background = new ImageBrush()
+                Background = new ImageBrush()
                 {
                     ImageSource = new BitmapImage()
                     {
@@ -76,13 +76,6 @@ namespace Edge
         {
             MainWindow mainWindow = App.GetWindowForElement(this);
             mainWindow.AddNewTab(new WebViewPage((e.ClickedItem as WebsiteInfo).Uri));
-        }
-
-        private void OpenWebSite(object sender, RoutedEventArgs e)
-        {
-            MainWindow mainWindow = App.GetWindowForElement(this);
-            Uri uri = ((sender as MenuFlyoutItem).DataContext as WebsiteInfo).Uri;
-            mainWindow.AddNewTab(new WebViewPage(uri));
         }
 
         private void HideItem(object sender, RoutedEventArgs e)

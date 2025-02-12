@@ -1,6 +1,5 @@
 using Microsoft.UI;
 using Microsoft.UI.Composition.SystemBackdrops;
-using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using System;
@@ -48,7 +47,6 @@ namespace Edge
         public static void SetThemeColor(this Window window)
         {
             string appearance = App.settings.Appearance;
-            window.AppWindow.TitleBar.PreferredTheme = Enum.Parse<TitleBarTheme>(appearance);
             if (window.Content is FrameworkElement rootElement)
             {
                 rootElement.RequestedTheme = Enum.Parse<ElementTheme>(appearance);

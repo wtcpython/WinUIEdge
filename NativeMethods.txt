@@ -1,7 +1,6 @@
 SetWindowSubclass
 SendMessage
 DefSubclassProc
-SendInput
 ScreenToClient
 GetDpiForWindow
 

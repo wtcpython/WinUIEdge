@@ -18,20 +18,12 @@ namespace Edge
         {
             InitializeComponent();
             InitializeToolbarVisibility();
-            SetNavigationButtonStatus();
             EdgeWebViewEngine.Source = WebUri;
         }
 
         private void InitializeToolbarVisibility()
         {
             homeButton.Visibility = App.settings.ToolBar!["HomeButton"] ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        private void SetNavigationButtonStatus()
-        {
-            uriGoBackButton.IsEnabled = EdgeWebViewEngine.CanGoBack;
-            uriGoForwardButton.Visibility = App.settings.ToolBar!["ForwardButton"] && EdgeWebViewEngine.CanGoForward
-                ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void WebView2Initialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
@@ -60,7 +52,6 @@ namespace Edge
                 FaviconUri = new Uri(sender.FaviconUri),
                 Time = DateTime.Now.ToString()
             });
-            SetNavigationButtonStatus();
 
             if (App.settings.Favorites.Where(x => x.Uri.Equals(sender.Source)).Any())
             {
@@ -296,13 +287,11 @@ namespace Edge
         private void UriGoBackRequest(object sender, RoutedEventArgs e)
         {
             if (EdgeWebViewEngine.CanGoBack) EdgeWebViewEngine.GoBack();
-            SetNavigationButtonStatus();
         }
 
         private void UriGoForwardRequest(object sender, RoutedEventArgs e)
         {
             if (EdgeWebViewEngine.CanGoForward) EdgeWebViewEngine.GoForward();
-            SetNavigationButtonStatus();
         }
 
         private void UriRefreshRequest(object sender, RoutedEventArgs e) => EdgeWebViewEngine.Reload();

@@ -31,11 +31,11 @@
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.250129-preview2" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.2.250129-preview2" />
     <PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.2.250129-preview2" />
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3079-prerelease" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3116-prerelease" />
     <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.183" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250127003-experimental3" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250208002-preview1" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="9.0.1" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="9.0.2" />
     <PackageReference Include="WinUIEdit" Version="0.0.3-prerelease" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>

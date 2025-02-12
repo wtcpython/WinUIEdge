@@ -26,19 +26,18 @@
 
             <StackPanel Orientation="Horizontal">
                 <local:IconButton
-                    x:Name="uriGoBackButton"
                     TipText="返回 (Alt+向左键)"
                     Key="Left" Modifiers="Menu"
                     IconGlyph="&#xe72b;"
-                    ButtonClicked="UriGoBackRequest" />
+                    ButtonClicked="UriGoBackRequest"
+                    IsEnabled="{Binding ElementName=EdgeWebViewEngine, Path=CanGoBack, Mode=TwoWay}"/>
                 <local:IconButton
-                    x:Name="uriGoForwardButton"
                     TipText="继续 (Alt+向右键)"
                     Key="Right" Modifiers="Menu"
                     IconGlyph="&#xe72a;"
-                    ButtonClicked="UriGoForwardRequest" />
+                    ButtonClicked="UriGoForwardRequest"
+                    Visibility="{Binding ElementName=EdgeWebViewEngine, Path=CanGoForward, Mode=TwoWay}"/>
                 <local:IconButton
-                    x:Name="uriRefreshButton"
                     TipText="刷新 (Ctrl+R)"
                     Key="R" Modifiers="Control"
                     IconGlyph="&#xe72c;"

@@ -119,7 +119,7 @@ namespace Edge
         /// </summary>
         private void OnMoveClicked(object sender, RoutedEventArgs args)
         {
-            PInvoke.SendMessage((HWND)this.GetWindowHandle(), PInvoke.WM_SYSCOMMAND, 0xF010, 0);
+            PInvoke.SendMessage(new(this.GetWindowHandle()), PInvoke.WM_SYSCOMMAND, 0xF010, 0);
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace Edge
         /// </summary>
         private void OnSizeClicked(object sender, RoutedEventArgs args)
         {
-            PInvoke.SendMessage((HWND)this.GetWindowHandle(), PInvoke.WM_SYSCOMMAND, 0xF000, 0);
+            PInvoke.SendMessage(new(this.GetWindowHandle()), PInvoke.WM_SYSCOMMAND, 0xF000, 0);
         }
 
         /// <summary>
@@ -298,16 +298,6 @@ namespace Edge
         private void TabViewAddTabButtonClick(TabView sender, object args)
         {
             AddHomePage();
-        }
-
-        private async void LearnAboutWorkspaces(object sender, RoutedEventArgs e)
-        {
-            await Launcher.LaunchUriAsync(new Uri("https://aka.ms/edgeworkspaces/learn-more-msa"));
-        }
-
-        private void CreateNewWorkspaces(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void TabViewPointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)

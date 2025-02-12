@@ -1,11 +1,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using Windows.Win32;
-using Windows.Win32.UI.Input.KeyboardAndMouse;
 
 namespace Edge
 {
@@ -19,7 +15,6 @@ namespace Edge
         private void TryCreateNewTab(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = App.GetWindowForElement(this);
-
             mainWindow.AddHomePage();
         }
 
@@ -55,47 +50,6 @@ namespace Edge
         private void CloseApp(object sender, RoutedEventArgs e)
         {
             App.mainWindows.ForEach(x => x.Close());
-        }
-
-        private void ScreenClip(object sender, RoutedEventArgs e)
-        {
-            WebView2 webView2 = App.GetWebView2(this);
-            webView2.Focus(FocusState.Programmatic);
-
-            List<INPUT> inputs =
-            [
-                new()
-                {
-                    type = INPUT_TYPE.INPUT_KEYBOARD,
-                    Anonymous = { ki = { wVk = VIRTUAL_KEY.VK_CONTROL } }
-                },
-                new()
-                {
-                    type = INPUT_TYPE.INPUT_KEYBOARD,
-                    Anonymous = { ki = { wVk = VIRTUAL_KEY.VK_SHIFT } }
-                },
-                new()
-                {
-                    type = INPUT_TYPE.INPUT_KEYBOARD,
-                    Anonymous = { ki = { wVk = VIRTUAL_KEY.VK_S } }
-                },
-                new()
-                {
-                    type = INPUT_TYPE.INPUT_KEYBOARD,
-                    Anonymous = { ki = { wVk = VIRTUAL_KEY.VK_S, dwFlags = KEYBD_EVENT_FLAGS.KEYEVENTF_KEYUP } }
-                },
-                new()
-                {
-                    type = INPUT_TYPE.INPUT_KEYBOARD,
-                    Anonymous = { ki = { wVk = VIRTUAL_KEY.VK_SHIFT, dwFlags = KEYBD_EVENT_FLAGS.KEYEVENTF_KEYUP } }
-                },
-                new()
-                {
-                    type = INPUT_TYPE.INPUT_KEYBOARD,
-                    Anonymous = { ki = { wVk = VIRTUAL_KEY.VK_CONTROL, dwFlags = KEYBD_EVENT_FLAGS.KEYEVENTF_KEYUP } }
-                }
-            ];
-            PInvoke.SendInput(inputs.ToArray(), Marshal.SizeOf<INPUT>());
         }
 
         private void MenuFlyout_Opening(object sender, object e)

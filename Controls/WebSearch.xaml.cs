@@ -73,7 +73,7 @@ namespace Edge
                 string lastWord = text.Split(' ')[^1].ToLower();
                 if (!string.IsNullOrEmpty(lastWord))
                 {
-                    sender.ItemsSource = App.searchEngine.SearchWords(lastWord);
+                    sender.ItemsSource = App.searchEngine.SearchWords(lastWord).Take(10).ToList();
                 }
             }
         }
