@@ -18,7 +18,7 @@ namespace Edge
         {
             InitializeComponent();
             InitializeToolbarVisibility();
-            EdgeWebViewEngine.Source = WebUri;
+            WebViewEngine.Source = WebUri;
         }
 
         private void InitializeToolbarVisibility()
@@ -28,7 +28,7 @@ namespace Edge
 
         private void WebView2Initialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
         {
-            sender.CoreWebView2.ContextMenuRequested += CoreWebView2_ContextMenuRequested;
+            sender.CoreWebView2.ContextMenuRequested += (s, args) => CoreWebView2_ContextMenuRequested(sender, s, args);
             sender.CoreWebView2.DocumentTitleChanged += CoreWebView2_DocumentTitleChanged;
             sender.CoreWebView2.DOMContentLoaded += CoreWebView2_DOMContentLoaded;
             sender.CoreWebView2.DownloadStarting += CoreWebView2_DownloadStarting;
@@ -170,19 +170,19 @@ namespace Edge
             }    
         }
 
-        private void CoreWebView2_ContextMenuRequested(CoreWebView2 sender, CoreWebView2ContextMenuRequestedEventArgs args)
+        private void CoreWebView2_ContextMenuRequested(UIElement element, CoreWebView2 sender, CoreWebView2ContextMenuRequestedEventArgs args)
         {
             args.Handled = true;
             var deferral = args.GetDeferral();
             var menuFlyout = new MenuFlyout();
 
-            PopulateContextMenuItems(args, args.MenuItems, menuFlyout.Items);
+            CreateMenuItems(args, args.MenuItems, menuFlyout.Items);
 
             menuFlyout.Closed += (s, e) => deferral.Complete();
-            menuFlyout.ShowAt(EdgeWebViewEngine, args.Location);
+            menuFlyout.ShowAt(element, args.Location);
         }
 
-        private void PopulateContextMenuItems(CoreWebView2ContextMenuRequestedEventArgs args, IList<CoreWebView2ContextMenuItem> webMenuItems, IList<MenuFlyoutItemBase> menuItems)
+        private void CreateMenuItems(CoreWebView2ContextMenuRequestedEventArgs args, IList<CoreWebView2ContextMenuItem> webMenuItems, IList<MenuFlyoutItemBase> menuItems)
         {
             foreach (var menuItem in webMenuItems)
             {
@@ -206,7 +206,7 @@ namespace Edge
                 IsEnabled = menuItem.IsEnabled
             };
 
-            PopulateContextMenuItems(args, menuItem.Children, subItem.Items);
+            CreateMenuItems(args, menuItem.Children, subItem.Items);
             return subItem;
         }
 
@@ -286,15 +286,15 @@ namespace Edge
 
         private void UriGoBackRequest(object sender, RoutedEventArgs e)
         {
-            if (EdgeWebViewEngine.CanGoBack) EdgeWebViewEngine.GoBack();
+            if (WebViewEngine.CanGoBack) WebViewEngine.GoBack();
         }
 
         private void UriGoForwardRequest(object sender, RoutedEventArgs e)
         {
-            if (EdgeWebViewEngine.CanGoForward) EdgeWebViewEngine.GoForward();
+            if (WebViewEngine.CanGoForward) WebViewEngine.GoForward();
         }
 
-        private void UriRefreshRequest(object sender, RoutedEventArgs e) => EdgeWebViewEngine.Reload();
+        private void UriRefreshRequest(object sender, RoutedEventArgs e) => WebViewEngine.Reload();
 
         public void ShowHomePage(object sender, RoutedEventArgs e)
         {
@@ -307,11 +307,11 @@ namespace Edge
             toolBar.ShowFlyout(name);
         }
 
-        public WebView2 WebView2 => EdgeWebViewEngine;
+        public WebView2 WebView2 => WebViewEngine;
 
         private void FavoriteStateChanged(object sender, RoutedEventArgs e)
         {
-            WebsiteInfo info = App.settings.Favorites.FirstOrDefault(x => x.Uri.Equals(EdgeWebViewEngine.Source));
+            WebsiteInfo info = App.settings.Favorites.FirstOrDefault(x => x.Uri.Equals(WebViewEngine.Source));
             if (info != null)
             {
                 App.settings.Favorites.Remove(info);
@@ -321,9 +321,9 @@ namespace Edge
             {
                 WebsiteInfo newInfo = new()
                 {
-                    Name = EdgeWebViewEngine.CoreWebView2.DocumentTitle,
-                    Icon = EdgeWebViewEngine.CoreWebView2.FaviconUri,
-                    Uri = EdgeWebViewEngine.Source
+                    Name = WebViewEngine.CoreWebView2.DocumentTitle,
+                    Icon = WebViewEngine.CoreWebView2.FaviconUri,
+                    Uri = WebViewEngine.Source
                 };
                 App.settings.Favorites.Add(newInfo);
                 InFavoriteList = true;
@@ -345,14 +345,18 @@ namespace Edge
 
         public void CreateSplitWindow()
         {
-            EdgeWebViewEngine.Visibility = Visibility.Collapsed;
-            WebView2 webView2 = new()
+            leftColumn.Width = new GridLength(1, GridUnitType.Star);
+            if (RightWebView.Visibility == Visibility.Collapsed)
             {
-                Source = EdgeWebViewEngine.Source
-            };
-            splitGrid.Children.Add(webView2);
-            Grid.SetColumn(webView2, 0);
-            splitGrid.Visibility = Visibility.Visible;
+                rightColumn.Width = new GridLength(1, GridUnitType.Star);
+                RightWebView.Source = new("https://www.bing.com/");
+                RightWebView.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                rightColumn.Width = new GridLength(0);
+                RightWebView.Visibility = Visibility.Collapsed;
+            }
         }
     }
 }

@@ -30,13 +30,13 @@
                     Key="Left" Modifiers="Menu"
                     IconGlyph="&#xe72b;"
                     ButtonClicked="UriGoBackRequest"
-                    IsEnabled="{Binding ElementName=EdgeWebViewEngine, Path=CanGoBack, Mode=TwoWay}"/>
+                    IsEnabled="{Binding ElementName=WebViewEngine, Path=CanGoBack, Mode=TwoWay}"/>
                 <local:IconButton
                     TipText="继续 (Alt+向右键)"
                     Key="Right" Modifiers="Menu"
                     IconGlyph="&#xe72a;"
                     ButtonClicked="UriGoForwardRequest"
-                    Visibility="{Binding ElementName=EdgeWebViewEngine, Path=CanGoForward, Mode=TwoWay}"/>
+                    Visibility="{Binding ElementName=WebViewEngine, Path=CanGoForward, Mode=TwoWay}"/>
                 <local:IconButton
                     TipText="刷新 (Ctrl+R)"
                     Key="R" Modifiers="Control"
@@ -66,18 +66,18 @@
 
         <local:FavoriteList Grid.Row="1"/>
 
-        <WebView2 Name="EdgeWebViewEngine" CoreWebView2Initialized="WebView2Initialized" Grid.Row="2"/>
-
-        <Grid
-            x:Name="splitGrid"
-            Grid.Row="2"
-            Visibility="Collapsed">
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition x:Name="leftColumn" Width="*" />
+                <ColumnDefinition x:Name="rightColumn" Width="0" />
             </Grid.ColumnDefinitions>
 
-            <WebView2 Source="https://www.bing.com/" Grid.Column="1" />
+            <WebView2 x:Name="WebViewEngine" CoreWebView2Initialized="WebView2Initialized" />
+            <WebView2
+                x:Name="RightWebView"
+                Visibility="Collapsed"
+                CoreWebView2Initialized="WebView2Initialized"
+                Grid.Column="1" />
             <controls:GridSplitter
                 Grid.Column="1"
                 Width="16"
@@ -91,11 +91,14 @@
         </Grid>
 
         <Border
-            Background="{ThemeResource LayerOnMicaBaseAltFillColorTertiaryBrush}" CornerRadius="{ThemeResource ControlCornerRadius}"
-            MaxWidth="400" Height="24" Grid.Row="2"
+            Grid.Row="2"
+            Background="{ThemeResource LayerOnMicaBaseAltFillColorTertiaryBrush}"
+            CornerRadius="{ThemeResource ControlCornerRadius}"
+            MaxWidth="400"
             HorizontalAlignment="Left" VerticalAlignment="Bottom">
             <TextBlock
-                Name="uriPreview" TextTrimming="CharacterEllipsis" FontSize="12"
+                Name="uriPreview" TextTrimming="CharacterEllipsis"
+                Margin="0,5,0,5"
                 VerticalAlignment="Center"/>
         </Border>
     </Grid>
