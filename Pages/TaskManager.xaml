@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="Edge.TaskManager"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Edge"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    mc:Ignorable="d"
+    Title="TaskManager">
+
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TitleBar
+            x:Name="TitleBar"
+            Title="TaskManager"
+            Height="48">
+            <TitleBar.IconSource>
+                <ImageIconSource ImageSource="ms-appx:///Assets/icon.ico" />
+            </TitleBar.IconSource>
+        </TitleBar>
+
+        <controls:DataGrid
+            ItemsSource="{x:Bind infos}"
+            AutoGenerateColumns="False"
+            IsReadOnly="True"
+            ColumnWidth="*"
+            CanUserSortColumns="True"
+            Sorting="DataGrid_Sorting"
+            Grid.Row="1">
+            <controls:DataGrid.Columns>
+                <controls:DataGridTextColumn Header="任务" Binding="{Binding Task}" Tag="Task" />
+                <controls:DataGridTextColumn Header="内存" Binding="{Binding MemoryKB}" Tag="Memory" />
+                <controls:DataGridTextColumn Header="CPU" Binding="{Binding ProcessId}" Tag="ProcessId" />
+                <controls:DataGridTextColumn Header="网络" Binding="{Binding ProcessId}" Tag="ProcessId" />
+                <controls:DataGridTextColumn Header="进程 ID" Binding="{Binding ProcessId}" Tag="ProcessId" />
+            </controls:DataGrid.Columns>
+        </controls:DataGrid>
+    </Grid>
+</Window>

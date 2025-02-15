@@ -169,6 +169,16 @@
                 <MenuFlyoutSeparator />
 
                 <MenuFlyoutItem
+                    Click="OpenBrowserTaskManager"
+                    Text="浏览器任务管理器">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="Escape" Modifiers="Shift" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+
+                <MenuFlyoutSeparator />
+
+                <MenuFlyoutItem
                     Click="OnCloseClicked"
                     Text="关闭">
                     <MenuFlyoutItem.Icon>

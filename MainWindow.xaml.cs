@@ -322,5 +322,11 @@ namespace Edge
                 }
             }
         }
+
+        private void OpenBrowserTaskManager(object sender, RoutedEventArgs e)
+        {
+            TaskManager taskManager = new();
+            taskManager.Activate();
+        }
     }
 }

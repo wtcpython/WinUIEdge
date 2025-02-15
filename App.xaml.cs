@@ -17,7 +17,7 @@ namespace Edge
     {
         public static List<MainWindow> mainWindows = [];
         public static Settings settings;
-        public static WebView2 webView2 = new();
+        public static WebView2 WebView2 = new();
         public static ObservableCollection<WebViewHistory> Histories = [];
         public static ObservableCollection<DownloadObject> DownloadList = [];
         public static WordSearchEngine searchEngine;
@@ -31,7 +31,7 @@ namespace Edge
 
         public async void EnsureWebView2Async()
         {
-            await webView2.EnsureCoreWebView2Async();
+            await WebView2.EnsureCoreWebView2Async();
         }
 
         public static MainWindow CreateNewWindow()

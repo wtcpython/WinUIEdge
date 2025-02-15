@@ -46,7 +46,7 @@ namespace Edge
             this.InitializeComponent();
             trackView.ItemsSource = TrackKindList;
 
-            var level = App.webView2.CoreWebView2.Profile.PreferredTrackingPreventionLevel;
+            var level = App.WebView2.CoreWebView2.Profile.PreferredTrackingPreventionLevel;
             bool isTrackOn = level != CoreWebView2TrackingPreventionLevel.None;
             if (isTrackOn)
             {
@@ -58,7 +58,7 @@ namespace Edge
             }
             trackSwitch.IsOn = isTrackOn;
 
-            msSmartScreen.IsOn = App.webView2.CoreWebView2.Settings.IsReputationCheckingRequired;
+            msSmartScreen.IsOn = App.WebView2.CoreWebView2.Settings.IsReputationCheckingRequired;
         }
 
         private async void ClearBrowsingData(object sender, RoutedEventArgs e)
@@ -67,7 +67,7 @@ namespace Edge
             {
                 if (item.IsChecked)
                 {
-                    await App.webView2.CoreWebView2.Profile.ClearBrowsingDataAsync(item.Kind);
+                    await App.WebView2.CoreWebView2.Profile.ClearBrowsingDataAsync(item.Kind);
                 }
             }
             ClearBrowsingDataButton.Description = "已清理选择的项目";
@@ -77,11 +77,11 @@ namespace Edge
         {
             if ((sender as ToggleSwitch).IsOn)
             {
-                App.webView2.CoreWebView2.Profile.PreferredTrackingPreventionLevel = trackLevelList[trackView.SelectedIndex + 1];
+                App.WebView2.CoreWebView2.Profile.PreferredTrackingPreventionLevel = trackLevelList[trackView.SelectedIndex + 1];
             }
             else
             {
-                App.webView2.CoreWebView2.Profile.PreferredTrackingPreventionLevel = CoreWebView2TrackingPreventionLevel.None;
+                App.WebView2.CoreWebView2.Profile.PreferredTrackingPreventionLevel = CoreWebView2TrackingPreventionLevel.None;
             }
         }
 
@@ -89,13 +89,13 @@ namespace Edge
         {
             if (trackSwitch.IsOn)
             {
-                App.webView2.CoreWebView2.Profile.PreferredTrackingPreventionLevel = trackLevelList[trackView.SelectedIndex + 1];
+                App.WebView2.CoreWebView2.Profile.PreferredTrackingPreventionLevel = trackLevelList[trackView.SelectedIndex + 1];
             }
         }
 
         private void SmartScreenChanged(object sender, RoutedEventArgs e)
         {
-            App.webView2.CoreWebView2.Settings.IsReputationCheckingRequired = (sender as ToggleSwitch).IsOn;
+            App.WebView2.CoreWebView2.Settings.IsReputationCheckingRequired = (sender as ToggleSwitch).IsOn;
         }
     }
 }
