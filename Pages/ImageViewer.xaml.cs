@@ -3,13 +3,11 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Printing;
 using System;
 using System.IO;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation;
 using Windows.Graphics.Printing;
 using Windows.Storage;
 using Windows.System.UserProfile;
@@ -102,9 +100,7 @@ namespace Edge
 
         private void ImageRotateRequest(object sender, RoutedEventArgs e)
         {
-            CompositeTransform transform = image.RenderTransform as CompositeTransform ?? new CompositeTransform();
-            transform.Rotation = (transform.Rotation + 90) % 360;
-            image.RenderTransform = transform;
+            ImageRotation.Angle = (ImageRotation.Angle + 90) % 360;
         }
 
         private void OpenFileLocation(object sender, RoutedEventArgs e)
@@ -115,15 +111,10 @@ namespace Edge
         private void Image_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
         {
             int delta = e.GetCurrentPoint(image).Properties.MouseWheelDelta;
-
             double scale = 1 + (delta / 1200.0);
 
-            image.RenderTransformOrigin = new Point(0.5, 0.5);
-
-            CompositeTransform transform = image.RenderTransform as CompositeTransform ?? new CompositeTransform();
-            transform.ScaleX *= scale;
-            transform.ScaleY *= scale;
-            image.RenderTransform = transform;
+            ImageScale.ScaleX *= scale;
+            ImageScale.ScaleY *= scale;
         }
 
         private void ImageFullScreen(object sender, RoutedEventArgs e)

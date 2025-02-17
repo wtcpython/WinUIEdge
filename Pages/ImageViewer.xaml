@@ -56,84 +56,89 @@
         <ItemContainer Grid.Row="1">
             <Image
                 x:Name="image"
-                Stretch="Uniform"
-                HorizontalAlignment="Center"
-                PointerWheelChanged="Image_PointerWheelChanged"/>
-
-            <ItemContainer.ContextFlyout>
-                <MenuFlyout>
-                    <MenuFlyoutItem Text="另存为" Click="SaveImageAs">
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xe792;"/>
-                        </MenuFlyoutItem.Icon>
-
-                        <MenuFlyoutItem.KeyboardAccelerators>
-                            <KeyboardAccelerator Key="S" Modifiers="Control"/>
-                        </MenuFlyoutItem.KeyboardAccelerators>
-                    </MenuFlyoutItem>
-
-                    <MenuFlyoutItem Text="打印" Click="PrintImageRequest">
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xe749;"/>
-                        </MenuFlyoutItem.Icon>
-
-                        <MenuFlyoutItem.KeyboardAccelerators>
-                            <KeyboardAccelerator Key="P" Modifiers="Control"/>
-                        </MenuFlyoutItem.KeyboardAccelerators>
-                    </MenuFlyoutItem>
-
-                    <MenuFlyoutItem Text="复制">
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xe8c8;"/>
-                        </MenuFlyoutItem.Icon>
-
-                        <MenuFlyoutItem.KeyboardAccelerators>
-                            <KeyboardAccelerator Key="C" Modifiers="Control"/>
-                        </MenuFlyoutItem.KeyboardAccelerators>
-                    </MenuFlyoutItem>
-
-                    <MenuFlyoutItem Text="复制为路径" Click="CopyFilePath">
-
-                        <MenuFlyoutItem.KeyboardAccelerators>
-                            <KeyboardAccelerator Key="C" Modifiers="Control,Shift"/>
-                        </MenuFlyoutItem.KeyboardAccelerators>
-                    </MenuFlyoutItem>
-
-                    <MenuFlyoutSubItem Text="设置为">
-                        <MenuFlyoutSubItem.Icon>
-                            <FontIcon Glyph="&#xee71;"/>
-                        </MenuFlyoutSubItem.Icon>
-
-                        <MenuFlyoutItem Text="锁屏界面" Click="SetImageAsLockScreen">
+                PointerWheelChanged="Image_PointerWheelChanged"
+                RenderTransformOrigin="0.5,0.5">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <RotateTransform x:Name="ImageRotation" />
+                        <ScaleTransform x:Name="ImageScale" />
+                    </TransformGroup>
+                </Image.RenderTransform>
+                <Image.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="另存为" Click="SaveImageAs">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xee3f;"/>
+                                <FontIcon Glyph="&#xe792;"/>
                             </MenuFlyoutItem.Icon>
 
                             <MenuFlyoutItem.KeyboardAccelerators>
-                                <KeyboardAccelerator Key="L" Modifiers="Control"/>
+                                <KeyboardAccelerator Key="S" Modifiers="Control"/>
                             </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
 
-                        <MenuFlyoutItem Text="背景" Click="SetImageAsWallpaper">
+                        <MenuFlyoutItem Text="打印" Click="PrintImageRequest">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xe749;"/>
+                            </MenuFlyoutItem.Icon>
 
                             <MenuFlyoutItem.KeyboardAccelerators>
-                                <KeyboardAccelerator Key="B" Modifiers="Control"/>
+                                <KeyboardAccelerator Key="P" Modifiers="Control"/>
                             </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
-                    </MenuFlyoutSubItem>
 
-                    <MenuFlyoutItem Text="调整图像大小"/>
+                        <MenuFlyoutItem Text="复制">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xe8c8;"/>
+                            </MenuFlyoutItem.Icon>
 
-                    <MenuFlyoutSeparator />
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="C" Modifiers="Control"/>
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
 
-                    <MenuFlyoutItem Text="在文件资源管理器中打开" Click="OpenFileLocation">
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xe8da;"/>
-                        </MenuFlyoutItem.Icon>
-                        
-                    </MenuFlyoutItem>
-                </MenuFlyout>
-            </ItemContainer.ContextFlyout>
+                        <MenuFlyoutItem Text="复制为路径" Click="CopyFilePath">
+
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="C" Modifiers="Control,Shift"/>
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+
+                        <MenuFlyoutSubItem Text="设置为">
+                            <MenuFlyoutSubItem.Icon>
+                                <FontIcon Glyph="&#xee71;"/>
+                            </MenuFlyoutSubItem.Icon>
+
+                            <MenuFlyoutItem Text="锁屏界面" Click="SetImageAsLockScreen">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xee3f;"/>
+                                </MenuFlyoutItem.Icon>
+
+                                <MenuFlyoutItem.KeyboardAccelerators>
+                                    <KeyboardAccelerator Key="L" Modifiers="Control"/>
+                                </MenuFlyoutItem.KeyboardAccelerators>
+                            </MenuFlyoutItem>
+
+                            <MenuFlyoutItem Text="背景" Click="SetImageAsWallpaper">
+
+                                <MenuFlyoutItem.KeyboardAccelerators>
+                                    <KeyboardAccelerator Key="B" Modifiers="Control"/>
+                                </MenuFlyoutItem.KeyboardAccelerators>
+                            </MenuFlyoutItem>
+                        </MenuFlyoutSubItem>
+
+                        <MenuFlyoutItem Text="调整图像大小"/>
+
+                        <MenuFlyoutSeparator />
+
+                        <MenuFlyoutItem Text="在文件资源管理器中打开" Click="OpenFileLocation">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xe8da;"/>
+                            </MenuFlyoutItem.Icon>
+
+                        </MenuFlyoutItem>
+                    </MenuFlyout>
+                </Image.ContextFlyout>
+            </Image>
         </ItemContainer>
 
         <Grid Grid.Row="2">
