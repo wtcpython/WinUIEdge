@@ -61,7 +61,7 @@ jobs:
 
     # Upload the app
     - name: Upload app
-      uses: actions/upload-artifact@v4.6.0
+      uses: actions/upload-artifact@v4.6.1
       with:
         name: Edge-${{ steps.date.outputs.date }}
         path: ${{ github.workspace }}\\bin\\win-${{ matrix.platform }}\\publish
