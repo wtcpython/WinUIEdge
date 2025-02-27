@@ -24,11 +24,9 @@ namespace Edge
         public string SearchEngine { get; set; }
         public bool ShowBackground { get; set; }
         public bool ShowFlyoutWhenStartDownloading { get; set; }
-        public bool ShowSuggestUri { get; set; }
         public string SpecificUri { get; set; }
         public int StartBehavior { get; set; }
         public Dictionary<string, bool> ToolBar { get; set; }
-        public ObservableCollection<WebsiteInfo> Favorites { get; set; }
     }
 
     public class WebsiteInfo
@@ -50,7 +48,7 @@ namespace Edge
         public static Dictionary<string, string> LanguageDict = JsonSerializer.Deserialize(File.ReadAllText("./Data/LanguageType.json"), JsonContext.Default.DictionaryStringString);
         public static Dictionary<string, string> ImageDict = JsonSerializer.Deserialize(File.ReadAllText("./Data/ImageType.json"), JsonContext.Default.DictionaryStringString);
         public static List<WebsiteInfo> SearchEngineList = JsonSerializer.Deserialize(File.ReadAllText("./Data/SearchEngine.json"), JsonContext.Default.ListWebsiteInfo);
-        public static ObservableCollection<WebsiteInfo> SuggestWebsiteList = JsonSerializer.Deserialize(File.ReadAllText("./Data/SuggestWebsite.json"), JsonContext.Default.ObservableCollectionWebsiteInfo);
+        public static ObservableCollection<WebsiteInfo> Favorites = JsonSerializer.Deserialize(File.ReadAllText("./Data/Favorites.json"), JsonContext.Default.ObservableCollectionWebsiteInfo);
 
         public static Settings LoadSettings(bool overwrite = false)
         {

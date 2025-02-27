@@ -53,7 +53,7 @@ namespace Edge
                 Time = DateTime.Now.ToString()
             });
 
-            if (App.settings.Favorites.Where(x => x.Uri.Equals(sender.Source)).Any())
+            if (Info.Favorites.Where(x => x.Uri.Equals(sender.Source)).Any())
             {
                 InFavoriteList = true;
             }
@@ -311,10 +311,10 @@ namespace Edge
 
         private void FavoriteStateChanged(object sender, RoutedEventArgs e)
         {
-            WebsiteInfo info = App.settings.Favorites.FirstOrDefault(x => x.Uri.Equals(WebViewEngine.Source));
+            WebsiteInfo info = Info.Favorites.FirstOrDefault(x => x.Uri.Equals(WebViewEngine.Source));
             if (info != null)
             {
-                App.settings.Favorites.Remove(info);
+                Info.Favorites.Remove(info);
                 InFavoriteList = false;
             }
             else
@@ -325,7 +325,7 @@ namespace Edge
                     Icon = WebViewEngine.CoreWebView2.FaviconUri,
                     Uri = WebViewEngine.Source
                 };
-                App.settings.Favorites.Add(newInfo);
+                Info.Favorites.Add(newInfo);
                 InFavoriteList = true;
             }
             SetFavoriteIcon();

@@ -26,8 +26,6 @@ namespace Edge
             searchEngineBox.ItemsSource = Info.SearchEngineList.Select(x => x.Name).ToList();
             searchEngineBox.SelectedItem = Info.SearchEngineList.First(x => x.Name.Equals(App.settings.SearchEngine)).Name;
 
-            showSuggestUri.IsOn = App.settings.ShowSuggestUri;
-
             showBackground.IsOn = backgroundCard.IsEnabled = App.settings.ShowBackground;
         }
 
@@ -73,11 +71,6 @@ namespace Edge
                 uriBox.Text = string.Empty;
                 App.settings.SpecificUri = uriBox.Text;
             }
-        }
-
-        private void SuggestUriVisualChanged(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
-        {
-            App.settings.ShowSuggestUri = showSuggestUri.IsOn;
         }
 
         private void ShowBackgroundChanged(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)

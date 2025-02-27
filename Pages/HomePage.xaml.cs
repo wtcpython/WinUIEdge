@@ -17,14 +17,7 @@ namespace Edge
             this.InitializeComponent();
             this.Loaded += InstallWebView2;
 
-            if (App.settings.ShowSuggestUri)
-            {
-                View.ItemsSource = Info.SuggestWebsiteList;
-            }
-            else
-            {
-                View.Visibility = Visibility.Collapsed;
-            }
+            View.ItemsSource = Info.Favorites;
 
             if (App.settings.ShowBackground)
             {
@@ -72,15 +65,10 @@ namespace Edge
             }
         }
 
-        private void OpenSuggestWebsite(object sender, ItemClickEventArgs e)
+        private void OpenFavoriteWebsite(object sender, ItemClickEventArgs e)
         {
             MainWindow mainWindow = App.GetWindowForElement(this);
             mainWindow.AddNewTab(new WebViewPage((e.ClickedItem as WebsiteInfo).Uri));
-        }
-
-        private void HideItem(object sender, RoutedEventArgs e)
-        {
-            Info.SuggestWebsiteList.Remove((sender as MenuFlyoutItem).DataContext as WebsiteInfo);
         }
     }
 }

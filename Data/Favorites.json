@@ -1,0 +1,17 @@
+[
+    {
+        "Name": "百度",
+        "Icon": "https://www.baidu.com/favicon.ico",
+        "Uri": "https://www.baidu.com"
+    },
+    {
+        "Name": "B 站",
+        "Icon": "https://www.bilibili.com/favicon.ico",
+        "Uri": "https://www.bilibili.com"
+    },
+    {
+        "Name": "Deepseek",
+        "Icon": "https://www.deepseek.com/favicon.ico",
+        "Uri": "https://chat.deepseek.com"
+    }
+]

@@ -16,7 +16,7 @@ namespace Edge
         {
             this.InitializeComponent();
             SetItemsPanel(HorizontalTemplate);
-            listView.ItemsSource = App.settings.Favorites;
+            listView.ItemsSource = Info.Favorites;
         }
 
         public void SetItemsPanel(ItemsPanelTemplate itemsPanelTemplate)
@@ -82,7 +82,7 @@ namespace Edge
         private void DeleteFavoriteWebsite(object sender, RoutedEventArgs e)
         {
             WebsiteInfo info = (sender as MenuFlyoutItem).DataContext as WebsiteInfo;
-            App.settings.Favorites.Remove(info);
+            Info.Favorites.Remove(info);
         }
     }
 }

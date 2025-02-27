@@ -54,11 +54,6 @@
 
             <TextBlock Text="新标签页" Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" Margin="5,10,0,0"/>
 
-            <controls:SettingsCard
-                Header="在新标签页显示推荐的网站">
-                <ToggleSwitch Name="showSuggestUri" Toggled="SuggestUriVisualChanged"/>
-            </controls:SettingsCard>
-
             <controls:SettingsExpander
                 Header="在新标签页显示背景图">
                 <ToggleSwitch Name="showBackground" Toggled="ShowBackgroundChanged"/>
