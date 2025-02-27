@@ -1,11 +1,11 @@
 {
     "Appearance": "Default",
     "AskDownloadBehavior": false,
+    "BackgroundEffect": "Mica",
     "BackgroundImage": "",
     "SearchEngine": "Bing",
     "ShowBackground": false,
     "ShowFlyoutWhenStartDownloading": true,
-    "ShowMicaIfEnabled": true,
     "ShowSuggestUri": true,
     "SpecificUri": "",
     "StartBehavior": 0,

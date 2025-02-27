@@ -18,6 +18,7 @@ namespace Edge
         private static bool inLoading = false;
         public List<ToolBarVisual> ToolBarVisualList = [];
         public List<string> themeList = [.. Enum.GetNames<ElementTheme>()];
+        public List<string> effects = [.. Enum.GetNames<Effect>()];
         public Dictionary<string, string> ToolBarName = new(){
             {"HomeButton", "“开始”按钮"},
             {"ForwardButton", "“前进”按钮"},
@@ -34,10 +35,11 @@ namespace Edge
                 Visual = x.Value
             }).ToList();
             toolBarVisualView.ItemsSource = ToolBarVisualList;
+            effectBox.ItemsSource = effects;
 
             inLoading = true;
             appearanceView.SelectedIndex = themeList.IndexOf(App.settings.Appearance);
-            showMicaSwitch.IsOn = App.settings.ShowMicaIfEnabled;
+            effectBox.SelectedIndex = effects.IndexOf(App.settings.BackgroundEffect.ToString());
             inLoading = false;
         }
 
@@ -61,11 +63,11 @@ namespace Edge
             App.settings.ToolBar[visual.Text] = (sender as ToggleSwitch).IsOn;
         }
 
-        private void MicaEffectChanged(object sender, RoutedEventArgs e)
+        private void EffectChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!inLoading)
             {
-                App.settings.ShowMicaIfEnabled = (sender as ToggleSwitch).IsOn;
+                App.settings.BackgroundEffect = Enum.Parse<Effect>((sender as ComboBox).SelectedItem.ToString());
 
                 foreach (Window window in App.mainWindows)
                 {

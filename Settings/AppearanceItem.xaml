@@ -46,12 +46,14 @@
             </GridView>
 
             <controls:SettingsCard
-                Header="在浏览器中显示 Windows 11 视觉效果"
-                Description="向浏览器添加 Mica 效果。此功能取决于你的设备和 Windows 设置。">
-                <ToggleSwitch Name="showMicaSwitch" Toggled="MicaEffectChanged"/>
+                Header="背景材质"
+                Description="Mica 和 MicaAlt 仅 Windows 11 可用">
+                <ComboBox
+                    x:Name="effectBox"
+                    SelectionChanged="EffectChanged" />
             </controls:SettingsCard>
 
-            <TextBlock Text="自定义工具栏" Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" Margin="5,10,0,0"/>
+            <TextBlock Text="自定义工具栏" Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" Margin="5,10,0,0" />
 
             <ItemsControl x:Name="toolBarVisualView">
                 <ItemsControl.ItemTemplate>

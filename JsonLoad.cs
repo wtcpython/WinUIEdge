@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -7,15 +7,23 @@ using System.Text.Json.Serialization;
 
 namespace Edge
 {
+    public enum Effect
+    {
+        Mica,
+        MicaAlt,
+        Acrylic,
+        None
+    }
+
     public class Settings
     {
         public string Appearance { get; set; }
         public bool AskDownloadBehavior { get; set; }
+        public Effect BackgroundEffect { get; set; }
         public string BackgroundImage { get; set; }
         public string SearchEngine { get; set; }
         public bool ShowBackground { get; set; }
         public bool ShowFlyoutWhenStartDownloading { get; set; }
-        public bool ShowMicaIfEnabled { get; set; }
         public bool ShowSuggestUri { get; set; }
         public string SpecificUri { get; set; }
         public int StartBehavior { get; set; }
@@ -30,7 +38,7 @@ namespace Edge
         public Uri Uri { get; set; }
     }
 
-    [JsonSourceGenerationOptions(WriteIndented = true)]
+    [JsonSourceGenerationOptions(WriteIndented = true, UseStringEnumConverter = true)]
     [JsonSerializable(typeof(Settings))]
     [JsonSerializable(typeof(ObservableCollection<WebsiteInfo>))]
     [JsonSerializable(typeof(List<WebsiteInfo>))]

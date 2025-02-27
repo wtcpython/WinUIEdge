@@ -5,7 +5,6 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using System;
 using System.ComponentModel;
 using Windows.Foundation;
-using Windows.System;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;

@@ -27,16 +27,18 @@ namespace Edge
     {
         public static void SetBackdrop(this Window window)
         {
-            if (App.settings.ShowMicaIfEnabled)
+            Effect effect = App.settings.BackgroundEffect;
+            if (effect == Effect.Mica && MicaController.IsSupported())
             {
-                if (MicaController.IsSupported())
-                {
-                    window.SystemBackdrop = new MicaBackdrop();
-                }
-                else
-                {
-                    window.SystemBackdrop = new DesktopAcrylicBackdrop();
-                }
+                window.SystemBackdrop = new MicaBackdrop();
+            }
+            else if (effect == Effect.MicaAlt && MicaController.IsSupported())
+            {
+                window.SystemBackdrop = new MicaBackdrop() { Kind = MicaKind.BaseAlt };
+            }
+            else if (effect == Effect.Acrylic)
+            {
+                window.SystemBackdrop = new DesktopAcrylicBackdrop();
             }
             else
             {
