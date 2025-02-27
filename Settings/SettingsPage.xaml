@@ -45,7 +45,8 @@
                     <FontIcon Glyph="&#xE777;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-            <NavigationViewItem Content="关于 Edge" Tag="AboutItem">
+
+            <NavigationViewItem Content="关于" Tag="About">
                 <NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xe713;" />
                 </NavigationViewItem.Icon>

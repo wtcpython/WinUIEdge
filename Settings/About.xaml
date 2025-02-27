@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Page
-    x:Class="Edge.AboutItem"
+    x:Class="Edge.About"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Edge"
@@ -8,14 +8,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     mc:Ignorable="d">
-    <StackPanel Spacing="10" Margin="15">
-
+    <StackPanel Spacing="5" Margin="10">
         <controls:SettingsCard
             Header="WebView2"
-            Description="{x:Bind browserVersion}">
-            <Button Name="CopyChromiumVersionButton"
-                    Click="CopyChromiumVersion"
-                    Content="复制"/>
+            Description="{x:Bind webViewVersion}">
+            <Button
+                Content="复制"
+                Click="CopyWebViewVersion" />
         </controls:SettingsCard>
 
         <controls:SettingsCard
@@ -24,9 +23,9 @@
             Click="CheckUpdate"
             IsClickEnabled="True"
             IsActionIconVisible="False">
-            <Button Name="CopyAppVersionButton"
-                    Click="CopyAppVersion"
-                    Content="复制"/>
+            <Button
+                Content="复制"
+                Click="CopyAppVersion" />
         </controls:SettingsCard>
 
         <controls:SettingsCard
@@ -38,15 +37,17 @@
             </controls:SettingsCard.ActionIcon>
         </controls:SettingsCard>
 
-        <TextBlock>
-            <Span>
-                <Run>此浏览器基于</Run>
-                <Hyperlink NavigateUri="https://www.chromium.org/">Chromium</Hyperlink>
-                <Run>开源项目及其他</Run>
-                <Hyperlink NavigateUri="edge://credits/">开源软件</Hyperlink>
-                <Run>。</Run>
-            </Span>
-        </TextBlock>
+        <controls:SettingsExpander
+            Header="开源及第三方软件"
+            ItemsSource="{x:Bind OpenSources}">
+            <controls:SettingsExpander.ItemTemplate>
+                <DataTemplate x:DataType="local:OpenSource">
+                    <HyperlinkButton
+                        Content="{x:Bind Name}"
+                        NavigateUri="{x:Bind Uri}"
+                        Margin="5" />
+                </DataTemplate>
+            </controls:SettingsExpander.ItemTemplate>
+        </controls:SettingsExpander>
     </StackPanel>
-
 </Page>
