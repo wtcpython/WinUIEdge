@@ -9,8 +9,7 @@
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     mc:Ignorable="d">
     <ScrollView>
-
-        <StackPanel Spacing="10" Margin="15">
+        <StackPanel Spacing="5" Margin="10">
             <controls:SettingsCard
                 Header="整体外观"
                 Description="适用于新的选项卡、页面、对话框和其他菜单。">
@@ -66,6 +65,5 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </StackPanel>
-        
     </ScrollView>
 </Page>

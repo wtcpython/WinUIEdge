@@ -9,8 +9,7 @@
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     mc:Ignorable="d">
     <ScrollView>
-        
-        <StackPanel Spacing="10" Margin="15">
+        <StackPanel Spacing="5" Margin="10">
             <TextBlock Text="防止跟踪" Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" Margin="0,10,0,0"/>
 
             <TextBlock TextWrapping="WrapWholeWords">
@@ -59,7 +58,7 @@
                 x:Name="ClearBrowsingDataButton"
                 Header="选择每次关闭浏览器时要清除的内容"
                 ItemsSource="{x:Bind BrowserDataKindList}">
-             
+
                 <controls:SettingsExpander.ItemTemplate>
                     <DataTemplate x:DataType="local:BrowserDataKind">
                         <controls:SettingsCard Header="{x:Bind Name}">
@@ -74,13 +73,12 @@
             <TextBlock TextWrapping="WrapWholeWords">
                 管理 Edge 的安全设置
             </TextBlock>
-            
+
             <controls:SettingsCard
                 Header="Microsoft Defender Smartscreen"
                 Description="使用 Microsoft Defender SmartScreen 帮助我抵御恶意网站和下载的侵害">
                 <ToggleSwitch Name="msSmartScreen" Toggled="SmartScreenChanged"/>
             </controls:SettingsCard>
         </StackPanel>
-        
     </ScrollView>
 </Page>

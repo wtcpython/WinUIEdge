@@ -9,9 +9,7 @@
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     mc:Ignorable="d">
     <ScrollView>
-
-        <StackPanel Spacing="10" Margin="20">
-
+        <StackPanel Spacing="5" Margin="10">
             <TextBlock Text="Edge 启动时" Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" Margin="5,10,0,0"/>
 
             <Grid Background="{ThemeResource CardBackgroundFillColorDefault}"
@@ -67,8 +65,6 @@
                 </controls:SettingsExpander.Items>
 
             </controls:SettingsExpander>
-
         </StackPanel>
-        
     </ScrollView>
 </Page>

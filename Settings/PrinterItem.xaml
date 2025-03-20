@@ -8,16 +8,19 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     mc:Ignorable="d">
-    <StackPanel Spacing="10" Margin="15">
+    <ScrollView>
+        <StackPanel Spacing="5" Margin="10">
 
-        <controls:SettingsCard
-            Header="管理打印机"
-            Click="OpenSettingsPrinter"
-            IsClickEnabled="True">
-            <controls:SettingsCard.ActionIcon>
-                <FontIcon Glyph="&#xE8A7;" />
-            </controls:SettingsCard.ActionIcon>
-        </controls:SettingsCard>
-    </StackPanel>
+            <controls:SettingsCard
+                Header="管理打印机"
+                Click="OpenSettingsPrinter"
+                IsClickEnabled="True">
+                <controls:SettingsCard.ActionIcon>
+                    <FontIcon Glyph="&#xE8A7;" />
+                </controls:SettingsCard.ActionIcon>
+            </controls:SettingsCard>
+        </StackPanel>
+    </ScrollView>
+
 
 </Page>

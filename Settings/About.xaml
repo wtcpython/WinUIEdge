@@ -8,47 +8,50 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     mc:Ignorable="d">
-    <StackPanel Spacing="5" Margin="10">
-        <controls:SettingsCard
-            Header="WebView2"
-            Description="{x:Bind webViewVersion}">
-            <Button
-                Content="复制"
-                Click="CopyWebViewVersion" />
-        </controls:SettingsCard>
+    <ScrollView>
+        <StackPanel Spacing="5" Margin="10">
+            <controls:SettingsCard
+                Header="WebView2"
+                Description="{x:Bind webViewVersion}">
+                <Button
+                    Content="复制"
+                    Click="CopyWebViewVersion" />
+            </controls:SettingsCard>
 
-        <controls:SettingsCard
-            Header="应用程序版本"
-            Description="{x:Bind appVersion}"
-            Click="CheckUpdate"
-            IsClickEnabled="True"
-            IsActionIconVisible="False">
-            <Button
-                Content="复制"
-                Click="CopyAppVersion" />
-        </controls:SettingsCard>
+            <controls:SettingsCard
+                Header="应用程序版本"
+                Description="{x:Bind appVersion}"
+                Click="CheckUpdate"
+                IsClickEnabled="True"
+                IsActionIconVisible="False">
+                <Button
+                    Content="复制"
+                    Click="CopyAppVersion" />
+            </controls:SettingsCard>
 
-        <controls:SettingsCard
-            Header="GitHub 仓库"
-            Click="OpenRepoWebsite"
-            IsClickEnabled="True">
-            <controls:SettingsCard.ActionIcon>
-                <FontIcon Glyph="&#xE8A7;" />
-            </controls:SettingsCard.ActionIcon>
-        </controls:SettingsCard>
+            <controls:SettingsCard
+                Header="GitHub 仓库"
+                Click="OpenRepoWebsite"
+                IsClickEnabled="True">
+                <controls:SettingsCard.ActionIcon>
+                    <FontIcon Glyph="&#xE8A7;" />
+                </controls:SettingsCard.ActionIcon>
+            </controls:SettingsCard>
 
-        <controls:SettingsExpander
-            Header="开源及第三方软件"
-            ItemsSource="{x:Bind OpenSources}">
-            <controls:SettingsExpander.ItemTemplate>
-                <DataTemplate x:DataType="local:OpenSource">
-                    <HyperlinkButton
+            <controls:SettingsExpander
+                Header="开源及第三方软件"
+                ItemsSource="{x:Bind OpenSources}">
+                <controls:SettingsExpander.ItemTemplate>
+                    <DataTemplate x:DataType="local:OpenSource">
+                        <HyperlinkButton
                         Content="{x:Bind Name}"
                         NavigateUri="{x:Bind Uri}"
                         ToolTipService.ToolTip="{x:Bind Uri}"
                         Margin="5" />
-                </DataTemplate>
-            </controls:SettingsExpander.ItemTemplate>
-        </controls:SettingsExpander>
-    </StackPanel>
+                    </DataTemplate>
+                </controls:SettingsExpander.ItemTemplate>
+            </controls:SettingsExpander>
+        </StackPanel>
+    </ScrollView>
+
 </Page>

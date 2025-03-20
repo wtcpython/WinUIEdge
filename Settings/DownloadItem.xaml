@@ -8,26 +8,25 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     mc:Ignorable="d">
-    <StackPanel Spacing="10" Margin="15">
+    <ScrollView>
+        <StackPanel Spacing="5" Margin="10">
+            <controls:SettingsCard
+                x:Name="DownloadFolderCard"
+                Header="位置">
+                <Button Name="setFolderButton" Content="更改" Click="ChangeDownloadFolder"/>
+            </controls:SettingsCard>
 
-        <controls:SettingsCard
-            x:Name="DownloadFolderCard"
-            Header="位置">
-            <Button Name="setFolderButton" Content="更改" Click="ChangeDownloadFolder"/>
-        </controls:SettingsCard>
+            <controls:SettingsCard
+                Header="每次下载都询问我该做些什么"
+                Description="始终询问我是要保存文件还是打开它而不保存">
+                <ToggleSwitch Name="setDownloadBehavior" Toggled="DownloadBehaviorChanged"/>
+            </controls:SettingsCard>
 
-        <controls:SettingsCard
-            Header="每次下载都询问我该做些什么"
-            Description="始终询问我是要保存文件还是打开它而不保存">
-            <ToggleSwitch Name="setDownloadBehavior" Toggled="DownloadBehaviorChanged"/>
-        </controls:SettingsCard>
-
-        <controls:SettingsCard
-            Header="下载开始时显示下载菜单"
-            Description="关闭此设置会使人更难知道文件何时开始下载">
-            <ToggleSwitch Name="setDownloadFlyout" Toggled="ShowFlyoutChanged"/>
-        </controls:SettingsCard>
-
-    </StackPanel>
-
+            <controls:SettingsCard
+                Header="下载开始时显示下载菜单"
+                Description="关闭此设置会使人更难知道文件何时开始下载">
+                <ToggleSwitch Name="setDownloadFlyout" Toggled="ShowFlyoutChanged"/>
+            </controls:SettingsCard>
+        </StackPanel>
+    </ScrollView>
 </Page>
