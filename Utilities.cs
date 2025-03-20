@@ -1,5 +1,6 @@
 using Microsoft.UI;
 using Microsoft.UI.Composition.SystemBackdrops;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using System;
@@ -52,6 +53,8 @@ namespace Edge
             if (window.Content is FrameworkElement rootElement)
             {
                 rootElement.RequestedTheme = Enum.Parse<ElementTheme>(appearance);
+                appearance = appearance == "Default" ? "UseDefaultAppMode" : appearance;
+                window.AppWindow.TitleBar.PreferredTheme = Enum.Parse<TitleBarTheme>(appearance);
             }
         }
 
