@@ -1,6 +1,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
+using Microsoft.Windows.ApplicationModel.WindowsAppRuntime;
 using Microsoft.Windows.AppNotifications;
 using Microsoft.Windows.AppNotifications.Builder;
 using System;
@@ -32,7 +33,7 @@ namespace Edge
             [
                 new("https://github.com/CommunityToolkit/Windows", "Windows Community Toolkit"),
                 new("https://aka.ms/webview", "Microsoft.Web.WebView2"),
-                new("https://github.com/microsoft/windowsappsdk", "Microsoft.WindowsAppSDK"),
+                new("https://github.com/microsoft/windowsappsdk", $"Microsoft.WindowsAppSDK {ReleaseInfo.AsString}"),
                 new("https://aka.ms/WinSDKProjectURL", "Microsoft.Windows.SDK.BuildTools"),
                 new("https://github.com/dotnet/runtime", "System.Text.Encoding.CodePages"),
                 new("https://github.com/BreeceW/WinUIEdit", "WinUIEdit")

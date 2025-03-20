@@ -45,6 +45,7 @@
                     <HyperlinkButton
                         Content="{x:Bind Name}"
                         NavigateUri="{x:Bind Uri}"
+                        ToolTipService.ToolTip="{x:Bind Uri}"
                         Margin="5" />
                 </DataTemplate>
             </controls:SettingsExpander.ItemTemplate>
