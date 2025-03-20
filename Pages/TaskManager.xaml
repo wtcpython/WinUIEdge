@@ -6,7 +6,7 @@
     xmlns:local="using:Edge"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     mc:Ignorable="d"
     Title="TaskManager">
 
@@ -24,21 +24,33 @@
             </TitleBar.IconSource>
         </TitleBar>
 
-        <controls:DataGrid
-            ItemsSource="{x:Bind infos}"
-            AutoGenerateColumns="False"
-            IsReadOnly="True"
-            ColumnWidth="*"
-            CanUserSortColumns="True"
-            Sorting="DataGrid_Sorting"
-            Grid.Row="1">
-            <controls:DataGrid.Columns>
-                <controls:DataGridTextColumn Header="任务" Binding="{Binding Task}" Tag="Task" />
-                <controls:DataGridTextColumn Header="内存" Binding="{Binding MemoryKB}" Tag="Memory" />
-                <controls:DataGridTextColumn Header="CPU" Binding="{Binding ProcessId}" Tag="ProcessId" />
-                <controls:DataGridTextColumn Header="网络" Binding="{Binding ProcessId}" Tag="ProcessId" />
-                <controls:DataGridTextColumn Header="进程 ID" Binding="{Binding ProcessId}" Tag="ProcessId" />
-            </controls:DataGrid.Columns>
-        </controls:DataGrid>
+        <ListView ItemsSource="{x:Bind infos}" Grid.Row="1">
+            <ListView.Header>
+                <controls:DataTable Margin="12,0,0,0">
+                    <controls:DataColumn Content="任务" DesiredWidth="*" />
+                    <controls:DataColumn Content="内存" DesiredWidth="*" />
+                    <controls:DataColumn Content="CPU" DesiredWidth="*" />
+                    <controls:DataColumn Content="网络" DesiredWidth="*" />
+                    <controls:DataColumn Content="进程 ID" DesiredWidth="*" />
+                </controls:DataTable>
+            </ListView.Header>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="local:ProcessInfo">
+                    <controls:DataRow>
+                        <TextBlock Text="{x:Bind Task}" />
+                        <TextBlock Text="{x:Bind MemoryKB}" />
+                        <TextBlock Text="{x:Bind ProcessId}" />
+                        <TextBlock Text="{x:Bind ProcessId}" />
+                        <TextBlock Text="{x:Bind ProcessId}" />
+                    </controls:DataRow>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.ItemContainerStyle>
+                <Style BasedOn="{StaticResource DefaultListViewItemStyle}"
+                   TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
     </Grid>
 </Window>

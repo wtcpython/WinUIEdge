@@ -1,4 +1,3 @@
-using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.Web.WebView2.Core;
 using System;
@@ -58,41 +57,6 @@ namespace Edge
                 info.Memory = process.PrivateMemorySize64 / 1024;
                 info.MemoryKB = $"{info.Memory} KB";
                 infos.Add(info);
-            }
-        }
-
-        private void DataGrid_Sorting(object sender, DataGridColumnEventArgs e)
-        {
-            DataGrid dataGrid = sender as DataGrid;
-            foreach (var column in dataGrid.Columns)
-            {
-                if (column != e.Column)
-                {
-                    column.SortDirection = null;
-                }
-            }
-
-            if (e.Column.SortDirection == DataGridSortDirection.Ascending)
-            {
-                e.Column.SortDirection = DataGridSortDirection.Descending;
-                dataGrid.ItemsSource = (string)e.Column.Tag switch
-                {
-                    "Task" => infos.OrderByDescending(x => x.Task),
-                    "Memory" => infos.OrderByDescending(x => x.Memory),
-                    "ProcessId" => infos.OrderByDescending(x => x.ProcessId),
-                    _ => infos
-                };
-            }
-            else
-            {
-                e.Column.SortDirection = DataGridSortDirection.Ascending;
-                dataGrid.ItemsSource = (string)e.Column.Tag switch
-                {
-                    "Task" => infos.OrderBy(x => x.Task),
-                    "Memory" => infos.OrderBy(x => x.Memory),
-                    "ProcessId" => infos.OrderBy(x => x.ProcessId),
-                    _ => infos
-                };
             }
         }
     }
