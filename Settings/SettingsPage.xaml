@@ -53,6 +53,14 @@
             </NavigationViewItem>
         </NavigationView.MenuItems>
 
+        <NavigationView.FooterMenuItems>
+            <NavigationViewItem Content="新增内容" Tag="ReleaseItem">
+                <NavigationViewItem.Icon>
+                    <FontIcon Glyph="&#xe789;" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+        </NavigationView.FooterMenuItems>
+
         <Frame x:Name="ContentFrame"/>
     </NavigationView>
 
