@@ -5,63 +5,65 @@ name: WinUI 3 unpackaged app
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
-
   build:
-
     strategy:
       matrix:
         configuration: [Release]
         platform: [x64]
 
-    runs-on: windows-latest  # For a list of available runner types, refer to
-                             # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
+    runs-on:
+      windows-latest # For a list of available runner types, refer to
+      # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
     env:
-      Solution_Name: Edge.sln                         # Replace with your solution name, i.e. App1.sln.
+      Solution_Name: Edge.sln # Replace with your solution name, i.e. App1.sln.
 
     steps:
+      # Get current time
+      - name: Get current time
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"``
 
-    # Get current time
-    - name: Get current time
-      id: date
-      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"``
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      # Install the .NET Core workload
+      - name: Install .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
 
-    # Install the .NET Core workload
-    - name: Install .NET Core
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 9.0.x
+      # Add NuGet Source
+      - name: Add Toolkit Labs NuGet Source
+        run: dotnet nuget add source https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json --name "Toolkit Labs"
 
-    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
-    - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v2.0.0
+      # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v2.0.0
 
-    # Restore the application to populate the obj folder with RuntimeIdentifiers
-    - name: Restore the application
-      run: msbuild $env:Edge /t:Restore /p:Configuration=$env:Configuration
-      env:
-        Configuration: ${{ matrix.configuration }}
+      # Restore the application to populate the obj folder with RuntimeIdentifiers
+      - name: Restore the application
+        run: msbuild $env:Edge /t:Restore /p:Configuration=$env:Configuration
+        env:
+          Configuration: ${{ matrix.configuration }}
 
-    # Create the app by building and publishing the project
-    - name: Create the app
-      run: msbuild $env:Edge /t:Publish /p:Configuration=$env:Configuration /p:Platform=$env:Platform
-      env:
-        Configuration: ${{ matrix.configuration }}
-        Platform: ${{ matrix.platform }}
+      # Create the app by building and publishing the project
+      - name: Create the app
+        run: msbuild $env:Edge /t:Publish /p:Configuration=$env:Configuration /p:Platform=$env:Platform
+        env:
+          Configuration: ${{ matrix.configuration }}
+          Platform: ${{ matrix.platform }}
 
-    # Upload the app
-    - name: Upload app
-      uses: actions/upload-artifact@v4.6.1
-      with:
-        name: Edge-${{ steps.date.outputs.date }}
-        path: ${{ github.workspace }}\\bin\\win-${{ matrix.platform }}\\publish
+      # Upload the app
+      - name: Upload app
+        uses: actions/upload-artifact@v4.6.1
+        with:
+          name: Edge-${{ steps.date.outputs.date }}
+          path: ${{ github.workspace }}\\bin\\win-${{ matrix.platform }}\\publish
