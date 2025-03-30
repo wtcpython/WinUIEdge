@@ -1,22 +1,14 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Linq;
 using System.Collections.Generic;
+using System;
 
 namespace Edge
 {
-    public class ToolBarVisual
-    {
-        public string Text { get; set; }
-        public string Description { get; set; }
-        public bool Visual { get; set; }
-    }
-
-    public sealed partial class AppearanceItem : Page
+    public sealed partial class AppearanceMainPage : Page
     {
         private static bool inLoading = false;
-        public List<ToolBarVisual> ToolBarVisualList = [];
+
         public List<string> themeList = [.. Enum.GetNames<ElementTheme>()];
         public List<string> effects = [.. Enum.GetNames<Effect>()];
         public Dictionary<string, string> ToolBarName = new(){
@@ -25,16 +17,10 @@ namespace Edge
             {"HistoryButton", "历史按钮"},
             {"DownloadButton", "下载按钮"}
         };
-        public AppearanceItem()
+
+        public AppearanceMainPage()
         {
             this.InitializeComponent();
-            ToolBarVisualList = App.settings.ToolBar.Select(x => new ToolBarVisual()
-            {
-                Text = x.Key,
-                Description = ToolBarName[x.Key],
-                Visual = x.Value
-            }).ToList();
-            toolBarVisualView.ItemsSource = ToolBarVisualList;
             effectBox.ItemsSource = effects;
 
             inLoading = true;
@@ -57,12 +43,6 @@ namespace Edge
             }
         }
 
-        private void VisualChanged(object sender, RoutedEventArgs e)
-        {
-            ToolBarVisual visual = (sender as ToggleSwitch).DataContext as ToolBarVisual;
-            App.settings.ToolBar[visual.Text] = (sender as ToggleSwitch).IsOn;
-        }
-
         private void EffectChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!inLoading)
@@ -74,6 +54,16 @@ namespace Edge
                     window.SetBackdrop();
                 }
             }
+        }
+
+        private void JumpToToolBarItem(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(ToolBarItem));
+            SettingsPage.BreadcrumbBarItems.Add(new()
+            {
+                Header = "工具栏",
+                Type = typeof(ToolBarItem)
+            });
         }
     }
 }

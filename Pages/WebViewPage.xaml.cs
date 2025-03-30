@@ -19,6 +19,8 @@ namespace Edge
             InitializeComponent();
             InitializeToolbarVisibility();
             WebViewEngine.Source = WebUri;
+
+            favoriteList.Visibility = App.settings.MenuStatus == "Always" ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void InitializeToolbarVisibility()

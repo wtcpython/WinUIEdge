@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Page
-    x:Class="Edge.AppearanceItem"
+    x:Class="Edge.AppearanceMainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Edge"
@@ -66,21 +66,19 @@
                     SelectionChanged="EffectChanged"/>
             </controls:SettingsCard>
 
-            <TextBlock Text="自定义工具栏"
+            <TextBlock Text="其他外观设置"
                     Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}"
                     Margin="5,10,0,0"/>
 
-            <ItemsControl x:Name="toolBarVisualView">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate x:DataType="local:ToolBarVisual">
-                        <controls:SettingsCard
-                            Header="{x:Bind Description}">
-                            <ToggleSwitch IsOn="{x:Bind Visual}"
-                                    Toggled="VisualChanged"/>
-                        </controls:SettingsCard>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            <controls:SettingsCard
+                Header="工具栏"
+                Description="自定义浏览器上始终显示的按钮"
+                IsClickEnabled="True"
+                Click="JumpToToolBarItem">
+                <controls:SettingsCard.HeaderIcon>
+                    <FontIcon Glyph="&#xe737;" />
+                </controls:SettingsCard.HeaderIcon>
+            </controls:SettingsCard>
         </StackPanel>
     </ScrollView>
 </Page>

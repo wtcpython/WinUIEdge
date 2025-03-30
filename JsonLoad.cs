@@ -21,6 +21,7 @@ namespace Edge
         public bool AskDownloadBehavior { get; set; }
         public Effect BackgroundEffect { get; set; }
         public string BackgroundImage { get; set; }
+        public string MenuStatus { get; set; }
         public string SearchEngine { get; set; }
         public bool ShowBackground { get; set; }
         public bool ShowFlyoutWhenStartDownloading { get; set; }

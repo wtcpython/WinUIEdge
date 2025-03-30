@@ -3,6 +3,7 @@
     "AskDownloadBehavior": false,
     "BackgroundEffect": "Mica",
     "BackgroundImage": "",
+    "MenuStatus": "Always",
     "SearchEngine": "Bing",
     "ShowBackground": false,
     "ShowFlyoutWhenStartDownloading": true,

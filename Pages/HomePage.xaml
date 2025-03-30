@@ -15,10 +15,18 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <local:BrowserMenuItems Grid.Column="1" HorizontalAlignment="Right"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <local:FavoriteList x:Name="favoriteList" Grid.Column="0"/>
+            <local:BrowserMenuItems Grid.Column="1" HorizontalAlignment="Right"/>
+        </Grid>
 
         <local:WebSearch
-            Grid.Row="1" VerticalAlignment="Center" Margin="200"
+            Grid.Row="1" VerticalAlignment="Top" Margin="200"
             CornerRadius="15" FontSize="18"/>
 
         <GridView Name="View" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"

@@ -30,6 +30,8 @@ namespace Edge
                     Stretch = Stretch.UniformToFill
                 };
             }
+
+            favoriteList.Visibility = App.settings.MenuStatus != "Never" ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public async void InstallWebView2(object sender, RoutedEventArgs e)

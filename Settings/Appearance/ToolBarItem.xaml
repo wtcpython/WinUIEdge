@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Edge.ToolBarItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Edge"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    mc:Ignorable="d">
+    <ScrollView>
+        <StackPanel
+            Spacing="{StaticResource NavigationViewFrameSpacing}"
+            Margin="{StaticResource NavigationViewFrameMargin}">
+            <controls:SettingsCard
+                Header="显示收藏夹栏">
+                <ComboBox
+                    x:Name="menuStatusBox"
+                    SelectionChanged="MenuStatusChanged"/>
+            </controls:SettingsCard>
+
+            <controls:SettingsCard
+                Header="选择要在工具栏上显示的按钮："/>
+
+            <ItemsControl x:Name="toolBarVisualView">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="local:ToolBarVisual">
+                        <controls:SettingsCard
+                            Header="{x:Bind Description}">
+                            <ToggleSwitch IsOn="{x:Bind Visual}"
+                                    Toggled="VisualChanged"/>
+                        </controls:SettingsCard>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </ScrollView>
+</Page>

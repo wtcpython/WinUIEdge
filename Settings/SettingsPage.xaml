@@ -20,7 +20,7 @@
                     <FontIcon Glyph="&#xE72E;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-            <NavigationViewItem Content="外观" Tag="AppearanceItem">
+            <NavigationViewItem Content="外观" Tag="AppearanceMainPage">
                 <NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xE790;" />
                 </NavigationViewItem.Icon>
