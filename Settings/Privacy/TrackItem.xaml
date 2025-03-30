@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Edge.TrackItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Edge"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    mc:Ignorable="d">
+    <ScrollView>
+        <StackPanel Spacing="{StaticResource NavigationViewFrameSpacing}"
+                Margin="{StaticResource NavigationViewFrameMargin}">
+            <TextBlock Text="防止跟踪"
+                    Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}"
+                    Margin="0,10,0,0"/>
+
+            <TextBlock TextWrapping="WrapWholeWords">
+                网站会使用跟踪器收集你的浏览信息。此信息将用于改进网站服务并向你显示个性化广告等内容。某些跟踪器会收集你的信息并将其发送到你未访问过的网站。
+            </TextBlock>
+
+            <controls:SettingsCard
+                Header="跟踪防护">
+                <ComboBox
+                    x:Name="trackBox"
+                    SelectionChanged="TrackLevelChanged"/>
+            </controls:SettingsCard>
+        </StackPanel>
+    </ScrollView>
+</Page>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Edge.PrivacyMainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Edge"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    mc:Ignorable="d">
+    <ScrollView>
+        <StackPanel
+            Spacing="{StaticResource NavigationViewFrameSpacing}"
+            Margin="{StaticResource NavigationViewFrameMargin}">
+            <controls:SettingsCard
+                Header="跟踪防护"
+                Description="管理网站如何使用跟踪器收集有关浏览的信息"
+                IsClickEnabled="True"
+                Click="JumpToTrackItem">
+                <controls:SettingsCard.HeaderIcon>
+                    <FontIcon Glyph="&#xed1a;" />
+                </controls:SettingsCard.HeaderIcon>
+            </controls:SettingsCard>
+
+            <controls:SettingsCard
+                Header="清除浏览数据"
+                Description="清除此配置文件中的历史记录、密码、Cookie 等"
+                IsClickEnabled="True"
+                Click="JumpToClearDataItem">
+                <controls:SettingsCard.HeaderIcon>
+                    <FontIcon Glyph="&#xe74d;" />
+                </controls:SettingsCard.HeaderIcon>
+            </controls:SettingsCard>
+
+            <controls:SettingsCard
+                Header="安全性"
+                Description="管理浏览器的安全设置"
+                IsClickEnabled="True"
+                Click="JumpToSafetyItem">
+                <controls:SettingsCard.HeaderIcon>
+                    <FontIcon Glyph="&#xe72e;" />
+                </controls:SettingsCard.HeaderIcon>
+            </controls:SettingsCard>
+        </StackPanel>
+    </ScrollView>
+</Page>
