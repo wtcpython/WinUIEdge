@@ -9,14 +9,16 @@
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     mc:Ignorable="d">
     <ScrollView>
-        <StackPanel Spacing="5" Margin="10">
+        <StackPanel
+            Spacing="{StaticResource NavigationViewFrameSpacing}"
+            Margin="{StaticResource NavigationViewFrameMargin}">
 
             <controls:SettingsCard
                 Header="管理打印机"
                 Click="OpenSettingsPrinter"
                 IsClickEnabled="True">
                 <controls:SettingsCard.ActionIcon>
-                    <FontIcon Glyph="&#xE8A7;" />
+                    <FontIcon Glyph="&#xE8A7;"/>
                 </controls:SettingsCard.ActionIcon>
             </controls:SettingsCard>
         </StackPanel>

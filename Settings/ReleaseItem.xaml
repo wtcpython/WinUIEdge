@@ -9,11 +9,13 @@
     xmlns:labs="using:CommunityToolkit.Labs.WinUI.MarkdownTextBlock"
     mc:Ignorable="d">
     <ScrollView>
-        <StackPanel Spacing="5" Margin="10">
+        <StackPanel
+            Spacing="{StaticResource NavigationViewFrameSpacing}"
+            Margin="{StaticResource NavigationViewFrameMargin}">
             <HyperlinkButton
                 Content="在 Github 上查看更详细的发行说明"
-                NavigateUri="https://github.com/wtcpython/WinUIEdge/releases" />
-            <labs:MarkdownTextBlock x:Name="markdown" />
+                NavigateUri="https://github.com/wtcpython/WinUIEdge/releases"/>
+            <labs:MarkdownTextBlock x:Name="markdown"/>
         </StackPanel>
     </ScrollView>
 </Page>

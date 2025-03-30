@@ -9,38 +9,56 @@
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     mc:Ignorable="d">
     <ScrollView>
-        <StackPanel Spacing="5" Margin="10">
-            <TextBlock Text="Edge 启动时" Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" Margin="5,10,0,0"/>
+        <StackPanel
+            Spacing="{StaticResource NavigationViewFrameSpacing}"
+            Margin="{StaticResource NavigationViewFrameMargin}">
+            <TextBlock Text="Edge 启动时"
+                    Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}"
+                    Margin="5,10,0,0"/>
 
             <Grid Background="{ThemeResource CardBackgroundFillColorDefault}"
                   BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                  BorderThickness="0.5" CornerRadius="4" Padding="10" RowSpacing="10">
+                  BorderThickness="0.5"
+                    CornerRadius="4"
+                    Padding="10"
+                    RowSpacing="10">
                 <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
+                    <RowDefinition/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
-                <RadioButtons Name="radios" SelectionChanged="BehaviorChanged">
+                <RadioButtons Name="radios"
+                        SelectionChanged="BehaviorChanged">
                     <RadioButton Content="打开新标签页"/>
                     <RadioButton Content="打开上一个会话中的标签页"/>
                     <RadioButton Content="打开以下页面："/>
                 </RadioButtons>
 
-                <Grid ColumnSpacing="10" Grid.Row="1" Margin="80,0,0,0">
+                <Grid ColumnSpacing="10"
+                        Grid.Row="1"
+                        Margin="80,0,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="页面" VerticalAlignment="Center" Grid.Column="0"/>
-                    <TextBox Name="uriBox" PlaceholderText="输入 URL" Grid.Column="1"/>
-                    <Button Name="uriButton" Content="确定" Click="CheckUri" Grid.Column="2"/>
+                    <TextBlock Text="页面"
+                            VerticalAlignment="Center"
+                            Grid.Column="0"/>
+                    <TextBox Name="uriBox"
+                            PlaceholderText="输入 URL"
+                            Grid.Column="1"/>
+                    <Button Name="uriButton"
+                            Content="确定"
+                            Click="CheckUri"
+                            Grid.Column="2"/>
                 </Grid>
             </Grid>
 
             <controls:SettingsCard
                 Header='在工具栏上显示"首页"按钮'>
-                <ToggleSwitch Name="setHomeButton" Toggled="HomeButtonVisualChanged"/>
+                <ToggleSwitch Name="setHomeButton"
+                        Toggled="HomeButtonVisualChanged"/>
             </controls:SettingsCard>
 
             <controls:SettingsCard
@@ -50,17 +68,21 @@
                     SelectionChanged="SearchEngineChanged"/>
             </controls:SettingsCard>
 
-            <TextBlock Text="新标签页" Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" Margin="5,10,0,0"/>
+            <TextBlock Text="新标签页"
+                    Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}"
+                    Margin="5,10,0,0"/>
 
             <controls:SettingsExpander
                 Header="在新标签页显示背景图">
-                <ToggleSwitch Name="showBackground" Toggled="ShowBackgroundChanged"/>
+                <ToggleSwitch Name="showBackground"
+                        Toggled="ShowBackgroundChanged"/>
 
                 <controls:SettingsExpander.Items>
                     <controls:SettingsCard
                         x:Name="backgroundCard"
                         Header="选择背景图片的路径">
-                        <Button Content="更改" Click="SetBackgroundImage"/>
+                        <Button Content="更改"
+                                Click="SetBackgroundImage"/>
                     </controls:SettingsCard>
                 </controls:SettingsExpander.Items>
 

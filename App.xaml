@@ -11,6 +11,8 @@
                 <!-- Other merged dictionaries here -->
             </ResourceDictionary.MergedDictionaries>
             <!-- Other app resources here -->
+            <x:Double x:Key="NavigationViewFrameSpacing">5</x:Double>
+            <Thickness x:Key="NavigationViewFrameMargin">20,10,20,10</Thickness>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -9,13 +9,15 @@
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     mc:Ignorable="d">
     <ScrollView>
-        <StackPanel Spacing="5" Margin="10">
+        <StackPanel
+            Spacing="{StaticResource NavigationViewFrameSpacing}"
+            Margin="{StaticResource NavigationViewFrameMargin}">
             <controls:SettingsCard
                 Header="WebView2"
                 Description="{x:Bind webViewVersion}">
                 <Button
                     Content="复制"
-                    Click="CopyWebViewVersion" />
+                    Click="CopyWebViewVersion"/>
             </controls:SettingsCard>
 
             <controls:SettingsCard
@@ -26,7 +28,7 @@
                 IsActionIconVisible="False">
                 <Button
                     Content="复制"
-                    Click="CopyAppVersion" />
+                    Click="CopyAppVersion"/>
             </controls:SettingsCard>
 
             <controls:SettingsCard
@@ -34,7 +36,7 @@
                 Click="OpenRepoWebsite"
                 IsClickEnabled="True">
                 <controls:SettingsCard.ActionIcon>
-                    <FontIcon Glyph="&#xE8A7;" />
+                    <FontIcon Glyph="&#xE8A7;"/>
                 </controls:SettingsCard.ActionIcon>
             </controls:SettingsCard>
 
@@ -44,10 +46,10 @@
                 <controls:SettingsExpander.ItemTemplate>
                     <DataTemplate x:DataType="local:OpenSource">
                         <HyperlinkButton
-                        Content="{x:Bind Name}"
-                        NavigateUri="{x:Bind Uri}"
-                        ToolTipService.ToolTip="{x:Bind Uri}"
-                        Margin="5" />
+                            Content="{x:Bind Name}"
+                            NavigateUri="{x:Bind Uri}"
+                            ToolTipService.ToolTip="{x:Bind Uri}"
+                            Margin="5"/>
                     </DataTemplate>
                 </controls:SettingsExpander.ItemTemplate>
             </controls:SettingsExpander>

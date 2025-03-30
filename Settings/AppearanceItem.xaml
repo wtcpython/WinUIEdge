@@ -9,20 +9,27 @@
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     mc:Ignorable="d">
     <ScrollView>
-        <StackPanel Spacing="5" Margin="10">
+        <StackPanel
+            Spacing="{StaticResource NavigationViewFrameSpacing}"
+            Margin="{StaticResource NavigationViewFrameMargin}">
             <controls:SettingsCard
                 Header="整体外观"
                 Description="适用于新的选项卡、页面、对话框和其他菜单。">
             </controls:SettingsCard>
 
-            <GridView Name="appearanceView" SelectionMode="Single" SelectionChanged="AppearanceChanged">
+            <GridView Name="appearanceView"
+                    SelectionMode="Single"
+                    SelectionChanged="AppearanceChanged">
                 <GridView.ItemContainerStyle>
-                    <Style TargetType="GridViewItem" BasedOn="{StaticResource DefaultGridViewItemStyle}">
-                        <Setter Property="Margin" Value="10"/>
+                    <Style TargetType="GridViewItem"
+                            BasedOn="{StaticResource DefaultGridViewItemStyle}">
+                        <Setter Property="Margin"
+                                Value="10"/>
                     </Style>
                 </GridView.ItemContainerStyle>
                 <StackPanel>
-                    <Canvas Width="150" Height="100">
+                    <Canvas Width="150"
+                            Height="100">
                         <Polygon
                             Fill="Black"
                             Points="0,0,0,100,150,100"/>
@@ -30,17 +37,24 @@
                             Fill="White"
                             Points="0,0,150,0,150,100"/>
                     </Canvas>
-                    <TextBlock Text="系统默认" Margin="10"/>
+                    <TextBlock Text="系统默认"
+                            Margin="10"/>
                 </StackPanel>
 
                 <StackPanel>
-                    <Rectangle Width="150" Height="100" Fill="White"/>
-                    <TextBlock Text="浅色" Margin="10"/>
+                    <Rectangle Width="150"
+                            Height="100"
+                            Fill="White"/>
+                    <TextBlock Text="浅色"
+                            Margin="10"/>
                 </StackPanel>
 
                 <StackPanel>
-                    <Rectangle Width="150" Height="100" Fill="Black"/>
-                    <TextBlock Text="深色" Margin="10"/>
+                    <Rectangle Width="150"
+                            Height="100"
+                            Fill="Black"/>
+                    <TextBlock Text="深色"
+                            Margin="10"/>
                 </StackPanel>
             </GridView>
 
@@ -49,17 +63,20 @@
                 Description="Mica 和 MicaAlt 仅 Windows 11 可用">
                 <ComboBox
                     x:Name="effectBox"
-                    SelectionChanged="EffectChanged" />
+                    SelectionChanged="EffectChanged"/>
             </controls:SettingsCard>
 
-            <TextBlock Text="自定义工具栏" Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}" Margin="5,10,0,0" />
+            <TextBlock Text="自定义工具栏"
+                    Style="{ThemeResource FlyoutPickerTitleTextBlockStyle}"
+                    Margin="5,10,0,0"/>
 
             <ItemsControl x:Name="toolBarVisualView">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="local:ToolBarVisual">
                         <controls:SettingsCard
                             Header="{x:Bind Description}">
-                            <ToggleSwitch IsOn="{x:Bind Visual}" Toggled="VisualChanged" />
+                            <ToggleSwitch IsOn="{x:Bind Visual}"
+                                    Toggled="VisualChanged"/>
                         </controls:SettingsCard>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

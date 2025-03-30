@@ -9,23 +9,29 @@
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     mc:Ignorable="d">
     <ScrollView>
-        <StackPanel Spacing="5" Margin="10">
+        <StackPanel
+            Spacing="{StaticResource NavigationViewFrameSpacing}"
+            Margin="{StaticResource NavigationViewFrameMargin}">
             <controls:SettingsCard
                 x:Name="DownloadFolderCard"
                 Header="位置">
-                <Button Name="setFolderButton" Content="更改" Click="ChangeDownloadFolder"/>
+                <Button Name="setFolderButton"
+                        Content="更改"
+                        Click="ChangeDownloadFolder"/>
             </controls:SettingsCard>
 
             <controls:SettingsCard
                 Header="每次下载都询问我该做些什么"
                 Description="始终询问我是要保存文件还是打开它而不保存">
-                <ToggleSwitch Name="setDownloadBehavior" Toggled="DownloadBehaviorChanged"/>
+                <ToggleSwitch Name="setDownloadBehavior"
+                        Toggled="DownloadBehaviorChanged"/>
             </controls:SettingsCard>
 
             <controls:SettingsCard
                 Header="下载开始时显示下载菜单"
                 Description="关闭此设置会使人更难知道文件何时开始下载">
-                <ToggleSwitch Name="setDownloadFlyout" Toggled="ShowFlyoutChanged"/>
+                <ToggleSwitch Name="setDownloadFlyout"
+                        Toggled="ShowFlyoutChanged"/>
             </controls:SettingsCard>
         </StackPanel>
     </ScrollView>
