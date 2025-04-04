@@ -80,7 +80,8 @@
                 <controls:SettingsExpander.Items>
                     <controls:SettingsCard
                         x:Name="backgroundCard"
-                        Header="选择背景图片的路径">
+                        Header="选择背景图片的路径"
+                        Description="如果未选择图像路径，将使用 Bing 每日一图作为背景">
                         <Button Content="更改"
                                 Click="SetBackgroundImage"/>
                     </controls:SettingsCard>

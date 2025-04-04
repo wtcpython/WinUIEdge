@@ -6,8 +6,11 @@ using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.Http;
 using System.Runtime.InteropServices;
+using System.Text.Json;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Win32;
 using Windows.Win32.Foundation;
@@ -148,6 +151,14 @@ namespace Edge
                 return UriType.WithoutProtocol;
             }
             return UriType.PlainText;
+        }
+
+        public static async Task<string> GetBingImageUrlAsync()
+        {
+            using var client = new HttpClient();
+            var response = await client.GetStringAsync("https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1");
+            var json = JsonDocument.Parse(response);
+            return "https://cn.bing.com" + json.RootElement.GetProperty("images")[0].GetProperty("url").GetString();
         }
     }
 }

@@ -21,17 +21,37 @@ namespace Edge
 
             if (App.settings.ShowBackground)
             {
-                Background = new ImageBrush()
+                if (!string.IsNullOrEmpty(App.settings.BackgroundImage))
                 {
-                    ImageSource = new BitmapImage()
+                    Background = new ImageBrush()
                     {
-                        UriSource = new Uri(App.settings.BackgroundImage)
-                    },
-                    Stretch = Stretch.UniformToFill
-                };
+                        ImageSource = new BitmapImage()
+                        {
+                            UriSource = new Uri(App.settings.BackgroundImage)
+                        },
+                        Stretch = Stretch.UniformToFill
+                    };
+                }
+                else
+                {
+                    LoadBingImage();
+                }
             }
 
             favoriteList.Visibility = App.settings.MenuStatus != "Never" ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public async void LoadBingImage()
+        {
+            string url = await Utilities.GetBingImageUrlAsync();
+            Background = new ImageBrush()
+            {
+                ImageSource = new BitmapImage()
+                {
+                    UriSource = new Uri(url)
+                },
+                Stretch = Stretch.UniformToFill
+            };
         }
 
         public async void InstallWebView2(object sender, RoutedEventArgs e)
