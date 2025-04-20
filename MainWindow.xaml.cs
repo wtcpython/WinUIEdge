@@ -217,15 +217,15 @@ namespace Edge
 
         private void CloseTab(object sender, object e)
         {
-            if (e is TabViewTabCloseRequestedEventArgs args)
+            TabViewItem item = e is TabViewTabCloseRequestedEventArgs args ? args.Tab : tabView.SelectedItem as TabViewItem;
+            if (item.Content is WebViewPage)
             {
-                tabView.TabItems.Remove(args.Tab);
+                WebView2 webView2 = App.GetWebView2(item);
+                webView2.Close();
             }
-            // else e is RoutedEventArgs
-            else
-            {
-                tabView.TabItems.RemoveAt(tabView.SelectedIndex);
-            }
+
+            tabView.TabItems.Remove(item);
+
             if (tabView.TabItems.Count <= 0)
             {
                 Close();
