@@ -10,43 +10,43 @@
     <NavigationView
         Name="navigation"
         IsSettingsVisible="False"
-        PaneTitle="设置"
+        x:Uid="Navigation_Settings"
         IsTabStop="False"
         IsBackButtonVisible="Collapsed"
         SelectionChanged="NavigationView_SelectionChanged">
         <NavigationView.MenuItems>
-            <NavigationViewItem Content="隐私、搜索和服务" Tag="PrivacyMainPage">
+            <NavigationViewItem x:Uid="Privacy" Tag="PrivacyMainPage">
                 <NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xE72E;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-            <NavigationViewItem Content="外观" Tag="AppearanceMainPage">
+            <NavigationViewItem x:Uid="Appearance" Tag="AppearanceMainPage">
                 <NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xE790;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-            <NavigationViewItem Content="启动、主页和新建选项卡页" Tag="StartItem">
+            <NavigationViewItem x:Uid="Start" Tag="StartItem">
                 <NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xEc6c;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-            <NavigationViewItem Content="下载" Tag="DownloadItem">
+            <NavigationViewItem x:Uid="Navigation_Downloads" Tag="DownloadItem">
                 <NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xe896;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-            <NavigationViewItem Content="打印机" Tag="PrinterItem">
+            <NavigationViewItem x:Uid="Printers" Tag="PrinterItem">
                 <NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xe749;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-            <NavigationViewItem Content="重置设置" Tag="ResetItem">
+            <NavigationViewItem x:Uid="ResetSettings" Tag="ResetItem">
                 <NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xE777;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
 
-            <NavigationViewItem Content="关于" Tag="About">
+            <NavigationViewItem x:Uid="About" Tag="About">
                 <NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xe713;" />
                 </NavigationViewItem.Icon>

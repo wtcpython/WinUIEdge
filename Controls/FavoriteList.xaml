@@ -37,13 +37,13 @@
                         </ToolTipService.ToolTip>
                         <StackPanel.ContextFlyout>
                             <MenuFlyout>
-                                <MenuFlyoutItem Text="在新标签页中打开" Click="OpenFavoriteWebsiteInNewTab">
+                                <MenuFlyoutItem x:Uid="OpenInNewTab" Click="OpenFavoriteWebsiteInNewTab">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xe8b7;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
 
-                                <MenuFlyoutItem Text="在新窗口中打开" Click="OpenFavoriteWebsiteInNewWindow">
+                                <MenuFlyoutItem x:Uid="OpenInNewWindow" Click="OpenFavoriteWebsiteInNewWindow">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xe737;"/>
                                     </MenuFlyoutItem.Icon>
@@ -51,7 +51,7 @@
 
                                 <MenuFlyoutSeparator />
 
-                                <MenuFlyoutItem Text="复制" Click="CopyFavoriteWebsite">
+                                <MenuFlyoutItem x:Uid="Copy" Click="CopyFavoriteWebsite">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xe8c8;"/>
                                     </MenuFlyoutItem.Icon>
@@ -59,7 +59,7 @@
 
                                 <MenuFlyoutSeparator />
 
-                                <MenuFlyoutItem Text="删除" Click="DeleteFavoriteWebsite">
+                                <MenuFlyoutItem x:Uid="Delete" Click="DeleteFavoriteWebsite">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xe74d;"/>
                                     </MenuFlyoutItem.Icon>

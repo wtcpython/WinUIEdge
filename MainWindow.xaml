@@ -21,7 +21,7 @@
 
         <TabView.Resources>
             <MenuFlyout x:Name="TabFlyout">
-                <MenuFlyoutItem Text="在右侧新建标签页" Click="CreateNewTabOnRight">
+                <MenuFlyoutItem x:Uid="NewTabRight" Click="CreateNewTabOnRight">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xec6c;"/>
                     </MenuFlyoutItem.Icon>
@@ -29,7 +29,7 @@
 
                 <MenuFlyoutSeparator />
 
-                <MenuFlyoutItem Text="刷新" Click="RefreshTab">
+                <MenuFlyoutItem x:Uid="Refresh" Click="RefreshTab">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xe72c;"/>
                     </MenuFlyoutItem.Icon>
@@ -39,7 +39,7 @@
                     </MenuFlyoutItem.KeyboardAccelerators>
                 </MenuFlyoutItem>
 
-                <MenuFlyoutItem Text="复制标签页" Click="CopyTab">
+                <MenuFlyoutItem x:Uid="DuplicateTab" Click="CopyTab">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xe8c8;"/>
                     </MenuFlyoutItem.Icon>
@@ -48,19 +48,19 @@
                     </MenuFlyoutItem.KeyboardAccelerators>
                 </MenuFlyoutItem>
 
-                <MenuFlyoutItem Text="将标签页移动到新窗口" Click="MoveTabToNewWindow">
+                <MenuFlyoutItem x:Uid="MoveTabToNewWindow" Click="MoveTabToNewWindow">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xe737;"/>
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
 
-                <MenuFlyoutItem Text="固定标签页" Click="PinTab">
+                <MenuFlyoutItem x:Uid="PinTab" Click="PinTab">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xe718;"/>
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
 
-                <MenuFlyoutItem Name="MuteButton" Text="使标签页静音" Click="MuteTab">
+                <MenuFlyoutItem x:Uid="MuteTab" Name="MuteButton" Click="MuteTab">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xe74f;"/>
                     </MenuFlyoutItem.Icon>
@@ -72,7 +72,7 @@
 
                 <MenuFlyoutSeparator />
 
-                <MenuFlyoutItem Text="关闭标签页" Click="CloseTab">
+                <MenuFlyoutItem x:Uid="CloseTab" Click="CloseTab">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xe711;"/>
                     </MenuFlyoutItem.Icon>
@@ -82,18 +82,18 @@
                     </MenuFlyoutItem.KeyboardAccelerators>
                 </MenuFlyoutItem>
 
-                <MenuFlyoutItem Text="关闭其他标签页" Click="CloseOtherTab"/>
-                <MenuFlyoutItem Text="关闭右侧标签页" Click="CloseRightTab"/>
+                <MenuFlyoutItem x:Uid="CloseOtherTabs" Click="CloseOtherTab"/>
+                <MenuFlyoutItem x:Uid="CloseTabsRight" Click="CloseRightTab"/>
 
                 <MenuFlyoutSeparator />
 
-                <MenuFlyoutItem Text="重新打开关闭的标签页" Click="OpenClosedTab">
+                <MenuFlyoutItem x:Uid="ReopenClosedTab" Click="OpenClosedTab">
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator Key="T" Modifiers="Control,Shift"/>
                     </MenuFlyoutItem.KeyboardAccelerators>
                 </MenuFlyoutItem>
 
-                <MenuFlyoutItem Text="将所有标签页添加到收藏夹">
+                <MenuFlyoutItem x:Uid="AddAllTabsToFavorites">
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator Key="D" Modifiers="Control,Shift"/>
                     </MenuFlyoutItem.KeyboardAccelerators>
