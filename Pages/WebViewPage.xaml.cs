@@ -23,6 +23,11 @@ namespace Edge
             favoriteList.Visibility = App.settings.MenuStatus == "Always" ? Visibility.Visible : Visibility.Collapsed;
         }
 
+        public void Close()
+        {
+            WebView2.Close();
+        }
+
         private void InitializeToolbarVisibility()
         {
             homeButton.Visibility = App.settings.ToolBar!["HomeButton"] ? Visibility.Visible : Visibility.Collapsed;
