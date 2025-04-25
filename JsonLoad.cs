@@ -38,6 +38,7 @@ namespace Edge
     }
 
     [JsonSourceGenerationOptions(WriteIndented = true, UseStringEnumConverter = true)]
+    [JsonSerializable(typeof(List<GitHubRelease>))]
     [JsonSerializable(typeof(Settings))]
     [JsonSerializable(typeof(ObservableCollection<WebsiteInfo>))]
     [JsonSerializable(typeof(List<WebsiteInfo>))]

@@ -44,7 +44,7 @@ namespace Edge
             if (response.IsSuccessStatusCode)
             {
                 var json = await response.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<List<GitHubRelease>>(json);
+                return JsonSerializer.Deserialize(json, JsonContext.Default.ListGitHubRelease);
             }
             return null;
         }
