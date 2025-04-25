@@ -45,11 +45,15 @@
                 ItemsSource="{x:Bind OpenSources}">
                 <controls:SettingsExpander.ItemTemplate>
                     <DataTemplate x:DataType="local:OpenSource">
-                        <HyperlinkButton
-                            Content="{x:Bind Name}"
-                            NavigateUri="{x:Bind Uri}"
-                            ToolTipService.ToolTip="{x:Bind Uri}"
-                            Margin="5"/>
+                        <controls:SettingsCard
+                            IsActionIconVisible="False">
+                            <controls:SettingsCard.Header>
+                                <HyperlinkButton
+                                    Content="{x:Bind Name}"
+                                    NavigateUri="{x:Bind Uri}"
+                                    ToolTipService.ToolTip="{x:Bind Uri}"/>
+                            </controls:SettingsCard.Header>
+                        </controls:SettingsCard>
                     </DataTemplate>
                 </controls:SettingsExpander.ItemTemplate>
             </controls:SettingsExpander>
