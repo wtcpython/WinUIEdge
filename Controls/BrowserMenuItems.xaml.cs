@@ -49,7 +49,7 @@ namespace Edge
 
         private void CloseApp(object sender, RoutedEventArgs e)
         {
-            App.mainWindows.ForEach(x => x.Close());
+            App.mainWindows.ToList().ForEach(x => x.Close());
         }
 
         private void MenuFlyout_Opening(object sender, object e)
