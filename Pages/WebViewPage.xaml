@@ -50,7 +50,7 @@
                 </Button>
             </StackPanel>
 
-            <local:WebSearch x:Name="Search" Grid.Column="1" VerticalAlignment="Center"/>
+            <local:WebSearch x:Name="Search" Grid.Column="1" VerticalAlignment="Center" QuerySubmitted="WebSearch_QuerySubmitted" />
 
             <local:IconButton
                 x:Name="favoriteButton"

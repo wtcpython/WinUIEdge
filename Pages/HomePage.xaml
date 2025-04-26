@@ -15,7 +15,13 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.ColumnSpan="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -25,9 +31,29 @@
             <local:BrowserMenuItems Grid.Column="1" HorizontalAlignment="Right"/>
         </Grid>
 
-        <local:WebSearch
-            Grid.Row="1" VerticalAlignment="Top" Margin="200"
-            CornerRadius="15" FontSize="18"/>
+
+
+        <Border
+            Grid.Row="1"
+            Grid.Column="1"
+            BorderBrush="LightBlue"
+            BorderThickness="2"
+            VerticalAlignment="Center"
+            CornerRadius="15">
+            <StackPanel Margin="20" Spacing="5">
+                <local:WebSearch FontSize="18" QuerySubmitted="WebSearch_QuerySubmitted"/>
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <ImageIcon Source="https://www.deepseek.com/favicon.ico" Width="36" Height="36"/>
+                    <ComboBox x:Name="modeBox" SelectedIndex="0">
+                        <ComboBox.Items>
+                            <ComboBoxItem Content="Default" />
+                            <ComboBoxItem Content="Chat" />
+                        </ComboBox.Items>
+                    </ComboBox>
+                </StackPanel>
+            </StackPanel>
+            
+        </Border>
 
         <GridView Name="View" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"
                   IsItemClickEnabled="True" ItemClick="OpenFavoriteWebsite" SelectionMode="Single">

@@ -64,4 +64,17 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
+    <Style TargetType="local:WebSearch">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:WebSearch">
+                    <AutoSuggestBox
+                        x:Name="AutoSuggestBox"
+                        FontSize="{TemplateBinding FontSize}"
+                        PlaceholderText="Ask Deepseek, search the web, open webpage" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

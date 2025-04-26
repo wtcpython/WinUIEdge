@@ -92,5 +92,23 @@ namespace Edge
             MainWindow mainWindow = App.GetWindowForElement(this);
             mainWindow.AddNewTab(new WebViewPage((e.ClickedItem as WebsiteInfo).Uri));
         }
+
+        private void WebSearch_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (modeBox.SelectedIndex == 1)
+            {
+                string text = args.QueryText;
+                sender.Text = string.Empty;
+                MainWindow mainWindow = App.GetWindowForElement(this);
+                Utilities.Navigate("https://chat.deepseek.com/", mainWindow);
+            }
+            else
+            {
+                string text = args.QueryText;
+                sender.Text = string.Empty;
+                MainWindow mainWindow = App.GetWindowForElement(this);
+                Utilities.Search(text, mainWindow);
+            }
+        }
     }
 }

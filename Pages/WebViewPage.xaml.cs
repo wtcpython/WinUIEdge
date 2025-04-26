@@ -365,5 +365,13 @@ namespace Edge
                 RightWebView.Visibility = Visibility.Collapsed;
             }
         }
+
+        private void WebSearch_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            string text = args.QueryText;
+            sender.Text = string.Empty;
+            MainWindow mainWindow = App.GetWindowForElement(this);
+            Utilities.Search(text, mainWindow);
+        }
     }
 }

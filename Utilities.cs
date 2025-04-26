@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Text.Json;
@@ -159,6 +160,53 @@ namespace Edge
             var response = await client.GetStringAsync("https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1");
             var json = JsonDocument.Parse(response);
             return "https://cn.bing.com" + json.RootElement.GetProperty("images")[0].GetProperty("url").GetString();
+        }
+
+        public static void Search(string text, MainWindow mainWindow)
+        {
+            UriType uriType = text.DetectUri();
+            if (uriType == UriType.WithProtocol)
+            {
+                Navigate(text, mainWindow);
+            }
+            else if (uriType == UriType.WithoutProtocol)
+            {
+                Navigate("https://" + text, mainWindow);
+            }
+            else if (File.Exists(text))
+            {
+                FileInfo fileInfo = new(text);
+                string ext = fileInfo.Extension;
+                if (Info.LanguageDict.TryGetValue(ext, out var _))
+                {
+                    mainWindow.AddNewTab(new TextFilePage(fileInfo), fileInfo.Name);
+                }
+                else if (Info.ImageDict.TryGetValue(ext, out var _))
+                {
+                    mainWindow.AddNewTab(new ImageViewer(fileInfo), fileInfo.Name);
+                }
+                else
+                {
+                    Navigate(text, mainWindow);
+                }
+            }
+            else
+            {
+                Navigate(Info.SearchEngineList.First(x => x.Name == App.settings.SearchEngine).Uri + text, mainWindow);
+            }
+        }
+
+        public static void Navigate(string site, MainWindow mainWindow)
+        {
+            Uri uri = new(site);
+            if ((mainWindow.TabView.SelectedItem != null) && (mainWindow.SelectedItem is WebViewPage webviewPage))
+            {
+                webviewPage.WebView2.Source = uri;
+            }
+            else
+            {
+                mainWindow.AddNewTab(new WebViewPage(uri));
+            }
         }
     }
 }

@@ -78,7 +78,7 @@ namespace Edge
             {
                 foreach (string arg in arguments)
                 {
-                    WebSearch.StartSearch(arg, window);
+                    Utilities.Search(arg, window);
                 }
             }
             else
