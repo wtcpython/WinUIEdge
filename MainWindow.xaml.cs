@@ -70,7 +70,7 @@ namespace Edge
         {
             TabViewItem newTab = new()
             {
-                IconSource = new FontIconSource() { Glyph = "\ue80f" },
+                IconSource = new FontIconSource() { Glyph = content is HomePage ? "\ue80f" : "\ue774" },
                 Header = header,
                 Content = content
             };

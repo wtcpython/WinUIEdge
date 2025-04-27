@@ -16,6 +16,7 @@ namespace Edge
         public string Source { get; set; }
         public Uri FaviconUri { get; set; }
         public string Time { get; set; }
+        public ulong NavigationId { get; set; }
     }
 
     public partial class DownloadObject : INotifyPropertyChanged
