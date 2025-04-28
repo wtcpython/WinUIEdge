@@ -33,6 +33,8 @@ namespace Edge
     public class WebsiteInfo
     {
         public string Name { get; set; }
+
+        public bool CustomIcon  { get; set; }
         public string Icon { get; set; }
         public Uri Uri { get; set; }
     }

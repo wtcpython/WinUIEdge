@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.Foundation;
@@ -12,8 +13,14 @@ namespace Edge
     public sealed partial class WebViewPage : Page
     {
         public TabViewItem tabViewItem { get; set; }
+        public ProgressRing HeaderProgressRing { get; set; }
+        public TextBlock HeaderTextBlock { get; set; }
         private bool InFavoriteList = false;
-        ulong NowNavigationId = 0;
+        private bool NavigationCompleted  = false;
+        private ulong NowNavigationId = 0;
+        private static FontIconSource DefaultIconSource = new () { Glyph = "\ue774" };
+
+        private readonly ConcurrentDictionary<string, ImageIconSource> CachedIconSource = new ();
 
         public WebViewPage(Uri WebUri)
         {
@@ -38,10 +45,11 @@ namespace Edge
         {
             sender.CoreWebView2.ContextMenuRequested += (s, args) => CoreWebView2_ContextMenuRequested(sender, s, args);
             sender.CoreWebView2.DocumentTitleChanged += CoreWebView2_DocumentTitleChanged;
-            sender.CoreWebView2.DOMContentLoaded += CoreWebView2_DOMContentLoaded;
+            sender.CoreWebView2.NavigationStarting += CoreWebView2_NavigationStarting;
+            sender.CoreWebView2.SourceChanged += CoreWebView2_SourceChanged;
+            sender.CoreWebView2.NavigationCompleted += CoreWebView2_NavigationCompleted;
             sender.CoreWebView2.DownloadStarting += CoreWebView2_DownloadStarting;
             sender.CoreWebView2.FaviconChanged += CoreWebView2_FaviconChanged;
-            sender.CoreWebView2.NavigationStarting += CoreWebView2_NavigationStarting;
             sender.CoreWebView2.NewWindowRequested += CoreWebView2_NewWindowRequested;
             sender.CoreWebView2.ScriptDialogOpening += CoreWebView2_ScriptDialogOpening;
             sender.CoreWebView2.StatusBarTextChanged += (s, e) => uriPreview.Text = s.StatusBarText;
@@ -49,25 +57,20 @@ namespace Edge
 
             sender.CoreWebView2.Settings.IsStatusBarEnabled = false;
             sender.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = false;
+            sender.CoreWebView2.Profile.ClearBrowsingDataAsync();
         }
 
         private void CoreWebView2_NavigationStarting(CoreWebView2 sender, CoreWebView2NavigationStartingEventArgs args)
         {
+            NavigationCompleted = false;
             NowNavigationId = args.NavigationId;
             Search.Text = args.Uri;
+            HeaderProgressRing.Visibility = Visibility.Visible;
+            tabViewItem.IconSource = null;
         }
 
-        private void CoreWebView2_DOMContentLoaded(CoreWebView2 sender, CoreWebView2DOMContentLoadedEventArgs args)
+        private void CoreWebView2_SourceChanged(CoreWebView2 sender, CoreWebView2SourceChangedEventArgs args)
         {
-            App.Histories.Add(new WebViewHistory()
-            {
-                DocumentTitle = sender.DocumentTitle,
-                Source = sender.Source,
-                FaviconUri = sender.FaviconUri.Length > 0 ? new Uri(sender.FaviconUri): null,
-                Time = DateTime.Now.ToString(),
-                NavigationId = args.NavigationId
-            });
-
             if (Info.Favorites.Where(x => x.Uri.Equals(sender.Source)).Any())
             {
                 InFavoriteList = true;
@@ -79,23 +82,57 @@ namespace Edge
             SetFavoriteIcon();
         }
 
+        private void CoreWebView2_NavigationCompleted(CoreWebView2 sender, CoreWebView2NavigationCompletedEventArgs args)
+        {
+            NavigationCompleted = true;
+            App.Histories.Add(new WebViewHistory()
+            {
+                DocumentTitle = sender.DocumentTitle,
+                Source = sender.Source,
+                FaviconUri = sender.FaviconUri.Length > 0 ? new Uri(sender.FaviconUri) : null,
+                Time = DateTime.Now.ToString(),
+                NavigationId = args.NavigationId
+            });
+            if (sender.FaviconUri.Length > 0) {
+                if (!CachedIconSource.TryGetValue(sender.FaviconUri, out ImageIconSource iconSource))
+                {
+                    iconSource = new ImageIconSource()
+                    {
+                        ImageSource = new BitmapImage(new Uri(sender.FaviconUri))
+                    };
+                    CachedIconSource.TryAdd(sender.FaviconUri, iconSource);
+                }
+                tabViewItem.IconSource = iconSource;
+            }
+            else
+            {
+                tabViewItem.IconSource = DefaultIconSource;
+            }
+            HeaderProgressRing.Visibility = Visibility.Collapsed;
+        }
+
         private void CoreWebView2_FaviconChanged(CoreWebView2 sender, object args)
         {
-            if (sender.FaviconUri.Length == 0)
+            if (!NavigationCompleted || sender.FaviconUri.Length == 0)
             {
                 return;
             }
             Uri faviconUri = new Uri(sender.FaviconUri);
-            tabViewItem.IconSource = new ImageIconSource()
+            if (!CachedIconSource.TryGetValue(sender.FaviconUri, out ImageIconSource iconSource))
             {
-                ImageSource = new BitmapImage(faviconUri)
-            };
+                iconSource = new ImageIconSource()
+                {
+                    ImageSource = new BitmapImage(faviconUri)
+                };
+                CachedIconSource.TryAdd(sender.FaviconUri, iconSource);
+            }
+            tabViewItem.IconSource = iconSource;
             WebViewHistory history = App.Histories.FirstOrDefault(x => x.NavigationId == NowNavigationId, null);
             if (history != null)
             {
                 history.FaviconUri = faviconUri;
             }
-            WebsiteInfo favorite = Info.Favorites.FirstOrDefault(x => x.Uri.Equals(faviconUri), null);
+            WebsiteInfo favorite = Info.Favorites.FirstOrDefault(x => !x.CustomIcon && x.Uri.Equals(faviconUri), null);
             if (favorite != null)
             {
                 favorite.Icon = sender.FaviconUri;
@@ -107,7 +144,7 @@ namespace Edge
             string title = sender.DocumentTitle;
             MainWindow mainWindow = App.GetWindowForElement(this);
             mainWindow.Title = title;
-            tabViewItem.Header = title;
+            HeaderTextBlock.Text = title;
         }
 
         private void CoreWebView2_WindowCloseRequested(CoreWebView2 sender, object args)
