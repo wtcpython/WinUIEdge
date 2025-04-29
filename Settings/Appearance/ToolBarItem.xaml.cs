@@ -22,6 +22,7 @@ namespace Edge
         public Dictionary<string, string> ToolBarName = new(){
             {"HomeButton", "“开始”按钮"},
             {"ForwardButton", "“前进”按钮"},
+            {"ExtensionsButton", "扩展按钮"},
             {"HistoryButton", "历史按钮"},
             {"DownloadButton", "下载按钮"}
         };
@@ -48,8 +49,13 @@ namespace Edge
 
         private void VisualChanged(object sender, RoutedEventArgs e)
         {
-            ToolBarVisual visual = (sender as ToggleSwitch).DataContext as ToolBarVisual;
-            App.settings.ToolBar[visual.Text] = (sender as ToggleSwitch).IsOn;
+            if (sender is ToggleSwitch { DataContext: ToolBarVisual visual } toggle) {
+                Dictionary<string, bool> toolbar = App.settings.ToolBar;
+                if (toolbar.TryGetValue(visual.Text, out bool oldValue) && oldValue != toggle.IsOn) {
+                    toolbar[visual.Text] = !oldValue;
+                    visual.Visual = !oldValue;
+                }
+            }
         }
     }
 }

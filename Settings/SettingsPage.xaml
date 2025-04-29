@@ -30,6 +30,11 @@
                     <FontIcon Glyph="&#xEc6c;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
+            <NavigationViewItem x:Uid="Extensions" Tag="ExtensionsItem">
+                <NavigationViewItem.Icon>
+                    <FontIcon Glyph="&#xea86;" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
             <NavigationViewItem x:Uid="Navigation_Downloads" Tag="DownloadItem">
                 <NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xe896;" />
@@ -70,7 +75,7 @@
                         <BreadcrumbBarItem Content="{Binding}">
                             <BreadcrumbBarItem.ContentTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Header}" />
+                                    <TextBlock Text="{Binding Header}" Style="{StaticResource TitleTextBlockStyle}"/>
                                 </DataTemplate>
                             </BreadcrumbBarItem.ContentTemplate>
                         </BreadcrumbBarItem>

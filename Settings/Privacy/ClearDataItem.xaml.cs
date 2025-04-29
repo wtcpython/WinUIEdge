@@ -37,7 +37,7 @@ namespace Edge
             {
                 if (item.IsChecked)
                 {
-                    await App.WebView2.CoreWebView2.Profile.ClearBrowsingDataAsync(item.Kind);
+                    await App.CoreWebView2Profile.ClearBrowsingDataAsync(item.Kind);
                 }
             }
             ClearBrowsingDataButton.Description = "已清理选择的项目";

@@ -11,12 +11,6 @@ namespace Edge
 
         public List<string> themeList = [.. Enum.GetNames<ElementTheme>()];
         public List<string> effects = [.. Enum.GetNames<Effect>()];
-        public Dictionary<string, string> ToolBarName = new(){
-            {"HomeButton", "“开始”按钮"},
-            {"ForwardButton", "“前进”按钮"},
-            {"HistoryButton", "历史按钮"},
-            {"DownloadButton", "下载按钮"}
-        };
 
         public AppearanceMainPage()
         {

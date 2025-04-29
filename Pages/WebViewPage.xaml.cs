@@ -26,7 +26,7 @@ namespace Edge
         {
             InitializeComponent();
             InitializeToolbarVisibility();
-            WebViewEngine.Source = WebUri;
+            Loaded += (sender, args) => InitializeWebView2Async(WebViewEngine, WebUri);
 
             favoriteList.Visibility = App.settings.MenuStatus == "Always" ? Visibility.Visible : Visibility.Collapsed;
         }
@@ -39,6 +39,19 @@ namespace Edge
         private void InitializeToolbarVisibility()
         {
             homeButton.Visibility = App.settings.ToolBar!["HomeButton"] ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private async void InitializeWebView2Async(WebView2 webview2,Uri WebUri)
+        {
+            if (webview2.CoreWebView2 == null)
+            {
+                await webview2.EnsureCoreWebView2Async(App.CoreWebView2Environment);
+            }
+            if (WebUri != null)
+            {
+                webview2.Source = WebUri;
+            }
+            webview2.Visibility = Visibility.Visible;
         }
 
         private void WebView2Initialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
@@ -57,7 +70,6 @@ namespace Edge
 
             sender.CoreWebView2.Settings.IsStatusBarEnabled = false;
             sender.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = false;
-            sender.CoreWebView2.Profile.ClearBrowsingDataAsync();
         }
 
         private void CoreWebView2_NavigationStarting(CoreWebView2 sender, CoreWebView2NavigationStartingEventArgs args)
@@ -135,7 +147,7 @@ namespace Edge
             WebsiteInfo favorite = Info.Favorites.FirstOrDefault(x => !x.CustomIcon && x.Uri.Equals(faviconUri), null);
             if (favorite != null)
             {
-                favorite.Icon = sender.FaviconUri;
+                favorite.Icon = faviconUri;
             }
         }
 
@@ -389,7 +401,7 @@ namespace Edge
                 WebsiteInfo newInfo = new()
                 {
                     Name = WebViewEngine.CoreWebView2.DocumentTitle,
-                    Icon = WebViewEngine.CoreWebView2.FaviconUri,
+                    Icon = WebViewEngine.CoreWebView2.FaviconUri.Length > 0 ? new Uri(WebViewEngine.CoreWebView2.FaviconUri) : null,
                     Uri = WebViewEngine.Source
                 };
                 Info.Favorites.Add(newInfo);
@@ -416,8 +428,7 @@ namespace Edge
             if (RightWebView.Visibility == Visibility.Collapsed)
             {
                 rightColumn.Width = new GridLength(1, GridUnitType.Star);
-                RightWebView.Source = new("https://www.bing.com/");
-                RightWebView.Visibility = Visibility.Visible;
+                InitializeWebView2Async(RightWebView, WebViewEngine.Source);
             }
             else
             {

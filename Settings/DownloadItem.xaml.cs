@@ -10,7 +10,7 @@ namespace Edge
         {
             this.InitializeComponent();
 
-            DownloadFolderCard.Description = App.WebView2.CoreWebView2.Profile.DefaultDownloadFolderPath;
+            DownloadFolderCard.Description = App.CoreWebView2Profile.DefaultDownloadFolderPath;
 
             setDownloadBehavior.IsOn = App.settings.AskDownloadBehavior;
             setDownloadFlyout.IsOn = App.settings.ShowFlyoutWhenStartDownloading;
@@ -41,7 +41,7 @@ namespace Edge
 
             if (folder != null)
             {
-                DownloadFolderCard.Description = App.WebView2.CoreWebView2.Profile.DefaultDownloadFolderPath = folder.Name;
+                DownloadFolderCard.Description = App.CoreWebView2Profile.DefaultDownloadFolderPath = folder.Name;
             }
         }
     }

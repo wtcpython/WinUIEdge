@@ -8,7 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Text;
 using System.Text.Json;
+using Microsoft.Web.WebView2.Core;
 
 
 namespace Edge
@@ -17,13 +19,17 @@ namespace Edge
     {
         public static List<MainWindow> mainWindows = [];
         public static Settings settings;
-        public static WebView2 WebView2 = new();
+        public static WebView2 WebView2;
+        public static CoreWebView2 CoreWebView2;
+        public static CoreWebView2Environment CoreWebView2Environment;
+        public static CoreWebView2Profile CoreWebView2Profile;
         public static ObservableCollection<WebViewHistory> Histories = [];
         public static ObservableCollection<DownloadObject> DownloadList = [];
         public static WordSearchEngine searchEngine;
 
         public App()
         {
+            Console.OutputEncoding = Encoding.UTF8;
             this.InitializeComponent();
             searchEngine = new("./Assets/words.txt");
             EnsureWebView2Async();
@@ -31,7 +37,14 @@ namespace Edge
 
         public async void EnsureWebView2Async()
         {
-            await WebView2.EnsureCoreWebView2Async();
+            CoreWebView2Environment = await CoreWebView2Environment.CreateWithOptionsAsync(
+                null,
+                null,
+                new CoreWebView2EnvironmentOptions() { AreBrowserExtensionsEnabled = true });
+            WebView2 = new WebView2();
+            await WebView2.EnsureCoreWebView2Async(CoreWebView2Environment);
+            CoreWebView2 =  WebView2.CoreWebView2;
+            CoreWebView2Profile = CoreWebView2.Profile;
         }
 
         public static MainWindow CreateNewWindow()

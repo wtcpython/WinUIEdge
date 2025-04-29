@@ -73,12 +73,29 @@ namespace Edge
         public ToolBar()
         {
             this.InitializeComponent();
+            ExtensionsItem.InitializeExtensionsCollection();
+            extensionsList.ItemsSource = ExtensionsItem.Extensions;
             historyList.ItemsSource = App.Histories;
             downloadList.ItemsSource = App.DownloadList;
             FavoriteList.SetItemsPanel(FavoriteList.VerticalTemplate);
 
+            ExtensionsButton.Visibility = App.settings.ToolBar!["ExtensionsButton"] ? Visibility.Visible : Visibility.Collapsed;
+            ToolBarSeparator.Visibility = ExtensionsButton.Visibility;
             HistoryButton.Visibility = App.settings.ToolBar!["HistoryButton"] ? Visibility.Visible : Visibility.Collapsed;
             DownloadButton.Visibility = App.settings.ToolBar!["DownloadButton"] ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void SearchExtension(object sender, RoutedEventArgs e)
+        {
+            string text = (sender as TextBox)?.Text ?? String.Empty;
+            if (text.Length == 0)
+            {
+                extensionsList.ItemsSource = ExtensionsItem.Extensions;
+            }
+            else
+            {
+                extensionsList.ItemsSource = ExtensionsItem.Extensions.Where(x => x.Name.Contains(text, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
         }
 
         private void SearchHistory(object sender, TextChangedEventArgs e)
@@ -127,6 +144,37 @@ namespace Edge
         {
             WebViewPage page = App.GetWindowForElement(this).SelectedItem as WebViewPage;
             page.CreateSplitWindow();
+        }
+
+        private void OpenExtensionsPage(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = App.GetWindowForElement(this);
+            TabView tabView = mainWindow.Content as TabView;
+
+            TabViewItem item = tabView?.TabItems.FirstOrDefault(x => ((TabViewItem)x).Content is SettingsPage settingsPage) as TabViewItem;
+            if (item != null)
+            {
+                tabView.SelectedItem = item;
+                (item.Content as SettingsPage)?.Navigate("ExtensionsItem");
+            }
+            else {
+                SettingsPage settingsPage = new ();
+                settingsPage.Navigate("ExtensionsItem");
+                mainWindow.AddNewTab(settingsPage, "…Ë÷√", new FontIconSource() { Glyph = "\ue713" });
+            }
+        }
+
+        void ToggleExtension(object sender, RoutedEventArgs e) {
+            if (sender is ToggleSwitch { DataContext: ExtensionInfo extensionInfo }) {
+                ExtensionsItem.ExtensionsToggleEnabledAsync(extensionInfo, this.XamlRoot);
+            }
+        }
+
+        void OpenExtensionOption(object sender, RoutedEventArgs e) {
+            if (sender is Button { DataContext: ExtensionInfo extensionInfo }) {
+                MainWindow mainWindow = App.GetWindowForElement(this);
+                mainWindow.AddNewTab(new  WebViewPage(new Uri(extensionInfo.OptionUri)));
+            }
         }
     }
 }

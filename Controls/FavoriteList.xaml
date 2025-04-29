@@ -26,16 +26,24 @@
 
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="local:WebsiteInfo">
-                    <StackPanel Orientation="Horizontal" Spacing="5">
-                        <ImageIcon Source="{x:Bind Icon}" Width="16" Height="16" />
-                        <TextBlock Text="{x:Bind Name}" VerticalAlignment="Center"/>
+                    <Grid ColumnSpacing="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <ImageIcon Grid.Column="0" Width="16" Height="16">
+                            <ImageIcon.Source>
+                                <BitmapImage UriSource="{x:Bind Icon}"/>
+                            </ImageIcon.Source>
+                        </ImageIcon>
+                        <TextBlock Grid.Column="1" Text="{x:Bind Name}" VerticalAlignment="Center"/>
                         <ToolTipService.ToolTip>
                             <StackPanel>
                                 <TextBlock Text="{x:Bind Name}" />
                                 <TextBlock Text="{x:Bind Uri}" />
                             </StackPanel>
                         </ToolTipService.ToolTip>
-                        <StackPanel.ContextFlyout>
+                        <Grid.ContextFlyout>
                             <MenuFlyout>
                                 <MenuFlyoutItem x:Uid="OpenInNewTab" Click="OpenFavoriteWebsiteInNewTab">
                                     <MenuFlyoutItem.Icon>
@@ -65,8 +73,8 @@
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                             </MenuFlyout>
-                        </StackPanel.ContextFlyout>
-                    </StackPanel>
+                        </Grid.ContextFlyout>
+                    </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Edge.ExtensionsItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Edge"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <converters:StringVisibilityConverter x:Key="StringVisibilityConverter" />
+    </Page.Resources>
+    <Grid Margin="{StaticResource NavigationViewFrameMargin}" RowSpacing="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Button Click="AddExtension">
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                    <FontIcon Glyph="&#xE7B8;"/>
+                    <TextBlock>加载解压缩的扩展</TextBlock>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+        <ScrollView Grid.Row="1">
+            <ItemsView x:Name="extensionsList">
+                <ItemsView.ItemTemplate>
+                    <DataTemplate x:DataType="local:ExtensionInfo">
+                        <ItemContainer>
+                            <controls:SettingsCard Header="{x:Bind Name, Mode=OneWay}" Margin="0,0,0,5">
+                                <controls:SettingsCard.Description>
+                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                        <TextBlock FontWeight="Bold" Text="ID"/>
+                                        <TextBlock IsTextSelectionEnabled="true" Text="{x:Bind Id, Mode=OneWay}"/>
+                                    </StackPanel>
+                                </controls:SettingsCard.Description>
+                                <StackPanel Orientation="Horizontal" Spacing="16">
+                                    <ToggleSwitch Toggled="ToggleExtension" IsOn="{x:Bind IsEnabled, Mode=OneWay}" DataContext="{x:Bind}"/>
+                                    <Button Click="OpenExtensionOption" Visibility="{x:Bind OptionUri, Mode=OneWay, Converter={StaticResource StringVisibilityConverter}}" DataContext="{x:Bind}">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <FontIcon Glyph="&#xe713;"/>
+                                            <TextBlock>选项</TextBlock>
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Click="RemoveExtension" DataContext="{x:Bind}">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <FontIcon Glyph="&#xe74d;"/>
+                                            <TextBlock>删除</TextBlock>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </controls:SettingsCard>
+                        </ItemContainer>
+                    </DataTemplate>
+                </ItemsView.ItemTemplate>
+            </ItemsView>
+        </ScrollView>
+    </Grid>
+</Page>

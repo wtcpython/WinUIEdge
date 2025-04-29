@@ -13,6 +13,7 @@
     "ToolBar": {
         "HomeButton": false,
         "ForwardButton": true,
+        "ExtensionsButton": true,
         "HistoryButton": true,
         "DownloadButton": true
     }

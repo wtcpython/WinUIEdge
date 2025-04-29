@@ -216,6 +216,9 @@
   <data name="Start.Content" xml:space="preserve">
     <value>启动、主页和新建选项卡页</value>
   </data>
+  <data name="Extensions.Content" xml:space="preserve">
+    <value>扩展</value>
+  </data>
   <data name="Navigation_Downloads.Content" xml:space="preserve">
     <value>下载</value>
   </data>
