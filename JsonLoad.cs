@@ -27,6 +27,8 @@ namespace Edge
         public bool ShowFlyoutWhenStartDownloading { get; set; }
         public string SpecificUri { get; set; }
         public int StartBehavior { get; set; }
+        public bool DisableGpu { get; set; }
+        public bool DisableBackgroundTimerThrottling { get; set; }
         public Dictionary<string, bool> ToolBar { get; set; }
     }
 

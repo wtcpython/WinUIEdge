@@ -32,15 +32,24 @@ namespace Edge
             Console.OutputEncoding = Encoding.UTF8;
             this.InitializeComponent();
             searchEngine = new("./Assets/words.txt");
-            EnsureWebView2Async();
         }
 
-        public async void EnsureWebView2Async()
-        {
+        public async void EnsureWebView2Async() {
+            List<string> additionalBrowserArguments = [];
+            if (settings.DisableGpu)
+            {
+                additionalBrowserArguments.Add("--disable-gpu");
+            }
+            if (settings.DisableBackgroundTimerThrottling) {
+                additionalBrowserArguments.Add("--disable-background-timer-throttling");
+            }
             CoreWebView2Environment = await CoreWebView2Environment.CreateWithOptionsAsync(
                 null,
                 null,
-                new CoreWebView2EnvironmentOptions() { AreBrowserExtensionsEnabled = true });
+                new CoreWebView2EnvironmentOptions() {
+                    AreBrowserExtensionsEnabled = true,
+                    AdditionalBrowserArguments = string.Join(" ", additionalBrowserArguments)
+                });
             WebView2 = new WebView2();
             await WebView2.EnsureCoreWebView2Async(CoreWebView2Environment);
             CoreWebView2 =  WebView2.CoreWebView2;
@@ -83,6 +92,8 @@ namespace Edge
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
             settings = Info.LoadSettings();
+
+            EnsureWebView2Async();
 
             window = CreateNewWindow();
 

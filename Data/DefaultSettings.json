@@ -10,6 +10,8 @@
     "ShowSuggestUri": true,
     "SpecificUri": "",
     "StartBehavior": 0,
+    "DisableGpu": false,
+    "DisableBackgroundTimerThrottling": false,
     "ToolBar": {
         "HomeButton": false,
         "ForwardButton": true,

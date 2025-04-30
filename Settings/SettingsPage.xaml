@@ -40,6 +40,11 @@
                     <FontIcon Glyph="&#xe896;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
+            <NavigationViewItem x:Uid="System" Tag="SystemItem">
+                <NavigationViewItem.Icon>
+                    <FontIcon Glyph="&#xE7F8;" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
             <NavigationViewItem x:Uid="Printers" Tag="PrinterItem">
                 <NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xe749;" />

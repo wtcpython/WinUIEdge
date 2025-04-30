@@ -222,6 +222,9 @@
   <data name="Navigation_Downloads.Content" xml:space="preserve">
     <value>下载</value>
   </data>
+  <data name="System.Content" xml:space="preserve">
+    <value>系统和性能</value>
+  </data>
   <data name="Printers.Content" xml:space="preserve">
     <value>打印机</value>
   </data>
