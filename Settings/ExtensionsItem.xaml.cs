@@ -6,6 +6,7 @@ using System.Linq;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.Web.WebView2.Core;
 
 namespace Edge
@@ -22,15 +23,32 @@ namespace Edge
     {
         public static readonly ObservableCollection<ExtensionInfo> Extensions = [];
 
-        public static Dictionary<string, string> ExtensionOptionUriSuffixes = new() {
+        public static Dictionary<string, string> ExtensionOptionUriSuffixes = new()
+        {
             { "暴力猴", "/options/index.html#settings" }
         };
+
+        public static Brush TextFillColorDisabledBrush = null;
 
         public ExtensionsItem()
         {
             this.InitializeComponent();
             InitializeExtensionsCollection();
             extensionsList.ItemsSource = Extensions;
+            setToggleInjectExtensionsStore.IsOn = App.settings.InjectExtensionsStore;
+            microsoftEdgeExtensionsHome.IsClickEnabled = setToggleInjectExtensionsStore.IsOn;
+            if (TextFillColorDisabledBrush == null)
+            {
+                TextFillColorDisabledBrush = (Brush)Application.Current.Resources["TextFillColorDisabledBrush"];
+            }
+            if (setToggleInjectExtensionsStore.IsOn)
+            {
+                microsoftEdgeExtensionsHomeHeader.ClearValue(TextBlock.ForegroundProperty);
+            }
+            else
+            {
+                microsoftEdgeExtensionsHomeHeader.Foreground = TextFillColorDisabledBrush;
+            }
         }
 
         public static async void InitializeExtensionsCollection()
@@ -51,7 +69,8 @@ namespace Edge
             }
         }
 
-        private void AddExtension(object sender, RoutedEventArgs e) {
+        private void AddExtension(object sender, RoutedEventArgs e)
+        {
             ExtensionsAddAsync(sender);
         }
 
@@ -106,16 +125,20 @@ namespace Edge
             senderButton.IsEnabled = true;
         }
 
-        private void ToggleExtension(object sender, RoutedEventArgs e) {
-            if (sender is ToggleSwitch { DataContext: ExtensionInfo extensionInfo }) {
+        private void ToggleExtension(object sender, RoutedEventArgs e)
+        {
+            if (sender is ToggleSwitch { DataContext: ExtensionInfo extensionInfo })
+            {
                 ExtensionsToggleEnabledAsync(extensionInfo, this.XamlRoot);
             }
         }
 
-        public static async void ExtensionsToggleEnabledAsync(ExtensionInfo extensionInfo, XamlRoot xamlRoot) {
+        public static async void ExtensionsToggleEnabledAsync(ExtensionInfo extensionInfo, XamlRoot xamlRoot)
+        {
             IReadOnlyList<CoreWebView2BrowserExtension> extensions = await App.CoreWebView2.Profile.GetBrowserExtensionsAsync();
             bool found = false;
-            foreach (CoreWebView2BrowserExtension extension in extensions) {
+            foreach (CoreWebView2BrowserExtension extension in extensions)
+            {
                 if (extension.Id == extensionInfo.Id)
                 {
                     try
@@ -150,7 +173,8 @@ namespace Edge
             }
         }
 
-        private void RemoveExtension(object sender, RoutedEventArgs e) {
+        private void RemoveExtension(object sender, RoutedEventArgs e)
+        {
             if (sender is Button { DataContext: ExtensionInfo extensionInfo }) {
                 ExtensionsRemoveAsync(extensionInfo, this.XamlRoot);
             }
@@ -209,11 +233,35 @@ namespace Edge
             }
         }
 
-        private void OpenExtensionOption(object sender, RoutedEventArgs e) {
+        private void OpenExtensionOption(object sender, RoutedEventArgs e)
+        {
             if (sender is Button { DataContext: ExtensionInfo { OptionUri: not null } extensionInfo }) {
                 MainWindow mainWindow = App.GetWindowForElement(this);
-                mainWindow.AddNewTab(new  WebViewPage(new Uri(extensionInfo.OptionUri)));
+                mainWindow.AddNewTab(new WebViewPage(new Uri(extensionInfo.OptionUri)));
             }
+        }
+
+        void ToggleInjectExtensionsStore(object sender, RoutedEventArgs e)
+        {
+            if (App.settings.InjectExtensionsStore != setToggleInjectExtensionsStore.IsOn)
+            {
+                App.settings.InjectExtensionsStore = setToggleInjectExtensionsStore.IsOn;
+                microsoftEdgeExtensionsHome.IsClickEnabled = setToggleInjectExtensionsStore.IsOn;
+                if (setToggleInjectExtensionsStore.IsOn)
+                {
+                    microsoftEdgeExtensionsHomeHeader.ClearValue(TextBlock.ForegroundProperty);
+                }
+                else
+                {
+                    microsoftEdgeExtensionsHomeHeader.Foreground = TextFillColorDisabledBrush;
+                }
+            }
+        }
+
+        private void OpenMicrosoftEdgeExtensionsHome(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = App.GetWindowForElement(this);
+            mainWindow.AddNewTab(new WebViewPage(new Uri("https://microsoftedge.microsoft.com/addons/Microsoft-Edge-Extensions-Home")));
         }
     }
 }

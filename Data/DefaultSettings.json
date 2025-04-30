@@ -12,6 +12,7 @@
     "StartBehavior": 0,
     "DisableGpu": false,
     "DisableBackgroundTimerThrottling": false,
+    "InjectExtensionsStore": true,
     "ToolBar": {
         "HomeButton": false,
         "ForwardButton": true,

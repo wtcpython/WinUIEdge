@@ -29,6 +29,7 @@ namespace Edge
         public int StartBehavior { get; set; }
         public bool DisableGpu { get; set; }
         public bool DisableBackgroundTimerThrottling { get; set; }
+        public bool InjectExtensionsStore { get; set; }
         public Dictionary<string, bool> ToolBar { get; set; }
     }
 

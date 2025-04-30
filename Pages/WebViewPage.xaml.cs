@@ -5,7 +5,9 @@ using Microsoft.Web.WebView2.Core;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using Windows.Foundation;
 
 namespace Edge
@@ -18,7 +20,8 @@ namespace Edge
         private bool InFavoriteList = false;
         private bool NavigationCompleted  = false;
         private ulong NowNavigationId = 0;
-        private static FontIconSource DefaultIconSource = new () { Glyph = "\ue774" };
+        private static readonly FontIconSource DefaultIconSource = new () { Glyph = "\ue774" };
+        private static string InjectExtensionsStoreScript = null;
 
         private readonly ConcurrentDictionary<string, ImageIconSource> CachedIconSource = new ();
 
@@ -52,6 +55,7 @@ namespace Edge
                 webview2.Source = WebUri;
             }
             webview2.Visibility = Visibility.Visible;
+            InjectExtensionsStoreScript ??= await File.ReadAllTextAsync("./Data/InjectExtensionsStoreScript.js", Encoding.UTF8);
         }
 
         private void WebView2Initialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
@@ -60,6 +64,7 @@ namespace Edge
             sender.CoreWebView2.DocumentTitleChanged += CoreWebView2_DocumentTitleChanged;
             sender.CoreWebView2.NavigationStarting += CoreWebView2_NavigationStarting;
             sender.CoreWebView2.SourceChanged += CoreWebView2_SourceChanged;
+            sender.CoreWebView2.DOMContentLoaded += CoreWebView2_DOMContentLoaded;
             sender.CoreWebView2.NavigationCompleted += CoreWebView2_NavigationCompleted;
             sender.CoreWebView2.DownloadStarting += CoreWebView2_DownloadStarting;
             sender.CoreWebView2.FaviconChanged += CoreWebView2_FaviconChanged;
@@ -92,6 +97,14 @@ namespace Edge
                 InFavoriteList = false;
             }
             SetFavoriteIcon();
+        }
+
+        private void CoreWebView2_DOMContentLoaded(CoreWebView2 sender, CoreWebView2DOMContentLoadedEventArgs args)
+        {
+            if (App.settings.InjectExtensionsStore && InjectExtensionsStoreScript != null && (sender.Source.StartsWith("https://microsoftedge.microsoft.com/addons/detail/") || sender.Source.StartsWith("https://chromewebstore.google.com/detail/")))
+            {
+                sender.ExecuteScriptAsync(InjectExtensionsStoreScript);
+            }
         }
 
         private void CoreWebView2_NavigationCompleted(CoreWebView2 sender, CoreWebView2NavigationCompletedEventArgs args)

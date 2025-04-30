@@ -17,19 +17,20 @@ namespace Edge
         {
             if (App.settings.DisableGpu == setToggleEnableGpu.IsOn)
             {
-                Console.WriteLine("ToggleEnableGpu " + setToggleEnableGpu.IsOn);
                 App.settings.DisableGpu = !setToggleEnableGpu.IsOn;
                 restartInfoBar.IsOpen = true;
             }
         }
 
-        private async void OpenSettingsProxy(object sender, RoutedEventArgs e) {
+        private async void OpenSettingsProxy(object sender, RoutedEventArgs e)
+        {
             await Windows.System.Launcher.LaunchUriAsync(new Uri("ms-settings:network-proxy"));
         }
 
-        private void ToggleDisableBackgroundTimerThrottling(object sender, RoutedEventArgs e) {
-            if (App.settings.DisableBackgroundTimerThrottling != setToggleDisableBackgroundTimerThrottling.IsOn) {
-                Console.WriteLine("ToggleDisableBackgroundTimerThrottling " + setToggleDisableBackgroundTimerThrottling.IsOn);
+        private void ToggleDisableBackgroundTimerThrottling(object sender, RoutedEventArgs e)
+        {
+            if (App.settings.DisableBackgroundTimerThrottling != setToggleDisableBackgroundTimerThrottling.IsOn)
+            {
                 App.settings.DisableBackgroundTimerThrottling = setToggleDisableBackgroundTimerThrottling.IsOn;
                 restartInfoBar.IsOpen = true;
             }
