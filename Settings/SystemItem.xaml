@@ -44,9 +44,9 @@
                 </controls:SettingsCard>
             </StackPanel>
         </ScrollView>
-        <InfoBar x:Name="restartInfoBar" Grid.Row="1" Message="您所做的更改将在重新启动 WinUIEdge 后生效。" IsClosable="False" HorizontalAlignment="Center">
+        <InfoBar x:Name="restartInfoBar" Grid.Row="1" Message="您所做的更改将在关闭所有网页后生效。" IsClosable="False" HorizontalAlignment="Center">
             <InfoBar.ActionButton>
-                <Button Style="{StaticResource AccentButtonStyle}" Content="重启" />
+                <Button Style="{ThemeResource AccentButtonStyle}" Click="CloseAllWebviews" Content="关闭网页" />
             </InfoBar.ActionButton>
         </InfoBar>
     </Grid>

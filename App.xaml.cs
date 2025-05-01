@@ -26,6 +26,7 @@ namespace Edge
         public static ObservableCollection<WebViewHistory> Histories = [];
         public static ObservableCollection<DownloadObject> DownloadList = [];
         public static WordSearchEngine searchEngine;
+        public static bool NeedRestartEnvironment;
 
         public App()
         {
@@ -50,10 +51,21 @@ namespace Edge
                     AreBrowserExtensionsEnabled = true,
                     AdditionalBrowserArguments = string.Join(" ", additionalBrowserArguments)
                 });
+            CoreWebView2Environment.BrowserProcessExited += BrowserProcessExited;
             WebView2 = new WebView2();
             await WebView2.EnsureCoreWebView2Async(CoreWebView2Environment);
             CoreWebView2 =  WebView2.CoreWebView2;
             CoreWebView2Profile = CoreWebView2.Profile;
+        }
+
+        private void BrowserProcessExited(CoreWebView2Environment sender, CoreWebView2BrowserProcessExitedEventArgs args)
+        {
+            Console.WriteLine($"Browser process exited with exit code {args.BrowserProcessExitKind}");
+            if (NeedRestartEnvironment)
+            {
+                NeedRestartEnvironment = false;
+                EnsureWebView2Async();
+            }
         }
 
         public static MainWindow CreateNewWindow()
@@ -62,7 +74,15 @@ namespace Edge
             window.Closed += (sender, e) =>
             {
                 mainWindows.Remove(window);
-                File.WriteAllText("./settings.json", JsonSerializer.Serialize(settings, JsonContext.Default.Settings));
+                if (mainWindows.Count == 0)
+                {
+                    NeedRestartEnvironment = false;
+                    File.WriteAllText("./settings.json", JsonSerializer.Serialize(settings, JsonContext.Default.Settings));
+                }
+                else if (NeedRestartEnvironment && !AnyWebviewPageExists())
+                {
+                    WebView2.Close();
+                }
             };
             mainWindows.Add(window);
             return window;
@@ -152,5 +172,19 @@ namespace Edge
         }
 
         private static MainWindow window;
+
+        public static bool AnyWebviewPageExists() {
+            foreach (MainWindow mainWindow in App.mainWindows)
+            {
+                foreach (object tabItem in mainWindow.TabView.TabItems)
+                {
+                    if (tabItem is TabViewItem { Content: WebViewPage webViewPage } tabViewItem)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 }

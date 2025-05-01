@@ -242,6 +242,10 @@ namespace Edge
             {
                 Close();
             }
+            else if (App.NeedRestartEnvironment && !App.AnyWebviewPageExists())
+            {
+                App.WebView2.Close();
+            }
         }
 
         private void CloseOtherTab(object sender, RoutedEventArgs e)
