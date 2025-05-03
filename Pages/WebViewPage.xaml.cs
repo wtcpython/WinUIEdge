@@ -46,35 +46,31 @@ namespace Edge
 
         private async void InitializeWebView2Async(WebView2 webview2, Uri WebUri)
         {
+            InjectExtensionsStoreScript ??= await File.ReadAllTextAsync("./Data/InjectExtensionsStoreScript.js", Encoding.UTF8);
             if (webview2.CoreWebView2 == null)
             {
                 await webview2.EnsureCoreWebView2Async(App.CoreWebView2Environment);
+                CoreWebView2 coreWebView2 = webview2.CoreWebView2;
+                coreWebView2!.ContextMenuRequested += (s, args) => CoreWebView2_ContextMenuRequested(webview2, s, args);
+                coreWebView2.DocumentTitleChanged += CoreWebView2_DocumentTitleChanged;
+                coreWebView2.NavigationStarting += CoreWebView2_NavigationStarting;
+                coreWebView2.SourceChanged += CoreWebView2_SourceChanged;
+                coreWebView2.DOMContentLoaded += CoreWebView2_DOMContentLoaded;
+                coreWebView2.NavigationCompleted += CoreWebView2_NavigationCompleted;
+                coreWebView2.DownloadStarting += CoreWebView2_DownloadStarting;
+                coreWebView2.FaviconChanged += CoreWebView2_FaviconChanged;
+                coreWebView2.NewWindowRequested += CoreWebView2_NewWindowRequested;
+                coreWebView2.ScriptDialogOpening += CoreWebView2_ScriptDialogOpening;
+                coreWebView2.StatusBarTextChanged += (s, e) => uriPreview.Text = s.StatusBarText;
+                coreWebView2.WindowCloseRequested += CoreWebView2_WindowCloseRequested;
+                coreWebView2.Settings.IsStatusBarEnabled = false;
+                coreWebView2.Settings.AreDefaultScriptDialogsEnabled = false;
             }
-            InjectExtensionsStoreScript ??= await File.ReadAllTextAsync("./Data/InjectExtensionsStoreScript.js", Encoding.UTF8);
             if (WebUri != null && WebUri != webview2.Source)
             {
                 webview2.Source = WebUri;
             }
             webview2.Visibility = Visibility.Visible;
-        }
-
-        private void WebView2Initialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
-        {
-            sender.CoreWebView2.ContextMenuRequested += (s, args) => CoreWebView2_ContextMenuRequested(sender, s, args);
-            sender.CoreWebView2.DocumentTitleChanged += CoreWebView2_DocumentTitleChanged;
-            sender.CoreWebView2.NavigationStarting += CoreWebView2_NavigationStarting;
-            sender.CoreWebView2.SourceChanged += CoreWebView2_SourceChanged;
-            sender.CoreWebView2.DOMContentLoaded += CoreWebView2_DOMContentLoaded;
-            sender.CoreWebView2.NavigationCompleted += CoreWebView2_NavigationCompleted;
-            sender.CoreWebView2.DownloadStarting += CoreWebView2_DownloadStarting;
-            sender.CoreWebView2.FaviconChanged += CoreWebView2_FaviconChanged;
-            sender.CoreWebView2.NewWindowRequested += CoreWebView2_NewWindowRequested;
-            sender.CoreWebView2.ScriptDialogOpening += CoreWebView2_ScriptDialogOpening;
-            sender.CoreWebView2.StatusBarTextChanged += (s, e) => uriPreview.Text = s.StatusBarText;
-            sender.CoreWebView2.WindowCloseRequested += CoreWebView2_WindowCloseRequested;
-
-            sender.CoreWebView2.Settings.IsStatusBarEnabled = false;
-            sender.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = false;
         }
 
         private void CoreWebView2_NavigationStarting(CoreWebView2 sender, CoreWebView2NavigationStartingEventArgs args)

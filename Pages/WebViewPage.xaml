@@ -72,11 +72,10 @@
                 <ColumnDefinition x:Name="rightColumn" Width="0" />
             </Grid.ColumnDefinitions>
 
-            <WebView2 x:Name="WebViewEngine" CoreWebView2Initialized="WebView2Initialized" />
+            <WebView2 x:Name="WebViewEngine" />
             <WebView2
                 x:Name="RightWebView"
                 Visibility="Collapsed"
-                CoreWebView2Initialized="WebView2Initialized"
                 Grid.Column="1" />
             <controls:GridSplitter
                 Grid.Column="1"
