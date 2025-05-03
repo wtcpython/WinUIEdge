@@ -53,7 +53,7 @@ namespace Edge
 
         public static async void InitializeExtensionsCollection()
         {
-            IReadOnlyList<CoreWebView2BrowserExtension> extensions = await App.CoreWebView2.Profile.GetBrowserExtensionsAsync();
+            IReadOnlyList<CoreWebView2BrowserExtension> extensions = await App.CoreWebView2Profile.GetBrowserExtensionsAsync();
             foreach (var extension in extensions)
             {
                 if (Extensions.All(x => x.Id != extension.Id))
@@ -135,7 +135,7 @@ namespace Edge
 
         public static async void ExtensionsToggleEnabledAsync(ExtensionInfo extensionInfo, XamlRoot xamlRoot)
         {
-            IReadOnlyList<CoreWebView2BrowserExtension> extensions = await App.CoreWebView2.Profile.GetBrowserExtensionsAsync();
+            IReadOnlyList<CoreWebView2BrowserExtension> extensions = await App.CoreWebView2Profile.GetBrowserExtensionsAsync();
             bool found = false;
             foreach (CoreWebView2BrowserExtension extension in extensions)
             {

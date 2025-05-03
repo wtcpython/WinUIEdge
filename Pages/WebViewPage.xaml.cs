@@ -44,18 +44,18 @@ namespace Edge
             homeButton.Visibility = App.settings.ToolBar!["HomeButton"] ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private async void InitializeWebView2Async(WebView2 webview2,Uri WebUri)
+        private async void InitializeWebView2Async(WebView2 webview2, Uri WebUri)
         {
             if (webview2.CoreWebView2 == null)
             {
                 await webview2.EnsureCoreWebView2Async(App.CoreWebView2Environment);
             }
-            if (WebUri != null)
+            InjectExtensionsStoreScript ??= await File.ReadAllTextAsync("./Data/InjectExtensionsStoreScript.js", Encoding.UTF8);
+            if (WebUri != null && WebUri != webview2.Source)
             {
                 webview2.Source = WebUri;
             }
             webview2.Visibility = Visibility.Visible;
-            InjectExtensionsStoreScript ??= await File.ReadAllTextAsync("./Data/InjectExtensionsStoreScript.js", Encoding.UTF8);
         }
 
         private void WebView2Initialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
@@ -101,7 +101,7 @@ namespace Edge
 
         private void CoreWebView2_DOMContentLoaded(CoreWebView2 sender, CoreWebView2DOMContentLoadedEventArgs args)
         {
-            if (App.settings.InjectExtensionsStore && InjectExtensionsStoreScript != null && (sender.Source.StartsWith("https://microsoftedge.microsoft.com/addons/detail/") || sender.Source.StartsWith("https://chromewebstore.google.com/detail/")))
+            if (App.settings.InjectExtensionsStore && InjectExtensionsStoreScript != null && sender.Source.StartsWith("https://microsoftedge.microsoft.com/addons/"))
             {
                 sender.ExecuteScriptAsync(InjectExtensionsStoreScript);
             }
