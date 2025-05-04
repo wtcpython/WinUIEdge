@@ -82,7 +82,7 @@ namespace Edge
                 return;
             }
             senderButton.IsEnabled = false;
-            FolderPicker openPicker = new Windows.Storage.Pickers.FolderPicker();
+            FolderPicker openPicker = new();
             MainWindow window = App.GetWindowForElement(senderButton);
             IntPtr hWnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
             WinRT.Interop.InitializeWithWindow.Initialize(openPicker, hWnd);
@@ -101,7 +101,7 @@ namespace Edge
                         IsEnabled = extension.IsEnabled,
                         OptionUri = optionUriSuffix == null ? null : $"chrome-extension://{extension.Id}{optionUriSuffix}"
                     });
-                    new ContentDialog()
+                    await new ContentDialog()
                     {
                         Content = $"{extension.Name} 已添加到 WinUIEdge",
                         XamlRoot = senderButton.XamlRoot,
@@ -112,7 +112,7 @@ namespace Edge
                 }
                 catch (Exception exception)
                 {
-                    new ContentDialog()
+                    await new ContentDialog()
                     {
                         Content = $"加载扩展失败：{exception}",
                         XamlRoot = senderButton.XamlRoot,
@@ -146,7 +146,7 @@ namespace Edge
                         await extension.EnableAsync(extension.IsEnabled ? false : true);
                     }
                     catch (Exception exception) {
-                        new ContentDialog() {
+                        await new ContentDialog() {
                             Content = $"开关扩展失败，原因: {exception}",
                             XamlRoot = xamlRoot,
                             CloseButtonText = "好的",
@@ -162,7 +162,7 @@ namespace Edge
             if (!found)
             {
                 Extensions.Remove(extensionInfo);
-                new ContentDialog()
+                await new ContentDialog()
                 {
                     Content = "开关失败，原因：未找到该扩展",
                     XamlRoot = xamlRoot,
@@ -205,7 +205,7 @@ namespace Edge
                         }
                         catch (Exception exception)
                         {
-                            new ContentDialog()
+                            await new ContentDialog()
                             {
                                 Content = $"移除失败，原因：{exception}",
                                 XamlRoot = xamlRoot,
@@ -221,7 +221,7 @@ namespace Edge
                 if (!found)
                 {
                     Extensions.Remove(extensionInfo);
-                    new ContentDialog()
+                    await new ContentDialog()
                     {
                         Content = "移除失败，原因：未找到该扩展",
                         XamlRoot = xamlRoot,

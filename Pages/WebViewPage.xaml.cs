@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Windows.Foundation;
 
 namespace Edge
@@ -44,14 +45,14 @@ namespace Edge
             homeButton.Visibility = App.settings.ToolBar!["HomeButton"] ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private async void InitializeWebView2Async(WebView2 webview2, Uri WebUri)
+        private async void InitializeWebView2Async(WebView2 WebView, Uri WebUri)
         {
             InjectExtensionsStoreScript ??= await File.ReadAllTextAsync("./Data/InjectExtensionsStoreScript.js", Encoding.UTF8);
-            if (webview2.CoreWebView2 == null)
+            if (WebView.CoreWebView2 == null)
             {
-                await webview2.EnsureCoreWebView2Async(App.CoreWebView2Environment);
-                CoreWebView2 coreWebView2 = webview2.CoreWebView2;
-                coreWebView2!.ContextMenuRequested += (s, args) => CoreWebView2_ContextMenuRequested(webview2, s, args);
+                await WebView.EnsureCoreWebView2Async(App.CoreWebView2Environment);
+                CoreWebView2 coreWebView2 = WebView.CoreWebView2;
+                coreWebView2!.ContextMenuRequested += (s, args) => CoreWebView2_ContextMenuRequested(WebView, s, args);
                 coreWebView2.DocumentTitleChanged += CoreWebView2_DocumentTitleChanged;
                 coreWebView2.NavigationStarting += CoreWebView2_NavigationStarting;
                 coreWebView2.SourceChanged += CoreWebView2_SourceChanged;
@@ -66,11 +67,11 @@ namespace Edge
                 coreWebView2.Settings.IsStatusBarEnabled = false;
                 coreWebView2.Settings.AreDefaultScriptDialogsEnabled = false;
             }
-            if (WebUri != null && WebUri != webview2.Source)
+            if (WebUri != null && WebUri != WebView.Source)
             {
-                webview2.Source = WebUri;
+                WebView.Source = WebUri;
             }
-            webview2.Visibility = Visibility.Visible;
+            WebView.Visibility = Visibility.Visible;
         }
 
         private void CoreWebView2_NavigationStarting(CoreWebView2 sender, CoreWebView2NavigationStartingEventArgs args)
@@ -95,11 +96,11 @@ namespace Edge
             SetFavoriteIcon();
         }
 
-        private void CoreWebView2_DOMContentLoaded(CoreWebView2 sender, CoreWebView2DOMContentLoadedEventArgs args)
+        private async void CoreWebView2_DOMContentLoaded(CoreWebView2 sender, CoreWebView2DOMContentLoadedEventArgs args)
         {
             if (App.settings.InjectExtensionsStore && InjectExtensionsStoreScript != null && sender.Source.StartsWith("https://microsoftedge.microsoft.com/addons/"))
             {
-                sender.ExecuteScriptAsync(InjectExtensionsStoreScript);
+               await sender.ExecuteScriptAsync(InjectExtensionsStoreScript);
             }
         }
 

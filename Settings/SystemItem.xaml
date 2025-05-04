@@ -44,9 +44,14 @@
                 </controls:SettingsCard>
             </StackPanel>
         </ScrollView>
-        <InfoBar x:Name="restartInfoBar" Grid.Row="1" Message="您所做的更改将在关闭所有网页后生效。" IsClosable="False" HorizontalAlignment="Center">
+        <InfoBar x:Name="restartInfoBar" Grid.Row="1" Message="若要使此设置更改生效，请重启浏览器" IsClosable="False" HorizontalAlignment="Center">
             <InfoBar.ActionButton>
-                <Button Style="{ThemeResource AccentButtonStyle}" Click="CloseAllWebviews" Content="关闭网页" />
+                <Button Style="{StaticResource AccentButtonStyle}" Click="CloseAllWebviews">
+                    <StackPanel Orientation="Horizontal" Spacing="5">
+                        <FontIcon Glyph="&#xe777;"/>
+                        <TextBlock Text="重启"/>
+                    </StackPanel>
+                </Button>
             </InfoBar.ActionButton>
         </InfoBar>
     </Grid>

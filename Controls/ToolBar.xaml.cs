@@ -61,7 +61,7 @@ namespace Edge
             string received = Converters.ToFileSizeString(sender.BytesReceived);
             string total = Converters.ToFileSizeString(sender.TotalBytesToReceive);
             string speed = receivedDelta + "/s";
-            string information = $"{speed} - {received}/{total}£¨ £”‡ ±º‰£∫{DateTime.Parse(sender.EstimatedEndTime) - DateTime.Now:hh\\:mm\\:ss}";
+            string information = $"{speed} - {received}/{total}ÔºåÂâ©‰ΩôÊó∂Èó¥Ôºö{DateTime.Parse(sender.EstimatedEndTime) - DateTime.Now:hh\\:mm\\:ss}";
             BytesReceived = sender.BytesReceived;
             DateTime = DateTime.Now;
             Information = information;
@@ -128,13 +128,13 @@ namespace Edge
         {
             switch (name)
             {
-                case "œ¬‘ÿ":
+                case "‰∏ãËΩΩ":
                     DownloadButton.ShowFlyout();
                     break;
-                case "¿˙ ∑º«¬º":
+                case "ÂéÜÂè≤ËÆ∞ÂΩï":
                     HistoryButton.ShowFlyout();
                     break;
-                case " ’≤ÿº–":
+                case "Êî∂ËóèÂ§π":
                     FavoriteButton.ShowFlyout();
                     break;
             }
@@ -160,7 +160,7 @@ namespace Edge
             else {
                 SettingsPage settingsPage = new ();
                 settingsPage.Navigate("ExtensionsItem");
-                mainWindow.AddNewTab(settingsPage, "…Ë÷√", new FontIconSource() { Glyph = "\ue713" });
+                mainWindow.AddNewTab(settingsPage, "ËÆæÁΩÆ", new FontIconSource() { Glyph = "\ue713" });
             }
         }
 

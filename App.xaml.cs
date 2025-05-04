@@ -35,26 +35,29 @@ namespace Edge
             searchEngine = new("./Assets/words.txt");
         }
 
-        public async void EnsureWebView2Async() {
+        public async void EnsureWebView2Async()
+        {
             List<string> additionalBrowserArguments = [];
             if (settings.DisableGpu)
             {
                 additionalBrowserArguments.Add("--disable-gpu");
             }
-            if (settings.DisableBackgroundTimerThrottling) {
+            if (settings.DisableBackgroundTimerThrottling)
+            {
                 additionalBrowserArguments.Add("--disable-background-timer-throttling");
             }
             CoreWebView2Environment = await CoreWebView2Environment.CreateWithOptionsAsync(
                 null,
                 null,
-                new CoreWebView2EnvironmentOptions() {
+                new CoreWebView2EnvironmentOptions()
+                {
                     AreBrowserExtensionsEnabled = true,
                     AdditionalBrowserArguments = string.Join(" ", additionalBrowserArguments)
                 });
             CoreWebView2Environment.BrowserProcessExited += BrowserProcessExited;
             WebView2 = new WebView2();
             await WebView2.EnsureCoreWebView2Async(CoreWebView2Environment);
-            CoreWebView2 =  WebView2.CoreWebView2;
+            CoreWebView2 = WebView2.CoreWebView2;
             CoreWebView2Profile = CoreWebView2.Profile;
         }
 
@@ -173,7 +176,8 @@ namespace Edge
 
         private static MainWindow window;
 
-        public static bool AnyWebviewPageExists() {
+        public static bool AnyWebviewPageExists()
+        {
             foreach (MainWindow mainWindow in App.mainWindows)
             {
                 foreach (object tabItem in mainWindow.TabView.TabItems)

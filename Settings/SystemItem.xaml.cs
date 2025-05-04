@@ -44,7 +44,7 @@ namespace Edge
         {
             if (App.NeedRestartEnvironment)
             {
-                List<TabViewItem> toRemove = [];
+                List<TabViewItem> tabs = [];
                 foreach (MainWindow window in App.mainWindows)
                 {
                     foreach (object tabItem in window.TabView.TabItems)
@@ -52,10 +52,10 @@ namespace Edge
                         if (tabItem is TabViewItem { Content: WebViewPage webViewPage } tabViewItem)
                         {
                             webViewPage.Close();
-                            toRemove.Add(tabViewItem);
+                            tabs.Add(tabViewItem);
                         }
                     }
-                    foreach (TabViewItem tabViewItem in toRemove)
+                    foreach (TabViewItem tabViewItem in tabs)
                     {
                         window.TabView.TabItems.Remove(tabViewItem);
                     }
