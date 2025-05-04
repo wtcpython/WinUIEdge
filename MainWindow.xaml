@@ -145,6 +145,7 @@
                 <MenuFlyoutSeparator />
 
                 <MenuFlyoutItem
+                    Click="CreateNewTabOnRight"
                     Text="新建标签页">
                     <MenuFlyoutItem.KeyboardAccelerators>
                         <KeyboardAccelerator Key="T" Modifiers="Control" />

@@ -37,7 +37,7 @@ namespace Edge
 
         private async void InitialData()
         {
-            IReadOnlyList<CoreWebView2ProcessExtendedInfo> eInfos = await App.WebView2.CoreWebView2.Environment.GetProcessExtendedInfosAsync();
+            IReadOnlyList<CoreWebView2ProcessExtendedInfo> eInfos = await App.CoreWebView2Environment.GetProcessExtendedInfosAsync();
             foreach (CoreWebView2ProcessExtendedInfo item in eInfos)
             {
                 ProcessInfo info = new()

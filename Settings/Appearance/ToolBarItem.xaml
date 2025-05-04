@@ -27,7 +27,7 @@
                     <DataTemplate x:DataType="local:ToolBarVisual">
                         <controls:SettingsCard
                             Header="{x:Bind Description}">
-                            <ToggleSwitch IsOn="{x:Bind Visual}"
+                            <ToggleSwitch IsOn="{x:Bind Visual, Mode=OneWay}"
                                     Toggled="VisualChanged"/>
                         </controls:SettingsCard>
                     </DataTemplate>

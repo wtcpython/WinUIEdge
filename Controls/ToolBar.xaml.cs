@@ -16,6 +16,7 @@ namespace Edge
         public string Source { get; set; }
         public Uri FaviconUri { get; set; }
         public string Time { get; set; }
+        public ulong NavigationId { get; set; }
     }
 
     public partial class DownloadObject : INotifyPropertyChanged
@@ -60,7 +61,7 @@ namespace Edge
             string received = Converters.ToFileSizeString(sender.BytesReceived);
             string total = Converters.ToFileSizeString(sender.TotalBytesToReceive);
             string speed = receivedDelta + "/s";
-            string information = $"{speed} - {received}/{total}£¬Ê£ÓàÊ±¼ä£º{DateTime.Parse(sender.EstimatedEndTime) - DateTime.Now:hh\\:mm\\:ss}";
+            string information = $"{speed} - {received}/{total}ï¼Œå‰©ä½™æ—¶é—´ï¼š{DateTime.Parse(sender.EstimatedEndTime) - DateTime.Now:hh\\:mm\\:ss}";
             BytesReceived = sender.BytesReceived;
             DateTime = DateTime.Now;
             Information = information;
@@ -72,12 +73,29 @@ namespace Edge
         public ToolBar()
         {
             this.InitializeComponent();
+            ExtensionsItem.InitializeExtensionsCollection();
+            extensionsList.ItemsSource = ExtensionsItem.Extensions;
             historyList.ItemsSource = App.Histories;
             downloadList.ItemsSource = App.DownloadList;
             FavoriteList.SetItemsPanel(FavoriteList.VerticalTemplate);
 
+            ExtensionsButton.Visibility = App.settings.ToolBar!["ExtensionsButton"] ? Visibility.Visible : Visibility.Collapsed;
+            ToolBarSeparator.Visibility = ExtensionsButton.Visibility;
             HistoryButton.Visibility = App.settings.ToolBar!["HistoryButton"] ? Visibility.Visible : Visibility.Collapsed;
             DownloadButton.Visibility = App.settings.ToolBar!["DownloadButton"] ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void SearchExtension(object sender, RoutedEventArgs e)
+        {
+            string text = (sender as TextBox)?.Text ?? String.Empty;
+            if (text.Length == 0)
+            {
+                extensionsList.ItemsSource = ExtensionsItem.Extensions;
+            }
+            else
+            {
+                extensionsList.ItemsSource = ExtensionsItem.Extensions.Where(x => x.Name.Contains(text, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
         }
 
         private void SearchHistory(object sender, TextChangedEventArgs e)
@@ -110,13 +128,13 @@ namespace Edge
         {
             switch (name)
             {
-                case "ÏÂÔØ":
+                case "ä¸‹è½½":
                     DownloadButton.ShowFlyout();
                     break;
-                case "ÀúÊ·¼ÇÂ¼":
+                case "åŽ†å²è®°å½•":
                     HistoryButton.ShowFlyout();
                     break;
-                case "ÊÕ²Ø¼Ð":
+                case "æ”¶è—å¤¹":
                     FavoriteButton.ShowFlyout();
                     break;
             }
@@ -126,6 +144,37 @@ namespace Edge
         {
             WebViewPage page = App.GetWindowForElement(this).SelectedItem as WebViewPage;
             page.CreateSplitWindow();
+        }
+
+        private void OpenExtensionsPage(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = App.GetWindowForElement(this);
+            TabView tabView = mainWindow.Content as TabView;
+
+            TabViewItem item = tabView?.TabItems.FirstOrDefault(x => ((TabViewItem)x).Content is SettingsPage settingsPage) as TabViewItem;
+            if (item != null)
+            {
+                tabView.SelectedItem = item;
+                (item.Content as SettingsPage)?.Navigate("ExtensionsItem");
+            }
+            else {
+                SettingsPage settingsPage = new ();
+                settingsPage.Navigate("ExtensionsItem");
+                mainWindow.AddNewTab(settingsPage, "è®¾ç½®", new FontIconSource() { Glyph = "\ue713" });
+            }
+        }
+
+        void ToggleExtension(object sender, RoutedEventArgs e) {
+            if (sender is ToggleSwitch { DataContext: ExtensionInfo extensionInfo }) {
+                ExtensionsItem.ExtensionsToggleEnabledAsync(extensionInfo, this.XamlRoot);
+            }
+        }
+
+        void OpenExtensionOption(object sender, RoutedEventArgs e) {
+            if (sender is Button { DataContext: ExtensionInfo extensionInfo }) {
+                MainWindow mainWindow = App.GetWindowForElement(this);
+                mainWindow.AddNewTab(new  WebViewPage(new Uri(extensionInfo.OptionUri)));
+            }
         }
     }
 }

@@ -8,7 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Text;
 using System.Text.Json;
+using Microsoft.Web.WebView2.Core;
 
 
 namespace Edge
@@ -17,21 +19,56 @@ namespace Edge
     {
         public static List<MainWindow> mainWindows = [];
         public static Settings settings;
-        public static WebView2 WebView2 = new();
+        public static WebView2 WebView2;
+        public static CoreWebView2 CoreWebView2;
+        public static CoreWebView2Environment CoreWebView2Environment;
+        public static CoreWebView2Profile CoreWebView2Profile;
         public static ObservableCollection<WebViewHistory> Histories = [];
         public static ObservableCollection<DownloadObject> DownloadList = [];
         public static WordSearchEngine searchEngine;
+        public static bool NeedRestartEnvironment;
 
         public App()
         {
+            Console.OutputEncoding = Encoding.UTF8;
             this.InitializeComponent();
             searchEngine = new("./Assets/words.txt");
-            EnsureWebView2Async();
         }
 
         public async void EnsureWebView2Async()
         {
-            await WebView2.EnsureCoreWebView2Async();
+            List<string> additionalBrowserArguments = [];
+            if (settings.DisableGpu)
+            {
+                additionalBrowserArguments.Add("--disable-gpu");
+            }
+            if (settings.DisableBackgroundTimerThrottling)
+            {
+                additionalBrowserArguments.Add("--disable-background-timer-throttling");
+            }
+            CoreWebView2Environment = await CoreWebView2Environment.CreateWithOptionsAsync(
+                null,
+                null,
+                new CoreWebView2EnvironmentOptions()
+                {
+                    AreBrowserExtensionsEnabled = true,
+                    AdditionalBrowserArguments = string.Join(" ", additionalBrowserArguments)
+                });
+            CoreWebView2Environment.BrowserProcessExited += BrowserProcessExited;
+            WebView2 = new WebView2();
+            await WebView2.EnsureCoreWebView2Async(CoreWebView2Environment);
+            CoreWebView2 = WebView2.CoreWebView2;
+            CoreWebView2Profile = CoreWebView2.Profile;
+        }
+
+        private void BrowserProcessExited(CoreWebView2Environment sender, CoreWebView2BrowserProcessExitedEventArgs args)
+        {
+            Console.WriteLine($"Browser process exited with exit code {args.BrowserProcessExitKind}");
+            if (NeedRestartEnvironment)
+            {
+                NeedRestartEnvironment = false;
+                EnsureWebView2Async();
+            }
         }
 
         public static MainWindow CreateNewWindow()
@@ -40,7 +77,15 @@ namespace Edge
             window.Closed += (sender, e) =>
             {
                 mainWindows.Remove(window);
-                File.WriteAllText("./settings.json", JsonSerializer.Serialize(settings, JsonContext.Default.Settings));
+                if (mainWindows.Count == 0)
+                {
+                    NeedRestartEnvironment = false;
+                    File.WriteAllText("./settings.json", JsonSerializer.Serialize(settings, JsonContext.Default.Settings));
+                }
+                else if (NeedRestartEnvironment && !AnyWebviewPageExists())
+                {
+                    WebView2.Close();
+                }
             };
             mainWindows.Add(window);
             return window;
@@ -70,6 +115,8 @@ namespace Edge
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
             settings = Info.LoadSettings();
+
+            EnsureWebView2Async();
 
             window = CreateNewWindow();
 
@@ -128,5 +175,20 @@ namespace Edge
         }
 
         private static MainWindow window;
+
+        public static bool AnyWebviewPageExists()
+        {
+            foreach (MainWindow mainWindow in App.mainWindows)
+            {
+                foreach (object tabItem in mainWindow.TabView.TabItems)
+                {
+                    if (tabItem is TabViewItem { Content: WebViewPage webViewPage } tabViewItem)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 }

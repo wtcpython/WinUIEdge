@@ -3,6 +3,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
+    <WindowsSdkPackageVersion>10.0.26100.57</WindowsSdkPackageVersion>
     <RootNamespace>Edge</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Platforms>x64</Platforms>
@@ -12,18 +13,18 @@
     <EnableMsixTooling>true</EnableMsixTooling>
     <WindowsPackageType>None</WindowsPackageType>
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
-	  <PublishTrimmed>true</PublishTrimmed>
+    <PublishTrimmed>true</PublishTrimmed>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Include="Assets\icon.ico" />
-    <Content Include="Data\*.json" />
+    <Content Include="Data\**" />
   </ItemGroup>
   <ItemGroup>
       <None Update="Assets\**">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Update="Data\*.json">
+      <None Update="Data\**">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
   </ItemGroup>
@@ -70,7 +71,7 @@
     <ApplicationIcon>Assets\icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <DebugType>none</DebugType>
+    <DebugType>full</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DebugType>none</DebugType>

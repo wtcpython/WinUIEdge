@@ -32,7 +32,7 @@ namespace Edge
 
             object item = tabView.TabItems.FirstOrDefault(x => ((TabViewItem)x).Content is SettingsPage);
             if (item != null) tabView.SelectedItem = item;
-            else mainWindow.AddNewTab(new SettingsPage(), "设置");
+            else mainWindow.AddNewTab(new SettingsPage(), "设置", new FontIconSource() { Glyph = "\ue713" });
         }
 
         private void ShowFlyout(object sender, RoutedEventArgs e)

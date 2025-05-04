@@ -1,6 +1,7 @@
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Edge
 {
@@ -29,6 +30,19 @@ namespace Edge
                 Header = ((NavigationViewItem)navigation.SelectedItem)?.Content?.ToString(),
                 Type = Type.GetType("Edge." + tag)
             });
+        }
+
+        public void Navigate(string tag)
+        {
+            NavigationViewItem menuItem = navigation.MenuItems.First(x => (string)(x as NavigationViewItem)?.Tag == tag) as  NavigationViewItem;
+            if (menuItem != null) {
+                navigation.SelectedItem = menuItem;
+                UpdateBreadcrumb(new()
+                {
+                    Header = menuItem.Content?.ToString(),
+                    Type = Type.GetType("Edge." + tag)
+                });
+            }
         }
 
         private void UpdateBreadcrumb(NavigationItem item)

@@ -8,6 +8,8 @@ using Windows.Foundation;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;
+using Microsoft.UI;
+using Microsoft.UI.Xaml.Media;
 
 
 namespace Edge
@@ -62,22 +64,33 @@ namespace Edge
             }
             else
             {
-                AddNewTab(new HomePage());
+                AddNewTab(new HomePage(), "主页", new FontIconSource() { Glyph = "\ue80f" });
             }
         }
 
-        public void AddNewTab(object content, string header = "主页", int index = -1)
+        public void AddNewTab(object content, string header = "正在加载…", IconSource icon = null, int index = -1)
         {
             TabViewItem newTab = new()
             {
-                IconSource = new FontIconSource() { Glyph = "\ue80f" },
-                Header = header,
                 Content = content
             };
             if (content is WebViewPage web)
             {
+                StackPanel stackPanel = new () { Orientation = Orientation.Horizontal };
+                ProgressRing progressRing = new() { Width = 16, Height = 16, Margin = new Thickness(0,0,16,0) };
+                TextBlock textBlock = new() { Text = header };
+                stackPanel.Children.Add(progressRing);
+                stackPanel.Children.Add(textBlock);
+                newTab.Header = stackPanel;
                 newTab.ContextFlyout = TabFlyout;
                 web.tabViewItem = newTab;
+                web.HeaderProgressRing = progressRing;
+                web.HeaderTextBlock = textBlock;
+            }
+            else
+            {
+                newTab.IconSource = icon ?? new FontIconSource() { Glyph = "\ue774" };
+                newTab.Header = header;
             }
 
             int insertIndex = index >= 0 ? index : tabView.TabItems.Count;
@@ -228,6 +241,10 @@ namespace Edge
             if (tabView.TabItems.Count <= 0)
             {
                 Close();
+            }
+            else if (App.NeedRestartEnvironment && !App.AnyWebviewPageExists())
+            {
+                App.WebView2.Close();
             }
         }
 

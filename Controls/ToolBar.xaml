@@ -6,16 +6,61 @@
     xmlns:local="using:Edge"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <converters:StringVisibilityConverter x:Key="StringVisibilityConverter" />
+    </UserControl.Resources>
+
     <StackPanel Orientation="Horizontal">
-        <Button
+
+        <local:ToolButton
+            x:Name="ExtensionsButton"
+            Title="扩展" PlaceholderText="搜索扩展"
+            IconGlyph="&#xea86;"
+            TextChanged="SearchExtension">
+            <StackPanel Orientation="Vertical" Spacing="4">
+                <ListView x:Name="extensionsList" SelectionMode="Single">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="local:ExtensionInfo">
+                            <Grid ColumnSpacing="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Grid.Column="0" VerticalAlignment="Center"
+                                    Text="{x:Bind Name}" TextTrimming="CharacterEllipsis"/>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                    <HyperlinkButton Click="OpenExtensionOption" Visibility="{x:Bind OptionUri, Mode=OneWay, Converter={StaticResource StringVisibilityConverter}}" DataContext="{x:Bind}">
+                                        <FontIcon Glyph="&#xe713;"/>
+                                    </HyperlinkButton>
+                                    <Grid Width="40">
+                                        <ToggleSwitch Toggled="ToggleExtension" IsOn="{x:Bind IsEnabled, Mode=OneWay}" DataContext="{x:Bind}" OffContent="" OnContent=""/>
+                                    </Grid>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <MenuFlyoutSeparator/>
+                <HyperlinkButton HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Click="OpenExtensionsPage">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <FontIcon Glyph="&#xea86;"/>
+                        <TextBlock>管理扩展</TextBlock>
+                    </StackPanel>
+                </HyperlinkButton>
+            </StackPanel>
+        </local:ToolButton>
+
+        <AppBarSeparator x:Name="ToolBarSeparator"/>
+
+        <local:IconButton
             x:Name="SplitButton"
-            ToolTipService.ToolTip="分屏"
-            Style="{StaticResource AlternateCloseButtonStyle}"
-            Click="SplitWindow">
-            <FontIcon Glyph="&#xe106;" />
-        </Button>
+            TipText="分屏"
+            IconGlyph="&#xe736;"
+            ButtonClicked="SplitWindow" /><!--ReadingMode Icon-->
 
         <local:ToolButton
             x:Name="FavoriteButton"

@@ -3,8 +3,12 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Windows.Foundation;
 
 namespace Edge
@@ -12,13 +16,21 @@ namespace Edge
     public sealed partial class WebViewPage : Page
     {
         public TabViewItem tabViewItem { get; set; }
+        public ProgressRing HeaderProgressRing { get; set; }
+        public TextBlock HeaderTextBlock { get; set; }
         private bool InFavoriteList = false;
+        private bool NavigationCompleted  = false;
+        private ulong NowNavigationId = 0;
+        private static readonly FontIconSource DefaultIconSource = new () { Glyph = "\ue774" };
+        private static string InjectExtensionsStoreScript = null;
+
+        private readonly ConcurrentDictionary<string, ImageIconSource> CachedIconSource = new ();
 
         public WebViewPage(Uri WebUri)
         {
             InitializeComponent();
             InitializeToolbarVisibility();
-            WebViewEngine.Source = WebUri;
+            Loaded += (sender, args) => InitializeWebView2Async(WebViewEngine, WebUri);
 
             favoriteList.Visibility = App.settings.MenuStatus == "Always" ? Visibility.Visible : Visibility.Collapsed;
         }
@@ -33,33 +45,46 @@ namespace Edge
             homeButton.Visibility = App.settings.ToolBar!["HomeButton"] ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private void WebView2Initialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
+        private async void InitializeWebView2Async(WebView2 WebView, Uri WebUri)
         {
-            sender.CoreWebView2.ContextMenuRequested += (s, args) => CoreWebView2_ContextMenuRequested(sender, s, args);
-            sender.CoreWebView2.DocumentTitleChanged += CoreWebView2_DocumentTitleChanged;
-            sender.CoreWebView2.DOMContentLoaded += CoreWebView2_DOMContentLoaded;
-            sender.CoreWebView2.DownloadStarting += CoreWebView2_DownloadStarting;
-            sender.CoreWebView2.FaviconChanged += CoreWebView2_FaviconChanged;
-            sender.CoreWebView2.NavigationStarting += (s, e) => Search.Text = e.Uri;
-            sender.CoreWebView2.NewWindowRequested += CoreWebView2_NewWindowRequested;
-            sender.CoreWebView2.ScriptDialogOpening += CoreWebView2_ScriptDialogOpening;
-            sender.CoreWebView2.StatusBarTextChanged += (s, e) => uriPreview.Text = s.StatusBarText;
-            sender.CoreWebView2.WindowCloseRequested += CoreWebView2_WindowCloseRequested;
-
-            sender.CoreWebView2.Settings.IsStatusBarEnabled = false;
-            sender.CoreWebView2.Settings.AreDefaultScriptDialogsEnabled = false;
+            InjectExtensionsStoreScript ??= await File.ReadAllTextAsync("./Data/InjectExtensionsStoreScript.js", Encoding.UTF8);
+            if (WebView.CoreWebView2 == null)
+            {
+                await WebView.EnsureCoreWebView2Async(App.CoreWebView2Environment);
+                CoreWebView2 coreWebView2 = WebView.CoreWebView2;
+                coreWebView2!.ContextMenuRequested += (s, args) => CoreWebView2_ContextMenuRequested(WebView, s, args);
+                coreWebView2.DocumentTitleChanged += CoreWebView2_DocumentTitleChanged;
+                coreWebView2.NavigationStarting += CoreWebView2_NavigationStarting;
+                coreWebView2.SourceChanged += CoreWebView2_SourceChanged;
+                coreWebView2.DOMContentLoaded += CoreWebView2_DOMContentLoaded;
+                coreWebView2.NavigationCompleted += CoreWebView2_NavigationCompleted;
+                coreWebView2.DownloadStarting += CoreWebView2_DownloadStarting;
+                coreWebView2.FaviconChanged += CoreWebView2_FaviconChanged;
+                coreWebView2.NewWindowRequested += CoreWebView2_NewWindowRequested;
+                coreWebView2.ScriptDialogOpening += CoreWebView2_ScriptDialogOpening;
+                coreWebView2.StatusBarTextChanged += (s, e) => uriPreview.Text = s.StatusBarText;
+                coreWebView2.WindowCloseRequested += CoreWebView2_WindowCloseRequested;
+                coreWebView2.Settings.IsStatusBarEnabled = false;
+                coreWebView2.Settings.AreDefaultScriptDialogsEnabled = false;
+            }
+            if (WebUri != null && WebUri != WebView.Source)
+            {
+                WebView.Source = WebUri;
+            }
+            WebView.Visibility = Visibility.Visible;
         }
 
-        private void CoreWebView2_DOMContentLoaded(CoreWebView2 sender, CoreWebView2DOMContentLoadedEventArgs args)
+        private void CoreWebView2_NavigationStarting(CoreWebView2 sender, CoreWebView2NavigationStartingEventArgs args)
         {
-            App.Histories.Add(new WebViewHistory()
-            {
-                DocumentTitle = sender.DocumentTitle,
-                Source = sender.Source,
-                FaviconUri = new Uri(sender.FaviconUri),
-                Time = DateTime.Now.ToString()
-            });
+            NavigationCompleted = false;
+            NowNavigationId = args.NavigationId;
+            Search.Text = args.Uri;
+            HeaderProgressRing.Visibility = Visibility.Visible;
+            tabViewItem.IconSource = null;
+        }
 
+        private void CoreWebView2_SourceChanged(CoreWebView2 sender, CoreWebView2SourceChangedEventArgs args)
+        {
             if (Info.Favorites.Where(x => x.Uri.Equals(sender.Source)).Any())
             {
                 InFavoriteList = true;
@@ -71,12 +96,69 @@ namespace Edge
             SetFavoriteIcon();
         }
 
+        private async void CoreWebView2_DOMContentLoaded(CoreWebView2 sender, CoreWebView2DOMContentLoadedEventArgs args)
+        {
+            if (App.settings.InjectExtensionsStore && InjectExtensionsStoreScript != null && sender.Source.StartsWith("https://microsoftedge.microsoft.com/addons/"))
+            {
+               await sender.ExecuteScriptAsync(InjectExtensionsStoreScript);
+            }
+        }
+
+        private void CoreWebView2_NavigationCompleted(CoreWebView2 sender, CoreWebView2NavigationCompletedEventArgs args)
+        {
+            NavigationCompleted = true;
+            App.Histories.Add(new WebViewHistory()
+            {
+                DocumentTitle = sender.DocumentTitle,
+                Source = sender.Source,
+                FaviconUri = sender.FaviconUri.Length > 0 ? new Uri(sender.FaviconUri) : null,
+                Time = DateTime.Now.ToString(),
+                NavigationId = args.NavigationId
+            });
+            if (sender.FaviconUri.Length > 0) {
+                if (!CachedIconSource.TryGetValue(sender.FaviconUri, out ImageIconSource iconSource))
+                {
+                    iconSource = new ImageIconSource()
+                    {
+                        ImageSource = new BitmapImage(new Uri(sender.FaviconUri))
+                    };
+                    CachedIconSource.TryAdd(sender.FaviconUri, iconSource);
+                }
+                tabViewItem.IconSource = iconSource;
+            }
+            else
+            {
+                tabViewItem.IconSource = DefaultIconSource;
+            }
+            HeaderProgressRing.Visibility = Visibility.Collapsed;
+        }
+
         private void CoreWebView2_FaviconChanged(CoreWebView2 sender, object args)
         {
-            tabViewItem.IconSource = new ImageIconSource()
+            if (!NavigationCompleted || sender.FaviconUri.Length == 0)
             {
-                ImageSource = new BitmapImage(new Uri(sender.FaviconUri))
-            };
+                return;
+            }
+            Uri faviconUri = new Uri(sender.FaviconUri);
+            if (!CachedIconSource.TryGetValue(sender.FaviconUri, out ImageIconSource iconSource))
+            {
+                iconSource = new ImageIconSource()
+                {
+                    ImageSource = new BitmapImage(faviconUri)
+                };
+                CachedIconSource.TryAdd(sender.FaviconUri, iconSource);
+            }
+            tabViewItem.IconSource = iconSource;
+            WebViewHistory history = App.Histories.FirstOrDefault(x => x.NavigationId == NowNavigationId, null);
+            if (history != null)
+            {
+                history.FaviconUri = faviconUri;
+            }
+            WebsiteInfo favorite = Info.Favorites.FirstOrDefault(x => !x.CustomIcon && x.Uri.Equals(faviconUri), null);
+            if (favorite != null)
+            {
+                favorite.Icon = faviconUri;
+            }
         }
 
         private void CoreWebView2_DocumentTitleChanged(CoreWebView2 sender, object args)
@@ -84,7 +166,7 @@ namespace Edge
             string title = sender.DocumentTitle;
             MainWindow mainWindow = App.GetWindowForElement(this);
             mainWindow.Title = title;
-            tabViewItem.Header = title;
+            HeaderTextBlock.Text = title;
         }
 
         private void CoreWebView2_WindowCloseRequested(CoreWebView2 sender, object args)
@@ -329,7 +411,7 @@ namespace Edge
                 WebsiteInfo newInfo = new()
                 {
                     Name = WebViewEngine.CoreWebView2.DocumentTitle,
-                    Icon = WebViewEngine.CoreWebView2.FaviconUri,
+                    Icon = WebViewEngine.CoreWebView2.FaviconUri.Length > 0 ? new Uri(WebViewEngine.CoreWebView2.FaviconUri) : null,
                     Uri = WebViewEngine.Source
                 };
                 Info.Favorites.Add(newInfo);
@@ -356,8 +438,7 @@ namespace Edge
             if (RightWebView.Visibility == Visibility.Collapsed)
             {
                 rightColumn.Width = new GridLength(1, GridUnitType.Star);
-                RightWebView.Source = new("https://www.bing.com/");
-                RightWebView.Visibility = Visibility.Visible;
+                InitializeWebView2Async(RightWebView, WebViewEngine.Source);
             }
             else
             {

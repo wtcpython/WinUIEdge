@@ -27,13 +27,17 @@ namespace Edge
         public bool ShowFlyoutWhenStartDownloading { get; set; }
         public string SpecificUri { get; set; }
         public int StartBehavior { get; set; }
+        public bool DisableGpu { get; set; }
+        public bool DisableBackgroundTimerThrottling { get; set; }
+        public bool InjectExtensionsStore { get; set; }
         public Dictionary<string, bool> ToolBar { get; set; }
     }
 
     public class WebsiteInfo
     {
         public string Name { get; set; }
-        public string Icon { get; set; }
+        public bool CustomIcon  { get; set; }
+        public Uri Icon { get; set; }
         public Uri Uri { get; set; }
     }
 

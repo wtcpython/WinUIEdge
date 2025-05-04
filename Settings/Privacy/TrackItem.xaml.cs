@@ -17,13 +17,13 @@ namespace Edge
             this.InitializeComponent();
             trackBox.ItemsSource = tracks;
 
-            var level = App.WebView2.CoreWebView2.Profile.PreferredTrackingPreventionLevel;
+            var level = App.CoreWebView2Profile.PreferredTrackingPreventionLevel;
             trackBox.SelectedIndex = trackLevelList.IndexOf(level);
         }
 
         private void TrackLevelChanged(object sender, SelectionChangedEventArgs e)
         {
-            App.WebView2.CoreWebView2.Profile.PreferredTrackingPreventionLevel = trackLevelList[trackBox.SelectedIndex];
+            App.CoreWebView2Profile.PreferredTrackingPreventionLevel = trackLevelList[trackBox.SelectedIndex];
         }
     }
 }
