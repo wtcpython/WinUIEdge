@@ -34,8 +34,9 @@ namespace Edge
 
         public void Navigate(string tag)
         {
-            NavigationViewItem menuItem = navigation.MenuItems.First(x => (string)(x as NavigationViewItem)?.Tag == tag) as  NavigationViewItem;
-            if (menuItem != null) {
+            NavigationViewItem menuItem = navigation.MenuItems.First(x => (string)(x as NavigationViewItem)?.Tag == tag) as NavigationViewItem;
+            if (menuItem != null)
+            {
                 navigation.SelectedItem = menuItem;
                 UpdateBreadcrumb(new()
                 {

@@ -79,8 +79,8 @@
                     <DataTemplate x:DataType="local:NavigationItem">
                         <BreadcrumbBarItem Content="{Binding}">
                             <BreadcrumbBarItem.ContentTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Header}" Style="{StaticResource TitleTextBlockStyle}"/>
+                                <DataTemplate x:DataType="local:NavigationItem">
+                                    <TextBlock Text="{x:Bind Header}" Style="{StaticResource TitleTextBlockStyle}"/>
                                 </DataTemplate>
                             </BreadcrumbBarItem.ContentTemplate>
                         </BreadcrumbBarItem>
