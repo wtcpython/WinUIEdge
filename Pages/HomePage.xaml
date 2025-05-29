@@ -31,8 +31,6 @@
             <local:BrowserMenuItems Grid.Column="1" HorizontalAlignment="Right"/>
         </Grid>
 
-
-
         <Border
             Grid.Row="1"
             Grid.Column="1"
@@ -55,8 +53,11 @@
             
         </Border>
 
-        <GridView Name="View" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"
-                  IsItemClickEnabled="True" ItemClick="OpenFavoriteWebsite" SelectionMode="Single">
+        <GridView
+            Name="View"
+            Grid.Row="2" Grid.ColumnSpan="3"
+            VerticalAlignment="Center" HorizontalAlignment="Center"
+            IsItemClickEnabled="True" ItemClick="OpenFavoriteWebsite" SelectionMode="Single">
             
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem" BasedOn="{StaticResource DefaultGridViewItemStyle}">
