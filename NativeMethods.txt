@@ -4,10 +4,5 @@ DefSubclassProc
 ScreenToClient
 GetDpiForWindow
 
-CoCreateInstance
-FileSaveDialog
-IFileSaveDialog
-SHCreateItemFromParsingName
-
 WM_SYSCOMMAND
 WM_NCRBUTTONUP

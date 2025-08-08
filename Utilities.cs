@@ -4,20 +4,12 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Windows.Storage;
-using Windows.Win32;
-using Windows.Win32.Foundation;
-using Windows.Win32.System.Com;
-using Windows.Win32.UI.Shell;
-using Windows.Win32.UI.Shell.Common;
 
 namespace Edge
 {
@@ -73,44 +65,10 @@ namespace Edge
             return window.GetWindowHandle();
         }
 
-        public static unsafe string Win32SaveFile(string fileName, IntPtr hwnd)
+        public static WindowId GetWindowId(this UIElement element)
         {
-            try
-            {
-                FileInfo info = new(fileName);
-
-                PInvoke.CoCreateInstance<IFileSaveDialog>(
-                    typeof(FileSaveDialog).GUID,
-                    null,
-                    CLSCTX.CLSCTX_INPROC_SERVER,
-                    out var fsd);
-                List<COMDLG_FILTERSPEC> extensions = [
-                    new()
-                    {
-                        pszSpec = (char* )Marshal.StringToHGlobalUni(info.Extension),
-                        pszName = (char* )Marshal.StringToHGlobalUni(info.Extension),
-                    }
-                ];
-                fsd.SetFileTypes(extensions.ToArray());
-                string path = UserDataPaths.GetDefault().Downloads;
-
-                PInvoke.SHCreateItemFromParsingName(
-                    path,
-                    null,
-                    typeof(IShellItem).GUID,
-                    out var directoryShellItem);
-
-                fsd.SetFolder((IShellItem)directoryShellItem);
-                fsd.SetDefaultFolder((IShellItem)directoryShellItem);
-                fsd.SetFileName(info.Name);
-                fsd.SetDefaultExtension(info.Extension);
-                fsd.Show(new(hwnd));
-                fsd.GetResult(out var ppsi);
-
-                ppsi.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out PWSTR pwFileName);
-                return pwFileName.ToString();
-            }
-            catch (Exception) { return string.Empty; }
+            Window window = App.GetWindowForElement(element);
+            return window.AppWindow.Id;
         }
 
         public static string ToGlyph(this string name)

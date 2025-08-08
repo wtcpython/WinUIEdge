@@ -1,6 +1,6 @@
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.Windows.Storage.Pickers;
 using System;
-using Windows.Storage.Pickers;
 
 namespace Edge
 {
@@ -28,20 +28,15 @@ namespace Edge
 
         private async void ChangeDownloadFolder(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
-            FolderPicker picker = new();
-
-            IntPtr hwnd = this.GetWindowHandle();
-
-            WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
-
-            picker.FileTypeFilter.Add("*");
-            picker.SuggestedStartLocation = PickerLocationId.Downloads;
-
-            var folder = await picker.PickSingleFolderAsync();
-
-            if (folder != null)
+            FolderPicker picker = new(this.GetWindowId())
             {
-                DownloadFolderCard.Description = App.CoreWebView2Profile.DefaultDownloadFolderPath = folder.Name;
+                SuggestedStartLocation = PickerLocationId.Downloads, FileTypeFilter = { { "*" } }
+            };
+            
+            var result = await picker.PickSingleFolderAsync();
+            if (result != null)
+            {
+                DownloadFolderCard.Description = App.CoreWebView2Profile.DefaultDownloadFolderPath = result.Path;
             }
         }
     }

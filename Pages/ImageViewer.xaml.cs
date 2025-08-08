@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Printing;
+using Microsoft.Windows.Storage.Pickers;
 using System;
 using System.IO;
 using Windows.ApplicationModel.DataTransfer;
@@ -130,12 +131,16 @@ namespace Edge
             }
         }
 
-        private void SaveImageAs(object sender, RoutedEventArgs e)
+        private async void SaveImageAs(object sender, RoutedEventArgs e)
         {
-            string path = Utilities.Win32SaveFile(info.FullName, this.GetWindowHandle());
-            if (path != string.Empty)
+            FileSavePicker picker = new(this.GetWindowId())
             {
-                info.CopyTo(path, true);
+                SuggestedStartLocation = PickerLocationId.Downloads, SuggestedFileName = info.Name
+            };
+            var result = await picker.PickSaveFileAsync();
+            if (result != null)
+            {
+                info.CopyTo(result.Path, true);
             }
         }
 

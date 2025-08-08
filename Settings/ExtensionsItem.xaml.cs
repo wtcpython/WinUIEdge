@@ -3,11 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Windows.Storage;
-using Windows.Storage.Pickers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.Web.WebView2.Core;
+using Microsoft.Windows.Storage.Pickers;
 
 namespace Edge
 {
@@ -41,6 +40,7 @@ namespace Edge
             {
                 TextFillColorDisabledBrush = (Brush)Application.Current.Resources["TextFillColorDisabledBrush"];
             }
+
             if (setToggleInjectExtensionsStore.IsOn)
             {
                 microsoftEdgeExtensionsHomeHeader.ClearValue(TextBlock.ForegroundProperty);
@@ -53,17 +53,21 @@ namespace Edge
 
         public static async void InitializeExtensionsCollection()
         {
-            IReadOnlyList<CoreWebView2BrowserExtension> extensions = await App.CoreWebView2Profile.GetBrowserExtensionsAsync();
+            IReadOnlyList<CoreWebView2BrowserExtension> extensions =
+                await App.CoreWebView2Profile.GetBrowserExtensionsAsync();
             foreach (var extension in extensions)
             {
                 if (Extensions.All(x => x.Id != extension.Id))
                 {
                     string optionUriSuffix = ExtensionOptionUriSuffixes.GetValueOrDefault(extension.Name, null);
-                    Extensions.Add(new ExtensionInfo() {
+                    Extensions.Add(new ExtensionInfo()
+                    {
                         Name = extension.Name,
                         Id = extension.Id,
                         IsEnabled = extension.IsEnabled,
-                        OptionUri = optionUriSuffix == null ? null : $"chrome-extension://{extension.Id}{optionUriSuffix}"
+                        OptionUri = optionUriSuffix == null
+                            ? null
+                            : $"chrome-extension://{extension.Id}{optionUriSuffix}"
                     });
                 }
             }
@@ -81,47 +85,51 @@ namespace Edge
             {
                 return;
             }
+
             senderButton.IsEnabled = false;
-            FolderPicker openPicker = new();
-            MainWindow window = App.GetWindowForElement(senderButton);
-            IntPtr hWnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
-            WinRT.Interop.InitializeWithWindow.Initialize(openPicker, hWnd);
-            openPicker.FileTypeFilter.Add("*");
-            openPicker.SuggestedStartLocation = PickerLocationId.ComputerFolder;
-            StorageFolder folder = await openPicker.PickSingleFolderAsync();
-            if (folder != null)
+            FolderPicker picker = new(senderButton.GetWindowId())
+            {
+                SuggestedStartLocation = PickerLocationId.ComputerFolder, FileTypeFilter = { { "*" } }
+            };
+            var result = await picker.PickSingleFolderAsync();
+            if (result != null)
             {
                 try
                 {
-                    CoreWebView2BrowserExtension extension = await App.CoreWebView2Profile.AddBrowserExtensionAsync(folder.Path);
+                    CoreWebView2BrowserExtension extension =
+                        await App.CoreWebView2Profile.AddBrowserExtensionAsync(result.Path);
                     string optionUriSuffix = ExtensionOptionUriSuffixes.GetValueOrDefault(extension.Name, null);
-                    Extensions.Add(new ExtensionInfo() {
+                    Extensions.Add(new ExtensionInfo()
+                    {
                         Name = extension.Name,
                         Id = extension.Id,
                         IsEnabled = extension.IsEnabled,
-                        OptionUri = optionUriSuffix == null ? null : $"chrome-extension://{extension.Id}{optionUriSuffix}"
+                        OptionUri = optionUriSuffix == null
+                            ? null
+                            : $"chrome-extension://{extension.Id}{optionUriSuffix}"
                     });
                     await new ContentDialog()
-                    {
-                        Content = $"{extension.Name} 已添加到 WinUIEdge",
-                        XamlRoot = senderButton.XamlRoot,
-                        CloseButtonText = "好的",
-                        DefaultButton = ContentDialogButton.Close
-                    }
-                    .ShowAsync();
+                        {
+                            Content = $"{extension.Name} 已添加到 WinUIEdge",
+                            XamlRoot = senderButton.XamlRoot,
+                            CloseButtonText = "好的",
+                            DefaultButton = ContentDialogButton.Close
+                        }
+                        .ShowAsync();
                 }
                 catch (Exception exception)
                 {
                     await new ContentDialog()
-                    {
-                        Content = $"加载扩展失败：{exception}",
-                        XamlRoot = senderButton.XamlRoot,
-                        CloseButtonText = "好的",
-                        DefaultButton = ContentDialogButton.Close
-                    }
-                    .ShowAsync();
+                        {
+                            Content = $"加载扩展失败：{exception}",
+                            XamlRoot = senderButton.XamlRoot,
+                            CloseButtonText = "好的",
+                            DefaultButton = ContentDialogButton.Close
+                        }
+                        .ShowAsync();
                 }
             }
+
             senderButton.IsEnabled = true;
         }
 
@@ -135,7 +143,8 @@ namespace Edge
 
         public static async void ExtensionsToggleEnabledAsync(ExtensionInfo extensionInfo, XamlRoot xamlRoot)
         {
-            IReadOnlyList<CoreWebView2BrowserExtension> extensions = await App.CoreWebView2Profile.GetBrowserExtensionsAsync();
+            IReadOnlyList<CoreWebView2BrowserExtension> extensions =
+                await App.CoreWebView2Profile.GetBrowserExtensionsAsync();
             bool found = false;
             foreach (CoreWebView2BrowserExtension extension in extensions)
             {
@@ -145,37 +154,42 @@ namespace Edge
                     {
                         await extension.EnableAsync(!extension.IsEnabled);
                     }
-                    catch (Exception exception) {
-                        await new ContentDialog() {
-                            Content = $"开关扩展失败，原因: {exception}",
-                            XamlRoot = xamlRoot,
-                            CloseButtonText = "好的",
-                            DefaultButton = ContentDialogButton.Close
-                        }
-                        .ShowAsync();
+                    catch (Exception exception)
+                    {
+                        await new ContentDialog()
+                            {
+                                Content = $"开关扩展失败，原因: {exception}",
+                                XamlRoot = xamlRoot,
+                                CloseButtonText = "好的",
+                                DefaultButton = ContentDialogButton.Close
+                            }
+                            .ShowAsync();
                     }
+
                     extensionInfo.IsEnabled = extension.IsEnabled;
                     found = true;
                     break;
                 }
             }
+
             if (!found)
             {
                 Extensions.Remove(extensionInfo);
                 await new ContentDialog()
-                {
-                    Content = "开关失败，原因：未找到该扩展",
-                    XamlRoot = xamlRoot,
-                    CloseButtonText = "好的",
-                    DefaultButton = ContentDialogButton.Close
-                }
-                .ShowAsync();
+                    {
+                        Content = "开关失败，原因：未找到该扩展",
+                        XamlRoot = xamlRoot,
+                        CloseButtonText = "好的",
+                        DefaultButton = ContentDialogButton.Close
+                    }
+                    .ShowAsync();
             }
         }
 
         private void RemoveExtension(object sender, RoutedEventArgs e)
         {
-            if (sender is Button { DataContext: ExtensionInfo extensionInfo }) {
+            if (sender is Button { DataContext: ExtensionInfo extensionInfo })
+            {
                 ExtensionsRemoveAsync(extensionInfo, this.XamlRoot);
             }
         }
@@ -184,18 +198,20 @@ namespace Edge
         public static async void ExtensionsRemoveAsync(ExtensionInfo extensionInfo, XamlRoot xamlRoot)
         {
             if (await new ContentDialog()
-                {
-                    Content = $"是否从 WinUIEdge 中删除 \"{extensionInfo.Name}\"？",
-                    PrimaryButtonText = "删除",
-                    SecondaryButtonText = "取消",
-                    DefaultButton = ContentDialogButton.Primary,
-                    XamlRoot = xamlRoot
-                }
-                .ShowAsync() == ContentDialogResult.Primary)
+                    {
+                        Content = $"是否从 WinUIEdge 中删除 \"{extensionInfo.Name}\"？",
+                        PrimaryButtonText = "删除",
+                        SecondaryButtonText = "取消",
+                        DefaultButton = ContentDialogButton.Primary,
+                        XamlRoot = xamlRoot
+                    }
+                    .ShowAsync() == ContentDialogResult.Primary)
             {
-                IReadOnlyList<CoreWebView2BrowserExtension> extensions = await App.CoreWebView2Profile.GetBrowserExtensionsAsync();
+                IReadOnlyList<CoreWebView2BrowserExtension> extensions =
+                    await App.CoreWebView2Profile.GetBrowserExtensionsAsync();
                 bool found = false;
-                foreach (CoreWebView2BrowserExtension extension in extensions) {
+                foreach (CoreWebView2BrowserExtension extension in extensions)
+                {
                     if (extension.Id == extensionInfo.Id)
                     {
                         try
@@ -206,36 +222,39 @@ namespace Edge
                         catch (Exception exception)
                         {
                             await new ContentDialog()
-                            {
-                                Content = $"移除失败，原因：{exception}",
-                                XamlRoot = xamlRoot,
-                                CloseButtonText = "好的",
-                                DefaultButton = ContentDialogButton.Close
-                            }
-                            .ShowAsync();
+                                {
+                                    Content = $"移除失败，原因：{exception}",
+                                    XamlRoot = xamlRoot,
+                                    CloseButtonText = "好的",
+                                    DefaultButton = ContentDialogButton.Close
+                                }
+                                .ShowAsync();
                         }
+
                         found = true;
                         break;
                     }
                 }
+
                 if (!found)
                 {
                     Extensions.Remove(extensionInfo);
                     await new ContentDialog()
-                    {
-                        Content = "移除失败，原因：未找到该扩展",
-                        XamlRoot = xamlRoot,
-                        CloseButtonText = "好的",
-                        DefaultButton = ContentDialogButton.Close
-                    }
-                    .ShowAsync();
+                        {
+                            Content = "移除失败，原因：未找到该扩展",
+                            XamlRoot = xamlRoot,
+                            CloseButtonText = "好的",
+                            DefaultButton = ContentDialogButton.Close
+                        }
+                        .ShowAsync();
                 }
             }
         }
 
         private void OpenExtensionOption(object sender, RoutedEventArgs e)
         {
-            if (sender is Button { DataContext: ExtensionInfo { OptionUri: not null } extensionInfo }) {
+            if (sender is Button { DataContext: ExtensionInfo { OptionUri: not null } extensionInfo })
+            {
                 MainWindow mainWindow = App.GetWindowForElement(this);
                 mainWindow.AddNewTab(new WebViewPage(new Uri(extensionInfo.OptionUri)));
             }
@@ -261,7 +280,8 @@ namespace Edge
         private void OpenMicrosoftEdgeExtensionsHome(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = App.GetWindowForElement(this);
-            mainWindow.AddNewTab(new WebViewPage(new Uri("https://microsoftedge.microsoft.com/addons/Microsoft-Edge-Extensions-Home")));
+            mainWindow.AddNewTab(
+                new WebViewPage(new Uri("https://microsoftedge.microsoft.com/addons/Microsoft-Edge-Extensions-Home")));
         }
     }
 }

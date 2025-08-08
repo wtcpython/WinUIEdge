@@ -1,12 +1,10 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppNotifications;
 using Microsoft.Windows.AppNotifications.Builder;
+using Microsoft.Windows.Storage.Pickers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Windows.Storage;
-using Windows.Storage.Pickers;
-using WinRT.Interop;
 
 namespace Edge
 {
@@ -24,7 +22,8 @@ namespace Edge
             setHomeButton.IsOn = App.settings.ToolBar.GetValueOrDefault("HomeButton", false);
 
             searchEngineBox.ItemsSource = Info.SearchEngineList.Select(x => x.Name).ToList();
-            searchEngineBox.SelectedItem = Info.SearchEngineList.First(x => x.Name.Equals(App.settings.SearchEngine)).Name;
+            searchEngineBox.SelectedItem =
+                Info.SearchEngineList.First(x => x.Name.Equals(App.settings.SearchEngine)).Name;
 
             showBackground.IsOn = backgroundCard.IsEnabled = App.settings.ShowBackground;
         }
@@ -37,6 +36,7 @@ namespace Edge
                 uriBox.Text = "https://" + uriBox.Text;
                 uriType = UriType.WithProtocol;
             }
+
             if (uriType != UriType.WithProtocol)
             {
                 var builder = new AppNotificationBuilder()
@@ -58,7 +58,8 @@ namespace Edge
 
         private void SearchEngineChanged(object sender, SelectionChangedEventArgs e)
         {
-            App.settings.SearchEngine = Info.SearchEngineList.First(x => x.Name == (string)searchEngineBox.SelectedItem).Name;
+            App.settings.SearchEngine =
+                Info.SearchEngineList.First(x => x.Name == (string)searchEngineBox.SelectedItem).Name;
         }
 
         private void BehaviorChanged(object sender, SelectionChangedEventArgs e)
@@ -81,21 +82,14 @@ namespace Edge
 
         private async void SetBackgroundImage(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
-            FileOpenPicker picker = new()
+            FileOpenPicker picker = new(this.GetWindowId())
             {
                 SuggestedStartLocation = PickerLocationId.PicturesLibrary,
-                FileTypeFilter =
-                {
-                    {".jpg" },
-                    {".jpeg"},
-                    {".png" }
-                }
+                FileTypeFilter = { { ".jpg" }, { ".jpeg" }, { ".png" } }
             };
 
-            InitializeWithWindow.Initialize(picker, this.GetWindowHandle());
-
-            StorageFile storageFile = await picker.PickSingleFileAsync();
-            App.settings.BackgroundImage = storageFile.Path;
+            var result = await picker.PickSingleFileAsync();
+            App.settings.BackgroundImage = result.Path;
         }
     }
 }

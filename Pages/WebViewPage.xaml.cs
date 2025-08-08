@@ -2,13 +2,13 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
+using Microsoft.Windows.Storage.Pickers;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Windows.Foundation;
 
 namespace Edge
@@ -343,15 +343,20 @@ namespace Edge
         {
             Deferral deferral = args.GetDeferral();
 
-            System.Threading.SynchronizationContext.Current.Post((_) =>
+            System.Threading.SynchronizationContext.Current.Post(async (_) =>
             {
                 using (deferral)
                 {
                     args.Handled = true;
-                    string file = Utilities.Win32SaveFile(args.ResultFilePath, this.GetWindowHandle());
-                    if (file != null)
+                    FileSavePicker picker = new(this.GetWindowId())
                     {
-                        args.ResultFilePath = file;
+                        SuggestedStartLocation = PickerLocationId.Downloads,
+                        SuggestedFileName = Path.GetFileName(args.ResultFilePath)
+                    };
+                    var result = await picker.PickSaveFileAsync();
+                    if (result != null)
+                    {
+                        args.ResultFilePath = result.Path;
                         App.DownloadList.Add(new DownloadObject(args.DownloadOperation));
                         if (App.settings.ShowFlyoutWhenStartDownloading)
                         {
