@@ -59,7 +59,7 @@
                                         IconGlyph="&#xe948;"
                                         Key="Add" Modifiers="Control" />
 
-                                    <Border Grid.Column="4" Background="LightGray" Width="1" Margin="0,5,0,5"/>
+                                    <Border Background="LightGray" Width="1" Margin="0,5,0,5"/>
 
                                     <local:IconButton
                                         x:Uid="FullScreen"

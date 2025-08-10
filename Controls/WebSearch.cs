@@ -1,7 +1,4 @@
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.IO;
 using System.Linq;
 using Windows.Foundation;
 
@@ -9,7 +6,7 @@ namespace Edge
 {
     public sealed partial class WebSearch : ContentControl
     {
-        public AutoSuggestBox autoSuggestBox;
+        private AutoSuggestBox _autoSuggestBox;
 
         public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxQuerySubmittedEventArgs> QuerySubmitted;
 
@@ -21,16 +18,16 @@ namespace Edge
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            autoSuggestBox = GetTemplateChild("AutoSuggestBox") as AutoSuggestBox;
-            autoSuggestBox.TextChanged += AutoSuggestBox_TextChanged;
-            autoSuggestBox.SuggestionChosen += AutoSuggestBox_SuggestionChosen;
-            autoSuggestBox.QuerySubmitted += AutoSuggestBox_QuerySubmitted;
+            _autoSuggestBox = GetTemplateChild("AutoSuggestBox") as AutoSuggestBox;
+            _autoSuggestBox.TextChanged += AutoSuggestBox_TextChanged;
+            _autoSuggestBox.SuggestionChosen += AutoSuggestBox_SuggestionChosen;
+            _autoSuggestBox.QuerySubmitted += AutoSuggestBox_QuerySubmitted;
         }
 
         public string Text
         {
-            get => autoSuggestBox.Text;
-            set => autoSuggestBox.Text = value;
+            get => _autoSuggestBox.Text;
+            set => _autoSuggestBox.Text = value;
         }
 
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -41,7 +38,7 @@ namespace Edge
                 string lastWord = text.Split(' ')[^1].ToLower();
                 if (!string.IsNullOrEmpty(lastWord))
                 {
-                    sender.ItemsSource = App.searchEngine.SearchWords(lastWord).Take(10).ToList();
+                    sender.ItemsSource = App.searchEngine.SearchWords(lastWord).ToList();
                 }
             }
         }

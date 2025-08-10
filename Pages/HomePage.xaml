@@ -30,29 +30,12 @@
             <local:FavoriteList x:Name="favoriteList" Grid.Column="0"/>
             <local:BrowserMenuItems Grid.Column="1" HorizontalAlignment="Right"/>
         </Grid>
-
-        <Border
-            Grid.Row="1"
-            Grid.Column="1"
-            BorderBrush="LightBlue"
-            BorderThickness="2"
+        
+        <local:WebSearch
+            Grid.Row="1" Grid.Column="1"
             VerticalAlignment="Center"
-            CornerRadius="15">
-            <StackPanel Margin="20" Spacing="5">
-                <local:WebSearch FontSize="18" QuerySubmitted="WebSearch_QuerySubmitted"/>
-                <StackPanel Orientation="Horizontal" Spacing="10">
-                    <ImageIcon Source="https://www.deepseek.com/favicon.ico" Width="36" Height="36"/>
-                    <ComboBox x:Name="modeBox" SelectedIndex="0">
-                        <ComboBox.Items>
-                            <ComboBoxItem Content="Default" />
-                            <ComboBoxItem Content="Chat" />
-                        </ComboBox.Items>
-                    </ComboBox>
-                </StackPanel>
-            </StackPanel>
-            
-        </Border>
-
+            FontSize="18" QuerySubmitted="WebSearch_QuerySubmitted"/>
+        
         <GridView
             Name="View"
             Grid.Row="2" Grid.ColumnSpan="3"

@@ -48,12 +48,12 @@ namespace Edge
 
         private void OpenFavoriteWebsite(object sender, ItemClickEventArgs e)
         {
-            OpenWebSite((e.ClickedItem as WebsiteInfo).Uri);
+            OpenWebSite(((WebsiteInfo)e.ClickedItem).Uri);
         }
 
         private void OpenFavoriteWebsiteInNewTab(object sender, RoutedEventArgs e)
         {
-            Uri uri = ((sender as MenuFlyoutItem).DataContext as WebsiteInfo).Uri;
+            Uri uri = ((WebsiteInfo)((MenuFlyoutItem)sender).DataContext).Uri;
             OpenWebSite(uri);
         }
 
@@ -65,7 +65,7 @@ namespace Edge
 
         private void OpenFavoriteWebsiteInNewWindow(object sender, RoutedEventArgs e)
         {
-            Uri uri = ((sender as MenuFlyoutItem).DataContext as WebsiteInfo).Uri;
+            Uri uri = ((WebsiteInfo)((MenuFlyoutItem)sender).DataContext).Uri;
             var window = App.CreateNewWindow();
             window.AddNewTab(new WebViewPage(uri));
             window.Activate();
@@ -73,7 +73,7 @@ namespace Edge
 
         private void CopyFavoriteWebsite(object sender, RoutedEventArgs e)
         {
-            Uri uri = ((sender as MenuFlyoutItem).DataContext as WebsiteInfo).Uri;
+            Uri uri = ((WebsiteInfo)((MenuFlyoutItem)sender).DataContext).Uri;
             DataPackage package = new();
             package.SetText(uri.ToString());
             Clipboard.SetContent(package);
@@ -81,7 +81,7 @@ namespace Edge
 
         private void DeleteFavoriteWebsite(object sender, RoutedEventArgs e)
         {
-            WebsiteInfo info = (sender as MenuFlyoutItem).DataContext as WebsiteInfo;
+            WebsiteInfo info = (WebsiteInfo)((MenuFlyoutItem)sender).DataContext;
             Info.Favorites.Remove(info);
         }
     }

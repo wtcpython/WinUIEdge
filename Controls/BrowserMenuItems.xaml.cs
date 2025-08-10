@@ -38,7 +38,7 @@ namespace Edge
         private void ShowFlyout(object sender, RoutedEventArgs e)
         {
             WebViewPage page = App.GetWindowForElement(this).SelectedItem as WebViewPage;
-            page.ShowFlyout((sender as MenuFlyoutItem).Text);
+            page.ShowFlyout(((MenuFlyoutItem)sender).Text);
         }
 
         private void ShowPrintUI(object sender, RoutedEventArgs e)
@@ -54,7 +54,7 @@ namespace Edge
 
         private void MenuFlyout_Opening(object sender, object e)
         {
-            var items = (sender as MenuFlyout).Items.ToList()[2..^3];
+            var items = ((MenuFlyout)sender).Items.ToList()[2..^3];
             MainWindow mainWindow = App.GetWindowForElement(this);
             if (mainWindow.SelectedItem is WebViewPage page)
                 items.ForEach(x => x.Visibility = Visibility.Visible);

@@ -72,7 +72,7 @@
                     <AutoSuggestBox
                         x:Name="AutoSuggestBox"
                         FontSize="{TemplateBinding FontSize}"
-                        PlaceholderText="Ask Deepseek, search the web, open webpage" />
+                        PlaceholderText="搜索网页" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
