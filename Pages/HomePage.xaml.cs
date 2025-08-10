@@ -5,8 +5,6 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
 using System;
 using System.Diagnostics;
-using System.IO;
-using System.Net.Http;
 
 namespace Edge
 {
@@ -41,7 +39,7 @@ namespace Edge
             favoriteList.Visibility = App.settings.MenuStatus != "Never" ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        public async void LoadBingImage()
+        private async void LoadBingImage()
         {
             string url = await Utilities.GetBingImageUrlAsync();
             Background = new ImageBrush()
@@ -54,32 +52,22 @@ namespace Edge
             };
         }
 
-        public async void InstallWebView2(object sender, RoutedEventArgs e)
+        private async void InstallWebView2(object sender, RoutedEventArgs e)
         {
             string version = CoreWebView2Environment.GetAvailableBrowserVersionString();
             string bootstrapUri = "https://go.microsoft.com/fwlink/p/?LinkId=2124703";
-            string bootstrapPath = Path.Combine(AppContext.BaseDirectory, "MicrosoftEdgeWebview2Setup.exe");
+            if (!string.IsNullOrEmpty(version)) return;
             try
             {
-                if (string.IsNullOrEmpty(version))
+                var psi = new ProcessStartInfo
                 {
-                    using HttpClient client = new();
-                    var response = await client.GetAsync(bootstrapUri);
-                    response.EnsureSuccessStatusCode();
-
-                    using var stream = await response.Content.ReadAsStreamAsync();
-                    using var fileStream = new FileStream(bootstrapPath, FileMode.Create, FileAccess.Write);
-                    await stream.CopyToAsync(fileStream);
-
-                    Process.Start(new ProcessStartInfo
-                    {
-                        FileName = bootstrapPath,
-                        Arguments = "/silent /install",
-                        UseShellExecute = true
-                    });
-                }
+                    FileName = "winget",
+                    Arguments = $"install --id=Microsoft.EdgeWebView2Runtime -e --silent",
+                    UseShellExecute = true
+                };
+                Process.Start(psi);
             }
-            catch (HttpRequestException)
+            catch (Exception)
             {
                 await warningDialog.ShowAsync();
                 await Windows.System.Launcher.LaunchUriAsync(new Uri(bootstrapUri));
@@ -95,20 +83,10 @@ namespace Edge
 
         private void WebSearch_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            if (modeBox.SelectedIndex == 1)
-            {
-                string text = args.QueryText;
-                sender.Text = string.Empty;
-                MainWindow mainWindow = App.GetWindowForElement(this);
-                Utilities.Navigate("https://chat.deepseek.com/", mainWindow);
-            }
-            else
-            {
-                string text = args.QueryText;
-                sender.Text = string.Empty;
-                MainWindow mainWindow = App.GetWindowForElement(this);
-                Utilities.Search(text, mainWindow);
-            }
+            string text = args.QueryText;
+            sender.Text = string.Empty;
+            MainWindow mainWindow = App.GetWindowForElement(this);
+            Utilities.Search(text, mainWindow);
         }
     }
 }
