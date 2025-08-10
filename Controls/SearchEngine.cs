@@ -1,107 +1,38 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using Microsoft.Data.Sqlite;
+using System;
+using System.Collections.Generic;
 
 namespace Edge
 {
-    // 前缀树节点
-    public class TrieNode
+    public class WordSearchEngine : IDisposable
     {
-        public Dictionary<char, TrieNode> Children { get; set; }
-
-        public bool IsEndOfWord { get; set; }
-
-        public TrieNode()
-        {
-            Children = [];
-            IsEndOfWord = false;
-        }
-    }
-
-    // 前缀树
-    public class Trie
-    {
-        private TrieNode root;
-
-        public Trie()
-        {
-            root = new TrieNode();
-        }
-
-        // 插入节点
-        public void Insert(string word)
-        {
-            TrieNode current = root;
-            foreach (var ch in word)
-            {
-                if (!current.Children.TryGetValue(ch, out TrieNode value))
-                {
-                    value = new TrieNode();
-                    current.Children[ch] = value;
-                }
-                current = value;
-            }
-            current.IsEndOfWord = true;
-        }
-
-        public IEnumerable<string> SearchWords(string prefix)
-        {
-            TrieNode current = root;
-
-            foreach (var ch in prefix)
-            {
-                if (!current.Children.TryGetValue(ch, out TrieNode value))
-                {
-                    yield break;
-                }
-                current = value;
-            }
-
-            foreach(var word in FindWordsFromNode(current, prefix))
-            {
-                yield return word;
-            }
-        }
-
-        private IEnumerable<string> FindWordsFromNode(TrieNode node, string currentWord)
-        {
-            if (node.IsEndOfWord)
-            {
-                yield return currentWord;
-            }
-
-            foreach (var child in node.Children)
-            {
-                foreach (var word in FindWordsFromNode(child.Value, currentWord + child.Key))
-                {
-                    yield return word;
-                }
-            }
-        }
-    }
-
-    public class WordSearchEngine
-    {
-        private Trie trie;
+        private readonly SqliteConnection _connection;
 
         public WordSearchEngine(string filePath)
         {
-            trie = new Trie();
-            LoadWords(filePath);
+            _connection = new SqliteConnection($"Data Source={filePath}");
+            _connection.Open();
         }
-
-        private void LoadWords(string filePath)
+        
+        public IEnumerable<string> SearchWords(string prefix, int limit = 10)
         {
-            var words = File.ReadAllLines(filePath);
-
-            foreach (var word in words)
+            var results = new List<string>();
+            using var cmd = _connection.CreateCommand();
+            cmd.CommandText = "SELECT Word FROM Words WHERE Word LIKE @prefix LIMIT @limit";
+            cmd.Parameters.AddWithValue("@prefix", prefix + "%");
+            cmd.Parameters.AddWithValue("@limit", limit);
+            
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
             {
-                trie.Insert(word.Trim());
+                results.Add(reader.GetString(0));
             }
+            return results;
         }
-
-        public IEnumerable<string> SearchWords(string prefix)
+        
+        public void Dispose()
         {
-            return trie.SearchWords(prefix);
+            _connection.Dispose();
         }
     }
 }

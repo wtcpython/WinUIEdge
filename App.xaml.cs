@@ -32,7 +32,7 @@ namespace Edge
         {
             Console.OutputEncoding = Encoding.UTF8;
             this.InitializeComponent();
-            searchEngine = new("./Assets/words.txt");
+            searchEngine = new("./Assets/words.db");
         }
 
         public async void EnsureWebView2Async()
