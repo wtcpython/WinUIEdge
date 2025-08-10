@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Edge.SystemItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Edge"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    mc:Ignorable="d">
+    <ScrollView>
+        <StackPanel
+            Spacing="{StaticResource NavigationViewFrameSpacing}"
+            Margin="{StaticResource NavigationViewFrameMargin}">
+            <controls:SettingsCard
+                Header="在可用时使用图形加速">
+                <ToggleSwitch x:Name="setToggleEnableGpu"
+                              Toggled="ToggleEnableGpu"/>
+            </controls:SettingsCard>
+            <controls:SettingsCard
+                Header="打开代理设置"
+                Click="OpenSettingsProxy"
+                IsClickEnabled="True">
+                <controls:SettingsCard.ActionIcon>
+                    <FontIcon Glyph="&#xE8A7;"/>
+                </controls:SettingsCard.ActionIcon>
+            </controls:SettingsCard>
+            <InfoBar x:Name="restartInfoBar" Grid.Row="1" Message="若要使此设置更改生效，请重启浏览器" IsClosable="False" HorizontalAlignment="Center">
+                <InfoBar.ActionButton>
+                    <Button Style="{StaticResource AccentButtonStyle}" Click="CloseAllWebviews">
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <FontIcon Glyph="&#xe777;"/>
+                            <TextBlock Text="重启"/>
+                        </StackPanel>
+                    </Button>
+                </InfoBar.ActionButton>
+            </InfoBar>
+        </StackPanel>
+    </ScrollView>
+</Page>

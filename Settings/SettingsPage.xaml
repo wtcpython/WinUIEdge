@@ -30,32 +30,27 @@
                     <FontIcon Glyph="&#xEc6c;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-            <NavigationViewItem x:Uid="Extensions" Tag="ExtensionsItem">
-                <NavigationViewItem.Icon>
-                    <FontIcon Glyph="&#xea86;" />
-                </NavigationViewItem.Icon>
-            </NavigationViewItem>
             <NavigationViewItem x:Uid="Navigation_Downloads" Tag="DownloadItem">
                 <NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xe896;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-            <NavigationViewItem x:Uid="System" Tag="SystemItem">
+            <NavigationViewItem x:Uid="System" Tag="SystemMainPage">
                 <NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xE7F8;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-            <NavigationViewItem x:Uid="Printers" Tag="PrinterItem">
-                <NavigationViewItem.Icon>
-                    <FontIcon Glyph="&#xe749;" />
-                </NavigationViewItem.Icon>
-            </NavigationViewItem>
-            <NavigationViewItem x:Uid="ResetSettings" Tag="ResetItem">
+            <NavigationViewItem x:Uid="ResetSettings" Tag="ResetItem" Margin="0,0,0,5">
                 <NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xE777;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-
+            
+            <NavigationViewItem x:Uid="Extensions" Tag="ExtensionsItem" Margin="0,5,0,0">
+                <NavigationViewItem.Icon>
+                    <FontIcon Glyph="&#xea86;" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
             <NavigationViewItem x:Uid="About" Tag="About">
                 <NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xe713;" />

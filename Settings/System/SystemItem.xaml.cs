@@ -11,10 +11,9 @@ namespace Edge
         {
             this.InitializeComponent();
             setToggleEnableGpu.IsOn = !App.settings.DisableGpu;
-            setToggleDisableBackgroundTimerThrottling.IsOn = App.settings.DisableBackgroundTimerThrottling;
             restartInfoBar.IsOpen = App.NeedRestartEnvironment;
         }
-
+        
         private void ToggleEnableGpu(object sender, RoutedEventArgs e)
         {
             if (App.settings.DisableGpu == setToggleEnableGpu.IsOn)
@@ -29,17 +28,7 @@ namespace Edge
         {
             await Windows.System.Launcher.LaunchUriAsync(new Uri("ms-settings:network-proxy"));
         }
-
-        private void ToggleDisableBackgroundTimerThrottling(object sender, RoutedEventArgs e)
-        {
-            if (App.settings.DisableBackgroundTimerThrottling != setToggleDisableBackgroundTimerThrottling.IsOn)
-            {
-                App.NeedRestartEnvironment = true;
-                App.settings.DisableBackgroundTimerThrottling = setToggleDisableBackgroundTimerThrottling.IsOn;
-                restartInfoBar.IsOpen = true;
-            }
-        }
-
+        
         private void CloseAllWebviews(object sender, RoutedEventArgs e)
         {
             if (App.NeedRestartEnvironment)

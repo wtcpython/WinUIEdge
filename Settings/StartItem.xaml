@@ -30,7 +30,7 @@
                         SelectionChanged="BehaviorChanged">
                     <RadioButton Content="打开新标签页"/>
                     <RadioButton Content="打开上一个会话中的标签页"/>
-                    <RadioButton Content="打开以下页面："/>
+                    <RadioButton Content="打开自定义网站"/>
                 </RadioButtons>
 
                 <Grid ColumnSpacing="10"
